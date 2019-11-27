@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
-const DayNumber = styled.div`
-  width: 86px;
+const NumberOfHours = styled.div`
+  width: 130px;
   height: 86px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: ${({ theme }) => theme.fontSize.normal};
   border: 1px solid ${({ theme }) => theme.primary};
-  background-color: ${({ theme }) => theme.dayColour};
+  background-color: ${({ theme }) => theme.hoursColour};
   color: ${({ theme }) => theme.primaryFont};
 `;
 
-export default DayNumber;
+export default NumberOfHours;
