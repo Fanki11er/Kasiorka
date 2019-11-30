@@ -5,7 +5,7 @@ import DayOfTheWeek from '../DayOfWeek/DayOfWeek';
 const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 25px;
+  margin: 25px 20px;
 `;
 
 const Week = () => (

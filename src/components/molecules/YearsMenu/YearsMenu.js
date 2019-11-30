@@ -10,30 +10,17 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
-const monthsNames = [
-  'Styczeń',
-  'Luty',
-  'Marzec',
-  'Kwiecień',
-  'Maj',
-  'Czerwiec',
-  'Lipiec',
-  'Sierpień',
-  'Wrzesień',
-  'Październik',
-  'Listopad',
-  'Grudzień',
-];
+const years = ['2019', '2020'];
 
-const MonthMenu = () => (
+const YearsMenu = () => (
   <StyledList>
-    {monthsNames.map(name => (
+    {years.map(name => (
       <StyledListItem>
-        <MenuItem>{name}</MenuItem>
+        <MenuItem year>{name}</MenuItem>
       </StyledListItem>
     ))}
     ;
   </StyledList>
 );
 
-export default MonthMenu;
+export default YearsMenu;

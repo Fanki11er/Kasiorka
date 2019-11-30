@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const NumberOfHours = styled.div`
-  width: 130px;
+  width: 120px;
   height: 86px;
   display: flex;
   align-items: center;

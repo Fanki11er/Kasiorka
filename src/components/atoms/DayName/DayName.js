@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const DayName = styled.div`
-  width: 90px;
+  width: 85px;
   height: 86px;
   display: flex;
   align-items: center;

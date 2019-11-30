@@ -8,6 +8,7 @@ export const theme = {
   darkGray: '#707070',
   fontSize: {
     normal: '2.4em',
+    smaller: '2em',
   },
   menuActive: '#FFD21E',
   menuBlue: '#13B3F2',
