@@ -7,11 +7,6 @@ const MenuItem = styled.button`
   border: 1px solid ${({ theme }) => theme.primary};
   background-color: ${({ theme, active }) => (active ? theme.menuActive : theme.menuBlue)};
 
-  &:hover {
-    background-color: #ff8c00;
-    border: 2px solid ${({ theme }) => theme.hover};
-  }
-
   ${({ year }) =>
     year &&
     css`
@@ -19,6 +14,11 @@ const MenuItem = styled.button`
       font-size: ${({ theme }) => theme.fontSize.smaller};
       font-weight: bold;
     `}
+
+  &:hover {
+    background-color: ${({ theme }) => theme.hover};
+    border: 2px solid ${({ theme }) => theme.hover};
+  }
 `;
 
 export default MenuItem;

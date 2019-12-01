@@ -12,7 +12,7 @@ const UpDownButton = styled.button`
   background-position: 50% 50%;
 
   &:hover {
-    background-color: #ff8c00;
+    background-color: ${({ theme }) => theme.hover};
   }
 
   ${({ upButton }) =>
