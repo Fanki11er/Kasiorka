@@ -7,6 +7,7 @@ import ArrowsButton from '../ArrowsButton/ArrowsButton';
 
 const StyledWrapper = styled.div`
   display: flex;
+  margin: 1px 0;
 `;
 
 const DayOfTheWeek = ({ number, name, holiday, hours }) => (

@@ -7,6 +7,8 @@ const StyledWrapper = styled.div`
   flex-flow: wrap row;
   margin: 0 auto 0 auto;
   padding-left: 50px;
+  width: 100%;
+  justify-content: space-around;
 `;
 
 const Month = () => (

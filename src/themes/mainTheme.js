@@ -12,4 +12,5 @@ export const theme = {
   },
   menuActive: '#FFD21E',
   menuBlue: '#13B3F2',
+  hover: '#FF8C00',
 };
