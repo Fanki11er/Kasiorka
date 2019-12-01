@@ -4,6 +4,9 @@ import Week from '../../molecules/Week/Week';
 
 const StyledWrapper = styled.div`
   display: flex;
+  flex-flow: wrap row;
+  margin: 0 auto 0 auto;
+  padding-left: 50px;
 `;
 
 const Month = () => (

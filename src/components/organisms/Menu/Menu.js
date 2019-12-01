@@ -4,9 +4,15 @@ import YearsMenu from '../../molecules/YearsMenu/YearsMenu';
 import MonthMenu from '../../molecules/MonthsMenu/MonthsMenu';
 
 const StyledWrapper = styled.div`
+  position: fixed;
   display: flex;
   flex-direction: row;
-  margin: 15px;
+  padding: 55px 30px;
+  left: 0;
+  top: 0;
+  background-color: ${({ theme }) => theme.primary};
+  min-height: 100vh;
+  max-height: 100vh;
 `;
 
 const Menu = () => (

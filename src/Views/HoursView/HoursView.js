@@ -4,12 +4,14 @@ import Month from '../../components/organisms/Month/Month';
 import Menu from '../../components/organisms/Menu/Menu';
 
 const StyledWrapper = styled.div`
-  min-width: 100vw;
-  min-height: 100vh;
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
   padding: 30px;
   background-color: ${({ theme }) => theme.primary};
+  min-height: 100vh;
+  max-width: 100vw;
+  max-width: 100vw;
 `;
 
 const HoursView = () => (
