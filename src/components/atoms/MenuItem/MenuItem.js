@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 const MenuItem = styled.button`
   width: 185px;
   height: 60px;
-  font-size: 24px;
+  font-size: ${({ theme }) => theme.fontSize.normal};
   border: 1px solid ${({ theme }) => theme.primary};
   background-color: ${({ theme, active }) => (active ? theme.menuActive : theme.menuBlue)};
 

@@ -1,6 +1,9 @@
 import React from 'react';
+import { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Week from '../../molecules/Week/Week';
+import DayOfTheWeek from '../../molecules/DayOfWeek/DayOfWeek';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -11,13 +14,52 @@ const StyledWrapper = styled.div`
   justify-content: space-around;
 `;
 
-const Month = () => (
-  <StyledWrapper>
-    <Week></Week>
-    <Week></Week>
-    <Week></Week>
-    <Week></Week>
-  </StyledWrapper>
-);
+class Month extends Component {
+  createWeek = (month, start, end) => {
+    const days = [];
+    month.forEach(day => {
+      if (day.id >= start && day.id <= end) {
+        days.push(day);
+      }
+    });
+    return days;
+  };
 
-export default Month;
+  render() {
+    const { month } = this.props;
+    return (
+      <StyledWrapper>
+        <Week>
+          {this.createWeek(month[0].days, 1, 2).map(({ id, nameOfDay, hours, holiday }) => (
+            <DayOfTheWeek
+              number={id}
+              name={nameOfDay}
+              hours={hours}
+              holiday={holiday}
+              key={id}
+            ></DayOfTheWeek>
+          ))}
+        </Week>
+        <Week>
+          {this.createWeek(month[0].days, 3, 4).map(({ id, nameOfDay, hours, holiday }) => (
+            <DayOfTheWeek
+              number={id}
+              name={nameOfDay}
+              hours={hours}
+              holiday={holiday}
+              key={id}
+            ></DayOfTheWeek>
+          ))}
+        </Week>
+      </StyledWrapper>
+    );
+  }
+}
+
+const mapStateToProps = ({ months }) => {
+  return {
+    month: months,
+  };
+};
+
+export default connect(mapStateToProps)(Month);
