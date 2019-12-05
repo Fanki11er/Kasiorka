@@ -2,7 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import Week from '../../molecules/Week/Week';
+import Section from '../../molecules/Section/Section';
 import DayOfTheWeek from '../../molecules/DayOfWeek/DayOfWeek';
 
 const StyledWrapper = styled.div`
@@ -27,30 +27,25 @@ class Month extends Component {
 
   render() {
     const { month } = this.props;
+    const sections = [
+      { start: 1, end: 8 },
+      { start: 9, end: 16 },
+    ];
     return (
       <StyledWrapper>
-        <Week>
-          {this.createWeek(month[0].days, 1, 2).map(({ id, nameOfDay, hours, holiday }) => (
-            <DayOfTheWeek
-              number={id}
-              name={nameOfDay}
-              hours={hours}
-              holiday={holiday}
-              key={id}
-            ></DayOfTheWeek>
-          ))}
-        </Week>
-        <Week>
-          {this.createWeek(month[0].days, 3, 4).map(({ id, nameOfDay, hours, holiday }) => (
-            <DayOfTheWeek
-              number={id}
-              name={nameOfDay}
-              hours={hours}
-              holiday={holiday}
-              key={id}
-            ></DayOfTheWeek>
-          ))}
-        </Week>
+        {sections.map(({ start, end }) => (
+          <Section>
+            {this.createWeek(month[0].days, start, end).map(({ id, nameOfDay, hours, holiday }) => (
+              <DayOfTheWeek
+                number={id}
+                name={nameOfDay}
+                hours={hours}
+                holiday={holiday}
+                key={id}
+              ></DayOfTheWeek>
+            ))}
+          </Section>
+        ))}
       </StyledWrapper>
     );
   }
