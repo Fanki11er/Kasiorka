@@ -20,9 +20,9 @@ const StyledSection = styled.div`
 `;
 
 class Month extends Component {
-  addDaysToSection = ({ days }, rangeStart, rangeEnd) => {
+  addDaysToSection = (month, rangeStart, rangeEnd) => {
     const daysArr = [];
-    days.forEach(day => {
+    month.map(day => {
       if (day.id >= rangeStart && day.id <= rangeEnd) {
         daysArr.push(day);
       }
@@ -31,7 +31,7 @@ class Month extends Component {
   };
 
   render() {
-    const { month, monthId } = this.props;
+    const { month, monthName } = this.props;
     const sections = [
       { rangeStart: 1, rangeEnd: 8 },
       { rangeStart: 9, rangeEnd: 16 },
@@ -42,7 +42,7 @@ class Month extends Component {
       <StyledWrapper>
         {sections.map(({ rangeStart, rangeEnd }) => (
           <StyledSection key={rangeStart}>
-            {this.addDaysToSection(month[monthId], rangeStart, rangeEnd).map(
+            {this.addDaysToSection(month, rangeStart, rangeEnd).map(
               ({ id, nameOfDay, hours, holiday }) => (
                 <DayOfTheWeek
                   number={id}
@@ -59,9 +59,9 @@ class Month extends Component {
     );
   }
 }
-const mapStateToProps = ({ months }) => {
+const mapStateToProps = state => {
   return {
-    month: months,
+    month: state['Styczeń'],
   };
 };
 
