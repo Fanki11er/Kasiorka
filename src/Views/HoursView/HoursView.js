@@ -17,7 +17,7 @@ const StyledWrapper = styled.div`
 const HoursView = () => (
   <StyledWrapper>
     <Menu />
-    <Month></Month>
+    <Month monthId={0}></Month>
   </StyledWrapper>
 );
 

@@ -60,11 +60,47 @@ const initialState = {
         },
       ],
     },
+    {
+      id: 1,
+      nameOfMonth: 'Luty',
+      days: [
+        {
+          id: 1,
+          nameOfDay: 'PN',
+          hours: 9,
+          holiday: false,
+        },
+        {
+          id: 2,
+          nameOfDay: 'WT',
+          hours: 9,
+          holiday: false,
+        },
+        {
+          id: 3,
+          nameOfDay: 'ŚR',
+          hours: 9,
+          holiday: false,
+        },
+      ],
+    },
   ],
 };
 
 const rootReducer = (state = initialState, action) => {
-  return state;
+  switch (action.type) {
+    case 'INCREASE_WORK_HOURS': {
+      return {};
+    }
+    default:
+      return state;
+  }
 };
 
 export default rootReducer;
+
+/* {
+        ...state,
+        [action.payload.itemType]: [
+          ...state[action.payload.itemType].filter(item => item.id !== action.payload.id),
+        ], */

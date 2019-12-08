@@ -2,7 +2,6 @@ import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import Section from '../../molecules/Section/Section';
 import DayOfTheWeek from '../../molecules/DayOfWeek/DayOfWeek';
 
 const StyledWrapper = styled.div`
@@ -14,43 +13,52 @@ const StyledWrapper = styled.div`
   justify-content: space-around;
 `;
 
+const StyledSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 25px 20px;
+`;
+
 class Month extends Component {
-  createWeek = (month, start, end) => {
-    const days = [];
-    month.forEach(day => {
-      if (day.id >= start && day.id <= end) {
-        days.push(day);
+  addDaysToSection = ({ days }, rangeStart, rangeEnd) => {
+    const daysArr = [];
+    days.forEach(day => {
+      if (day.id >= rangeStart && day.id <= rangeEnd) {
+        daysArr.push(day);
       }
     });
-    return days;
+    return daysArr;
   };
 
   render() {
-    const { month } = this.props;
+    const { month, monthId } = this.props;
     const sections = [
-      { start: 1, end: 8 },
-      { start: 9, end: 16 },
+      { rangeStart: 1, rangeEnd: 8 },
+      { rangeStart: 9, rangeEnd: 16 },
+      { rangeStart: 17, rangeEnd: 24 },
+      { rangeStart: 25, rangeEnd: 32 },
     ];
     return (
       <StyledWrapper>
-        {sections.map(({ start, end }) => (
-          <Section>
-            {this.createWeek(month[0].days, start, end).map(({ id, nameOfDay, hours, holiday }) => (
-              <DayOfTheWeek
-                number={id}
-                name={nameOfDay}
-                hours={hours}
-                holiday={holiday}
-                key={id}
-              ></DayOfTheWeek>
-            ))}
-          </Section>
+        {sections.map(({ rangeStart, rangeEnd }) => (
+          <StyledSection key={rangeStart}>
+            {this.addDaysToSection(month[monthId], rangeStart, rangeEnd).map(
+              ({ id, nameOfDay, hours, holiday }) => (
+                <DayOfTheWeek
+                  number={id}
+                  name={nameOfDay}
+                  hours={hours}
+                  holiday={holiday}
+                  key={id}
+                ></DayOfTheWeek>
+              ),
+            )}
+          </StyledSection>
         ))}
       </StyledWrapper>
     );
   }
 }
-
 const mapStateToProps = ({ months }) => {
   return {
     month: months,

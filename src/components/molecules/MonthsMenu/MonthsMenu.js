@@ -36,4 +36,12 @@ const MonthMenu = () => (
   </StyledList>
 );
 
+const mapDispatchToProps = dispatch => ({});
+
 export default MonthMenu;
+
+/*const mapDispatchToProps = dispatch => ({
+  removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
+});
+
+export default connect(null, mapDispatchToProps)(Card);*/
