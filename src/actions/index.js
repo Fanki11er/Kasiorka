@@ -1,4 +1,5 @@
 export const increaseHours = (id, nameOfDay, hours, holiday) => {
+  hours++;
   return {
     type: 'INCREASE_WORK_HOURS',
     payload: {

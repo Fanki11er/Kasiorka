@@ -66,7 +66,8 @@ const replaceDayValue = (prevValue, newValue, indexToChange) => {
 };
 
 const findIndexToChange = (startValue, dayId) => {
-  startValue.indexOf(startValue.find(day => day.id === dayId));
+  const foundIndex = startValue.indexOf(startValue.find(day => day.id === dayId));
+  return foundIndex;
 };
 
 const rootReducer = (state = initialState, action) => {

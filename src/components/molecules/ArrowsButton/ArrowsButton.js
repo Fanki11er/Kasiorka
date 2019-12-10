@@ -2,25 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 import UpDownButton from '../../atoms/UpDownButton/UpDownButton';
 import { connect } from 'react-redux';
-import { increaseHours as increaseHoursAction } from '../../../actions/index';
 
 const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const ArrowsButton = ({ dayId, nameOfDay, hours, holiday, increaseHours }) => (
+const ArrowsButton = ({ dayId, nameOfDay, hours, holiday, increaseHours, onClickAction }) => (
   <StyledWrapper>
-    <UpDownButton upButton onClick={() => increaseHours(dayId, nameOfDay, hours, holiday)} />
+    <UpDownButton upButton onClick={onClickAction} />
     <UpDownButton downButton />
   </StyledWrapper>
 );
-const mapDispatchToProps = dispatch => ({
+/*const mapDispatchToProps = dispatch => ({
   increaseHours: (dayId, nameOfDay, hours, holiday) =>
     dispatch(increaseHoursAction(dayId, nameOfDay, hours, holiday)),
-});
+});*/
 
-export default connect(null, mapDispatchToProps)(ArrowsButton);
+//export default connect(null, mapDispatchToProps)(ArrowsButton);
+//onClick={() => increaseHours(dayId, nameOfDay, hours, holiday)}
+export default ArrowsButton;
 
 /*const mapDispatchToProps = dispatch => ({
   removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
