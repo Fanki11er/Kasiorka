@@ -17,7 +17,7 @@ const StyledWrapper = styled.div`
 const HoursView = () => (
   <StyledWrapper>
     <Menu />
-    <Month monthName={'Styczeń'}></Month>
+    <Month monthName={'styczeń'}></Month>
   </StyledWrapper>
 );
 

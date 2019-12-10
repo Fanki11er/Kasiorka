@@ -15,7 +15,7 @@ const DayOfTheWeek = ({ number, name, holiday, hours }) => (
     <DayNumber>{number}</DayNumber>
     <DayName holiday={holiday}>{name}</DayName>
     <NumberOfHours>{hours}</NumberOfHours>
-    <ArrowsButton dayId={number}></ArrowsButton>
+    <ArrowsButton dayId={number} nameOfDay={name} hours={hours} holiday={holiday}></ArrowsButton>
   </StyledWrapper>
 );
 

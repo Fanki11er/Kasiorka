@@ -1,5 +1,5 @@
 const initialState = {
-  Styczeń: [
+  styczeń: [
     {
       id: 1,
       nameOfDay: 'PN',
@@ -57,10 +57,25 @@ const initialState = {
   ],
 };
 
+const replaceDayValue = (prevValue, newValue, indexToChange) => {
+  const startValue = [...prevValue];
+  const dayId = newValue.id;
+  const index = indexToChange(startValue, dayId);
+  startValue.splice(index, 1, newValue);
+  return startValue;
+};
+
+const findIndexToChange = (startValue, dayId) => {
+  startValue.indexOf(startValue.find(day => day.id === dayId));
+};
+
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'INCREASE_WORK_HOURS': {
-      return {};
+      return {
+        ...state,
+        ['styczeń']: replaceDayValue(state['styczeń'], action.payload.item, findIndexToChange),
+      };
     }
     default:
       return state;

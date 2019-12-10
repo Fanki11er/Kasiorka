@@ -9,14 +9,15 @@ const StyledWrapper = styled.div`
   flex-direction: column;
 `;
 
-const ArrowsButton = ({ dayId, increaseHours }) => (
+const ArrowsButton = ({ dayId, nameOfDay, hours, holiday, increaseHours }) => (
   <StyledWrapper>
-    <UpDownButton upButton onClick={() => increaseHours(dayId)} />
+    <UpDownButton upButton onClick={() => increaseHours(dayId, nameOfDay, hours, holiday)} />
     <UpDownButton downButton />
   </StyledWrapper>
 );
 const mapDispatchToProps = dispatch => ({
-  increaseHours: dayId => dispatch(increaseHoursAction(dayId)),
+  increaseHours: (dayId, nameOfDay, hours, holiday) =>
+    dispatch(increaseHoursAction(dayId, nameOfDay, hours, holiday)),
 });
 
 export default connect(null, mapDispatchToProps)(ArrowsButton);

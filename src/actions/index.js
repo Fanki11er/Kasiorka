@@ -1,8 +1,13 @@
-export const increaseHours = dayId => {
+export const increaseHours = (id, nameOfDay, hours, holiday) => {
   return {
     type: 'INCREASE_WORK_HOURS',
     payload: {
-      dayId,
+      item: {
+        id,
+        nameOfDay,
+        hours,
+        holiday,
+      },
     },
   };
 };

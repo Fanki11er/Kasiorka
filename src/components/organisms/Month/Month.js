@@ -61,7 +61,7 @@ class Month extends Component {
 }
 const mapStateToProps = state => {
   return {
-    month: state['Styczeń'],
+    month: state['styczeń'],
   };
 };
 
