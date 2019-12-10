@@ -1,78 +1,78 @@
 const initialState = {
   styczeń: [
     {
-      id: 1,
+      dayId: 1,
       nameOfDay: 'PN',
-      hours: 9,
-      holiday: false,
+      workHours: 9,
+      isHoliday: false,
     },
     {
-      id: 2,
+      dayId: 2,
       nameOfDay: 'WT',
-      hours: 9,
-      holiday: false,
+      workHours: 9,
+      isHoliday: false,
     },
     {
-      id: 3,
+      dayId: 3,
       nameOfDay: 'ŚR',
-      hours: 9,
-      holiday: false,
+      workHours: 9,
+      isHoliday: false,
     },
     {
-      id: 4,
+      dayId: 4,
       nameOfDay: 'CZ',
-      hours: 0,
-      holiday: false,
+      workHours: 0,
+      isHoliday: false,
     },
     {
-      id: 5,
+      dayId: 5,
       nameOfDay: 'PT',
-      hours: 0,
-      holiday: false,
+      workHours: 0,
+      isHoliday: false,
     },
     {
       id: 6,
       nameOfDay: 'SO',
-      hours: 0,
-      holiday: false,
+      workHours: 0,
+      isHoliday: false,
     },
     {
-      id: 7,
+      dayId: 7,
       nameOfDay: 'ND',
-      hours: 0,
-      holiday: true,
+      workHours: 0,
+      isHoliday: true,
     },
     {
       id: 8,
       nameOfDay: 'PN',
-      hours: 0,
-      holiday: false,
+      workHours: 0,
+      isHoliday: false,
     },
     {
-      id: 9,
+      dayId: 9,
       nameOfDay: 'WT',
-      hours: 0,
-      holiday: false,
+      workHours: 0,
+      isHoliday: false,
     },
   ],
 };
 
 const replaceDayValue = (prevValue, newValue, indexToChange) => {
   const startValue = [...prevValue];
-  const dayId = newValue.id;
+  const dayId = newValue.dayId;
   const index = indexToChange(startValue, dayId);
   startValue.splice(index, 1, newValue);
   return startValue;
 };
 
 const findIndexToChange = (startValue, dayId) => {
-  const foundIndex = startValue.indexOf(startValue.find(day => day.id === dayId));
+  const foundIndex = startValue.indexOf(startValue.find(day => day.dayId === dayId));
   return foundIndex;
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'INCREASE_WORK_HOURS': {
+    case 'UPDATE_WORK_HOURS': {
       return {
         ...state,
         ['styczeń']: replaceDayValue(state['styczeń'], action.payload.item, findIndexToChange),

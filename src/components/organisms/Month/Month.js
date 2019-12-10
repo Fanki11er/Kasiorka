@@ -23,7 +23,7 @@ class Month extends Component {
   addDaysToSection = (month, rangeStart, rangeEnd) => {
     const daysArr = [];
     month.map(day => {
-      if (day.id >= rangeStart && day.id <= rangeEnd) {
+      if (day.dayId >= rangeStart && day.dayId <= rangeEnd) {
         daysArr.push(day);
       }
     });
@@ -43,13 +43,13 @@ class Month extends Component {
         {sections.map(({ rangeStart, rangeEnd }) => (
           <StyledSection key={rangeStart}>
             {this.addDaysToSection(month, rangeStart, rangeEnd).map(
-              ({ id, nameOfDay, hours, holiday }) => (
+              ({ dayId, nameOfDay, workHours, isHoliday }) => (
                 <DayOfTheWeek
-                  number={id}
-                  name={nameOfDay}
-                  hours={hours}
-                  holiday={holiday}
-                  key={id}
+                  dayId={dayId}
+                  nameOfDay={nameOfDay}
+                  workHours={workHours}
+                  isHoliday={isHoliday}
+                  key={dayId}
                 ></DayOfTheWeek>
               ),
             )}

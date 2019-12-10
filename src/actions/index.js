@@ -1,24 +1,15 @@
-export const increaseHours = (id, nameOfDay, hours, holiday) => {
-  hours++;
+export const updateHours = (dayId, nameOfDay, workHours, isHoliday, action) => {
+  if (action === '+') workHours++;
+  else if (action === '-' && workHours > 0) workHours--;
   return {
-    type: 'INCREASE_WORK_HOURS',
+    type: 'UPDATE_WORK_HOURS',
     payload: {
       item: {
-        id,
+        dayId,
         nameOfDay,
-        hours,
-        holiday,
+        workHours,
+        isHoliday,
       },
     },
   };
 };
-
-/*export const removeItem = (itemType, id) => {
-  return {
-    type: 'REMOVE_ITEM',
-    payload: {
-      itemType,
-      id,
-    },
-  };
-}; */

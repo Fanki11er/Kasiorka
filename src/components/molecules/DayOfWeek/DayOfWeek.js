@@ -6,7 +6,7 @@ import DayNumber from '../../atoms/DayNumber/DayNumber';
 import NumberOfHours from '../../atoms/NumberOfHours/NumberOfHours';
 import ArrowsButton from '../ArrowsButton/ArrowsButton';
 import { connect } from 'react-redux';
-import { increaseHours as increaseHoursAction } from '../../../actions/index';
+import { updateHours as updateHoursAction } from '../../../actions/index';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -15,24 +15,18 @@ const StyledWrapper = styled.div`
 
 class DayOfTheWeek extends Component {
   render() {
-    const { number, name, holiday, hours, increaseHours } = this.props;
-
-    /* const up = hours => {
-      hours++;
-      increaseHours(number, name, hours, holiday);
-    };*/
+    const { dayId, nameOfDay, isHoliday, workHours, updateHours } = this.props;
+    const increase = '+';
+    const decrease = '-';
 
     return (
       <StyledWrapper>
-        <DayNumber>{number}</DayNumber>
-        <DayName holiday={holiday}>{name}</DayName>
-        <NumberOfHours>{hours}</NumberOfHours>
+        <DayNumber>{dayId}</DayNumber>
+        <DayName isHoliday={isHoliday}>{nameOfDay}</DayName>
+        <NumberOfHours>{workHours}</NumberOfHours>
         <ArrowsButton
-          dayId={number}
-          nameOfDay={name}
-          hours={hours}
-          holiday={holiday}
-          onClickAction={() => increaseHours(number, name, hours, holiday)}
+          increaseWorkHours={() => updateHours(dayId, nameOfDay, workHours, isHoliday, increase)}
+          decreaseWorkHours={() => updateHours(dayId, nameOfDay, workHours, isHoliday, decrease)}
         ></ArrowsButton>
       </StyledWrapper>
     );
@@ -40,8 +34,8 @@ class DayOfTheWeek extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  increaseHours: (dayId, nameOfDay, hours, holiday) =>
-    dispatch(increaseHoursAction(dayId, nameOfDay, hours, holiday)),
+  updateHours: (dayId, nameOfDay, workHours, isHoliday, action) =>
+    dispatch(updateHoursAction(dayId, nameOfDay, workHours, isHoliday, action)),
 });
 
 export default connect(null, mapDispatchToProps)(DayOfTheWeek);
