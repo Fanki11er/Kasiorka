@@ -46,26 +46,34 @@ const getMonthLength = (selectedYear, selectedMonth) => {
   return lengthOfMonth;
 };
 
+const createObj = (dayName, isHoliday) => {
+  const settings = {
+    dayName,
+    isHoliday,
+  };
+  return settings;
+};
+
 const getDayName = (selectedYear, selectedMonth, selectedDay, dayNames) => {
   const dayInWeek = new Date(selectedYear, selectedMonth, selectedDay).getDay();
 
   switch (dayInWeek) {
     case 0:
-      return dayNames[0];
+      return createObj(dayNames[0], true);
     case 1:
-      return dayNames[1];
+      return createObj(dayNames[1], false);
     case 2:
-      return dayNames[2];
+      return createObj(dayNames[2], false);
     case 3:
-      return dayNames[3];
+      return createObj(dayNames[3], false);
     case 4:
-      return dayNames[4];
+      return createObj(dayNames[4], false);
     case 5:
-      return dayNames[5];
+      return createObj(dayNames[5], false);
     case 6:
-      return dayNames[6];
+      return createObj(dayNames[6], false);
     default:
-      return 'Error';
+      return createObj('Error', false);
   }
 };
 
@@ -84,8 +92,9 @@ const createNewYear = (monthNames, selectedYear) => {
     for (let i = 1; i <= thisMonthLength; i++) {
       const dayId = i;
       const monthId = month.id - 1;
-      const dayName = getDayName(selectedYear, monthId, i, dayNames);
-      month.days.push(new SingleDay(dayId, dayName, defaultWorkHours, defaultIsHoliday));
+      const dayNameObj = getDayName(selectedYear, monthId, i, dayNames);
+      const { dayName, isHoliday } = dayNameObj;
+      month.days.push(new SingleDay(dayId, dayName, defaultWorkHours, isHoliday));
     }
   }
 
