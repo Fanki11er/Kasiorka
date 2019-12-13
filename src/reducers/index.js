@@ -1,3 +1,5 @@
+import { createNewYear } from '../tools/index';
+import { monthNames } from '../tools/index';
 const initialState = {
   styczeń: [
     {
@@ -70,7 +72,14 @@ const findIndexToChange = (startValue, dayId) => {
   return foundIndex;
 };
 
-const rootReducer = (state = initialState, action) => {
+const testState = createNewYear(monthNames, 2019);
+
+const testReducer = (state = testState.months, action) => {
+  return state;
+};
+export default testReducer;
+
+/*const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'UPDATE_WORK_HOURS': {
       return {
@@ -83,10 +92,19 @@ const rootReducer = (state = initialState, action) => {
   }
 };
 
-export default rootReducer;
+export default rootReducer;*/
 
-/* {
+/*const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'UPDATE_WORK_HOURS': {
+      return {
         ...state,
-        [action.payload.itemType]: [
-          ...state[action.payload.itemType].filter(item => item.id !== action.payload.id),
-        ], */
+        ['styczeń']: replaceDayValue(state['styczeń'], action.payload.item, findIndexToChange),
+      };
+    }
+    default:
+      return state;
+  }
+};
+
+export default rootReducer;*/

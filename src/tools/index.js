@@ -22,8 +22,7 @@ class SingleYear {
   }
 }
 
-const months = [];
-const monthNames = [
+export const monthNames = [
   'Styczeń',
   'Luty',
   'Marzec',
@@ -92,12 +91,13 @@ const createNewYear = (monthNames, selectedYear) => {
     for (let i = 1; i <= thisMonthLength; i++) {
       const dayId = i;
       const monthId = month.id - 1;
-      const dayNameObj = getDayName(selectedYear, monthId, i, dayNames);
+      const dayNameObj = getDayName(selectedYear, monthId, dayId, dayNames);
       const { dayName, isHoliday } = dayNameObj;
       month.days.push(new SingleDay(dayId, dayName, defaultWorkHours, isHoliday));
     }
   }
 
-  console.log(year);
+  return year;
 };
-createNewYear(monthNames, selectedYear);
+
+export { createNewYear };
