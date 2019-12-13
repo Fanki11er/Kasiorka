@@ -33,7 +33,6 @@ class Month extends Component {
 
   render() {
     const { month, monthName } = this.props;
-    console.log(month);
     const sections = [
       { rangeStart: 1, rangeEnd: 8 },
       { rangeStart: 9, rangeEnd: 16 },
@@ -63,7 +62,7 @@ class Month extends Component {
 }
 const mapStateToProps = state => {
   return {
-    month: state[1].days,
+    month: state[0].days,
   };
 };
 

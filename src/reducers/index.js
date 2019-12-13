@@ -59,6 +59,14 @@ const initialState = {
   ],
 };
 
+/*const replaceDayValue = (prevValue, newValue, indexToChange) => {
+  const startValue = [...prevValue];
+  const dayId = newValue.dayId;
+  const index = indexToChange(startValue, dayId);
+  startValue.splice(index, 1, newValue);
+  return startValue;
+};*/
+
 const replaceDayValue = (prevValue, newValue, indexToChange) => {
   const startValue = [...prevValue];
   const dayId = newValue.dayId;
@@ -75,7 +83,16 @@ const findIndexToChange = (startValue, dayId) => {
 const testState = createNewYear(monthNames, 2019);
 
 const testReducer = (state = testState.months, action) => {
-  return state;
+  switch (action.type) {
+    case 'UPDATE_WORK_HOURS': {
+      return [
+        ...state,
+        (state[0].days = replaceDayValue(state[0].days, action.payload.item, findIndexToChange)),
+      ];
+    }
+    default:
+      return state;
+  }
 };
 export default testReducer;
 
