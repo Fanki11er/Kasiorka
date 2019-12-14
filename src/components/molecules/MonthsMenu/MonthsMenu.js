@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
 
@@ -10,24 +11,10 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
-const monthsNames = [
-  'Styczeń',
-  'Luty',
-  'Marzec',
-  'Kwiecień',
-  'Maj',
-  'Czerwiec',
-  'Lipiec',
-  'Sierpień',
-  'Wrzesień',
-  'Październik',
-  'Listopad',
-  'Grudzień',
-];
-
-const MonthMenu = () => (
+const MonthMenu = ({ monthNames }) => (
   <StyledList>
-    {monthsNames.map(name => (
+    {console.log(monthNames)}
+    {monthNames.map(name => (
       <StyledListItem>
         <MenuItem>{name}</MenuItem>
       </StyledListItem>
@@ -36,9 +23,21 @@ const MonthMenu = () => (
   </StyledList>
 );
 
-const mapDispatchToProps = dispatch => ({});
+const getMonthNames = state => {
+  const monthNames = [];
+  state.map(month => {
+    monthNames.push(month.name);
+  });
+  return monthNames;
+};
 
-export default MonthMenu;
+const mapStateToProps = state => {
+  return {
+    monthNames: getMonthNames(state),
+  };
+};
+
+export default connect(mapStateToProps)(MonthMenu);
 
 /*const mapDispatchToProps = dispatch => ({
   removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),

@@ -32,7 +32,7 @@ class Month extends Component {
   };
 
   render() {
-    const { month, monthName } = this.props;
+    const { month, monthId } = this.props;
     const sections = [
       { rangeStart: 1, rangeEnd: 8 },
       { rangeStart: 9, rangeEnd: 16 },

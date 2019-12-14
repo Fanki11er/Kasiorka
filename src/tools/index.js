@@ -31,7 +31,7 @@ export const monthNames = [
   'Czerwiec',
   'Lipiec',
   'Sierpień',
-  'Wrzesie',
+  'Wrzesień',
   'Październik',
   'Listopad',
   'Grudzień',
