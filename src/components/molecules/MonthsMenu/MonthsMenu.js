@@ -14,18 +14,18 @@ const StyledListItem = styled.li``;
 
 class MonthMenu extends Component {
   state = {
-    clicked: false,
+    clicked: 0,
   };
   handleClick = event => {
     this.setState({
-      clicked: true,
+      clicked: event.target.id,
     });
     const { menuContext } = this.props;
     menuContext(event);
   };
 
   render() {
-    const { monthNames, menuContext } = this.props;
+    const { monthNames } = this.props;
     const { clicked } = this.state;
     const names = getMonthNames(monthNames);
     return (
@@ -46,9 +46,8 @@ class MonthMenu extends Component {
 const getMonthNames = state => {
   const monthNames = [];
   state.map(month => {
-    monthNames.push({ monthName: month.name, monthId: month.id, test: 'Test' });
+    monthNames.push({ monthName: month.name, monthId: month.id });
   });
-  console.log(monthNames);
   return monthNames;
 };
 const mapStateToProps = state => {
