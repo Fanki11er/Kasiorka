@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
+import withMenuContext from '../../../hoc/withMenuContext';
 
 const StyledList = styled.ul`
   list-style: none;
@@ -11,12 +12,13 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
-const MonthMenu = ({ monthNames }) => (
+const MonthMenu = ({ monthNames, menuContext }) => (
   <StyledList>
-    {console.log(monthNames)}
     {monthNames.map(name => (
       <StyledListItem>
-        <MenuItem>{name}</MenuItem>
+        <MenuItem onClick={menuContext} id={1}>
+          {name}
+        </MenuItem>
       </StyledListItem>
     ))}
     ;
@@ -37,7 +39,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(MonthMenu);
+export default connect(mapStateToProps)(withMenuContext(MonthMenu));
 
 /*const mapDispatchToProps = dispatch => ({
   removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),

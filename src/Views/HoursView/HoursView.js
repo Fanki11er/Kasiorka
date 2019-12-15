@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import Month from '../../components/organisms/Month/Month';
 import Menu from '../../components/organisms/Menu/Menu';
+import MenuContext from '../../context/MenuContext';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -14,11 +15,27 @@ const StyledWrapper = styled.div`
   max-width: 100vw;
 `;
 
-const HoursView = () => (
-  <StyledWrapper>
-    <Menu />
-    <Month monthId={0}></Month>
-  </StyledWrapper>
-);
+class HoursView extends Component {
+  state = {
+    selectedMonthId: 0,
+  };
+
+  selectMonth = event => {
+    console.log(event.target);
+  };
+
+  render() {
+    const { selectedMonthId } = this.state;
+    return (
+      <StyledWrapper>
+        <MenuContext.Provider value={this.selectMonth}>
+          <Menu />
+        </MenuContext.Provider>
+
+        <Month monthId={selectedMonthId}></Month>
+      </StyledWrapper>
+    );
+  }
+}
 
 export default HoursView;
