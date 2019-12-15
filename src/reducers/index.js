@@ -68,7 +68,7 @@ const initialState = {
 };*/
 
 const replaceDayValue = (prevValue, newValue, indexToChange) => {
-  const startValue = [...prevValue];
+  const startValue = prevValue;
   const dayId = newValue.dayId;
   const index = indexToChange(startValue, dayId);
   startValue.splice(index, 1, newValue);
@@ -85,10 +85,8 @@ const testState = createNewYear(monthNames, 2019);
 const testReducer = (state = testState.months, action) => {
   switch (action.type) {
     case 'UPDATE_WORK_HOURS': {
-      return [
-        ...state,
-        (state[0].days = replaceDayValue(state[0].days, action.payload.item, findIndexToChange)),
-      ];
+      replaceDayValue(state[0].days, action.payload.item, findIndexToChange);
+      return [...state];
     }
     default:
       return state;

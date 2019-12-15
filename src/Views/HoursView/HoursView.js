@@ -21,11 +21,14 @@ class HoursView extends Component {
   };
 
   selectMonth = event => {
-    console.log(event.target);
+    this.setState({
+      selectedMonthId: event.target.id - 1,
+    });
   };
 
   render() {
     const { selectedMonthId } = this.state;
+
     return (
       <StyledWrapper>
         <MenuContext.Provider value={this.selectMonth}>

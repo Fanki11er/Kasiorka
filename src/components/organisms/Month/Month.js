@@ -32,7 +32,7 @@ class Month extends Component {
   };
 
   render() {
-    const { month, monthId } = this.props;
+    const { months, monthId } = this.props;
     const sections = [
       { rangeStart: 1, rangeEnd: 8 },
       { rangeStart: 9, rangeEnd: 16 },
@@ -43,7 +43,7 @@ class Month extends Component {
       <StyledWrapper>
         {sections.map(({ rangeStart, rangeEnd }) => (
           <StyledSection key={rangeStart}>
-            {this.addDaysToSection(month, rangeStart, rangeEnd).map(
+            {this.addDaysToSection(months[monthId].days, rangeStart, rangeEnd).map(
               ({ dayId, nameOfDay, workHours, isHoliday }) => (
                 <DayOfTheWeek
                   dayId={dayId}
@@ -62,7 +62,7 @@ class Month extends Component {
 }
 const mapStateToProps = state => {
   return {
-    month: state[0].days,
+    months: state,
   };
 };
 

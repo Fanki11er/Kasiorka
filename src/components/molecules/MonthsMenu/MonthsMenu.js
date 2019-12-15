@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
@@ -12,30 +12,48 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
-const MonthMenu = ({ monthNames, menuContext }) => (
-  <StyledList>
-    {monthNames.map(name => (
-      <StyledListItem>
-        <MenuItem onClick={menuContext} id={1}>
-          {name}
-        </MenuItem>
-      </StyledListItem>
-    ))}
-    ;
-  </StyledList>
-);
+class MonthMenu extends Component {
+  state = {
+    clicked: false,
+  };
+  handleClick = event => {
+    this.setState({
+      clicked: true,
+    });
+    const { menuContext } = this.props;
+    menuContext(event);
+  };
+
+  render() {
+    const { monthNames, menuContext } = this.props;
+    const { clicked } = this.state;
+    const names = getMonthNames(monthNames);
+    return (
+      <StyledList>
+        {names.map(({ monthName, monthId }) => (
+          <StyledListItem>
+            <MenuItem clicked={clicked} onClick={this.handleClick} id={monthId}>
+              {monthName}
+            </MenuItem>
+          </StyledListItem>
+        ))}
+        ;
+      </StyledList>
+    );
+  }
+}
 
 const getMonthNames = state => {
   const monthNames = [];
   state.map(month => {
-    monthNames.push(month.name);
+    monthNames.push({ monthName: month.name, monthId: month.id, test: 'Test' });
   });
+  console.log(monthNames);
   return monthNames;
 };
-
 const mapStateToProps = state => {
   return {
-    monthNames: getMonthNames(state),
+    monthNames: state,
   };
 };
 
@@ -45,4 +63,12 @@ export default connect(mapStateToProps)(withMenuContext(MonthMenu));
   removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
 });
 
-export default connect(null, mapDispatchToProps)(Card);*/
+export default connect(null, mapDispatchToProps)(Card);
+
+
+const mapStateToProps = state => {
+  return {
+    monthNames: getMonthNames(state),
+  };
+};
+*/
