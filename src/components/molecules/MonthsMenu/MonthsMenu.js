@@ -14,15 +14,25 @@ const StyledListItem = styled.li``;
 
 class MonthMenu extends Component {
   state = {
-    clicked: 0,
+    clicked: 1,
   };
   handleClick = event => {
     this.setState({
       clicked: event.target.id,
     });
     const { menuContext } = this.props;
-    menuContext(event);
+    const { selectMonth } = menuContext;
+    selectMonth(event);
   };
+
+  componentDidMount() {
+    const { menuContext } = this.props;
+    const { selectedMonthId } = menuContext;
+    console.log(selectedMonthId);
+    this.setState({
+      clicked: selectedMonthId + 1,
+    });
+  }
 
   render() {
     const { monthNames } = this.props;
@@ -57,17 +67,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(withMenuContext(MonthMenu));
-
-/*const mapDispatchToProps = dispatch => ({
-  removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
-});
-
-export default connect(null, mapDispatchToProps)(Card);
-
-
-const mapStateToProps = state => {
-  return {
-    monthNames: getMonthNames(state),
-  };
-};
-*/

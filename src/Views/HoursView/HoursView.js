@@ -17,7 +17,7 @@ const StyledWrapper = styled.div`
 
 class HoursView extends Component {
   state = {
-    selectedMonthId: 0,
+    selectedMonthId: 11,
   };
 
   selectMonth = event => {
@@ -28,10 +28,14 @@ class HoursView extends Component {
 
   render() {
     const { selectedMonthId } = this.state;
+    const monthInfo = {
+      selectedMonthId,
+      selectMonth: this.selectMonth,
+    };
 
     return (
       <StyledWrapper>
-        <MenuContext.Provider value={this.selectMonth}>
+        <MenuContext.Provider value={monthInfo}>
           <Menu />
         </MenuContext.Provider>
 
