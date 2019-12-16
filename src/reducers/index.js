@@ -85,7 +85,9 @@ const testState = createNewYear(monthNames, 2019);
 const testReducer = (state = testState.months, action) => {
   switch (action.type) {
     case 'UPDATE_WORK_HOURS': {
-      replaceDayValue(state[0].days, action.payload.item, findIndexToChange);
+      const monthId = action.payload.monthId;
+      const newValue = action.payload.item;
+      replaceDayValue(state[monthId].days, newValue, findIndexToChange);
       return [...state];
     }
     default:

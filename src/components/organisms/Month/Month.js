@@ -3,7 +3,6 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import DayOfTheWeek from '../../molecules/DayOfWeek/DayOfWeek';
-import something from '../../../tools/index';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -51,6 +50,7 @@ class Month extends Component {
                   workHours={workHours}
                   isHoliday={isHoliday}
                   key={dayId}
+                  monthId={monthId}
                 ></DayOfTheWeek>
               ),
             )}

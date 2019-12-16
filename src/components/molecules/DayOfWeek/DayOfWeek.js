@@ -15,7 +15,7 @@ const StyledWrapper = styled.div`
 
 class DayOfTheWeek extends Component {
   render() {
-    const { dayId, nameOfDay, isHoliday, workHours, updateHours } = this.props;
+    const { dayId, nameOfDay, isHoliday, workHours, updateHours, monthId } = this.props;
     const increase = '+';
     const decrease = '-';
 
@@ -25,8 +25,12 @@ class DayOfTheWeek extends Component {
         <DayName isHoliday={isHoliday}>{nameOfDay}</DayName>
         <NumberOfHours>{workHours}</NumberOfHours>
         <ArrowsButton
-          increaseWorkHours={() => updateHours(dayId, nameOfDay, workHours, isHoliday, increase)}
-          decreaseWorkHours={() => updateHours(dayId, nameOfDay, workHours, isHoliday, decrease)}
+          increaseWorkHours={() =>
+            updateHours(monthId, dayId, nameOfDay, workHours, isHoliday, increase)
+          }
+          decreaseWorkHours={() =>
+            updateHours(monthId, dayId, nameOfDay, workHours, isHoliday, decrease)
+          }
         ></ArrowsButton>
       </StyledWrapper>
     );
@@ -34,8 +38,8 @@ class DayOfTheWeek extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateHours: (dayId, nameOfDay, workHours, isHoliday, action) =>
-    dispatch(updateHoursAction(dayId, nameOfDay, workHours, isHoliday, action)),
+  updateHours: (monthId, dayId, nameOfDay, workHours, isHoliday, action) =>
+    dispatch(updateHoursAction(monthId, dayId, nameOfDay, workHours, isHoliday, action)),
 });
 
 export default connect(null, mapDispatchToProps)(DayOfTheWeek);
