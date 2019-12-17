@@ -14,9 +14,9 @@ const years = ['2019', '2020'];
 
 const YearsMenu = () => (
   <StyledList>
-    {years.map(name => (
-      <StyledListItem>
-        <MenuItem year>{name}</MenuItem>
+    {years.map(yearName => (
+      <StyledListItem key={yearName}>
+        <MenuItem year>{yearName}</MenuItem>
       </StyledListItem>
     ))}
     ;

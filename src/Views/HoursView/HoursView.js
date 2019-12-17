@@ -28,14 +28,14 @@ class HoursView extends Component {
 
   render() {
     const { selectedMonthId } = this.state;
-    const monthInfo = {
+    const menuContext = {
       selectedMonthId,
       selectMonth: this.selectMonth,
     };
 
     return (
       <StyledWrapper>
-        <MenuContext.Provider value={monthInfo}>
+        <MenuContext.Provider value={menuContext}>
           <Menu />
         </MenuContext.Provider>
 

@@ -6,7 +6,7 @@ const MenuItem = styled.button`
   font-size: ${({ theme }) => theme.fontSize.normal};
   border: 1px solid ${({ theme }) => theme.primary};
   background-color: ${({ theme, clicked, id }) =>
-    clicked == id ? theme.menuActive : theme.menuBlue};
+    parseFloat(clicked) === id ? theme.menuActive : theme.menuBlue};
 
   ${({ year }) =>
     year &&

@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import DayOfTheWeek from '../../molecules/DayOfWeek/DayOfWeek';
+import { addDaysToSection, sections } from '../../../tools/index';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -19,30 +20,21 @@ const StyledSection = styled.div`
   margin: 25px 20px;
 `;
 
-class Month extends Component {
-  addDaysToSection = (month, rangeStart, rangeEnd) => {
-    const daysArr = [];
-    month.map(day => {
-      if (day.dayId >= rangeStart && day.dayId <= rangeEnd) {
-        daysArr.push(day);
-      }
-    });
-    return daysArr;
+const mapStateToProps = state => {
+  return {
+    months: state,
   };
+};
 
+class Month extends Component {
   render() {
     const { months, monthId } = this.props;
-    const sections = [
-      { rangeStart: 1, rangeEnd: 8 },
-      { rangeStart: 9, rangeEnd: 16 },
-      { rangeStart: 17, rangeEnd: 24 },
-      { rangeStart: 25, rangeEnd: 32 },
-    ];
+
     return (
       <StyledWrapper>
         {sections.map(({ rangeStart, rangeEnd }) => (
           <StyledSection key={rangeStart}>
-            {this.addDaysToSection(months[monthId].days, rangeStart, rangeEnd).map(
+            {addDaysToSection(months[monthId].days, rangeStart, rangeEnd).map(
               ({ dayId, nameOfDay, workHours, isHoliday }) => (
                 <DayOfTheWeek
                   dayId={dayId}
@@ -60,16 +52,5 @@ class Month extends Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return {
-    months: state,
-  };
-};
 
 export default connect(mapStateToProps)(Month);
-
-/*const mapStateToProps = state => {
-  return {
-    month: state['styczeń'],
-  };
-}; */

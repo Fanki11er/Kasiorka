@@ -37,7 +37,13 @@ export const monthNames = [
   'Grudzień',
 ];
 const dayNames = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'];
-const selectedYear = 2019;
+
+const sections = [
+  { rangeStart: 1, rangeEnd: 8 },
+  { rangeStart: 9, rangeEnd: 16 },
+  { rangeStart: 17, rangeEnd: 24 },
+  { rangeStart: 25, rangeEnd: 32 },
+];
 
 const getMonthLength = (selectedYear, selectedMonth) => {
   const date = new Date(selectedYear, selectedMonth, 0);
@@ -79,7 +85,6 @@ const getDayName = (selectedYear, selectedMonth, selectedDay, dayNames) => {
 const createNewYear = (monthNames, selectedYear) => {
   const year = new SingleYear(selectedYear);
   const defaultWorkHours = 0;
-  const defaultIsHoliday = false;
   //TODO: Wrzucić w funkcję
   monthNames.forEach((name, index) => {
     year.months.push(new SingleMonth(index, name));
@@ -100,4 +105,35 @@ const createNewYear = (monthNames, selectedYear) => {
   return year;
 };
 
-export { createNewYear };
+//Month------------------------------------------------------
+
+const addDaysToSection = (month, rangeStart, rangeEnd) => {
+  const daysArr = [];
+  month.map(day => {
+    if (day.dayId >= rangeStart && day.dayId <= rangeEnd) {
+      daysArr.push(day);
+    }
+    return null;
+  });
+  return daysArr;
+};
+//Month-----------------------------------------------------------
+//
+//Reducer---------------------------------------------------------
+const replaceDayValue = (prevValue, newValue, indexToChange) => {
+  const startValue = prevValue;
+  const dayId = newValue.dayId;
+  const index = indexToChange(startValue, dayId);
+  startValue.splice(index, 1, newValue);
+  return startValue;
+};
+
+const findIndexToChange = (startValue, dayId) => {
+  const foundIndex = startValue.indexOf(startValue.find(day => day.dayId === dayId));
+  return foundIndex;
+};
+
+//Reducer---------------------------------------------------------
+
+export { createNewYear, addDaysToSection, sections };
+export { replaceDayValue, findIndexToChange }; //Reducer
