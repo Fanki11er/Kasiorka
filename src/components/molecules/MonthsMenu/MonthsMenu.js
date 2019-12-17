@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
+import withMenuContext from '../../../hoc/withMenuContext';
 
 const StyledList = styled.ul`
   list-style: none;
@@ -10,38 +12,58 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
-const monthsNames = [
-  'Styczeń',
-  'Luty',
-  'Marzec',
-  'Kwiecień',
-  'Maj',
-  'Czerwiec',
-  'Lipiec',
-  'Sierpień',
-  'Wrzesień',
-  'Październik',
-  'Listopad',
-  'Grudzień',
-];
+class MonthMenu extends Component {
+  state = {
+    clicked: 1,
+  };
+  handleClick = event => {
+    this.setState({
+      clicked: event.target.id,
+    });
+    const { menuContext } = this.props;
+    const { selectMonth } = menuContext;
+    selectMonth(event);
+  };
 
-const MonthMenu = () => (
-  <StyledList>
-    {monthsNames.map(name => (
-      <StyledListItem>
-        <MenuItem>{name}</MenuItem>
-      </StyledListItem>
-    ))}
-    ;
-  </StyledList>
-);
+  componentDidMount() {
+    const { menuContext } = this.props;
+    const { selectedMonthId } = menuContext;
+    console.log(selectedMonthId);
+    this.setState({
+      clicked: selectedMonthId + 1,
+    });
+  }
 
-const mapDispatchToProps = dispatch => ({});
+  render() {
+    const { monthNames } = this.props;
+    const { clicked } = this.state;
+    const names = getMonthNames(monthNames);
+    return (
+      <StyledList>
+        {names.map(({ monthName, monthId }) => (
+          <StyledListItem>
+            <MenuItem clicked={clicked} onClick={this.handleClick} id={monthId}>
+              {monthName}
+            </MenuItem>
+          </StyledListItem>
+        ))}
+        ;
+      </StyledList>
+    );
+  }
+}
 
-export default MonthMenu;
+const getMonthNames = state => {
+  const monthNames = [];
+  state.map(month => {
+    monthNames.push({ monthName: month.name, monthId: month.id });
+  });
+  return monthNames;
+};
+const mapStateToProps = state => {
+  return {
+    monthNames: state,
+  };
+};
 
-/*const mapDispatchToProps = dispatch => ({
-  removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
-});
-
-export default connect(null, mapDispatchToProps)(Card);*/
+export default connect(mapStateToProps)(withMenuContext(MonthMenu));

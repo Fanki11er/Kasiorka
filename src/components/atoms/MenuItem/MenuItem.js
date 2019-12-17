@@ -5,7 +5,8 @@ const MenuItem = styled.button`
   height: 60px;
   font-size: ${({ theme }) => theme.fontSize.normal};
   border: 1px solid ${({ theme }) => theme.primary};
-  background-color: ${({ theme, active }) => (active ? theme.menuActive : theme.menuBlue)};
+  background-color: ${({ theme, clicked, id }) =>
+    clicked == id ? theme.menuActive : theme.menuBlue};
 
   ${({ year }) =>
     year &&

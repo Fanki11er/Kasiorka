@@ -8,7 +8,8 @@ const DayName = styled.div`
   justify-content: center;
   font-size: ${({ theme }) => theme.fontSize.normal};
   border: 1px solid ${({ theme }) => theme.primary};
-  background-color: ${({ theme, holiday }) => (holiday ? theme.holidayRed : theme.dayNameColour)};
+  background-color: ${({ theme, isHoliday }) =>
+    isHoliday ? theme.holidayRed : theme.dayNameColour};
   color: ${({ theme }) => theme.primaryFont};
 `;
 

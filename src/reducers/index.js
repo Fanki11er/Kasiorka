@@ -1,106 +1,127 @@
+import { createNewYear } from '../tools/index';
+import { monthNames } from '../tools/index';
 const initialState = {
-  months: [
+  styczeń: [
     {
-      id: 1,
-      nameOfMonth: 'Styczeń',
-      days: [
-        {
-          id: 1,
-          nameOfDay: 'PN',
-          hours: 9,
-          holiday: false,
-        },
-        {
-          id: 2,
-          nameOfDay: 'WT',
-          hours: 9,
-          holiday: false,
-        },
-        {
-          id: 3,
-          nameOfDay: 'ŚR',
-          hours: 9,
-          holiday: false,
-        },
-        {
-          id: 4,
-          nameOfDay: 'CZ',
-          hours: 0,
-          holiday: false,
-        },
-        {
-          id: 5,
-          nameOfDay: 'PT',
-          hours: 0,
-          holiday: false,
-        },
-        {
-          id: 6,
-          nameOfDay: 'SO',
-          hours: 0,
-          holiday: false,
-        },
-        {
-          id: 7,
-          nameOfDay: 'ND',
-          hours: 0,
-          holiday: true,
-        },
-        {
-          id: 8,
-          nameOfDay: 'PN',
-          hours: 0,
-          holiday: false,
-        },
-        {
-          id: 9,
-          nameOfDay: 'WT',
-          hours: 0,
-          holiday: false,
-        },
-      ],
+      dayId: 1,
+      nameOfDay: 'PN',
+      workHours: 9,
+      isHoliday: false,
     },
     {
-      id: 1,
-      nameOfMonth: 'Luty',
-      days: [
-        {
-          id: 1,
-          nameOfDay: 'PN',
-          hours: 9,
-          holiday: false,
-        },
-        {
-          id: 2,
-          nameOfDay: 'WT',
-          hours: 9,
-          holiday: false,
-        },
-        {
-          id: 3,
-          nameOfDay: 'ŚR',
-          hours: 9,
-          holiday: false,
-        },
-      ],
+      dayId: 2,
+      nameOfDay: 'WT',
+      workHours: 9,
+      isHoliday: false,
+    },
+    {
+      dayId: 3,
+      nameOfDay: 'ŚR',
+      workHours: 9,
+      isHoliday: false,
+    },
+    {
+      dayId: 4,
+      nameOfDay: 'CZ',
+      workHours: 0,
+      isHoliday: false,
+    },
+    {
+      dayId: 5,
+      nameOfDay: 'PT',
+      workHours: 0,
+      isHoliday: false,
+    },
+    {
+      id: 6,
+      nameOfDay: 'SO',
+      workHours: 0,
+      isHoliday: false,
+    },
+    {
+      dayId: 7,
+      nameOfDay: 'ND',
+      workHours: 0,
+      isHoliday: true,
+    },
+    {
+      id: 8,
+      nameOfDay: 'PN',
+      workHours: 0,
+      isHoliday: false,
+    },
+    {
+      dayId: 9,
+      nameOfDay: 'WT',
+      workHours: 0,
+      isHoliday: false,
     },
   ],
 };
 
-const rootReducer = (state = initialState, action) => {
+/*const replaceDayValue = (prevValue, newValue, indexToChange) => {
+  const startValue = [...prevValue];
+  const dayId = newValue.dayId;
+  const index = indexToChange(startValue, dayId);
+  startValue.splice(index, 1, newValue);
+  return startValue;
+};*/
+
+const replaceDayValue = (prevValue, newValue, indexToChange) => {
+  const startValue = prevValue;
+  const dayId = newValue.dayId;
+  const index = indexToChange(startValue, dayId);
+  startValue.splice(index, 1, newValue);
+  return startValue;
+};
+
+const findIndexToChange = (startValue, dayId) => {
+  const foundIndex = startValue.indexOf(startValue.find(day => day.dayId === dayId));
+  return foundIndex;
+};
+
+const testState = createNewYear(monthNames, 2019);
+
+const testReducer = (state = testState.months, action) => {
   switch (action.type) {
-    case 'INCREASE_WORK_HOURS': {
-      return {};
+    case 'UPDATE_WORK_HOURS': {
+      const monthId = action.payload.monthId;
+      const newValue = action.payload.item;
+      replaceDayValue(state[monthId].days, newValue, findIndexToChange);
+      return [...state];
+    }
+    default:
+      return state;
+  }
+};
+export default testReducer;
+
+/*const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'UPDATE_WORK_HOURS': {
+      return {
+        ...state,
+        ['styczeń']: replaceDayValue(state['styczeń'], action.payload.item, findIndexToChange),
+      };
     }
     default:
       return state;
   }
 };
 
-export default rootReducer;
+export default rootReducer;*/
 
-/* {
+/*const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'UPDATE_WORK_HOURS': {
+      return {
         ...state,
-        [action.payload.itemType]: [
-          ...state[action.payload.itemType].filter(item => item.id !== action.payload.id),
-        ], */
+        ['styczeń']: replaceDayValue(state['styczeń'], action.payload.item, findIndexToChange),
+      };
+    }
+    default:
+      return state;
+  }
+};
+
+export default rootReducer;*/
