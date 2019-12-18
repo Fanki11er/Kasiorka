@@ -2,22 +2,28 @@ import styled, { css } from 'styled-components';
 
 const MenuItem = styled.button`
   width: 185px;
-  height: 60px;
-  font-size: ${({ theme }) => theme.fontSize.normal};
-  border: 1px solid ${({ theme }) => theme.primary};
+  height: ${({ theme }) => theme.rowHeightSmall};
+  margin: 3px 8px;
+  font-size: ${({ theme }) => theme.fontSize.verySmall};
+  border: 2px solid ${({ theme }) => theme.menuBlue};
+  border-radius: 10px;
+  font-weight: bold;
+  outline-style: none;
+  color: ${({ theme, clicked, id }) =>
+    parseFloat(clicked) === id ? theme.primary : theme.menuBlue};
   background-color: ${({ theme, clicked, id }) =>
-    parseFloat(clicked) === id ? theme.menuActive : theme.menuBlue};
+    parseFloat(clicked) === id ? theme.menuBlue : 'transparent'};
 
   ${({ year }) =>
     year &&
     css`
       width: 120px;
-      font-size: ${({ theme }) => theme.fontSize.smaller};
+      font-size: ${({ theme }) => theme.fontSize.verySmall};
       font-weight: bold;
     `}
 
   &:hover {
-    background-color: ${({ theme }) => theme.hover};
+    color: ${({ theme }) => theme.hover};
     border: 2px solid ${({ theme }) => theme.hover};
   }
 `;
