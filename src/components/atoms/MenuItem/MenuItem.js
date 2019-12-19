@@ -9,6 +9,7 @@ const MenuItem = styled.button`
   border-radius: 10px;
   font-weight: bold;
   outline-style: none;
+  transition: color, background-color 0.4s;
   color: ${({ theme, clicked, id }) =>
     parseFloat(clicked) === id ? theme.primary : theme.menuBlue};
   background-color: ${({ theme, clicked, id }) =>
@@ -23,8 +24,9 @@ const MenuItem = styled.button`
     `}
 
   &:hover {
-    color: ${({ theme }) => theme.hover};
-    border: 2px solid ${({ theme }) => theme.hover};
+    color: ${({ theme, clicked, id }) => (parseFloat(clicked) === id ? 'none' : theme.hover)};
+    border: 2px solid
+      ${({ theme, clicked, id }) => (parseFloat(clicked) === id ? 'none' : theme.hover)};
   }
 `;
 

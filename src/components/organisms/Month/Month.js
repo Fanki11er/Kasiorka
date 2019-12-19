@@ -9,7 +9,7 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-flow: wrap row;
   margin: 50px auto 0 auto;
-  padding-left: 40px;
+
   width: 85%;
   justify-content: space-around;
 `;
