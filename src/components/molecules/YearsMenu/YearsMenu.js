@@ -20,7 +20,7 @@ const YearsMenu = () => (
         <MenuItem year>{yearName}</MenuItem>
       </StyledListItem>
     ))}
-    ;
+    ;<MenuItem addYearButton>Dodaj Nowy Rok</MenuItem>
   </StyledList>
 );
 

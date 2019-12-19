@@ -19,15 +19,40 @@ const MenuItem = styled.button`
     year &&
     css`
       width: 120px;
-      font-size: ${({ theme }) => theme.fontSize.verySmall};
-      font-weight: bold;
     `}
 
   &:hover {
-    color: ${({ theme, clicked, id }) => (parseFloat(clicked) === id ? 'none' : theme.hover)};
+    color: ${({ theme, clicked, id, selected }) =>
+      parseFloat(clicked) === id || selected ? 'none' : theme.hover};
     border: 2px solid
-      ${({ theme, clicked, id }) => (parseFloat(clicked) === id ? 'none' : theme.hover)};
+      ${({ theme, clicked, id, selected }) =>
+        parseFloat(clicked) === id || selected ? 'none' : theme.hover};
   }
+
+  ${({ viewItem }) =>
+    viewItem &&
+    css`
+      width: 150px;
+      color: ${({ theme, selected }) => (selected ? theme.primary : theme.menuYellow)};
+      border: 2px solid ${({ theme }) => theme.menuYellow};
+      background-color: ${({ theme, selected }) => (selected ? theme.menuYellow : theme.primary)};
+    `};
+
+  ${({ addYearButton }) =>
+    addYearButton &&
+    css`
+      width: 120px;
+      color: ${({ theme }) => theme.green};
+      border: 2px solid ${({ theme }) => theme.green};
+      font-size: ${({ theme }) => theme.fontSize.smallest};
+      margin-top: ${({ theme }) => theme.rowHeight};
+      transition: none;
+      &:hover {
+        color: ${({ theme }) => theme.primary};
+        background-color: ${({ theme }) => theme.green};
+        border: 2px solid ${({ theme }) => theme.green};
+      }
+    `};
 `;
 
 export default MenuItem;

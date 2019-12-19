@@ -2,12 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import YearsMenu from '../../molecules/YearsMenu/YearsMenu';
 import MonthMenu from '../../molecules/MonthsMenu/MonthsMenu';
+import ViewMenu from '../../molecules/ViewMenu/ViewMenu';
 
 const StyledWrapper = styled.div`
   position: fixed;
   display: flex;
-  flex-direction: row;
-  padding: 100px 30px 0 30px;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 30px 0 30px;
   left: 0;
   top: 0;
   background-color: ${({ theme }) => theme.primary};
@@ -15,10 +17,18 @@ const StyledWrapper = styled.div`
   max-height: 100vh;
 `;
 
+const StyledMenuWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const Menu = () => (
   <StyledWrapper>
-    <YearsMenu />
-    <MonthMenu />
+    <ViewMenu />
+    <StyledMenuWrapper>
+      <YearsMenu />
+      <MonthMenu />
+    </StyledMenuWrapper>
   </StyledWrapper>
 );
 

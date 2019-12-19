@@ -8,7 +8,7 @@ import { addDaysToSection, sections } from '../../../tools/index';
 const StyledWrapper = styled.div`
   display: flex;
   flex-flow: wrap row;
-  margin: 50px auto 0 auto;
+  margin: 90px auto 0 auto;
 
   width: 85%;
   justify-content: space-around;
