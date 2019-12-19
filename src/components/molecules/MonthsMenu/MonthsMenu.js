@@ -12,10 +12,26 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
+const mapStateToProps = state => {
+  return {
+    monthNames: state,
+  };
+};
+
+const getMonthNames = state => {
+  const monthNames = [];
+  state.map(month => {
+    monthNames.push({ monthName: month.name, monthId: month.id });
+    return null;
+  });
+  return monthNames;
+};
+
 class MonthMenu extends Component {
   state = {
-    clicked: 1,
+    clicked: 0,
   };
+
   handleClick = event => {
     this.setState({
       clicked: event.target.id,
@@ -28,7 +44,6 @@ class MonthMenu extends Component {
   componentDidMount() {
     const { menuContext } = this.props;
     const { selectedMonthId } = menuContext;
-    console.log(selectedMonthId);
     this.setState({
       clicked: selectedMonthId + 1,
     });
@@ -37,11 +52,12 @@ class MonthMenu extends Component {
   render() {
     const { monthNames } = this.props;
     const { clicked } = this.state;
-    const names = getMonthNames(monthNames);
+
+    const namesOfMonths = getMonthNames(monthNames);
     return (
       <StyledList>
-        {names.map(({ monthName, monthId }) => (
-          <StyledListItem>
+        {namesOfMonths.map(({ monthName, monthId }) => (
+          <StyledListItem key={monthId}>
             <MenuItem clicked={clicked} onClick={this.handleClick} id={monthId}>
               {monthName}
             </MenuItem>
@@ -52,18 +68,5 @@ class MonthMenu extends Component {
     );
   }
 }
-
-const getMonthNames = state => {
-  const monthNames = [];
-  state.map(month => {
-    monthNames.push({ monthName: month.name, monthId: month.id });
-  });
-  return monthNames;
-};
-const mapStateToProps = state => {
-  return {
-    monthNames: state,
-  };
-};
 
 export default connect(mapStateToProps)(withMenuContext(MonthMenu));

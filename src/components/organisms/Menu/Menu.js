@@ -7,7 +7,7 @@ const StyledWrapper = styled.div`
   position: fixed;
   display: flex;
   flex-direction: row;
-  padding: 55px 30px;
+  padding: 100px 30px 0 30px;
   left: 0;
   top: 0;
   background-color: ${({ theme }) => theme.primary};

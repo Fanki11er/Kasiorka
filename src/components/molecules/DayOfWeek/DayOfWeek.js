@@ -1,12 +1,12 @@
 import React from 'react';
 import { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { updateHours as updateHoursAction } from '../../../actions/index';
 import DayName from '../../atoms/DayName/DayName';
 import DayNumber from '../../atoms/DayNumber/DayNumber';
 import NumberOfHours from '../../atoms/NumberOfHours/NumberOfHours';
 import ArrowsButton from '../ArrowsButton/ArrowsButton';
-import { connect } from 'react-redux';
-import { updateHours as updateHoursAction } from '../../../actions/index';
 
 const StyledWrapper = styled.div`
   display: flex;

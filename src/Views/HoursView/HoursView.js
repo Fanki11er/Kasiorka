@@ -8,7 +8,7 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  padding: 30px;
+  padding: 30px 10px;
   background-color: ${({ theme }) => theme.primary};
   min-height: 100vh;
   max-width: 100vw;
@@ -28,14 +28,14 @@ class HoursView extends Component {
 
   render() {
     const { selectedMonthId } = this.state;
-    const monthInfo = {
+    const menuContext = {
       selectedMonthId,
       selectMonth: this.selectMonth,
     };
 
     return (
       <StyledWrapper>
-        <MenuContext.Provider value={monthInfo}>
+        <MenuContext.Provider value={menuContext}>
           <Menu />
         </MenuContext.Provider>
 
