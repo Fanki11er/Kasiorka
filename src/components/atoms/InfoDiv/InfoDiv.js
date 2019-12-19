@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Input from '../../atoms/Input/Input';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -27,29 +28,13 @@ const StyledSpan = styled.span`
   margin-left: 20px;
 `;
 
-const StyledInput = styled.input`
-  color: ${({ theme }) => theme.green};
-  font-size: ${({ theme }) => theme.fontSize.smaller};
-  font-weight: bold;
-  margin-left: 20px;
-  background-color: transparent;
-  outline: none;
-  border: none;
-  width: 50px;
-
-  &:hover {
-    border-bottom: 1px solid ${({ theme }) => theme.green};
-    cursor: pointer;
-  }
-`;
-
-const infoDiv = ({ labelText, labelData, divWidth, input }) => {
+const infoDiv = ({ labelText, labelData, divWidth, input, long }) => {
   return (
     <StyledWrapper divWidth={divWidth}>
       <StyledLabel>{labelText}:</StyledLabel>
 
       {input ? (
-        <StyledInput type="text" defaultValue={labelData}></StyledInput>
+        <Input type="text" defaultValue={labelData} long={long}></Input>
       ) : (
         <StyledSpan>{labelData}</StyledSpan>
       )}

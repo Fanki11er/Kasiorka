@@ -15,7 +15,7 @@ class Summary extends Component {
     return (
       <StyledWrapper>
         <InfoDiv divWidth="325px" labelText="Suma godzin" labelData={`${200} h`}></InfoDiv>
-        <InfoDiv input divWidth="400px" labelText="Stawka godzinowa" labelData={15}></InfoDiv>
+        <InfoDiv input divWidth="400px" labelText="Stawka godzinowa" labelData={20}></InfoDiv>
         <InfoDiv
           divWidth="460px"
           labelText="Przewidywana wypłata"
