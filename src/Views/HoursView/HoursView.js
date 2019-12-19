@@ -8,10 +8,9 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  padding: 30px 10px;
+  padding: 15px 0;
   background-color: ${({ theme }) => theme.primary};
   min-height: 100vh;
-  max-width: 100vw;
   max-width: 100vw;
 `;
 

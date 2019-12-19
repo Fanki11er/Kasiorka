@@ -7,7 +7,7 @@ const StyledWrapper = styled.div`
   justify-content: space-between;
   padding-left: 20px;
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 `;
 
 class ViewMenu extends Component {

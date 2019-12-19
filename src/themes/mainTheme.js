@@ -1,4 +1,6 @@
 export const theme = {
+  rowHeight: '60px',
+  rowHeightSmall: '55px',
   fontSize: {
     normal: '2.4em',
     smaller: '2em',
@@ -15,7 +17,5 @@ export const theme = {
   holidayRed: '#D91424',
   hoursColour: '#022873',
   hover: '#FF8C00',
-  rowHeight: '60px',
-  rowHeightSmall: '55px',
   green: '#83B33B',
 };
