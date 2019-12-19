@@ -1,14 +1,16 @@
 import styled from 'styled-components';
 
 const DayName = styled.div`
-  width: 85px;
-  height: 86px;
+  width: ${({ theme }) => theme.rowHeight};
+  height: ${({ theme }) => theme.rowHeight};
+  margin: 0 0 0 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${({ theme }) => theme.fontSize.normal};
+  font-size: ${({ theme }) => theme.fontSize.verySmall};
   border: 1px solid ${({ theme }) => theme.primary};
-  background-color: ${({ theme, holiday }) => (holiday ? theme.holidayRed : theme.dayNameColour)};
+  background-color: ${({ theme, isHoliday }) =>
+    isHoliday ? theme.holidayRed : theme.dayNameColour};
   color: ${({ theme }) => theme.primaryFont};
 `;
 

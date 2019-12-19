@@ -7,10 +7,10 @@ const StyledWrapper = styled.div`
   flex-direction: column;
 `;
 
-const ArrowsButton = () => (
+const ArrowsButton = ({ increaseWorkHours, decreaseWorkHours }) => (
   <StyledWrapper>
-    <UpDownButton upButton />
-    <UpDownButton downButton />
+    <UpDownButton upButton onClick={increaseWorkHours} />
+    <UpDownButton downButton onClick={decreaseWorkHours} />
   </StyledWrapper>
 );
 
