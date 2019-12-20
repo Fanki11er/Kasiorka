@@ -15,6 +15,7 @@ const StyledCover = styled.div`
   width: 25%;
   height: 100%;
   z-index: 2;
+  color: red;
 `;
 
 const StyledHiddenInput = styled.input`
@@ -24,14 +25,15 @@ const StyledHiddenInput = styled.input`
   background-color: transparent;
   outline: none;
   border: none;
-  width: 90%;
+  padding-left: 10px;
+  max-width: 90%;
 `;
 
 const Input = ({ defaultValue }) => {
   return (
     <StyledWrapper>
       <StyledHiddenInput type="number" defaultValue={defaultValue} />
-      <StyledCover />
+      <StyledCover></StyledCover>
     </StyledWrapper>
   );
 };

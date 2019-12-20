@@ -14,10 +14,10 @@ class Summary extends Component {
   render() {
     return (
       <StyledWrapper>
-        <InfoDiv labelText="Suma godzin" labelData={200}></InfoDiv>
-        <InfoDiv input labelText="Stawka godzinowa" labelData={20}></InfoDiv>
-        <InfoDiv labelText="Przewidywana wypłata" labelData={3000.55}></InfoDiv>
-        <InfoDiv input large labelText="Otrzymana wypłata" labelData={3000}></InfoDiv>
+        <InfoDiv labelText="Suma godzin" labelData={200} units={'h'}></InfoDiv>
+        <InfoDiv editable labelText="Stawka godzinowa" labelData={20} units={'zł/h'}></InfoDiv>
+        <InfoDiv labelText="Przewidywana wypłata" labelData={3000.55} units={'zł'}></InfoDiv>
+        <InfoDiv editable labelText="Otrzymana wypłata" labelData={3000} units={'zł'}></InfoDiv>
       </StyledWrapper>
     );
   }

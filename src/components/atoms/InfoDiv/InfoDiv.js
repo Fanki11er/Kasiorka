@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Input from '../../atoms/Input/Input';
+import { Pencil } from 'styled-icons/typicons/';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -13,30 +13,55 @@ const StyledWrapper = styled.div`
   border: 2px solid ${({ theme }) => theme.menuBlue};
   border-radius: 10px;
   position: relative;
-  justify-content: space-around;
 `;
 
 const StyledLabel = styled.label`
   color: ${({ theme }) => theme.menuBlue};
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   font-weight: bold;
-  width: 55%;
 `;
 
-const StyledSpan = styled.span`
+const StyledSpan = styled.div`
   color: ${({ theme }) => theme.green};
   font-size: ${({ theme }) => theme.fontSize.smaller};
   font-weight: bold;
-  width: 35%;
-  display: block;
+  margin: 0 20px;
 `;
 
-const infoDiv = ({ labelText, labelData, input }) => {
+const StyledIconPencil = styled(Pencil)`
+  position: absolute;
+  right: 20px;
+  top: 0;
+  width: 40px;
+  height: 90%;
+  background-color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.green};
+
+  &:hover {
+    color: ${({ theme }) => theme.hover};
+    width: 50px;
+    height: 100%;
+    cursor: pointer;
+  }
+`;
+
+const StyledUnits = styled.div`
+  font-size: ${({ theme }) => theme.fontSize.smaller};
+  font-weight: bold;
+  color: ${({ theme }) => theme.green};
+  margin-right: 15px;
+`;
+const test = () => {
+  console.log('Buziaki');
+};
+const infoDiv = ({ labelText, labelData, editable, units }) => {
   return (
     <StyledWrapper>
       <StyledLabel>{labelText}:</StyledLabel>
 
-      {input ? <Input defaultValue={labelData}></Input> : <StyledSpan>{labelData}</StyledSpan>}
+      <StyledSpan>{labelData}</StyledSpan>
+      <StyledUnits>{units}</StyledUnits>
+      {editable && <StyledIconPencil onClick={test} />}
     </StyledWrapper>
   );
 };
