@@ -6,38 +6,37 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  padding: 0 30px;
+  margin-bottom: 15px;
+  width: 100%;
   height: ${({ theme }) => theme.rowHeight};
   border: 2px solid ${({ theme }) => theme.menuBlue};
   border-radius: 10px;
-  padding: 0 30px;
-  width: ${({ divWidth }) => divWidth};
-  margin-bottom: 15px;
+  position: relative;
+  justify-content: space-around;
 `;
 
 const StyledLabel = styled.label`
   color: ${({ theme }) => theme.menuBlue};
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   font-weight: bold;
+  width: 55%;
 `;
 
 const StyledSpan = styled.span`
   color: ${({ theme }) => theme.green};
   font-size: ${({ theme }) => theme.fontSize.smaller};
   font-weight: bold;
-  margin-left: 20px;
+  width: 35%;
+  display: block;
 `;
 
-const infoDiv = ({ labelText, labelData, divWidth, input, long }) => {
+const infoDiv = ({ labelText, labelData, input }) => {
   return (
-    <StyledWrapper divWidth={divWidth}>
+    <StyledWrapper>
       <StyledLabel>{labelText}:</StyledLabel>
 
-      {input ? (
-        <Input type="text" defaultValue={labelData} long={long}></Input>
-      ) : (
-        <StyledSpan>{labelData}</StyledSpan>
-      )}
+      {input ? <Input defaultValue={labelData}></Input> : <StyledSpan>{labelData}</StyledSpan>}
     </StyledWrapper>
   );
 };
