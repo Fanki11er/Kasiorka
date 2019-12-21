@@ -6,7 +6,7 @@ const StyledImage = styled.img`
   width: 500px;
   position: absolute;
   bottom: 0;
-  margin-left: 100px;
+  margin-left: 250px;
 `;
 
 const LoginImage = () => <StyledImage src={loginImage} alt="Login image" />;

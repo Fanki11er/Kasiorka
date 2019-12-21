@@ -14,7 +14,10 @@ const StyledSpan = styled.span`
   font-family: 'Montserrat', sans-serif;
   color: ${({ theme }) => theme.menuBlue};
   font-size: ${({ theme }) => theme.fontSize.large};
-  letter-spacing: 30px;
+  letter-spacing: 20px;
+  &:last-child {
+    margin-left: 20px;
+  }
 `;
 
 const StyledIcon = styled(Dollar)`

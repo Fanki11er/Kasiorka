@@ -14,6 +14,7 @@ const MenuItem = styled.button`
     parseFloat(clicked) === id ? theme.primary : theme.menuBlue};
   background-color: ${({ theme, clicked, id }) =>
     parseFloat(clicked) === id ? theme.menuBlue : 'transparent'};
+  text-decoration: none;
 
   ${({ year }) =>
     year &&
