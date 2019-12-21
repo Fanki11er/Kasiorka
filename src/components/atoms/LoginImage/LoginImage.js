@@ -4,8 +4,7 @@ import loginImage from '../../../assets/images/login-image.svg';
 
 const StyledImage = styled.img`
   width: 500px;
-  position: absolute;
-  bottom: 0;
+  align-self: flex-end;
   margin-left: 250px;
 `;
 

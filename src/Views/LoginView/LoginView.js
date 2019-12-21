@@ -12,13 +12,20 @@ const StyledWrapper = styled.div`
   height: 100vh;
 `;
 
+const StyledFlexWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 class LoginView extends Component {
   render() {
     return (
       <StyledWrapper>
         <TitleHeader />
-        <LoginForm />
-        <LoginImage></LoginImage>
+        <StyledFlexWrapper>
+          <LoginImage></LoginImage>
+          <LoginForm />
+        </StyledFlexWrapper>
       </StyledWrapper>
     );
   }
