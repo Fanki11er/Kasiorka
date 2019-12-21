@@ -8,9 +8,10 @@ import store from '../store/index';
 import GlobalStyle from '../themes/GlobalStyle';
 import HoursView from '../Views/HoursView/HoursView';
 import LoginView from '../Views/LoginView/LoginView';
+import RegisterView from '../Views/RegisterView/RegisterView';
 
 function Router() {
-  const { login, hours } = routes;
+  const { login, hours, register } = routes;
   return (
     <Provider store={store}>
       <BrowserRouter>
@@ -20,6 +21,7 @@ function Router() {
             <Switch>
               <Route exact path={login} component={LoginView} />
               <Route path={hours} component={HoursView} />
+              <Route path={register} component={RegisterView} />
             </Switch>
           </>
         </ThemeProvider>
