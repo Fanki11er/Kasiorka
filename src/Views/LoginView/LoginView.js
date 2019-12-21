@@ -14,7 +14,7 @@ const StyledWrapper = styled.div`
 
 const StyledFlexWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 class LoginView extends Component {

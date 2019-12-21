@@ -1,69 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import MenuItem from '../../atoms/MenuItem/MenuItem';
+import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
-
-const StyledForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  width: 700px;
-  height: 600px;
-  background-color: ${({ theme }) => theme.primary};
-  border: 2px solid ${({ theme }) => theme.menuBlue};
-  border-radius: 30px;
-  align-self: flex-end;
-  margin-right: 250px;
-  padding: 30px 0;
-`;
-
-const StyledInput = styled(Field)`
-  background-color: ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.menuBlue};
-  font-size: 28px;
-  padding: 0 20px;
-
-  width: 400px;
-  height: 60px;
-  outline: none;
-  border: 2px solid ${({ theme }) => theme.menuBlue};
-  border-radius: 10px;
-  margin-left: 50px;
-`;
-
-const StyledLabel = styled.label`
-  display: flex;
-  align-items: center;
-  color: ${({ theme }) => theme.menuBlue};
-  font-size: ${({ theme }) => theme.fontSize.normal};
-  margin-bottom: 40px;
-`;
-
-const StyledHeader = styled.h2`
-  color: ${({ theme }) => theme.menuBlue};
-  font-size: ${({ theme }) => theme.fontSize.normal};
-  margin: 30px 0;
-  transform: translateX(-30px);
-`;
-
-const StyledButton = styled(MenuItem)`
-  width: 220px;
-  margin-bottom: 20px;
-  transform: translateX(65px);
-  color: ${({ theme, green }) => (green === 'true' ? theme.green : theme.menuBlue)};
-  border: 2px solid ${({ theme, green }) => (green === 'true' ? theme.green : theme.menuBlue)};
-  padding: 10px;
-  text-align: center;
-`;
-
-const StyledError = styled(ErrorMessage)`
-  color: ${({ theme }) => theme.holidayRed};
-  font-size: 24px;
-  transform: translateY(-30px) translateX(-15px);
-  margin: 0;
-`;
+import FormHeader from '../../atoms/FormHeader/FormHeader';
+import FormInput from '../../atoms/FormInput/FormInput';
+import FormError from '../../atoms/FormError/FormError';
+import FormButton from '../../atoms/FormButton/FormButton';
+import StyledForm from '../../atoms/Form/Form';
 
 const LoginForm = () => (
   <Formik
@@ -81,31 +23,23 @@ const LoginForm = () => (
       return errors;
     }}
     onSubmit={(values, { setSubmitting }) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 400);
+      console.log(values);
+      setSubmitting(false);
     }}
   >
     {({ isSubmitting }) => (
       <StyledForm noValidate>
-        <StyledHeader>Logowanie</StyledHeader>
-        <StyledLabel>
-          E-mail
-          <StyledInput type="email" name="email" />
-        </StyledLabel>
-        <StyledError name="email" component="div" />
-        <StyledLabel>
-          Hasło
-          <StyledInput type="password" name="password" />
-        </StyledLabel>
-        <StyledError name="password" component="div" />
-        <StyledButton type="submit" disabled={isSubmitting}>
+        <FormHeader>Logowanie</FormHeader>
+        <FormInput label="E-mail" type="email" name="email" />
+        <FormError name="email" component="div" />
+        <FormInput label="Hasło" type="password" name="password" />
+        <FormError name="password" component="div" />
+        <FormButton type="submit" disabled={isSubmitting}>
           Zaloguj
-        </StyledButton>
-        <StyledButton as={Link} green="true" to="/hours">
+        </FormButton>
+        <FormButton as={Link} green="true" to="/hours">
           Rejestracja
-        </StyledButton>
+        </FormButton>
       </StyledForm>
     )}
   </Formik>
