@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
+import PropTypes from 'prop-types';
 
 const FormButton = styled(MenuItem)`
   width: 220px;
@@ -10,5 +11,9 @@ const FormButton = styled(MenuItem)`
   padding: 10px;
   text-align: center;
 `;
+
+FormButton.propTypes = {
+  green: PropTypes.string,
+};
 
 export default FormButton;

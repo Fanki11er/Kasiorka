@@ -1,6 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import DayOfTheWeek from '../../molecules/DayOfWeek/DayOfWeek';
 import Summary from '../../molecules/Summary/Summary';
@@ -62,5 +63,10 @@ class Month extends Component {
     );
   }
 }
+
+Month.propTypes = {
+  months: PropTypes.array.isRequired,
+  monthId: PropTypes.number.isRequired,
+};
 
 export default connect(mapStateToProps)(Month);

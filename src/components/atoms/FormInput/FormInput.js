@@ -32,7 +32,7 @@ const StyledLabel = styled.label`
 
   width: 85%;
   color: ${({ theme }) => theme.menuBlue};
-  font-size: ${({ theme }) => theme.fontSize.normal};
+  font-size: ${({ theme }) => theme.fontSize.smaller};
   margin-bottom: ${({ withError }) => (withError ? '0' : '40px')};
 `;
 
@@ -53,6 +53,7 @@ FormInput.propTypes = {
 FormInput.defaultProps = {
   label: 'No-Label',
   name: 'Anonymous',
+  withError: false,
 };
 
 export default FormInput;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
 import withMenuContext from '../../../hoc/withMenuContext';
 
@@ -58,7 +59,7 @@ class MonthMenu extends Component {
       <StyledList>
         {namesOfMonths.map(({ monthName, monthId }) => (
           <StyledListItem key={monthId}>
-            <MenuItem clicked={clicked} onClick={this.handleClick} id={monthId}>
+            <MenuItem clicked={parseFloat(clicked)} onClick={this.handleClick} id={monthId}>
               {monthName}
             </MenuItem>
           </StyledListItem>
@@ -68,5 +69,10 @@ class MonthMenu extends Component {
     );
   }
 }
+
+MonthMenu.propTypes = {
+  monthNames: PropTypes.array.isRequired,
+  menuContext: PropTypes.object.isRequired,
+};
 
 export default connect(mapStateToProps)(withMenuContext(MonthMenu));

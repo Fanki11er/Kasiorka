@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 
 const MenuItem = styled.button`
   width: 185px;
@@ -10,10 +11,9 @@ const MenuItem = styled.button`
   font-weight: bold;
   outline-style: none;
   transition: color, background-color 0.4s;
-  color: ${({ theme, clicked, id }) =>
-    parseFloat(clicked) === id ? theme.primary : theme.menuBlue};
+  color: ${({ theme, clicked, id }) => (clicked === id ? theme.primary : theme.menuBlue)};
   background-color: ${({ theme, clicked, id }) =>
-    parseFloat(clicked) === id ? theme.menuBlue : 'transparent'};
+    clicked === id ? theme.menuBlue : 'transparent'};
   text-decoration: none;
 
   ${({ year }) =>
@@ -24,10 +24,9 @@ const MenuItem = styled.button`
 
   &:hover {
     color: ${({ theme, clicked, id, selected }) =>
-      parseFloat(clicked) === id || selected ? 'none' : theme.hover};
+      clicked === id || selected ? 'none' : theme.hover};
     border: 2px solid
-      ${({ theme, clicked, id, selected }) =>
-        parseFloat(clicked) === id || selected ? 'none' : theme.hover};
+      ${({ theme, clicked, id, selected }) => (clicked === id || selected ? 'none' : theme.hover)};
 
     cursor: ${({ clicked, id, selected }) =>
       parseFloat(clicked) === id || selected ? 'normal' : 'pointer'};
@@ -58,5 +57,18 @@ const MenuItem = styled.button`
       }
     `};
 `;
+MenuItem.propTypes = {
+  clicked: PropTypes.number,
+  selected: PropTypes.bool,
+  id: PropTypes.number,
+  year: PropTypes.bool,
+  viewItem: PropTypes.bool,
+  addYearButton: PropTypes.bool,
+};
 
+MenuItem.defaultPropTypes = {
+  year: false,
+  viewItem: false,
+  addYearButton: false,
+};
 export default MenuItem;

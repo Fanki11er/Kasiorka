@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { updateHours as updateHoursAction } from '../../../actions/index';
 import DayName from '../../atoms/DayName/DayName';
 import DayNumber from '../../atoms/DayNumber/DayNumber';
@@ -41,5 +42,20 @@ const mapDispatchToProps = dispatch => ({
   updateHours: (monthId, dayId, nameOfDay, workHours, isHoliday, action) =>
     dispatch(updateHoursAction(monthId, dayId, nameOfDay, workHours, isHoliday, action)),
 });
+
+DayOfTheWeek.propTypes = {
+  dayId: PropTypes.number.isRequired,
+  monthId: PropTypes.number.isRequired,
+  updateHours: PropTypes.func.isRequired,
+  nameOfDay: PropTypes.string,
+  isHoliday: PropTypes.bool,
+  workHours: PropTypes.number,
+};
+
+DayOfTheWeek.defaultPropTypes = {
+  nameOfDay: 'NN',
+  isHoliday: false,
+  workHours: 0,
+};
 
 export default connect(null, mapDispatchToProps)(DayOfTheWeek);
