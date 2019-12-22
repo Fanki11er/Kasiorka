@@ -7,10 +7,12 @@ import FormInput from '../../atoms/FormInput/FormInput';
 import FormError from '../../atoms/FormError/FormError';
 import FormButton from '../../atoms/FormButton/FormButton';
 import StyledForm from '../../atoms/Form/Form';
+import RegistrationImage from '../../atoms/RegistrationImage/RegistrationImage';
 
 const StyledRegisterForm = styled(StyledForm)`
   height: 150%;
   align-self: center;
+  position: relative;
 `;
 
 const RegisterForm = () => (
@@ -52,9 +54,10 @@ const RegisterForm = () => (
         <FormButton type="submit" disabled={isSubmitting}>
           Zarejestruj
         </FormButton>
-        <FormButton as={Link} green="true" to="/hours">
+        <FormButton as={Link} green="true" to="/">
           Logowanie
         </FormButton>
+        <RegistrationImage />
       </StyledRegisterForm>
     )}
   </Formik>
