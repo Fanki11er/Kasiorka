@@ -61,10 +61,10 @@ const RegisterForm = () => (
         <ErrorWrapper>
           <FormError name="repeatedPassword" component="div" />
         </ErrorWrapper>
-        <FormButton type="submit" disabled={isSubmitting}>
+        <FormButton clicked={0} type="submit" disabled={isSubmitting}>
           Zarejestruj
         </FormButton>
-        <FormButton as={Link} green="true" to="/">
+        <FormButton clicked={0} as={Link} green="true" to="/">
           Logowanie
         </FormButton>
         <RegistrationImage />

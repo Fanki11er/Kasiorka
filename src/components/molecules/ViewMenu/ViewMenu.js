@@ -14,10 +14,12 @@ class ViewMenu extends Component {
   render() {
     return (
       <StyledWrapper>
-        <MenuItem viewItem selected>
+        <MenuItem clicked={0} viewItem selected>
           Godziny
         </MenuItem>
-        <MenuItem viewItem>Kasiorka</MenuItem>
+        <MenuItem clicked={0} viewItem>
+          Kasiorka
+        </MenuItem>
       </StyledWrapper>
     );
   }

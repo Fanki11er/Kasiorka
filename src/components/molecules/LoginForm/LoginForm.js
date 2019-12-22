@@ -39,10 +39,10 @@ const LoginForm = () => (
         <ErrorWrapper>
           <FormError name="password" component="div" />
         </ErrorWrapper>
-        <FormButton type="submit" disabled={isSubmitting}>
+        <FormButton clicked={0} type="submit" disabled={isSubmitting}>
           Zaloguj
         </FormButton>
-        <FormButton as={Link} green="true" to="/hours">
+        <FormButton clicked={0} as={Link} green="true" to="/hours">
           Rejestracja
         </FormButton>
       </StyledForm>

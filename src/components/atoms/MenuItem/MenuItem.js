@@ -28,8 +28,7 @@ const MenuItem = styled.button`
     border: 2px solid
       ${({ theme, clicked, id, selected }) => (clicked === id || selected ? 'none' : theme.hover)};
 
-    cursor: ${({ clicked, id, selected }) =>
-      parseFloat(clicked) === id || selected ? 'normal' : 'pointer'};
+    cursor: ${({ clicked, id, selected }) => (clicked === id || selected ? 'normal' : 'pointer')};
   }
 
   ${({ viewItem }) =>
@@ -58,7 +57,7 @@ const MenuItem = styled.button`
     `};
 `;
 MenuItem.propTypes = {
-  clicked: PropTypes.number,
+  clicked: PropTypes.number.isRequired,
   selected: PropTypes.bool,
   id: PropTypes.number,
   year: PropTypes.bool,
@@ -70,5 +69,6 @@ MenuItem.defaultPropTypes = {
   year: false,
   viewItem: false,
   addYearButton: false,
+  selected: false,
 };
 export default MenuItem;
