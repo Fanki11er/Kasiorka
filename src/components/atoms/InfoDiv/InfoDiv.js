@@ -58,7 +58,6 @@ const infoDiv = ({ labelText, labelData, editable, units }) => {
   return (
     <StyledWrapper>
       <StyledLabel>{labelText}:</StyledLabel>
-
       <StyledSpan>{labelData}</StyledSpan>
       <StyledUnits>{units}</StyledUnits>
       {editable && <StyledIconPencil onClick={test} />}

@@ -28,6 +28,9 @@ const MenuItem = styled.button`
     border: 2px solid
       ${({ theme, clicked, id, selected }) =>
         parseFloat(clicked) === id || selected ? 'none' : theme.hover};
+
+    cursor: ${({ clicked, id, selected }) =>
+      parseFloat(clicked) === id || selected ? 'normal' : 'pointer'};
   }
 
   ${({ viewItem }) =>

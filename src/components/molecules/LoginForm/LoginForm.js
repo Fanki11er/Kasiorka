@@ -6,6 +6,7 @@ import FormInput from '../../atoms/FormInput/FormInput';
 import FormError from '../../atoms/FormError/FormError';
 import FormButton from '../../atoms/FormButton/FormButton';
 import StyledForm from '../../atoms/Form/Form';
+import ErrorWrapper from '../../atoms/ErrorWrapper/ErrorWrapper';
 
 const LoginForm = () => (
   <Formik
@@ -19,7 +20,7 @@ const LoginForm = () => (
       }
 
       if (!values.password) errors.password = 'Pole wymagane';
-      else if (values.password.length < 2) errors.password = 'Nie prawidłowe dane';
+
       return errors;
     }}
     onSubmit={(values, { setSubmitting }) => {
@@ -30,10 +31,14 @@ const LoginForm = () => (
     {({ isSubmitting }) => (
       <StyledForm noValidate>
         <FormHeader>Logowanie</FormHeader>
-        <FormInput label="E-mail" type="email" name="email" />
-        <FormError name="email" component="div" />
-        <FormInput label="Hasło" type="password" name="password" />
-        <FormError name="password" component="div" />
+        <FormInput withError label="E-mail" type="email" name="email" />
+        <ErrorWrapper>
+          <FormError name="email" component="div" />
+        </ErrorWrapper>
+        <FormInput withError label="Hasło" type="password" name="password" />
+        <ErrorWrapper>
+          <FormError name="password" component="div" />
+        </ErrorWrapper>
         <FormButton type="submit" disabled={isSubmitting}>
           Zaloguj
         </FormButton>
