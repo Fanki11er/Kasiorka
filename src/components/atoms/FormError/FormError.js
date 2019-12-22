@@ -6,5 +6,6 @@ const FormError = styled(ErrorMessage)`
   font-size: 24px;
   transform: translateY(-30px) translateX(-15px);
   margin: 0;
+  align-self: center;
 `;
 export default FormError;

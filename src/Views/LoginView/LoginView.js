@@ -9,7 +9,7 @@ const StyledWrapper = styled.div`
   flex-direction: column;
   background-color: ${({ theme }) => theme.primary};
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 `;
 
 const StyledFlexWrapper = styled.div`

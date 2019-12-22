@@ -8,18 +8,20 @@ const StyledInput = styled(Field)`
   color: ${({ theme }) => theme.menuBlue};
   font-size: 28px;
   padding: 0 20px;
-
   width: 400px;
   height: 60px;
   outline: none;
   border: 2px solid ${({ theme }) => theme.menuBlue};
   border-radius: 10px;
-  margin-left: 50px;
+  margin-right: 25px;
 `;
 
 const StyledLabel = styled.label`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+
+  width: 85%;
   color: ${({ theme }) => theme.menuBlue};
   font-size: ${({ theme }) => theme.fontSize.normal};
   margin-bottom: 40px;

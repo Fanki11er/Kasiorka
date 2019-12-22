@@ -8,7 +8,7 @@ const StyledWrapper = styled.div`
   justify-content: space-around;
   background-color: ${({ theme }) => theme.primary};
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 `;
 
 const RegisterView = () => (
