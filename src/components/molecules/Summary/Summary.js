@@ -6,7 +6,7 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: transparent;
-  width: 550px;
+  width: 525px;
   margin: 0 auto;
 `;
 

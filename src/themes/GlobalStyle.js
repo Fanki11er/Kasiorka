@@ -12,20 +12,18 @@ const GlobalStyle = createGlobalStyle`
 
     html {
         font-size: 62.5%;
+        width: 100vw;
     }
 
     body {
-        min-width: 99vw;
-        max-width: 99vw;
-        min-height: 100vh;
+        min-width: 100%;
+        max-width: 100%;
+        min-height: 100%;
         font-size: 1.6rem;
         font-family: "Roboto", sans-serif;
         margin: 0;
         padding: 0;
-        padding-left: 415px;
         overflow-x: hidden;
-
-        
     }
 `;
 
