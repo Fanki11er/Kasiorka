@@ -21,8 +21,8 @@ const StyledSpan = styled.span`
 `;
 
 const StyledIcon = styled(Dollar)`
-  width: 130px;
-  height: 130px;
+  width: 15%;
+  height: 100%;
   color: ${({ theme }) => theme.green};
 `;
 

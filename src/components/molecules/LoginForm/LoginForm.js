@@ -42,7 +42,7 @@ const LoginForm = () => (
         <FormButton clicked={0} type="submit" disabled={isSubmitting}>
           Zaloguj
         </FormButton>
-        <FormButton clicked={0} as={Link} green="true" to="/hours">
+        <FormButton clicked={0} as={Link} green="true" to="user/hours">
           Rejestracja
         </FormButton>
       </StyledForm>

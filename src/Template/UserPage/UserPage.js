@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import HoursMonth from '../../components/organisms/HoursMonth/HoursMonth';
+import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
 import MenuContext from '../../context/MenuContext';
 
@@ -15,7 +16,7 @@ const StyledWrapper = styled.div`
   max-width: 100vw;
 `;
 
-class HoursView extends Component {
+class UserPage extends Component {
   state = {
     selectedMonthId: 11,
   };
@@ -33,16 +34,19 @@ class HoursView extends Component {
       selectMonth: this.selectMonth,
     };
 
+    const { pathname } = this.props.location;
+
     return (
       <StyledWrapper>
         <MenuContext.Provider value={menuContext}>
           <Menu />
         </MenuContext.Provider>
 
-        <HoursMonth monthId={selectedMonthId}></HoursMonth>
+        {pathname === '/user/hours' && <HoursMonth monthId={selectedMonthId}></HoursMonth>}
+        {pathname === '/user/money' && <MoneyMonth></MoneyMonth>}
       </StyledWrapper>
     );
   }
 }
 
-export default HoursView;
+export default UserPage;
