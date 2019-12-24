@@ -23,9 +23,6 @@ const YearsMenu = () => (
       </StyledListItem>
     ))}
     ;
-    <MenuItem addYearButton clicked={0}>
-      Dodaj Nowy Rok
-    </MenuItem>
   </StyledList>
 );
 

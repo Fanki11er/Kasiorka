@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 import { Dollar } from 'styled-icons/boxicons-regular';
 
 const StyledHeader = styled.div`
@@ -19,7 +20,7 @@ const StyledHeader = styled.div`
     css`
       height: 80px;
       letter-spacing: 5px;
-      font-size: 3em;
+      font-size: ${({ theme }) => theme.fontSize.larger};
       margin: 0 0 20px 15px;
     `}
 `;
@@ -43,5 +44,9 @@ const TitleHeader = ({ small }) => (
     <StyledSpan>iorka</StyledSpan>
   </StyledHeader>
 );
+
+TitleHeader.propTypes = {
+  small: PropTypes.bool,
+};
 
 export default TitleHeader;

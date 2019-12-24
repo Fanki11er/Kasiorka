@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import YearsMenu from '../../molecules/YearsMenu/YearsMenu';
 import MonthMenu from '../../molecules/MonthsMenu/MonthsMenu';
 import TitleHeader from '../../atoms/TitleHeader/TitleHeader';
+import ExtendedMenu from '../../molecules/ExtendedMenu/ExtendedMenu';
 
 const StyledWrapper = styled.div`
   position: fixed;
@@ -13,7 +14,7 @@ const StyledWrapper = styled.div`
   left: 0;
   top: 0;
   background-color: ${({ theme }) => theme.primary};
-  min-height: 100vh;
+  min-height: 100%;
   max-height: 100vh;
 `;
 
@@ -22,11 +23,21 @@ const StyledMenuWrapper = styled.div`
   flex-direction: row;
 `;
 
+const StyledFlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const Menu = () => (
   <StyledWrapper>
     <TitleHeader small />
     <StyledMenuWrapper>
-      <YearsMenu />
+      <StyledFlexWrapper>
+        <YearsMenu />
+        <ExtendedMenu />
+      </StyledFlexWrapper>
       <MonthMenu />
     </StyledMenuWrapper>
   </StyledWrapper>

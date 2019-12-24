@@ -13,7 +13,7 @@ const MenuItem = styled.button`
   transition: color, background-color 0.4s;
   color: ${({ theme, clicked, id }) => (clicked === id ? theme.primary : theme.menuBlue)};
   background-color: ${({ theme, clicked, id }) =>
-    clicked === id ? theme.menuBlue : 'transparent'};
+    clicked === id && clicked !== undefined ? theme.menuBlue : 'transparent'};
   text-decoration: none;
 
   ${({ year }) =>
@@ -24,28 +24,14 @@ const MenuItem = styled.button`
 
   &:hover {
     color: ${({ theme, clicked, id, selected }) =>
-      clicked === id || selected ? 'none' : theme.hover};
+      (clicked === id && clicked !== undefined) || selected ? 'none' : theme.hover};
     border: 2px solid
-      ${({ theme, clicked, id, selected }) => (clicked === id || selected ? 'none' : theme.hover)};
+      ${({ theme, clicked, id, selected }) =>
+        (clicked === id && clicked !== undefined) || selected ? 'none' : theme.hover};
 
-    cursor: ${({ clicked, id, selected }) => (clicked === id || selected ? 'normal' : 'pointer')};
+    cursor: ${({ clicked, id, selected }) =>
+      (clicked === id && clicked !== undefined) || selected ? 'normal' : 'pointer'};
   }
-
-  ${({ addYearButton }) =>
-    addYearButton &&
-    css`
-      width: 120px;
-      color: ${({ theme }) => theme.green};
-      border: 2px solid ${({ theme }) => theme.green};
-      font-size: ${({ theme }) => theme.fontSize.smallest};
-      margin-top: ${({ theme }) => theme.rowHeight};
-      transition: none;
-      &:hover {
-        color: ${({ theme }) => theme.primary};
-        background-color: ${({ theme }) => theme.green};
-        border: 2px solid ${({ theme }) => theme.green};
-      }
-    `};
 `;
 MenuItem.propTypes = {
   clicked: PropTypes.number,
@@ -53,13 +39,11 @@ MenuItem.propTypes = {
   id: PropTypes.number,
   year: PropTypes.bool,
   viewItem: PropTypes.bool,
-  addYearButton: PropTypes.bool,
 };
 
 MenuItem.defaultPropTypes = {
   year: false,
   viewItem: false,
-  addYearButton: false,
   selected: false,
 };
 export default MenuItem;
