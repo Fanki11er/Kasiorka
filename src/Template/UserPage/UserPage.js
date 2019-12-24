@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import HoursMonth from '../../components/organisms/HoursMonth/HoursMonth';
+import HoursMonth from '../../Views//HoursMonth/HoursMonth';
 import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
 import MenuContext from '../../context/MenuContext';
