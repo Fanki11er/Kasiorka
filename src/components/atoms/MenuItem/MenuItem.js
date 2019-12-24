@@ -48,7 +48,7 @@ const MenuItem = styled.button`
     `};
 `;
 MenuItem.propTypes = {
-  clicked: PropTypes.number.isRequired,
+  clicked: PropTypes.number,
   selected: PropTypes.bool,
   id: PropTypes.number,
   year: PropTypes.bool,
