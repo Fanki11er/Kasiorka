@@ -19,6 +19,13 @@ const StyledViewItem = styled(MenuItem)`
   padding-top: 10px;
   margin: 0;
 
+  &.noActive {
+    pointer-events: none;
+    border: 2px solid gray;
+    color: gray;
+    opacity: 0.5;
+  }
+
   &.active {
     color: ${({ theme }) => theme.primary};
     background-color: ${({ theme }) => theme.menuYellow};
@@ -35,10 +42,10 @@ class ViewMenu extends Component {
   render() {
     return (
       <StyledWrapper>
-        <StyledViewItem as={NavLink} to="/user/hours" clicked={0} activeclass="active">
+        <StyledViewItem as={NavLink} to="/user/hours" activeclass="active">
           Godziny
         </StyledViewItem>
-        <StyledViewItem as={NavLink} to="/user/money" clicked={0} activeclass="active">
+        <StyledViewItem className="noActive" as={NavLink} to="/user/money" activeclass="active">
           Kasiorka
         </StyledViewItem>
       </StyledWrapper>
