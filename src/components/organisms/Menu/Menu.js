@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import YearsMenu from '../../molecules/YearsMenu/YearsMenu';
 import MonthMenu from '../../molecules/MonthsMenu/MonthsMenu';
-import ViewMenu from '../../molecules/ViewMenu/ViewMenu';
 
 const StyledWrapper = styled.div`
   position: fixed;
@@ -24,7 +23,6 @@ const StyledMenuWrapper = styled.div`
 
 const Menu = () => (
   <StyledWrapper>
-    <ViewMenu />
     <StyledMenuWrapper>
       <YearsMenu />
       <MonthMenu />

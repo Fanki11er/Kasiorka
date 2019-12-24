@@ -10,7 +10,7 @@ import { addDaysToSection, sections } from '../../../tools/index';
 const StyledWrapper = styled.div`
   display: flex;
   flex-flow: wrap row;
-
+  margin: 0 0 20px 0;
   width: 100%;
   justify-content: space-around;
 `;

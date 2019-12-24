@@ -31,15 +31,6 @@ const MenuItem = styled.button`
     cursor: ${({ clicked, id, selected }) => (clicked === id || selected ? 'normal' : 'pointer')};
   }
 
-  ${({ viewItem }) =>
-    viewItem &&
-    css`
-      width: 150px;
-      color: ${({ theme, selected }) => (selected ? theme.primary : theme.menuYellow)};
-      border: 2px solid ${({ theme }) => theme.menuYellow};
-      background-color: ${({ theme, selected }) => (selected ? theme.menuYellow : theme.primary)};
-    `};
-
   ${({ addYearButton }) =>
     addYearButton &&
     css`

@@ -4,16 +4,18 @@ import HoursMonth from '../../components/organisms/HoursMonth/HoursMonth';
 import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
 import MenuContext from '../../context/MenuContext';
+import Navigation from '../../components/organisms/Navigation/Navigation';
 
 const StyledWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: space-around;
   padding: 15px 0;
   margin-left: 415px;
   background-color: ${({ theme }) => theme.primary};
   min-height: 100vh;
-  max-width: 100vw;
+  height: auto;
+  max-width: 100%;
 `;
 
 class UserPage extends Component {
@@ -38,10 +40,10 @@ class UserPage extends Component {
 
     return (
       <StyledWrapper>
+        <Navigation></Navigation>
         <MenuContext.Provider value={menuContext}>
           <Menu />
         </MenuContext.Provider>
-
         {pathname === '/user/hours' && <HoursMonth monthId={selectedMonthId}></HoursMonth>}
         {pathname === '/user/money' && <MoneyMonth></MoneyMonth>}
       </StyledWrapper>
