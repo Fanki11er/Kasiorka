@@ -26,7 +26,7 @@ const StyledMenuWrapper = styled.div`
 const StyledFlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+
   justify-content: space-between;
 `;
 

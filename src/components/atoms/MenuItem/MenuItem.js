@@ -19,7 +19,7 @@ const MenuItem = styled.button`
   ${({ year }) =>
     year &&
     css`
-      width: 120px;
+      width: 150px;
     `}
 
   &:hover {
