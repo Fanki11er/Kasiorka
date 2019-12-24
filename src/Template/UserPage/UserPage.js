@@ -5,12 +5,13 @@ import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
 import MenuContext from '../../context/MenuContext';
 import Navigation from '../../components/organisms/Navigation/Navigation';
+import Footer from '../../components/atoms/Footer/Footer';
 
 const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: 15px 0;
+  padding: 15px 0 15px 15px;
   margin-left: 415px;
   background-color: ${({ theme }) => theme.primary};
   min-height: 100vh;
@@ -46,6 +47,7 @@ class UserPage extends Component {
         </MenuContext.Provider>
         {pathname === '/user/hours' && <HoursMonth monthId={selectedMonthId}></HoursMonth>}
         {pathname === '/user/money' && <MoneyMonth></MoneyMonth>}
+        <Footer />
       </StyledWrapper>
     );
   }

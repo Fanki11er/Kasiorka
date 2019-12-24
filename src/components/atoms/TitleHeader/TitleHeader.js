@@ -21,7 +21,6 @@ const StyledHeader = styled.div`
       letter-spacing: 5px;
       font-size: 3em;
       margin: 0 0 20px 15px;
-      width: 80%;
     `}
 `;
 
