@@ -15,7 +15,7 @@ const StyledListItem = styled.li``;
 
 const mapStateToProps = state => {
   return {
-    monthNames: state,
+    monthNames: state.months,
   };
 };
 

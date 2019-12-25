@@ -30,7 +30,7 @@ const StyledView = styled.div`
 
 const mapStateToProps = state => {
   return {
-    months: state,
+    months: state.months,
   };
 };
 

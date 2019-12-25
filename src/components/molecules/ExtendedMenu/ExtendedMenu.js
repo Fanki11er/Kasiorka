@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Settings } from 'styled-icons/feather';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
+import withMenuContext from '../../../hoc/withMenuContext';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -45,4 +46,4 @@ class ExtendedMenu extends Component {
   }
 }
 
-export default ExtendedMenu;
+export default withMenuContext(ExtendedMenu);

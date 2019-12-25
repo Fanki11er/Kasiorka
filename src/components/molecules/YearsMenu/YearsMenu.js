@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
+import withMenuContext from '../../../hoc/withMenuContext';
 
 const StyledList = styled.ul`
   list-style: none;
@@ -11,19 +12,18 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
-const years = ['2019', '2020'];
-
-const YearsMenu = () => (
+const YearsMenu = ({ menuContext }) => (
   <StyledList>
-    {years.map(yearName => (
-      <StyledListItem key={yearName}>
-        <MenuItem year clicked={0}>
-          {yearName}
-        </MenuItem>
-      </StyledListItem>
-    ))}
+    {menuContext.years &&
+      menuContext.years.map(yearName => (
+        <StyledListItem key={yearName}>
+          <MenuItem year clicked={0}>
+            {yearName}
+          </MenuItem>
+        </StyledListItem>
+      ))}
     ;
   </StyledList>
 );
 
-export default YearsMenu;
+export default withMenuContext(YearsMenu);

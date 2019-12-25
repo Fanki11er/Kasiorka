@@ -14,3 +14,13 @@ export const updateHours = (monthId, dayId, nameOfDay, workHours, isHoliday, act
     },
   };
 };
+
+export const addNewYear = year => {
+  return (dispatch, getState) => {
+    //Async
+    dispatch({
+      type: 'ADD_NEW_YEAR',
+      year,
+    });
+  };
+};

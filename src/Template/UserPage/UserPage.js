@@ -16,14 +16,14 @@ const StyledWrapper = styled.div`
   background-color: ${({ theme }) => theme.primary};
   min-height: 100vh;
   height: auto;
-  width: calc(100% - 415px);
+  width: calc(100% - 420px);
 `;
 
 class UserPage extends Component {
   state = {
     selectedMonthId: 11,
+    years: ['2019', '2020'],
   };
-
   selectMonth = event => {
     this.setState({
       selectedMonthId: event.target.id - 1,
@@ -31,11 +31,13 @@ class UserPage extends Component {
   };
 
   render() {
-    const { selectedMonthId } = this.state;
+    const { selectedMonthId, years } = this.state;
     const menuContext = {
       selectedMonthId,
       selectMonth: this.selectMonth,
+      years,
     };
+    //console.log(parseFloat(this.state.years[this.state.years.length - 1]) + 1);
 
     const { pathname } = this.props.location;
 

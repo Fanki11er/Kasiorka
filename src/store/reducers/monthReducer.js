@@ -1,6 +1,6 @@
-import { createNewYear } from '../tools/index';
-import { monthNames } from '../tools/index';
-import { replaceDayValue, findIndexToChange } from '../tools/index';
+import { createNewYear } from '../../tools/index';
+import { monthNames } from '../../tools/index';
+import { replaceDayValue, findIndexToChange } from '../../tools/index';
 
 const appState = createNewYear(monthNames, 2019);
 
