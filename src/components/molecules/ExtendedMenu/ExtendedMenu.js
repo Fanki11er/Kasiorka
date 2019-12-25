@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Settings } from 'styled-icons/feather';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
 
 const StyledWrapper = styled.div`
@@ -24,6 +25,10 @@ const StyledMenuItem = styled(MenuItem)`
   }
 `;
 
+const StyledIcon = styled(Settings)`
+  width: 25%;
+`;
+
 class ExtendedMenu extends Component {
   render() {
     return (
@@ -31,6 +36,10 @@ class ExtendedMenu extends Component {
         <StyledMenuItem>Dodaj nowy rok</StyledMenuItem>;
         <StyledMenuItem>Auto uzupełniannie</StyledMenuItem>;
         <StyledMenuItem>Dodaj dzień świąteczny</StyledMenuItem>;
+        <StyledMenuItem>
+          <StyledIcon />
+        </StyledMenuItem>
+        ;
       </StyledWrapper>
     );
   }

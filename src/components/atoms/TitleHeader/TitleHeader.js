@@ -6,7 +6,7 @@ import { Dollar } from 'styled-icons/boxicons-regular';
 const StyledHeader = styled.div`
   display: flex;
   align-items: center;
-
+  font-family: 'Nunito', sans-serif;
   margin: 50px auto;
   height: 150px;
   font-size: ${({ theme }) => theme.fontSize.large};
@@ -26,8 +26,6 @@ const StyledHeader = styled.div`
 `;
 
 const StyledSpan = styled.span`
-  @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap&subset=latin-ext');
-  font-family: 'Montserrat', sans-serif;
   color: ${({ theme }) => theme.menuBlue};
 `;
 

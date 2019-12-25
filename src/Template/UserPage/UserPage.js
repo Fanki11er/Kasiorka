@@ -16,7 +16,7 @@ const StyledWrapper = styled.div`
   background-color: ${({ theme }) => theme.primary};
   min-height: 100vh;
   height: auto;
-  max-width: 100%;
+  width: calc(100% - 415px);
 `;
 
 class UserPage extends Component {
@@ -41,7 +41,7 @@ class UserPage extends Component {
 
     return (
       <StyledWrapper>
-        <Navigation></Navigation>
+        <Navigation />
         <MenuContext.Provider value={menuContext}>
           <Menu />
         </MenuContext.Provider>

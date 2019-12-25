@@ -6,12 +6,13 @@ import UserMenu from '../../molecules/UserMenu/UserMenu';
 const StyledWrapper = styled.nav`
   display: flex;
   align-items: center;
+  justify-items: center;
   justify-content: space-between;
-  width: 75%;
-  height: 100px;
+  width: 100%;
+  height: 70px;
+  padding: 0 70px;
+
   background-color: ${({ theme }) => theme.primary};
-  position: absolute;
-  top: 0;
 `;
 
 const Navigation = () => {

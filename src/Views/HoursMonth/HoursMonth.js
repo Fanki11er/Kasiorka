@@ -25,7 +25,7 @@ const StyledView = styled.div`
   display: flex;
   flex-direction: column;
   width: 85%;
-  margin: 70px auto 0 auto;
+  margin: 0px auto 0 auto;
 `;
 
 const mapStateToProps = state => {
