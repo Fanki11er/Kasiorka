@@ -8,6 +8,7 @@ import FormError from '../../atoms/FormError/FormError';
 import FormButton from '../../atoms/FormButton/FormButton';
 import StyledForm from '../../atoms/Form/Form';
 import RegistrationImage from '../../atoms/RegistrationImage/RegistrationImage';
+import ErrorWrapper from '../../atoms/ErrorWrapper/ErrorWrapper';
 
 const StyledRegisterForm = styled(StyledForm)`
   height: 150%;
@@ -33,7 +34,7 @@ const RegisterForm = () => (
       if (!values.password) errors.password = 'Pole wymagane';
       else if (values.password.length < 5) errors.password = 'Długość hasła to min 4 znaki';
 
-      if (values.password !== values.repeatedPassword) errors.password = 'Błędne hasło';
+      if (values.password !== values.repeatedPassword) errors.repeatedPassword = 'Błędne hasło';
       return errors;
     }}
     onSubmit={(values, { setSubmitting }) => {
@@ -44,13 +45,22 @@ const RegisterForm = () => (
     {({ isSubmitting }) => (
       <StyledRegisterForm noValidate>
         <FormHeader>Rejestracja</FormHeader>
-        <FormInput label="Imię" type="Text" name="name" />
-        <FormError name="name" component="div" />
-        <FormInput label="E-mail" type="email" name="email" />
-        <FormError name="email" component="div" />
-        <FormInput label="Hasło" type="password" name="password" />
-        <FormInput label="Powtórz hasło" type="password" name="repeatedPassword" />
-        <FormError name="password" component="div" />
+        <FormInput withError label="Imię" type="Text" name="name" />
+        <ErrorWrapper>
+          <FormError name="name" component="div" />
+        </ErrorWrapper>
+        <FormInput withError label="E-mail" type="email" name="email" />
+        <ErrorWrapper>
+          <FormError name="email" component="div" />
+        </ErrorWrapper>
+        <FormInput withError label="Hasło" type="password" name="password" />
+        <ErrorWrapper>
+          <FormError name="password" component="div" />
+        </ErrorWrapper>
+        <FormInput withError label="Powtórz hasło" type="password" name="repeatedPassword" />
+        <ErrorWrapper>
+          <FormError name="repeatedPassword" component="div" />
+        </ErrorWrapper>
         <FormButton type="submit" disabled={isSubmitting}>
           Zarejestruj
         </FormButton>

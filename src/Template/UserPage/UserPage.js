@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Month from '../../components/organisms/Month/Month';
+import HoursMonth from '../../Views//HoursMonth/HoursMonth';
+import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
 import MenuContext from '../../context/MenuContext';
+import Navigation from '../../components/organisms/Navigation/Navigation';
+import Footer from '../../components/atoms/Footer/Footer';
 
 const StyledWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  padding: 15px 0;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 15px 0 15px 15px;
   margin-left: 415px;
   background-color: ${({ theme }) => theme.primary};
   min-height: 100vh;
-  max-width: 100vw;
+  height: auto;
+  width: calc(100% - 415px);
 `;
 
-class HoursView extends Component {
+class UserPage extends Component {
   state = {
     selectedMonthId: 11,
   };
@@ -33,16 +37,20 @@ class HoursView extends Component {
       selectMonth: this.selectMonth,
     };
 
+    const { pathname } = this.props.location;
+
     return (
       <StyledWrapper>
+        <Navigation />
         <MenuContext.Provider value={menuContext}>
           <Menu />
         </MenuContext.Provider>
-
-        <Month monthId={selectedMonthId}></Month>
+        {pathname === '/user/hours' && <HoursMonth monthId={selectedMonthId}></HoursMonth>}
+        {pathname === '/user/money' && <MoneyMonth></MoneyMonth>}
+        <Footer />
       </StyledWrapper>
     );
   }
 }
 
-export default HoursView;
+export default UserPage;

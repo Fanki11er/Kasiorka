@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { Pencil } from 'styled-icons/typicons/';
 
 const StyledWrapper = styled.div`
@@ -58,12 +59,18 @@ const infoDiv = ({ labelText, labelData, editable, units }) => {
   return (
     <StyledWrapper>
       <StyledLabel>{labelText}:</StyledLabel>
-
       <StyledSpan>{labelData}</StyledSpan>
       <StyledUnits>{units}</StyledUnits>
       {editable && <StyledIconPencil onClick={test} />}
     </StyledWrapper>
   );
+};
+
+infoDiv.propTypes = {
+  labelText: PropTypes.string.isRequired,
+  labelData: PropTypes.number.isRequired,
+  editable: PropTypes.bool,
+  units: PropTypes.string.isRequired,
 };
 
 export default infoDiv;

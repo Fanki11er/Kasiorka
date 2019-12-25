@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@testing-library/react": "^9.4.0",
     "formik": "^2.0.8",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

@@ -22,7 +22,7 @@ class SingleYear {
   }
 }
 
-export const monthNames = [
+const monthNames = [
   'Styczeń',
   'Luty',
   'Marzec',
@@ -85,14 +85,11 @@ const getDayName = (selectedYear, selectedMonth, selectedDay, dayNames) => {
 const createNewYear = (monthNames, selectedYear) => {
   const year = new SingleYear(selectedYear);
   const defaultWorkHours = 0;
-  //TODO: Wrzucić w funkcję
   monthNames.forEach((name, index) => {
     year.months.push(new SingleMonth(index, name));
   });
-
   for (const month of year.months) {
     const thisMonthLength = getMonthLength(selectedYear, month.id);
-    //TODO: Wrzucić w funkcję
     for (let i = 1; i <= thisMonthLength; i++) {
       const dayId = i;
       const monthId = month.id - 1;
@@ -137,3 +134,13 @@ const findIndexToChange = (startValue, dayId) => {
 
 export { createNewYear, addDaysToSection, sections };
 export { replaceDayValue, findIndexToChange }; //Reducer
+export {
+  SingleMonth,
+  SingleDay,
+  SingleYear,
+  getMonthLength,
+  createObj,
+  getDayName,
+  dayNames,
+  monthNames,
+}; //For tests

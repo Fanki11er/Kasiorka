@@ -1,19 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
 import RegisterForm from '../../components/molecules/RegisterForm/RegisterForm';
+import TitleHeader from '../../components/atoms/TitleHeader/TitleHeader';
+import Footer from '../../components/atoms/Footer/Footer';
 
 const StyledWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
   background-color: ${({ theme }) => theme.primary};
   width: 100%;
   min-height: 100vh;
+  height: auto;
+  padding-top: 65px;
+`;
+
+const StyledTitleWrapper = styled.div`
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  width: 400px;
+  height: 400px;
 `;
 
 const RegisterView = () => (
   <StyledWrapper>
+    <StyledTitleWrapper>
+      <TitleHeader small />
+    </StyledTitleWrapper>
     <RegisterForm />
+    <Footer />
   </StyledWrapper>
 );
 

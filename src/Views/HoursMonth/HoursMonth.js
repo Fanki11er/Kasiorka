@@ -1,15 +1,16 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import DayOfTheWeek from '../../molecules/DayOfWeek/DayOfWeek';
-import Summary from '../../molecules/Summary/Summary';
-import { addDaysToSection, sections } from '../../../tools/index';
+import DayOfTheWeek from '../../components/molecules/DayOfWeek/DayOfWeek';
+import Summary from '../../components/molecules/Summary/Summary';
+import { addDaysToSection, sections } from '../../tools/index';
 
 const StyledWrapper = styled.div`
   display: flex;
   flex-flow: wrap row;
-
+  margin: 0 0 20px 0;
   width: 100%;
   justify-content: space-around;
 `;
@@ -24,7 +25,7 @@ const StyledView = styled.div`
   display: flex;
   flex-direction: column;
   width: 85%;
-  margin: 70px auto 0 auto;
+  margin: 0px auto 0 auto;
 `;
 
 const mapStateToProps = state => {
@@ -33,7 +34,7 @@ const mapStateToProps = state => {
   };
 };
 
-class Month extends Component {
+class HoursMonth extends Component {
   render() {
     const { months, monthId } = this.props;
 
@@ -63,4 +64,9 @@ class Month extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Month);
+HoursMonth.propTypes = {
+  months: PropTypes.array.isRequired,
+  monthId: PropTypes.number.isRequired,
+};
+
+export default connect(mapStateToProps)(HoursMonth);

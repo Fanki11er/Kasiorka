@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import UpArrow from '../../../assets/icons/UpArrow.svg';
 import DownArrow from '../../../assets/icons/DownArrow.svg';
+import PropTypes from 'prop-types';
 
 const UpDownButton = styled.button`
   width: 30px;
@@ -28,5 +29,9 @@ const UpDownButton = styled.button`
       border-bottom-right-radius: 10px;
     `}
 `;
+
+UpDownButton.propTypes = {
+  upButton: PropTypes.bool,
+};
 
 export default UpDownButton;

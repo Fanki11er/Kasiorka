@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 
 const MenuItem = styled.button`
   width: 185px;
@@ -10,50 +11,39 @@ const MenuItem = styled.button`
   font-weight: bold;
   outline-style: none;
   transition: color, background-color 0.4s;
-  color: ${({ theme, clicked, id }) =>
-    parseFloat(clicked) === id ? theme.primary : theme.menuBlue};
+  color: ${({ theme, clicked, id }) => (clicked === id ? theme.primary : theme.menuBlue)};
   background-color: ${({ theme, clicked, id }) =>
-    parseFloat(clicked) === id ? theme.menuBlue : 'transparent'};
+    clicked === id && clicked !== undefined ? theme.menuBlue : 'transparent'};
   text-decoration: none;
 
   ${({ year }) =>
     year &&
     css`
-      width: 120px;
+      width: 150px;
     `}
 
   &:hover {
     color: ${({ theme, clicked, id, selected }) =>
-      parseFloat(clicked) === id || selected ? 'none' : theme.hover};
+      (clicked === id && clicked !== undefined) || selected ? 'none' : theme.hover};
     border: 2px solid
       ${({ theme, clicked, id, selected }) =>
-        parseFloat(clicked) === id || selected ? 'none' : theme.hover};
+        (clicked === id && clicked !== undefined) || selected ? 'none' : theme.hover};
+
+    cursor: ${({ clicked, id, selected }) =>
+      (clicked === id && clicked !== undefined) || selected ? 'normal' : 'pointer'};
   }
-
-  ${({ viewItem }) =>
-    viewItem &&
-    css`
-      width: 150px;
-      color: ${({ theme, selected }) => (selected ? theme.primary : theme.menuYellow)};
-      border: 2px solid ${({ theme }) => theme.menuYellow};
-      background-color: ${({ theme, selected }) => (selected ? theme.menuYellow : theme.primary)};
-    `};
-
-  ${({ addYearButton }) =>
-    addYearButton &&
-    css`
-      width: 120px;
-      color: ${({ theme }) => theme.green};
-      border: 2px solid ${({ theme }) => theme.green};
-      font-size: ${({ theme }) => theme.fontSize.smallest};
-      margin-top: ${({ theme }) => theme.rowHeight};
-      transition: none;
-      &:hover {
-        color: ${({ theme }) => theme.primary};
-        background-color: ${({ theme }) => theme.green};
-        border: 2px solid ${({ theme }) => theme.green};
-      }
-    `};
 `;
+MenuItem.propTypes = {
+  clicked: PropTypes.number,
+  selected: PropTypes.bool,
+  id: PropTypes.number,
+  year: PropTypes.bool,
+  viewItem: PropTypes.bool,
+};
 
+MenuItem.defaultPropTypes = {
+  year: false,
+  viewItem: false,
+  selected: false,
+};
 export default MenuItem;

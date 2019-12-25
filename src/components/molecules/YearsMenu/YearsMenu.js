@@ -17,10 +17,12 @@ const YearsMenu = () => (
   <StyledList>
     {years.map(yearName => (
       <StyledListItem key={yearName}>
-        <MenuItem year>{yearName}</MenuItem>
+        <MenuItem year clicked={0}>
+          {yearName}
+        </MenuItem>
       </StyledListItem>
     ))}
-    ;<MenuItem addYearButton>Dodaj Nowy Rok</MenuItem>
+    ;
   </StyledList>
 );
 

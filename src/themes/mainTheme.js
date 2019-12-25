@@ -6,6 +6,7 @@ export const theme = {
     smaller: '2em',
     verySmall: '1.5em',
     smallest: '1.2em',
+    larger: '3em',
     large: '6em',
   },
   primaryFont: '#94AFD3',
