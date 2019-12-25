@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
-import withMenuContext from '../../../hoc/withMenuContext';
+import PropTypes from 'prop-types';
 
 const StyledList = styled.ul`
   list-style: none;
@@ -12,18 +12,29 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
-const YearsMenu = ({ menuContext }) => (
+const YearsMenu = ({ yearsNames }) => (
   <StyledList>
-    {menuContext.years &&
-      menuContext.years.map(yearName => (
+    {yearsNames.length > 0 ? (
+      yearsNames.map(yearName => (
         <StyledListItem key={yearName}>
           <MenuItem year clicked={0}>
             {yearName}
           </MenuItem>
         </StyledListItem>
-      ))}
+      ))
+    ) : (
+      <StyledListItem>
+        <MenuItem year className="noActive">
+          Brak
+        </MenuItem>
+      </StyledListItem>
+    )}
     ;
   </StyledList>
 );
 
-export default withMenuContext(YearsMenu);
+YearsMenu.propTypes = {
+  yearsNames: PropTypes.array.isRequired,
+};
+
+export default YearsMenu;

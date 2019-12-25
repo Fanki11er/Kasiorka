@@ -102,6 +102,14 @@ const createNewYear = (monthNames, selectedYear) => {
   return year;
 };
 
+const findNextYear = years => {
+  let newYear;
+  const lastYear = years.length - 1;
+  if (years.length === 0) newYear = new Date().getFullYear();
+  else newYear = parseFloat(years[lastYear]) + 1;
+  return newYear;
+};
+
 //Month------------------------------------------------------
 
 const addDaysToSection = (month, rangeStart, rangeEnd) => {
@@ -132,7 +140,7 @@ const findIndexToChange = (startValue, dayId) => {
 
 //Reducer---------------------------------------------------------
 
-export { createNewYear, addDaysToSection, sections };
+export { createNewYear, findNextYear, addDaysToSection, sections };
 export { replaceDayValue, findIndexToChange }; //Reducer
 export {
   SingleMonth,

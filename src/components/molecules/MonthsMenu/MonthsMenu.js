@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
-import withMenuContext from '../../../hoc/withMenuContext';
 
 const StyledList = styled.ul`
   list-style: none;
@@ -37,14 +36,12 @@ class MonthMenu extends Component {
     this.setState({
       clicked: event.target.id,
     });
-    const { menuContext } = this.props;
-    const { selectMonth } = menuContext;
+    const { selectMonth } = this.props;
     selectMonth(event);
   };
-
+  co;
   componentDidMount() {
-    const { menuContext } = this.props;
-    const { selectedMonthId } = menuContext;
+    const { selectedMonthId } = this.props;
     this.setState({
       clicked: selectedMonthId + 1,
     });
@@ -57,13 +54,19 @@ class MonthMenu extends Component {
     const namesOfMonths = getMonthNames(monthNames);
     return (
       <StyledList>
-        {namesOfMonths.map(({ monthName, monthId }) => (
-          <StyledListItem key={monthId}>
-            <MenuItem clicked={parseFloat(clicked)} onClick={this.handleClick} id={monthId}>
-              {monthName}
-            </MenuItem>
+        {namesOfMonths ? (
+          namesOfMonths.map(({ monthName, monthId }) => (
+            <StyledListItem key={monthId}>
+              <MenuItem clicked={parseFloat(clicked)} onClick={this.handleClick} id={monthId}>
+                {monthName}
+              </MenuItem>
+            </StyledListItem>
+          ))
+        ) : (
+          <StyledListItem>
+            <MenuItem className="noActive">Brak</MenuItem>
           </StyledListItem>
-        ))}
+        )}
         ;
       </StyledList>
     );
@@ -72,7 +75,12 @@ class MonthMenu extends Component {
 
 MonthMenu.propTypes = {
   monthNames: PropTypes.array.isRequired,
-  menuContext: PropTypes.object.isRequired,
+  selectMonth: PropTypes.func.isRequired,
+  selectedMonthId: PropTypes.number,
 };
 
-export default connect(mapStateToProps)(withMenuContext(MonthMenu));
+MonthMenu.defaultPropTypes = {
+  selectedMonthId: 0,
+};
+
+export default connect(mapStateToProps)(MonthMenu);

@@ -32,6 +32,13 @@ const MenuItem = styled.button`
     cursor: ${({ clicked, id, selected }) =>
       (clicked === id && clicked !== undefined) || selected ? 'normal' : 'pointer'};
   }
+
+  &.noActive {
+    pointer-events: none;
+    border: 2px solid gray;
+    color: gray;
+    opacity: 0.5;
+  }
 `;
 MenuItem.propTypes = {
   clicked: PropTypes.number,

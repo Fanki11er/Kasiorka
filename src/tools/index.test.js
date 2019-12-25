@@ -11,6 +11,7 @@ import {
   addDaysToSection,
   replaceDayValue,
   findIndexToChange,
+  findNextYear,
 } from './index';
 
 test('Create Single Month', () => {
@@ -93,4 +94,12 @@ test('It founds correct index', () => {
 
   expect(findIndexToChange(month, 1)).toBe(1);
   expect(findIndexToChange(month, 1)).not.toBe(0);
+});
+
+test('It returns next year after last in table or return current year if there is no years', () => {
+  const years = ['2019', '2020'];
+  const emptyYears = [];
+  const thisYear = new Date().getFullYear();
+  expect(findNextYear(emptyYears)).toBe(thisYear);
+  expect(findNextYear(years)).toBe(2021);
 });

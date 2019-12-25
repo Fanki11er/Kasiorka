@@ -6,6 +6,7 @@ import Menu from '../../components/organisms/Menu/Menu';
 import MenuContext from '../../context/MenuContext';
 import Navigation from '../../components/organisms/Navigation/Navigation';
 import Footer from '../../components/atoms/Footer/Footer';
+import { createNewYear, monthNames, findNextYear } from '../../tools/index';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -22,7 +23,7 @@ const StyledWrapper = styled.div`
 class UserPage extends Component {
   state = {
     selectedMonthId: 11,
-    years: ['2019', '2020'],
+    years: ['2019'],
   };
   selectMonth = event => {
     this.setState({
@@ -30,14 +31,20 @@ class UserPage extends Component {
     });
   };
 
+  addNewYear = () => {
+    const { years } = this.state;
+    const year = findNextYear(years);
+    return createNewYear(monthNames, year);
+  };
+
   render() {
     const { selectedMonthId, years } = this.state;
     const menuContext = {
       selectedMonthId,
       selectMonth: this.selectMonth,
+      addNewYear: this.addNewYear,
       years,
     };
-    //console.log(parseFloat(this.state.years[this.state.years.length - 1]) + 1);
 
     const { pathname } = this.props.location;
 

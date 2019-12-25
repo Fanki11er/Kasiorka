@@ -4,6 +4,7 @@ import YearsMenu from '../../molecules/YearsMenu/YearsMenu';
 import MonthMenu from '../../molecules/MonthsMenu/MonthsMenu';
 import TitleHeader from '../../atoms/TitleHeader/TitleHeader';
 import ExtendedMenu from '../../molecules/ExtendedMenu/ExtendedMenu';
+import withMenuContext from '../../../hoc/withMenuContext';
 
 const StyledWrapper = styled.div`
   position: fixed;
@@ -30,17 +31,20 @@ const StyledFlexWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const Menu = () => (
+const Menu = ({ menuContext }) => (
   <StyledWrapper>
     <TitleHeader small />
     <StyledMenuWrapper>
       <StyledFlexWrapper>
-        <YearsMenu />
-        <ExtendedMenu />
+        <YearsMenu yearsNames={menuContext.years} />
+        <ExtendedMenu addNewYear={menuContext.addNewYear} />
       </StyledFlexWrapper>
-      <MonthMenu />
+      <MonthMenu
+        selectMonth={menuContext.selectMonth}
+        selectedMonthId={menuContext.selectedMonthId}
+      />
     </StyledMenuWrapper>
   </StyledWrapper>
 );
 
-export default Menu;
+export default withMenuContext(Menu);
