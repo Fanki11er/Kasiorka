@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import HoursMonth from '../../Views//HoursMonth/HoursMonth';
 import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
@@ -7,6 +8,7 @@ import MenuContext from '../../context/MenuContext';
 import Navigation from '../../components/organisms/Navigation/Navigation';
 import Footer from '../../components/atoms/Footer/Footer';
 import { createNewYear, monthNames, findNextYear } from '../../tools/index';
+import { addNewYear as addNewYearAction } from '../../actions/index';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -33,8 +35,9 @@ class UserPage extends Component {
 
   addNewYear = () => {
     const { years } = this.state;
+    const { newYear } = this.props;
     const year = findNextYear(years);
-    return createNewYear(monthNames, year);
+    newYear(createNewYear(monthNames, year));
   };
 
   render() {
@@ -61,5 +64,10 @@ class UserPage extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    newYear: year => dispatch(addNewYearAction(year)),
+  };
+};
 
-export default UserPage;
+export default connect(null, mapDispatchToProps)(UserPage);

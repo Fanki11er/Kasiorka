@@ -29,8 +29,10 @@ const StyledView = styled.div`
 `;
 
 const mapStateToProps = state => {
+  //console.log(state);
+  //console.log(`years`, state.years);
   return {
-    months: state.months,
+    months: state.years,
   };
 };
 
@@ -41,22 +43,23 @@ class HoursMonth extends Component {
     return (
       <StyledView>
         <StyledWrapper>
-          {sections.map(({ rangeStart, rangeEnd }) => (
-            <StyledSection key={rangeStart}>
-              {addDaysToSection(months[monthId].days, rangeStart, rangeEnd).map(
-                ({ dayId, nameOfDay, workHours, isHoliday }) => (
-                  <DayOfTheWeek
-                    dayId={dayId}
-                    nameOfDay={nameOfDay}
-                    workHours={workHours}
-                    isHoliday={isHoliday}
-                    key={dayId}
-                    monthId={monthId}
-                  ></DayOfTheWeek>
-                ),
-              )}
-            </StyledSection>
-          ))}
+          {months.length > 0 &&
+            sections.map(({ rangeStart, rangeEnd }) => (
+              <StyledSection key={rangeStart}>
+                {addDaysToSection(months[monthId].days, rangeStart, rangeEnd).map(
+                  ({ dayId, nameOfDay, workHours, isHoliday }) => (
+                    <DayOfTheWeek
+                      dayId={dayId}
+                      nameOfDay={nameOfDay}
+                      workHours={workHours}
+                      isHoliday={isHoliday}
+                      key={dayId}
+                      monthId={monthId}
+                    ></DayOfTheWeek>
+                  ),
+                )}
+              </StyledSection>
+            ))}
         </StyledWrapper>
         <Summary />
       </StyledView>

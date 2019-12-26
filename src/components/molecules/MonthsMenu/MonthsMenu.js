@@ -14,16 +14,17 @@ const StyledListItem = styled.li``;
 
 const mapStateToProps = state => {
   return {
-    monthNames: state.months,
+    monthNames: state.years,
   };
 };
 
 const getMonthNames = state => {
   const monthNames = [];
-  state.map(month => {
-    monthNames.push({ monthName: month.name, monthId: month.id });
-    return null;
-  });
+  state &&
+    state.map(month => {
+      monthNames.push({ monthName: month.name, monthId: month.id });
+      return null;
+    });
   return monthNames;
 };
 

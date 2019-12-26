@@ -16,11 +16,25 @@ export const updateHours = (monthId, dayId, nameOfDay, workHours, isHoliday, act
 };
 
 export const addNewYear = year => {
-  return (dispatch, getState) => {
-    //Async
-    dispatch({
-      type: 'ADD_NEW_YEAR',
-      year,
-    });
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    const data = JSON.stringify(year);
+    firestore
+      .collection('years')
+      .add({
+        [year.yearName]: JSON.stringify(year.months),
+      })
+      .then(() => {
+        dispatch({
+          type: 'ADD_NEW_YEAR',
+          year,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: 'ERROR',
+          err,
+        });
+      });
   };
 };

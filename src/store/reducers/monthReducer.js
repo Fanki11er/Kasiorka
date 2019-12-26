@@ -12,6 +12,17 @@ const monthReducer = (state = appState.months, action) => {
       replaceDayValue(state[monthId].days, newValue, findIndexToChange);
       return [...state];
     }
+
+    case 'ADD_NEW_YEAR': {
+      console.log('Add New Year', action.year);
+      //return [...state, action.year.months];
+      return state;
+    }
+
+    case 'ERROR': {
+      console.log('Ouuuu error', action.err);
+      return state;
+    }
     default:
       return state;
   }
