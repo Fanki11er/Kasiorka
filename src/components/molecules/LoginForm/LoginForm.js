@@ -1,14 +1,18 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import FormHeader from '../../atoms/FormHeader/FormHeader';
 import FormInput from '../../atoms/FormInput/FormInput';
 import FormError from '../../atoms/FormError/FormError';
 import FormButton from '../../atoms/FormButton/FormButton';
 import StyledForm from '../../atoms/Form/Form';
 import ErrorWrapper from '../../atoms/ErrorWrapper/ErrorWrapper';
+import { signIn as signInAction } from '../../../actions/authActions';
+import UserMenu from '../UserMenu/UserMenu';
 
-const LoginForm = () => (
+const LoginForm = ({ signIn }) => (
   <Formik
     initialValues={{ email: '', password: '' }}
     validate={values => {
@@ -24,7 +28,7 @@ const LoginForm = () => (
       return errors;
     }}
     onSubmit={(values, { setSubmitting }) => {
-      console.log(values);
+      signIn(values);
       setSubmitting(false);
     }}
   >
@@ -50,4 +54,12 @@ const LoginForm = () => (
   </Formik>
 );
 
-export default LoginForm;
+LoginForm.propTypes = {
+  signIn: PropTypes.func.isRequired,
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    signIn: credentials => dispatch(signInAction(credentials)),
+  };
+};
+export default connect(null, mapDispatchToProps)(LoginForm);

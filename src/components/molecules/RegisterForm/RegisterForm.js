@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import FormHeader from '../../atoms/FormHeader/FormHeader';
 import FormInput from '../../atoms/FormInput/FormInput';
 import FormError from '../../atoms/FormError/FormError';
@@ -74,6 +75,10 @@ const RegisterForm = ({ signUp }) => (
     )}
   </Formik>
 );
+
+RegisterForm.propTypes = {
+  signUp: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = dispatch => {
   return {

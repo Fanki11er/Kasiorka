@@ -56,7 +56,7 @@ class UserPage extends Component {
 
     const { monthsJson } = this.props;
     //const months = monthsJson && JSON.parse(monthsJson['2020'].months);
-    let months;
+    let months; //Temporary variable;
 
     return (
       <StyledWrapper>
