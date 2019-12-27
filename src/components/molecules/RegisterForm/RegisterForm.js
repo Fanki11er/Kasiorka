@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import FormHeader from '../../atoms/FormHeader/FormHeader';
 import FormInput from '../../atoms/FormInput/FormInput';
 import FormError from '../../atoms/FormError/FormError';
@@ -9,6 +10,7 @@ import FormButton from '../../atoms/FormButton/FormButton';
 import StyledForm from '../../atoms/Form/Form';
 import RegistrationImage from '../../atoms/RegistrationImage/RegistrationImage';
 import ErrorWrapper from '../../atoms/ErrorWrapper/ErrorWrapper';
+import { signUp as signUpAction } from '../../../actions/authActions';
 
 const StyledRegisterForm = styled(StyledForm)`
   height: 150%;
@@ -16,7 +18,7 @@ const StyledRegisterForm = styled(StyledForm)`
   position: relative;
 `;
 
-const RegisterForm = () => (
+const RegisterForm = ({ signUp }) => (
   <Formik
     initialValues={{ email: '', password: '', repeatedPassword: '', name: '' }}
     validate={values => {
@@ -38,8 +40,8 @@ const RegisterForm = () => (
       return errors;
     }}
     onSubmit={(values, { setSubmitting }) => {
-      console.log(values);
       setSubmitting(false);
+      signUp(values);
     }}
   >
     {({ isSubmitting }) => (
@@ -73,4 +75,10 @@ const RegisterForm = () => (
   </Formik>
 );
 
-export default RegisterForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    signUp: values => dispatch(signUpAction(values)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(RegisterForm);

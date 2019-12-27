@@ -1,11 +1,10 @@
 import React from 'react';
 import { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { addDaysToSection, sections } from '../../tools/index';
 import DayOfTheWeek from '../../components/molecules/DayOfWeek/DayOfWeek';
 import Summary from '../../components/molecules/Summary/Summary';
-import { addDaysToSection, sections } from '../../tools/index';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -28,22 +27,16 @@ const StyledView = styled.div`
   margin: 0px auto 0 auto;
 `;
 
-const mapStateToProps = state => {
-  //console.log(state);
-  //console.log(`years`, state.years);
-  return {
-    months: state.years,
-  };
-};
-
 class HoursMonth extends Component {
   render() {
     const { months, monthId } = this.props;
+    //const months = monthsJson && JSON.parse(monthsJson);
 
     return (
       <StyledView>
         <StyledWrapper>
-          {months.length > 0 &&
+          {months &&
+            months.length > 0 &&
             sections.map(({ rangeStart, rangeEnd }) => (
               <StyledSection key={rangeStart}>
                 {addDaysToSection(months[monthId].days, rangeStart, rangeEnd).map(
@@ -68,8 +61,8 @@ class HoursMonth extends Component {
 }
 
 HoursMonth.propTypes = {
-  months: PropTypes.array.isRequired,
+  months: PropTypes.array,
   monthId: PropTypes.number.isRequired,
 };
 
-export default connect(mapStateToProps)(HoursMonth);
+export default HoursMonth;

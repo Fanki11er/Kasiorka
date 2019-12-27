@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import HoursMonth from '../../Views//HoursMonth/HoursMonth';
 import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
@@ -24,8 +26,9 @@ const StyledWrapper = styled.div`
 
 class UserPage extends Component {
   state = {
-    selectedMonthId: 11,
-    years: ['2019'],
+    selectedMonthId: new Date().getMonth(),
+    selectedYear: new Date().getFullYear(),
+    years: ['2020'],
   };
   selectMonth = event => {
     this.setState({
@@ -51,23 +54,44 @@ class UserPage extends Component {
 
     const { pathname } = this.props.location;
 
+    const { monthsJson } = this.props;
+    //const months = monthsJson && JSON.parse(monthsJson['2020'].months);
+    let months;
+
     return (
       <StyledWrapper>
         <Navigation />
         <MenuContext.Provider value={menuContext}>
           <Menu />
         </MenuContext.Provider>
-        {pathname === '/user/hours' && <HoursMonth monthId={selectedMonthId}></HoursMonth>}
+        {pathname === '/user/hours' && (
+          <HoursMonth monthId={selectedMonthId} months={months}></HoursMonth>
+        )}
         {pathname === '/user/money' && <MoneyMonth></MoneyMonth>}
         <Footer />
       </StyledWrapper>
     );
   }
 }
+
 const mapDispatchToProps = dispatch => {
   return {
     newYear: year => dispatch(addNewYearAction(year)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(UserPage);
+const mapStateToProps = state => {
+  return {
+    monthsJson: state.firestore.data.years && state.firestore.data.years,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect(props => [
+    {
+      collection: 'years',
+      doc: '2020',
+    },
+  ]),
+)(UserPage);
