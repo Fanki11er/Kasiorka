@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import { Redirect } from 'react-router-dom';
 import HoursMonth from '../../Views//HoursMonth/HoursMonth';
 import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
@@ -11,6 +12,7 @@ import Navigation from '../../components/organisms/Navigation/Navigation';
 import Footer from '../../components/atoms/Footer/Footer';
 import { createNewYear, monthNames, findNextYear } from '../../tools/index';
 import { addNewYear as addNewYearAction } from '../../actions/index';
+import { routes } from '../../Router/routes';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -54,9 +56,11 @@ class UserPage extends Component {
 
     const { pathname } = this.props.location;
 
-    const { monthsJson } = this.props;
+    const { monthsJson, auth } = this.props;
     //const months = monthsJson && JSON.parse(monthsJson['2020'].months);
     let months; //Temporary variable;
+    if (!auth.uid) return <Redirect to={routes.login} />;
+    if (pathname === '/user') return <Redirect to={'user/hours'} />;
 
     return (
       <StyledWrapper>
@@ -64,6 +68,7 @@ class UserPage extends Component {
         <MenuContext.Provider value={menuContext}>
           <Menu />
         </MenuContext.Provider>
+
         {pathname === '/user/hours' && (
           <HoursMonth monthId={selectedMonthId} months={months}></HoursMonth>
         )}
@@ -81,8 +86,10 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
+  console.log('State', state);
   return {
     monthsJson: state.firestore.data.years && state.firestore.data.years,
+    auth: state.firebase.auth,
   };
 };
 
