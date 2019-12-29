@@ -8,11 +8,12 @@ import Menu from '../../components/organisms/Menu/Menu';
 import MenuContext from '../../context/MenuContext';
 import Navigation from '../../components/organisms/Navigation/Navigation';
 import Footer from '../../components/atoms/Footer/Footer';
+import StateIsLoaded from '../../components/atoms/StateIsLoaded/StateIsLoaded';
 import { createNewYear, monthNames, findNextYear } from '../../tools/index';
 import { addNewYear as addNewYearAction } from '../../actions/index';
 import { routes } from '../../Router/routes';
 import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../actions/dataBaseActions';
-import StateIsLoaded from '../../components/atoms/StateIsLoaded/StateIsLoaded';
+import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -37,6 +38,12 @@ class UserPage extends Component {
     const { selectedYear } = this.state;
     const { auth, takeDataFromDataBase } = this.props;
     takeDataFromDataBase(auth.uid, selectedYear);
+  }
+
+  componentWillUnmount() {
+    console.log('Unmounted');
+    const { sendHoursToDataBase } = this.props;
+    sendHoursToDataBase();
   }
 
   /*actualizeYearsList(yearsList) {
@@ -98,6 +105,7 @@ const mapDispatchToProps = dispatch => {
   return {
     newYear: year => dispatch(addNewYearAction(year)),
     takeDataFromDataBase: (uid, year) => dispatch(takeDataFromDataBaseAction(uid, year)),
+    sendHoursToDataBase: () => dispatch(sendHoursToDataBaseAction()),
   };
 };
 

@@ -18,3 +18,21 @@ export const takeDataFromDataBase = (uid, year) => {
       });
   };
 };
+
+export const sendHoursToDataBase = () => {
+  return (dispatch, getState, { dataBase }) => {
+    const state = getState();
+    const uid = state.firebase.auth.uid;
+    const yearToSave = state.hours.yearName;
+    dataBase
+      .update(`User/${uid}/years/${yearToSave}/hours`, {
+        data: state.hours,
+      })
+      .then(() => {
+        console.log('SAVED_SUCCESS');
+      })
+      .catch(err => {
+        console.log('SAVE ERR', err);
+      });
+  };
+};
