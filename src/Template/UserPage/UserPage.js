@@ -12,6 +12,7 @@ import { createNewYear, monthNames, findNextYear } from '../../tools/index';
 import { addNewYear as addNewYearAction } from '../../actions/index';
 import { routes } from '../../Router/routes';
 import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../actions/dataBaseActions';
+import StateIsLoaded from '../../components/atoms/StateIsLoaded/StateIsLoaded';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -29,13 +30,20 @@ class UserPage extends Component {
   state = {
     selectedMonthId: new Date().getMonth(),
     selectedYear: new Date().getFullYear(),
-    years: ['2020'],
+    updated: false,
   };
 
   componentDidMount() {
+    const { selectedYear } = this.state;
     const { auth, takeDataFromDataBase } = this.props;
-    takeDataFromDataBase(auth.uid, 2019);
+    takeDataFromDataBase(auth.uid, selectedYear);
   }
+
+  /*actualizeYearsList(yearsList) {
+    this.setState({
+      yearsList,
+    });
+  }*/
 
   selectMonth = event => {
     this.setState({
@@ -51,12 +59,11 @@ class UserPage extends Component {
   };
 
   render() {
-    const { selectedMonthId, years } = this.state;
+    const { selectedMonthId } = this.state;
     const menuContext = {
       selectedMonthId,
       selectMonth: this.selectMonth,
       addNewYear: this.addNewYear,
-      years,
     };
 
     const { pathname } = this.props.location;
@@ -67,18 +74,22 @@ class UserPage extends Component {
     if (pathname === '/user') return <Redirect to={'user/hours'} />;
 
     return (
-      <StyledWrapper>
-        <Navigation />
-        <MenuContext.Provider value={menuContext}>
-          <Menu />
-        </MenuContext.Provider>
+      <StateIsLoaded>
+        <>
+          <StyledWrapper>
+            <Navigation />
+            <MenuContext.Provider value={menuContext}>
+              <Menu />
+            </MenuContext.Provider>
 
-        {pathname === '/user/hours' && (
-          <HoursMonth monthId={selectedMonthId} months={months}></HoursMonth>
-        )}
-        {pathname === '/user/money' && <MoneyMonth></MoneyMonth>}
-        <Footer />
-      </StyledWrapper>
+            {pathname === '/user/hours' && (
+              <HoursMonth monthId={selectedMonthId} months={months}></HoursMonth>
+            )}
+            {pathname === '/user/money' && <MoneyMonth></MoneyMonth>}
+            <Footer />
+          </StyledWrapper>
+        </>
+      </StateIsLoaded>
     );
   }
 }
