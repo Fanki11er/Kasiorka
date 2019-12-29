@@ -13,7 +13,6 @@ import { createNewYear, monthNames, findNextYear } from '../../tools/index';
 import { addNewYear as addNewYearAction } from '../../actions/index';
 import { routes } from '../../Router/routes';
 import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../actions/dataBaseActions';
-import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -38,12 +37,6 @@ class UserPage extends Component {
     const { selectedYear } = this.state;
     const { auth, takeDataFromDataBase } = this.props;
     takeDataFromDataBase(auth.uid, selectedYear);
-  }
-
-  componentWillUnmount() {
-    console.log('Unmounted');
-    const { sendHoursToDataBase } = this.props;
-    sendHoursToDataBase();
   }
 
   /*actualizeYearsList(yearsList) {
@@ -75,7 +68,7 @@ class UserPage extends Component {
 
     const { pathname } = this.props.location;
 
-    const { auth, months } = this.props;
+    const { auth } = this.props;
 
     if (!auth.uid) return <Redirect to={routes.login} />;
     if (pathname === '/user') return <Redirect to={'user/hours'} />;
@@ -89,9 +82,7 @@ class UserPage extends Component {
               <Menu />
             </MenuContext.Provider>
 
-            {pathname === '/user/hours' && (
-              <HoursMonth monthId={selectedMonthId} months={months}></HoursMonth>
-            )}
+            {pathname === '/user/hours' && <HoursMonth monthId={selectedMonthId}></HoursMonth>}
             {pathname === '/user/money' && <MoneyMonth></MoneyMonth>}
             <Footer />
           </StyledWrapper>
@@ -105,13 +96,12 @@ const mapDispatchToProps = dispatch => {
   return {
     newYear: year => dispatch(addNewYearAction(year)),
     takeDataFromDataBase: (uid, year) => dispatch(takeDataFromDataBaseAction(uid, year)),
-    sendHoursToDataBase: () => dispatch(sendHoursToDataBaseAction()),
   };
 };
 
 const mapStateToProps = state => {
   return {
-    months: state.years,
+    //months: state.years,
     auth: state.firebase.auth,
   };
 };
