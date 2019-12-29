@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
 import HoursMonth from '../../Views//HoursMonth/HoursMonth';
 import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
@@ -13,6 +11,7 @@ import Footer from '../../components/atoms/Footer/Footer';
 import { createNewYear, monthNames, findNextYear } from '../../tools/index';
 import { addNewYear as addNewYearAction } from '../../actions/index';
 import { routes } from '../../Router/routes';
+import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../actions/dataBaseActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -32,6 +31,12 @@ class UserPage extends Component {
     selectedYear: new Date().getFullYear(),
     years: ['2020'],
   };
+
+  componentDidMount() {
+    const { auth, takeDataFromDataBase } = this.props;
+    takeDataFromDataBase(auth.uid, 2019);
+  }
+
   selectMonth = event => {
     this.setState({
       selectedMonthId: event.target.id - 1,
@@ -42,7 +47,7 @@ class UserPage extends Component {
     const { years } = this.state;
     const { newYear } = this.props;
     const year = findNextYear(years);
-    newYear(createNewYear(monthNames, year));
+    //newYear(createNewYear(monthNames, year));
   };
 
   render() {
@@ -56,9 +61,8 @@ class UserPage extends Component {
 
     const { pathname } = this.props.location;
 
-    const { monthsJson, auth } = this.props;
-    //const months = monthsJson && JSON.parse(monthsJson['2020'].months);
-    let months; //Temporary variable;
+    const { auth, months } = this.props;
+
     if (!auth.uid) return <Redirect to={routes.login} />;
     if (pathname === '/user') return <Redirect to={'user/hours'} />;
 
@@ -82,23 +86,15 @@ class UserPage extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     newYear: year => dispatch(addNewYearAction(year)),
+    takeDataFromDataBase: (uid, year) => dispatch(takeDataFromDataBaseAction(uid, year)),
   };
 };
 
 const mapStateToProps = state => {
-  console.log('State', state);
   return {
-    monthsJson: state.firestore.data.years && state.firestore.data.years,
+    months: state.years,
     auth: state.firebase.auth,
   };
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect(props => [
-    {
-      collection: 'years',
-      doc: '2020',
-    },
-  ]),
-)(UserPage);
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

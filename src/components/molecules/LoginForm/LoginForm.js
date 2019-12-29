@@ -63,7 +63,6 @@ LoginForm.propTypes = {
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     auth: state.firebase.auth,
     authErr: state.auth.authError,

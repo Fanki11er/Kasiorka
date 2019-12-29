@@ -1,38 +1,30 @@
 import { createNewYear, monthNames } from '../tools/index';
 
 export const signUp = newUser => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
+  return (dispatch, getState, { getFirebase, dataBase }) => {
     const firebase = getFirebase();
-    const firestore = getFirestore();
     const year = new Date().getFullYear();
     const newYear = createNewYear(monthNames, year);
     firebase
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(resp => {
-        return firestore
-          .collection('users')
-          .doc(resp.user.uid)
-          .set({
-            name: newUser.name,
-            years: [year],
-          })
-          .then(() => {
-            return firestore
-              .collection('years')
-              .doc(resp.user.uid)
-              .set({
-                [newYear.yearName]: JSON.stringify(newYear.months),
-              })
-              .then(() => {
-                return firestore
-                  .collection('money')
-                  .doc(resp.user.uid)
-                  .set({
-                    [newYear.yearName]: 'None',
-                  });
-              });
-          });
+        dataBase.update('Users', {
+          data: {
+            [resp.user.uid]: {
+              settings: {
+                name: newUser.name,
+                yearsList: [newYear.yearName],
+              },
+              years: {
+                [newYear.yearName]: {
+                  hours: newYear,
+                  money: 'None',
+                },
+              },
+            },
+          },
+        });
       })
       .then(() => {
         dispatch({ type: 'SIGNUP_SUCCESS' });
