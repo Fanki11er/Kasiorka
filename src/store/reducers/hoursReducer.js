@@ -1,10 +1,17 @@
+import { replaceDayValue, findIndexToChange } from '../../tools/index';
 const initialState = {};
 
-const testReducer = (state = initialState, action) => {
+const hoursReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'TAKE_HOURS_FROM_DATABASE': {
       state = action.payload;
       return state;
+    }
+    case 'UPDATE_WORK_HOURS': {
+      const monthId = action.payload.monthId;
+      const newValue = action.payload.item;
+      replaceDayValue(state.months[monthId].days, newValue, findIndexToChange);
+      return { ...state };
     }
 
     default: {
@@ -13,4 +20,12 @@ const testReducer = (state = initialState, action) => {
   }
 };
 
-export default testReducer;
+export default hoursReducer;
+/*const monthReducer = (state = appState.months, action) => {
+  switch (action.type) {
+    case 'UPDATE_WORK_HOURS': {
+      const monthId = action.payload.monthId;
+      const newValue = action.payload.item;
+      replaceDayValue(state[monthId].days, newValue, findIndexToChange);
+      return [...state];
+    } */

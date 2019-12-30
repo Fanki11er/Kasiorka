@@ -31,14 +31,15 @@ const StyledView = styled.div`
 
 class HoursMonth extends Component {
   componentWillUnmount() {
-    console.log('Unmounted');
     const { sendHoursToDataBase, auth } = this.props;
     sendHoursToDataBase(auth.uid);
   }
 
-  render() {
-    const { months, monthId } = this.props;
+  componentDidUpdate() {}
 
+  render() {
+    const { hours, monthId } = this.props;
+    const months = hours.months;
     return (
       <StyledView>
         <StyledWrapper>
@@ -74,7 +75,7 @@ HoursMonth.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    months: state.hours.months,
+    hours: state.hours,
     auth: state.firebase.auth,
   };
 };

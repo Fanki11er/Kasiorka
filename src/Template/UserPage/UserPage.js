@@ -30,7 +30,6 @@ class UserPage extends Component {
   state = {
     selectedMonthId: new Date().getMonth(),
     selectedYear: new Date().getFullYear(),
-    updated: false,
   };
 
   componentDidMount() {
@@ -68,8 +67,7 @@ class UserPage extends Component {
 
     const { pathname } = this.props.location;
 
-    const { auth } = this.props;
-
+    const { auth, months } = this.props;
     if (!auth.uid) return <Redirect to={routes.login} />;
     if (pathname === '/user') return <Redirect to={'user/hours'} />;
 
@@ -101,7 +99,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    //months: state.years,
+    months: state.hours.months,
     auth: state.firebase.auth,
   };
 };

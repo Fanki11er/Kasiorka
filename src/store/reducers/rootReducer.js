@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   firebase: firebaseReducer,
   user: userReducer,
   hours: hoursReducer,
-  tests: testReducer,
+  //tests: testReducer,
 });
 
 export default rootReducer;
