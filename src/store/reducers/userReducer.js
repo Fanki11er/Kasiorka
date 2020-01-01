@@ -1,4 +1,6 @@
-const initialState = {};
+const initialState = {
+  yearsList: null,
+};
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -11,9 +13,14 @@ const userReducer = (state = initialState, action) => {
       const yearsList = state.yearsList;
       return {
         ...state,
-        ['yearsList']: [...yearsList, action.payload],
+        yearsList: [...yearsList, action.payload],
       };
     }
+
+    case 'NEW_YEAR_ADDED': {
+      return state;
+    }
+
     default: {
       return state;
     }

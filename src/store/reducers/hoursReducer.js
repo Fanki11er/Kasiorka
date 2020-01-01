@@ -14,6 +14,10 @@ const hoursReducer = (state = initialState, action) => {
       return { ...state };
     }
 
+    case 'SAVED_SUCCESS': {
+      return state;
+    }
+
     default: {
       return state;
     }

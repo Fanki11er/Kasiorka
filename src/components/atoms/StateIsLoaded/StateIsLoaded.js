@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { isLoaded, isEmpty } from 'react-redux-firebase';
+import { isEmpty } from 'react-redux-firebase';
 
 function StateIsLoaded({ children, ready }) {
   const yearsList = useSelector(state => state.user.yearsList);

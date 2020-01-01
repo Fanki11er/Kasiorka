@@ -3,8 +3,9 @@ import { firebaseReducer } from 'react-redux-firebase';
 import authReducer from './authReducer';
 import monthReducer from './monthReducer';
 import userReducer from './userReducer';
-import testReducer from './testReducer';
+//import testReducer from './testReducer';
 import hoursReducer from './hoursReducer';
+import errorsReducer from './errorsReducer';
 
 const rootReducer = combineReducers({
   years: monthReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   firebase: firebaseReducer,
   user: userReducer,
   hours: hoursReducer,
+  errors: errorsReducer,
   //tests: testReducer,
 });
 
