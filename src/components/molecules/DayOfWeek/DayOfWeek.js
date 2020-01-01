@@ -3,7 +3,7 @@ import { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { updateHours as updateHoursAction } from '../../../actions/index';
+import { updateHours as updateHoursAction } from '../../../actions/hoursActions';
 import DayName from '../../atoms/DayName/DayName';
 import DayNumber from '../../atoms/DayNumber/DayNumber';
 import NumberOfHours from '../../atoms/NumberOfHours/NumberOfHours';

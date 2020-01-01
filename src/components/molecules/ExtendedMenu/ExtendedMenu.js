@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Settings } from 'styled-icons/feather';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
+import PropTypes from 'prop-types';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -31,11 +32,12 @@ const StyledIcon = styled(Settings)`
 
 class ExtendedMenu extends Component {
   render() {
+    const { addNewYear } = this.props;
     return (
       <StyledWrapper>
-        <StyledMenuItem>Dodaj nowy rok</StyledMenuItem>;
-        <StyledMenuItem>Auto uzupełniannie</StyledMenuItem>;
-        <StyledMenuItem>Dodaj dzień świąteczny</StyledMenuItem>;
+        <StyledMenuItem onClick={addNewYear}>Dodaj nowy rok</StyledMenuItem>;
+        <StyledMenuItem>{/*Auto uzupełniannie*/} Test</StyledMenuItem>;
+        <StyledMenuItem>{/*Dodaj dzień świąteczny*/}Test Sync</StyledMenuItem>;
         <StyledMenuItem>
           <StyledIcon />
         </StyledMenuItem>
@@ -44,5 +46,7 @@ class ExtendedMenu extends Component {
     );
   }
 }
-
+ExtendedMenu.propTypes = {
+  addNewYear: PropTypes.func.isRequired,
+};
 export default ExtendedMenu;

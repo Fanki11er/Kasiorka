@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
 import UserName from '../../atoms/UserName/UserName';
+import { signOut as signOutAction } from '../../../actions/authActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -11,20 +13,28 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledLogOut = styled(MenuItem)`
-  padding-top: 10px;
-  text-align: center;
   width: 150px;
 `;
 
-const UserMenu = () => {
+const UserMenu = ({ signOut }) => {
   return (
     <StyledWrapper>
       <UserName>Krzysiek</UserName>
-      <StyledLogOut as={Link} to="/" clicked={0}>
+      <StyledLogOut onClick={signOut} clicked={0}>
         Wyloguj
       </StyledLogOut>
     </StyledWrapper>
   );
 };
 
-export default UserMenu;
+UserMenu.propTypes = {
+  signOut: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    signOut: () => dispatch(signOutAction()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(UserMenu);

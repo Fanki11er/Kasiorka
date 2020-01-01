@@ -3,9 +3,10 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { addDaysToSection, sections } from '../../tools/index';
+import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 import DayOfTheWeek from '../../components/molecules/DayOfWeek/DayOfWeek';
 import Summary from '../../components/molecules/Summary/Summary';
-import { addDaysToSection, sections } from '../../tools/index';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -28,35 +29,38 @@ const StyledView = styled.div`
   margin: 0px auto 0 auto;
 `;
 
-const mapStateToProps = state => {
-  return {
-    months: state,
-  };
-};
-
 class HoursMonth extends Component {
-  render() {
-    const { months, monthId } = this.props;
+  componentWillUnmount() {
+    const { sendHoursToDataBase, auth } = this.props;
+    sendHoursToDataBase(auth.uid);
+  }
 
+  componentDidUpdate() {}
+
+  render() {
+    const { hours, monthId } = this.props;
+    const months = hours.months;
     return (
       <StyledView>
         <StyledWrapper>
-          {sections.map(({ rangeStart, rangeEnd }) => (
-            <StyledSection key={rangeStart}>
-              {addDaysToSection(months[monthId].days, rangeStart, rangeEnd).map(
-                ({ dayId, nameOfDay, workHours, isHoliday }) => (
-                  <DayOfTheWeek
-                    dayId={dayId}
-                    nameOfDay={nameOfDay}
-                    workHours={workHours}
-                    isHoliday={isHoliday}
-                    key={dayId}
-                    monthId={monthId}
-                  ></DayOfTheWeek>
-                ),
-              )}
-            </StyledSection>
-          ))}
+          {months &&
+            months.length > 0 &&
+            sections.map(({ rangeStart, rangeEnd }) => (
+              <StyledSection key={rangeStart}>
+                {addDaysToSection(months[monthId].days, rangeStart, rangeEnd).map(
+                  ({ dayId, nameOfDay, workHours, isHoliday }) => (
+                    <DayOfTheWeek
+                      dayId={dayId}
+                      nameOfDay={nameOfDay}
+                      workHours={workHours}
+                      isHoliday={isHoliday}
+                      key={dayId}
+                      monthId={monthId}
+                    ></DayOfTheWeek>
+                  ),
+                )}
+              </StyledSection>
+            ))}
         </StyledWrapper>
         <Summary />
       </StyledView>
@@ -65,8 +69,21 @@ class HoursMonth extends Component {
 }
 
 HoursMonth.propTypes = {
-  months: PropTypes.array.isRequired,
+  months: PropTypes.array,
   monthId: PropTypes.number.isRequired,
 };
 
-export default connect(mapStateToProps)(HoursMonth);
+const mapStateToProps = state => {
+  return {
+    hours: state.hours,
+    auth: state.firebase.auth,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    sendHoursToDataBase: uid => dispatch(sendHoursToDataBaseAction(uid)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HoursMonth);

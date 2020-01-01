@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const StyledList = styled.ul`
   list-style: none;
@@ -11,19 +13,35 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
-const years = ['2019', '2020'];
-
-const YearsMenu = () => (
+const YearsMenu = ({ yearsList }) => (
   <StyledList>
-    {years.map(yearName => (
-      <StyledListItem key={yearName}>
-        <MenuItem year clicked={0}>
-          {yearName}
+    {yearsList && yearsList.length > 0 ? (
+      yearsList.map(yearName => (
+        <StyledListItem key={yearName}>
+          <MenuItem year clicked={0}>
+            {yearName}
+          </MenuItem>
+        </StyledListItem>
+      ))
+    ) : (
+      <StyledListItem>
+        <MenuItem year className="noActive">
+          Brak
         </MenuItem>
       </StyledListItem>
-    ))}
+    )}
     ;
   </StyledList>
 );
 
-export default YearsMenu;
+YearsMenu.propTypes = {
+  yearsList: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = state => {
+  return {
+    yearsList: state.user.yearsList,
+  };
+};
+
+export default connect(mapStateToProps)(YearsMenu);
