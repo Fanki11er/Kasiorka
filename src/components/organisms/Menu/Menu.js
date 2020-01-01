@@ -36,7 +36,7 @@ const Menu = ({ menuContext }) => (
     <TitleHeader small />
     <StyledMenuWrapper>
       <StyledFlexWrapper>
-        <YearsMenu yearsNames={menuContext.years} />
+        <YearsMenu />
         <ExtendedMenu addNewYear={menuContext.addNewYear} />
       </StyledFlexWrapper>
       <MonthMenu

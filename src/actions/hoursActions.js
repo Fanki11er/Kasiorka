@@ -15,11 +15,7 @@ export const updateHours = (monthId, dayId, nameOfDay, workHours, isHoliday, act
   };
 };
 
-export const addNewYear = year => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const firestore = getFirestore();
-    const docId = year.yearName.toString();
-    firestore
+/* firestore
       .collection('years')
       .doc(docId)
       .set({
@@ -36,12 +32,4 @@ export const addNewYear = year => {
           type: 'ERROR',
           err,
         });
-      });
-  };
-};
-
-/*    firestore
-      .collection('years')
-      .add({
-        [year.yearName]: JSON.stringify(year.months),
-      }) */
+      }); */

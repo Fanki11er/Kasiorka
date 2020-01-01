@@ -1,8 +1,10 @@
 import React from 'react';
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { addDaysToSection, sections } from '../../tools/index';
+import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 import DayOfTheWeek from '../../components/molecules/DayOfWeek/DayOfWeek';
 import Summary from '../../components/molecules/Summary/Summary';
 
@@ -28,10 +30,16 @@ const StyledView = styled.div`
 `;
 
 class HoursMonth extends Component {
-  render() {
-    const { months, monthId } = this.props;
-    //const months = monthsJson && JSON.parse(monthsJson);
+  componentWillUnmount() {
+    const { sendHoursToDataBase, auth } = this.props;
+    sendHoursToDataBase(auth.uid);
+  }
 
+  componentDidUpdate() {}
+
+  render() {
+    const { hours, monthId } = this.props;
+    const months = hours.months;
     return (
       <StyledView>
         <StyledWrapper>
@@ -65,4 +73,17 @@ HoursMonth.propTypes = {
   monthId: PropTypes.number.isRequired,
 };
 
-export default HoursMonth;
+const mapStateToProps = state => {
+  return {
+    hours: state.hours,
+    auth: state.firebase.auth,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    sendHoursToDataBase: uid => dispatch(sendHoursToDataBaseAction(uid)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HoursMonth);

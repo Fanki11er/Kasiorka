@@ -114,12 +114,13 @@ const findNextYear = years => {
 
 const addDaysToSection = (month, rangeStart, rangeEnd) => {
   const daysArr = [];
-  month.map(day => {
-    if (day.dayId >= rangeStart && day.dayId <= rangeEnd) {
-      daysArr.push(day);
-    }
-    return null;
-  });
+  month &&
+    month.map(day => {
+      if (day.dayId >= rangeStart && day.dayId <= rangeEnd) {
+        daysArr.push(day);
+      }
+      return null;
+    });
   return daysArr;
 };
 //Month-----------------------------------------------------------
@@ -139,9 +140,17 @@ const findIndexToChange = (startValue, dayId) => {
 };
 
 //Reducer---------------------------------------------------------
+//Actions---------------------------------------------------------
+const newYearsListItem = (yearsList, yearToAdd) => {
+  const key = Object.keys(yearsList).length;
+  return { [key]: yearToAdd };
+}; //TODO: Write tests
+
+//Actions---------------------------------------------------------
 
 export { createNewYear, findNextYear, addDaysToSection, sections };
 export { replaceDayValue, findIndexToChange }; //Reducer
+export { newYearsListItem }; //Actions
 export {
   SingleMonth,
   SingleDay,

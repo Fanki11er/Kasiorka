@@ -1,7 +1,8 @@
 import firebase from 'firebase/app';
-import 'firebase/firestore';
+import 'firebase/database';
 import 'firebase/auth';
 import 'firebase/analytics';
+import Rebase from 're-base';
 
 export const rrfConfig = {};
 
@@ -18,7 +19,8 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.firestore();
+const db = firebase.database();
 firebase.analytics();
-
+const dataBase = Rebase.createClass(db);
+export { dataBase };
 export default firebase;
