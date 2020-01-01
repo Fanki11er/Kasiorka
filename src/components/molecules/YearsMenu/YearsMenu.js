@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import StateIsLoaded from '../../atoms/StateIsLoaded/StateIsLoaded';
 
 const StyledList = styled.ul`
   list-style: none;

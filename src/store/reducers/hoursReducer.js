@@ -21,11 +21,3 @@ const hoursReducer = (state = initialState, action) => {
 };
 
 export default hoursReducer;
-/*const monthReducer = (state = appState.months, action) => {
-  switch (action.type) {
-    case 'UPDATE_WORK_HOURS': {
-      const monthId = action.payload.monthId;
-      const newValue = action.payload.item;
-      replaceDayValue(state[monthId].days, newValue, findIndexToChange);
-      return [...state];
-    } */

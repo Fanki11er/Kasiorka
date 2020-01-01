@@ -140,9 +140,17 @@ const findIndexToChange = (startValue, dayId) => {
 };
 
 //Reducer---------------------------------------------------------
+//Actions---------------------------------------------------------
+const newYearsListItem = (yearsList, yearToAdd) => {
+  const key = Object.keys(yearsList).length;
+  return { [key]: yearToAdd };
+}; //TODO: Write tests
+
+//Actions---------------------------------------------------------
 
 export { createNewYear, findNextYear, addDaysToSection, sections };
 export { replaceDayValue, findIndexToChange }; //Reducer
+export { newYearsListItem }; //Actions
 export {
   SingleMonth,
   SingleDay,

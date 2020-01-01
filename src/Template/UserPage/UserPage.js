@@ -10,7 +10,7 @@ import Navigation from '../../components/organisms/Navigation/Navigation';
 import Footer from '../../components/atoms/Footer/Footer';
 import StateIsLoaded from '../../components/atoms/StateIsLoaded/StateIsLoaded';
 import { createNewYear, monthNames, findNextYear } from '../../tools/index';
-import { addNewYear as addNewYearAction } from '../../actions/index';
+import { addNewYear as addNewYearAction } from '../../actions/dataBaseActions';
 import { routes } from '../../Router/routes';
 import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../actions/dataBaseActions';
 
@@ -38,12 +38,6 @@ class UserPage extends Component {
     takeDataFromDataBase(auth.uid, selectedYear);
   }
 
-  /*actualizeYearsList(yearsList) {
-    this.setState({
-      yearsList,
-    });
-  }*/
-
   selectMonth = event => {
     this.setState({
       selectedMonthId: event.target.id - 1,
@@ -51,10 +45,10 @@ class UserPage extends Component {
   };
 
   addNewYear = () => {
-    const { years } = this.state;
-    const { newYear } = this.props;
+    const { newYear, user } = this.props;
+    const years = user.yearsList;
     const year = findNextYear(years);
-    //newYear(createNewYear(monthNames, year));
+    newYear(createNewYear(monthNames, year));
   };
 
   render() {
@@ -67,7 +61,7 @@ class UserPage extends Component {
 
     const { pathname } = this.props.location;
 
-    const { auth, months } = this.props;
+    const { auth } = this.props;
     if (!auth.uid) return <Redirect to={routes.login} />;
     if (pathname === '/user') return <Redirect to={'user/hours'} />;
 
@@ -101,6 +95,7 @@ const mapStateToProps = state => {
   return {
     months: state.hours.months,
     auth: state.firebase.auth,
+    user: state.user,
   };
 };
 

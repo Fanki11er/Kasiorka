@@ -7,6 +7,13 @@ const userReducer = (state = initialState, action) => {
 
       return state;
     }
+    case 'ACTUALIZE_YEARS_LIST': {
+      const yearsList = state.yearsList;
+      return {
+        ...state,
+        ['yearsList']: [...yearsList, action.payload],
+      };
+    }
     default: {
       return state;
     }

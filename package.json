@@ -1,7 +1,7 @@
 {
   "name": "kasiorka",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@testing-library/react": "^9.4.0",
     "firebase": "^7.6.1",
