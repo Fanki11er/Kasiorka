@@ -12,12 +12,6 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
-const mapStateToProps = state => {
-  return {
-    monthNames: state.years,
-  };
-};
-
 const getMonthNames = state => {
   const monthNames = [];
   state &&
@@ -82,6 +76,11 @@ MonthMenu.propTypes = {
 
 MonthMenu.defaultPropTypes = {
   selectedMonthId: 0,
+};
+const mapStateToProps = state => {
+  return {
+    monthNames: state.hours.months,
+  };
 };
 
 export default connect(mapStateToProps)(MonthMenu);

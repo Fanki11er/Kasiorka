@@ -29,13 +29,13 @@ const errorsReducer = (state = initialState, action) => {
     case 'LOGIN_SUCCESS': {
       return {
         ...state,
-        authError: null,
+        authErr: null,
       };
     }
     case 'LOGIN_ERROR': {
       return {
         ...state,
-        authError: action.err.message,
+        authErr: action.err.message,
       };
     }
 

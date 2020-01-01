@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { signIn as signInAction } from '../../../actions/authActions';
 import FormHeader from '../../atoms/FormHeader/FormHeader';
 import FormInput from '../../atoms/FormInput/FormInput';
 import FormError from '../../atoms/FormError/FormError';
 import FormButton from '../../atoms/FormButton/FormButton';
 import StyledForm from '../../atoms/Form/Form';
 import ErrorWrapper from '../../atoms/ErrorWrapper/ErrorWrapper';
-import { signIn as signInAction } from '../../../actions/authActions';
+import ErrorInfo from '../../atoms/ErrorInfo/ErrorInfo';
 
 const LoginForm = ({ signIn, auth, authErr }) => {
   if (auth.uid) return <Redirect to="/user" />;
@@ -20,7 +21,7 @@ const LoginForm = ({ signIn, auth, authErr }) => {
       initialValues={{ email: '', password: '' }}
       validate={values => {
         const errors = {};
-        if (!values.email) {
+        /*if (!values.email) {
           errors.email = 'Pole wymagane';
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
           errors.email = 'Błędny adres e-mail';
@@ -28,7 +29,7 @@ const LoginForm = ({ signIn, auth, authErr }) => {
 
         if (!values.password) errors.password = 'Pole wymagane';
 
-        return errors;
+        return errors;*/
       }}
       onSubmit={(values, { setSubmitting }) => {
         signIn(values);
@@ -39,14 +40,9 @@ const LoginForm = ({ signIn, auth, authErr }) => {
         <StyledForm noValidate>
           <FormHeader>Logowanie</FormHeader>
           <FormInput withError label="E-mail" type="email" name="email" />
-          <ErrorWrapper>
-            <FormError name="email" component="div" />
-          </ErrorWrapper>
+          <ErrorWrapper></ErrorWrapper>
           <FormInput withError label="Hasło" type="password" name="password" />
-          <ErrorWrapper>
-            <FormError name="password" component="div" />
-            {authErr && <p>TEST</p>}
-          </ErrorWrapper>
+          <ErrorWrapper>{authErr && <ErrorInfo>{authErr}</ErrorInfo>}</ErrorWrapper>
           <FormButton clicked={0} type="submit" disabled={isSubmitting}>
             Zaloguj
           </FormButton>
@@ -65,7 +61,7 @@ LoginForm.propTypes = {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    authErr: state.auth.authError,
+    authErr: state.errors.authErr,
   };
 };
 const mapDispatchToProps = dispatch => {
