@@ -14,9 +14,10 @@ import AuthIsLoaded from '../components/atoms/AuthIsLoaded/AuthIsLoaded';
 import UserPage from '../Template/UserPage/UserPage';
 import LoginView from '../Views/LoginView/LoginView';
 import RegisterView from '../Views/RegisterView/RegisterView';
+import WaitingScreen from '../components/molecules/WaitingScreen/WaitingScreen';
 
 function Router() {
-  const { login, user, register } = routes;
+  const { login, user, register, tests } = routes;
   return (
     <Provider store={store}>
       <ReactReduxFirebaseProvider

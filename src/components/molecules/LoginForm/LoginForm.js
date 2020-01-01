@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { signIn as signInAction } from '../../../actions/authActions';
 import FormHeader from '../../atoms/FormHeader/FormHeader';
 import FormInput from '../../atoms/FormInput/FormInput';
-import FormError from '../../atoms/FormError/FormError';
 import FormButton from '../../atoms/FormButton/FormButton';
 import StyledForm from '../../atoms/Form/Form';
 import ErrorWrapper from '../../atoms/ErrorWrapper/ErrorWrapper';
@@ -19,18 +18,6 @@ const LoginForm = ({ signIn, auth, authErr }) => {
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
-      validate={values => {
-        const errors = {};
-        /*if (!values.email) {
-          errors.email = 'Pole wymagane';
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-          errors.email = 'Błędny adres e-mail';
-        }
-
-        if (!values.password) errors.password = 'Pole wymagane';
-
-        return errors;*/
-      }}
       onSubmit={(values, { setSubmitting }) => {
         signIn(values);
         setSubmitting(false);
