@@ -38,6 +38,7 @@ class UserPage extends Component {
     const { auth, takeDataFromDataBase } = this.props;
     takeDataFromDataBase(auth.uid, selectedYear);
   }
+  componentDidUpdate() {}
 
   selectMonthOrYear = (event, select) => {
     switch (select) {
@@ -49,16 +50,22 @@ class UserPage extends Component {
       }
 
       case 'year': {
+        const { takeDataFromDataBase, auth, user } = this.props;
+        const selectedYear = user.yearsList[event.target.id];
         this.setState({
-          selectedYearId: event.target.id - 1,
+          selectedYear: selectedYear,
         });
+
+        takeDataFromDataBase(auth.uid, selectedYear);
+
         break;
       }
       default: {
         this.setState({
-          selectedYearId: 0,
+          selectedYear: 0,
           selectedMonthId: 0,
         });
+        break;
       }
     }
   };

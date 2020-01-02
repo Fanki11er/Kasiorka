@@ -45,9 +45,9 @@ class YearsMenu extends Component {
     return (
       <StyledList>
         {yearsList && yearsList.length > 0 ? (
-          yearsList.map((yearName, index) => (
+          yearsList.map((yearName, yearId) => (
             <StyledListItem key={yearName}>
-              <MenuItem year clicked={parseFloat(clicked)} onClick={this.handleClick} id={index}>
+              <MenuItem year clicked={parseFloat(clicked)} onClick={this.handleClick} id={yearId}>
                 {yearName}
               </MenuItem>
             </StyledListItem>
