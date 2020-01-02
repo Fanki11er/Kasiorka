@@ -14,22 +14,3 @@ export const updateHours = (monthId, dayId, nameOfDay, workHours, isHoliday, act
     },
   };
 };
-
-/* firestore
-      .collection('years')
-      .doc(docId)
-      .set({
-        months: JSON.stringify(year.months),
-      })
-      .then(() => {
-        dispatch({
-          type: 'ADD_NEW_YEAR',
-          year,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: 'ERROR',
-          err,
-        });
-      }); */

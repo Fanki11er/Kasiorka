@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const DayName = styled.div`
   width: ${({ theme }) => theme.rowHeight};
@@ -13,5 +14,13 @@ const DayName = styled.div`
     isHoliday ? theme.holidayRed : theme.dayNameColour};
   color: ${({ theme }) => theme.primaryFont};
 `;
+
+DayName.propTypes = {
+  isHoliday: PropTypes.bool,
+};
+
+DayName.defaultProps = {
+  isHoliday: false,
+};
 
 export default DayName;
