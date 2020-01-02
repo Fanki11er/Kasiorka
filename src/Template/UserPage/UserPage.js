@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import HoursMonth from '../../Views//HoursMonth/HoursMonth';
 import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
@@ -38,10 +39,28 @@ class UserPage extends Component {
     takeDataFromDataBase(auth.uid, selectedYear);
   }
 
-  selectMonth = event => {
-    this.setState({
-      selectedMonthId: event.target.id - 1,
-    });
+  selectMonthOrYear = (event, select) => {
+    switch (select) {
+      case 'month': {
+        this.setState({
+          selectedMonthId: event.target.id - 1,
+        });
+        break;
+      }
+
+      case 'year': {
+        this.setState({
+          selectedYearId: event.target.id - 1,
+        });
+        break;
+      }
+      default: {
+        this.setState({
+          selectedYearId: 0,
+          selectedMonthId: 0,
+        });
+      }
+    }
   };
 
   addNewYear = () => {
@@ -52,10 +71,11 @@ class UserPage extends Component {
   };
 
   render() {
-    const { selectedMonthId } = this.state;
+    const { selectedMonthId, selectedYear } = this.state;
     const menuContext = {
       selectedMonthId,
-      selectMonth: this.selectMonth,
+      selectedYear,
+      selectMonthOrYear: this.selectMonthOrYear,
       addNewYear: this.addNewYear,
     };
 
@@ -97,6 +117,14 @@ const mapStateToProps = state => {
     auth: state.firebase.auth,
     user: state.user,
   };
+};
+
+UserPage.propTypes = {
+  months: PropTypes.array,
+  auth: PropTypes.object,
+  user: PropTypes.object,
+  newYear: PropTypes.func.isRequired,
+  takeDataFromDataBase: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

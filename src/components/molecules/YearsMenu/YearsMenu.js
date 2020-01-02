@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
 import PropTypes from 'prop-types';
@@ -13,26 +13,57 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
-const YearsMenu = ({ yearsList }) => (
-  <StyledList>
-    {yearsList && yearsList.length > 0 ? (
-      yearsList.map(yearName => (
-        <StyledListItem key={yearName}>
-          <MenuItem year clicked={0}>
-            {yearName}
-          </MenuItem>
-        </StyledListItem>
-      ))
-    ) : (
-      <StyledListItem>
-        <MenuItem year className="noActive">
-          Brak
-        </MenuItem>
-      </StyledListItem>
-    )}
-    ;
-  </StyledList>
-);
+class YearsMenu extends Component {
+  state = {
+    clicked: 0,
+  };
+
+  componentDidMount() {
+    const { selectedYear, yearsList } = this.props;
+    const selectYear = this.clickedYear(selectedYear, yearsList);
+
+    this.setState({
+      clicked: selectYear,
+    });
+  }
+
+  clickedYear = (selectedYear, yearsList) => {
+    return yearsList.indexOf(selectedYear);
+  };
+
+  handleClick = event => {
+    this.setState({
+      clicked: event.target.id,
+    });
+    const { selectMonthOrYear } = this.props;
+    selectMonthOrYear(event, 'year');
+  };
+  render() {
+    const { yearsList } = this.props;
+    const { clicked } = this.state;
+
+    return (
+      <StyledList>
+        {yearsList && yearsList.length > 0 ? (
+          yearsList.map((yearName, index) => (
+            <StyledListItem key={yearName}>
+              <MenuItem year clicked={parseFloat(clicked)} onClick={this.handleClick} id={index}>
+                {yearName}
+              </MenuItem>
+            </StyledListItem>
+          ))
+        ) : (
+          <StyledListItem>
+            <MenuItem year className="noActive">
+              Brak
+            </MenuItem>
+          </StyledListItem>
+        )}
+        ;
+      </StyledList>
+    );
+  }
+}
 
 YearsMenu.propTypes = {
   yearsList: PropTypes.array.isRequired,

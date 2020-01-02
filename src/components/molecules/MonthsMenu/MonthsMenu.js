@@ -31,10 +31,10 @@ class MonthMenu extends Component {
     this.setState({
       clicked: event.target.id,
     });
-    const { selectMonth } = this.props;
-    selectMonth(event);
+    const { selectMonthOrYear } = this.props;
+    selectMonthOrYear(event, 'month');
   };
-  co;
+
   componentDidMount() {
     const { selectedMonthId } = this.props;
     this.setState({
@@ -70,7 +70,7 @@ class MonthMenu extends Component {
 
 MonthMenu.propTypes = {
   monthNames: PropTypes.array.isRequired,
-  selectMonth: PropTypes.func.isRequired,
+  selectMonthOrYear: PropTypes.func.isRequired,
   selectedMonthId: PropTypes.number,
 };
 
