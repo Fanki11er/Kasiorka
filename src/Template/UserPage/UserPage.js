@@ -38,8 +38,11 @@ class UserPage extends Component {
     const { selectedYear } = this.state;
     const { auth, takeDataFromDataBase } = this.props;
     takeDataFromDataBase(auth.uid, selectedYear);
+    window.addEventListener('beforeunload', this.whenClosing);
   }
-  componentDidUpdate() {}
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.whenClosing);
+  }
 
   selectMonthOrYear = (event, select) => {
     switch (select) {
@@ -77,6 +80,12 @@ class UserPage extends Component {
     const years = user.yearsList;
     const year = findNextYear(years);
     newYear(createNewYear(monthNames, year));
+  };
+
+  whenClosing = event => {
+    event.preventDefault();
+    const { isSaved, auth, sendHoursToDataBase } = this.props;
+    if (!isSaved) sendHoursToDataBase(auth.uid);
   };
 
   render() {
