@@ -24,7 +24,6 @@ export const takeDataFromDataBase = (uid, year) => {
 export const sendHoursToDataBase = uid => {
   return (dispatch, getState, { dataBase, endPoints }) => {
     const state = getState();
-    //TODO: Check if state was changed, add bool to state and dispatch action
     const yearToSave = state.hours.yearName;
     dataBase
       .update(endPoints.hours(uid, yearToSave), {

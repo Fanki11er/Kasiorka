@@ -14,6 +14,7 @@ import { createNewYear, monthNames, findNextYear } from '../../tools/index';
 import { addNewYear as addNewYearAction } from '../../actions/dataBaseActions';
 import { routes } from '../../Router/routes';
 import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../actions/dataBaseActions';
+import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -50,19 +51,20 @@ class UserPage extends Component {
       }
 
       case 'year': {
-        const { takeDataFromDataBase, auth, user } = this.props;
+        const { takeDataFromDataBase, sendHoursToDataBase, auth, user, isSaved } = this.props;
         const selectedYear = user.yearsList[event.target.id];
         this.setState({
           selectedYear: selectedYear,
         });
-
+        //!Make it async
+        if (!isSaved) sendHoursToDataBase(auth.uid);
         takeDataFromDataBase(auth.uid, selectedYear);
 
         break;
       }
       default: {
         this.setState({
-          selectedYear: 0,
+          selectedYear: new Date().getFullYear(),
           selectedMonthId: 0,
         });
         break;
@@ -115,6 +117,7 @@ const mapDispatchToProps = dispatch => {
   return {
     newYear: year => dispatch(addNewYearAction(year)),
     takeDataFromDataBase: (uid, year) => dispatch(takeDataFromDataBaseAction(uid, year)),
+    sendHoursToDataBase: uid => dispatch(sendHoursToDataBaseAction(uid)),
   };
 };
 
@@ -123,6 +126,7 @@ const mapStateToProps = state => {
     months: state.hours.months,
     auth: state.firebase.auth,
     user: state.user,
+    isSaved: state.hours.isSaved,
   };
 };
 

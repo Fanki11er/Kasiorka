@@ -31,8 +31,11 @@ const StyledView = styled.div`
 
 class HoursMonth extends Component {
   componentWillUnmount() {
-    const { sendHoursToDataBase, auth } = this.props;
-    sendHoursToDataBase(auth.uid);
+    const { sendHoursToDataBase, auth, isSaved } = this.props;
+    if (!isSaved) {
+      sendHoursToDataBase(auth.uid);
+      console.log('Not saved');
+    }
   }
 
   componentDidUpdate() {}
@@ -77,6 +80,7 @@ const mapStateToProps = state => {
   return {
     hours: state.hours,
     auth: state.firebase.auth,
+    isSaved: state.hours.isSaved,
   };
 };
 

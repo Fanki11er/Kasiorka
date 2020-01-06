@@ -1,4 +1,4 @@
-/*import React from 'react';
+import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
@@ -37,4 +37,4 @@ const customRender = (ui, options) => render(ui, { wrapper: AllTheProviders, ...
 export * from '@testing-library/react';
 
 // override render method
-export { customRender as render };*/
+export { customRender as render };
