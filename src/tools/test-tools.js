@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
@@ -11,24 +11,8 @@ import { theme } from '../themes/mainTheme';
 import GlobalStyle from '../themes/GlobalStyle';
 import store from '../store/index';
 
-const AllTheProviders = ({ children }) => {
-  return (
-    <Provider store={store}>
-      <ReactReduxFirebaseProvider
-        firebase={firebaseConfig}
-        config={rrfConfig}
-        dispatch={store.dispatch}
-        createFirestoreInstance={createFirestoreInstance}
-      >
-        <BrowserRouter>
-          <GlobalStyle />
-          <ThemeProvider theme={theme}>
-            <Switch>{children}</Switch>
-          </ThemeProvider>
-        </BrowserRouter>
-      </ReactReduxFirebaseProvider>
-    </Provider>
-  );
+const AllTheProviders = () => {
+  return <ThemeProvider theme={theme}></ThemeProvider>;
 };
 
 const customRender = (ui, options) => render(ui, { wrapper: AllTheProviders, ...options });
@@ -37,4 +21,4 @@ const customRender = (ui, options) => render(ui, { wrapper: AllTheProviders, ...
 export * from '@testing-library/react';
 
 // override render method
-export { customRender as render };
+export { customRender as render };*/
