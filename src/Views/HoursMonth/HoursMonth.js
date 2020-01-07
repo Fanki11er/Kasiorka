@@ -7,6 +7,7 @@ import { addDaysToSection, sections } from '../../tools/index';
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 import DayOfTheWeek from '../../components/molecules/DayOfWeek/DayOfWeek';
 import Summary from '../../components/molecules/Summary/Summary';
+import EditSummaryOptions from '../../components/organisms/EditSummaryOptions/EditSummaryOptions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -34,7 +35,6 @@ class HoursMonth extends Component {
     const { sendHoursToDataBase, auth, isSaved } = this.props;
     if (!isSaved) {
       sendHoursToDataBase(auth.uid);
-      console.log('Not saved');
     }
   }
 
@@ -67,6 +67,7 @@ class HoursMonth extends Component {
             ))}
         </StyledWrapper>
         <Summary monthId={monthId} />
+        <EditSummaryOptions />
       </StyledView>
     );
   }
