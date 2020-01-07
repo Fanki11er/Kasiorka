@@ -5,6 +5,7 @@ export const updateHours = (monthId, dayId, nameOfDay, workHours, isHoliday, act
     type: 'UPDATE_WORK_HOURS',
     payload: {
       monthId: monthId,
+      actionPerformed: action,
       item: {
         dayId,
         nameOfDay,

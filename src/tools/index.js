@@ -3,6 +3,11 @@ class SingleMonth {
     this.id = id + 1;
     this.name = name;
     this.days = [];
+    this.totalHours = 0;
+    this.currency = 'zł';
+    this.expectedPayout = 0;
+    this.paymentReceived = 0;
+    this.salary = 0;
   }
 }
 
@@ -134,6 +139,21 @@ const replaceDayValue = (prevValue, newValue, indexToChange) => {
   return startValue;
 };
 
+const updateTotalHours = (monthToUpdate, actionPerformed) => {
+  let value = monthToUpdate.totalHours;
+  if (actionPerformed === '+') {
+    value++;
+    monthToUpdate.totalHours = value;
+    return monthToUpdate;
+  }
+  if (actionPerformed === '-') {
+    value--;
+    monthToUpdate.totalHours = value;
+    return monthToUpdate;
+  }
+  if (!actionPerformed) return monthToUpdate;
+};
+
 const findIndexToChange = (startValue, dayId) => {
   const foundIndex = startValue.indexOf(startValue.find(day => day.dayId === dayId));
   return foundIndex;
@@ -144,12 +164,12 @@ const findIndexToChange = (startValue, dayId) => {
 const newYearsListItem = (yearsList, yearToAdd) => {
   const key = Object.keys(yearsList).length;
   return { [key]: yearToAdd };
-}; //TODO: Write tests
+};
 
 //Actions---------------------------------------------------------
 
 export { createNewYear, findNextYear, addDaysToSection, sections };
-export { replaceDayValue, findIndexToChange }; //Reducer
+export { replaceDayValue, findIndexToChange, updateTotalHours }; //Reducer
 export { newYearsListItem }; //Actions
 export {
   SingleMonth,

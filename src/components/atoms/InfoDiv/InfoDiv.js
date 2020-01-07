@@ -53,7 +53,7 @@ const StyledUnits = styled.div`
   margin-right: 15px;
 `;
 const test = () => {
-  console.log('Buziaki');
+  
 };
 const infoDiv = ({ labelText, labelData, editable, units }) => {
   return (

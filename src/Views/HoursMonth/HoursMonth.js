@@ -43,6 +43,7 @@ class HoursMonth extends Component {
   render() {
     const { hours, monthId } = this.props;
     const months = hours.months;
+
     return (
       <StyledView>
         <StyledWrapper>
@@ -65,7 +66,7 @@ class HoursMonth extends Component {
               </StyledSection>
             ))}
         </StyledWrapper>
-        <Summary />
+        <Summary monthId={monthId} />
       </StyledView>
     );
   }

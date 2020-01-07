@@ -12,6 +12,8 @@ import {
   replaceDayValue,
   findIndexToChange,
   findNextYear,
+  updateTotalHours,
+  newYearsListItem,
 } from './index';
 
 test('Create Single Month', () => {
@@ -19,6 +21,11 @@ test('Create Single Month', () => {
     id: 1,
     name: 'Styczeń',
     days: [],
+    totalHours: 0,
+    currency: 'zł',
+    expectedPayout: 0,
+    paymentReceived: 0,
+    salary: 0,
   });
 });
 
@@ -102,4 +109,39 @@ test('It returns next year after last in table or return current year if there i
   const thisYear = new Date().getFullYear();
   expect(findNextYear(emptyYears)).toBe(thisYear);
   expect(findNextYear(years)).toBe(2021);
+});
+
+test('Is adding totalHours properly', () => {
+  const testObj = [
+    {
+      id: 1,
+      totalHours: 5,
+    },
+    {
+      id: 2,
+      totalHours: 0,
+    },
+  ];
+  expect(updateTotalHours(testObj[1], '+')).toEqual({
+    id: 2,
+    totalHours: 1,
+  });
+
+  expect(updateTotalHours(testObj[0], '-')).toEqual({
+    id: 1,
+    totalHours: 4,
+  });
+
+  expect(updateTotalHours(testObj[0])).toEqual({
+    id: 1,
+    totalHours: 4,
+  });
+});
+
+test('Find last item on the list', () => {
+  const list = ['2019', '2020', '2021'];
+
+  expect(newYearsListItem(list, 2022)).toEqual({
+    3: 2022,
+  });
 });
