@@ -14,7 +14,10 @@ const StyledWrapper = styled.div`
 
 class Summary extends Component {
   render() {
-    const { totalHours, currency, paymentReceived, expectedPayout, salary } = this.props;
+    const { totalHours, currency, paymentReceived, salary } = this.props;
+    const expectedPayout = (totalHours, salary) => {
+      return totalHours * salary;
+    };
     return (
       <StyledWrapper>
         <InfoDiv labelText="Suma godzin" labelData={totalHours} units={'h'}></InfoDiv>
@@ -26,7 +29,7 @@ class Summary extends Component {
         ></InfoDiv>
         <InfoDiv
           labelText="Przewidywana wypłata"
-          labelData={expectedPayout}
+          labelData={expectedPayout(totalHours, salary)}
           units={currency}
         ></InfoDiv>
         <InfoDiv
@@ -45,7 +48,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     totalHours: state.hours.months[monthId].totalHours,
     currency: state.hours.months[monthId].currency,
-    expectedPayout: state.hours.months[monthId].expectedPayout,
     paymentReceived: state.hours.months[monthId].paymentReceived,
     salary: state.hours.months[monthId].salary,
   };
@@ -55,7 +57,6 @@ Summary.propTypes = {
   monthId: PropTypes.number,
   totalHours: PropTypes.number,
   currency: PropTypes.string,
-  expectedPayout: PropTypes.number,
   paymentReceived: PropTypes.number,
   salary: PropTypes.number,
 };
@@ -64,7 +65,6 @@ Summary.defaultProps = {
   monthId: 0,
   totalHours: 0,
   currency: 'zł',
-  expectedPayout: 0,
   paymentReceived: 0,
   salary: 0,
 };

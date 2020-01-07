@@ -5,7 +5,6 @@ class SingleMonth {
     this.days = [];
     this.totalHours = 0;
     this.currency = 'zł';
-    this.expectedPayout = 0;
     this.paymentReceived = 0;
     this.salary = 0;
   }

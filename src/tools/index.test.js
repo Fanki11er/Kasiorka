@@ -23,7 +23,6 @@ test('Create Single Month', () => {
     days: [],
     totalHours: 0,
     currency: 'zł',
-    expectedPayout: 0,
     paymentReceived: 0,
     salary: 0,
   });
