@@ -34,6 +34,7 @@ const StyledView = styled.div`
 class HoursMonth extends Component {
   state = {
     isSummaryModalOpened: false,
+    chosenOption: null,
   };
   componentWillUnmount() {
     const { sendHoursToDataBase, auth, isSaved } = this.props;
@@ -42,23 +43,29 @@ class HoursMonth extends Component {
     }
   }
 
-  componentDidUpdate() {}
-
   render() {
-    const toggleEditSummaryModal = () => {
+    const { hours, monthId } = this.props;
+    const { isSummaryModalOpened, chosenOption } = this.state;
+    const months = hours.months;
+    const optionsToChose = {
+      optionSalary: 'salary',
+      optionPayment: 'payment',
+    };
+    const { optionSalary } = optionsToChose;
+
+    const toggleEditSummaryModal = (chosenOption = optionSalary) => {
       this.setState(prevState => {
         return {
           isSummaryModalOpened: !prevState.isSummaryModalOpened,
+          chosenOption,
         };
       });
     };
-    const { hours, monthId } = this.props;
-    const { isSummaryModalOpened } = this.state;
-    const months = hours.months;
 
     const summaryContext = {
       toggleEditSummaryModal,
       monthId,
+      optionsToChose,
     };
 
     return (
@@ -85,7 +92,11 @@ class HoursMonth extends Component {
         </StyledWrapper>
         <SummaryContext.Provider value={summaryContext}>
           <Summary monthId={monthId} />
-          <EditSummaryOptions modalToggle={isSummaryModalOpened} monthId={monthId} />
+          <EditSummaryOptions
+            isSummaryModalOpened={isSummaryModalOpened}
+            chosenOption={chosenOption}
+            monthId={monthId}
+          />
         </SummaryContext.Provider>
       </StyledView>
     );

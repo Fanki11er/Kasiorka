@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import InfoDiv from '../../atoms/InfoDiv/InfoDiv';
+import withSummaryContext from '../../../hoc/withSummaryContext';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -14,7 +15,9 @@ const StyledWrapper = styled.div`
 
 class Summary extends Component {
   render() {
-    const { totalHours, currency, paymentReceived, salary } = this.props;
+    const { totalHours, currency, paymentReceived, salary, summaryContext } = this.props;
+    const { optionsToChose } = summaryContext;
+    const { optionSalary, optionPayment } = optionsToChose;
     const expectedPayout = (totalHours, salary) => {
       return parseFloat((totalHours * salary).toFixed(2));
     };
@@ -23,6 +26,7 @@ class Summary extends Component {
       <StyledWrapper>
         <InfoDiv labelText="Suma godzin" labelData={totalHours} units={'h'}></InfoDiv>
         <InfoDiv
+          chosenOption={optionSalary}
           editable
           labelText="Stawka godzinowa"
           labelData={salary}
@@ -35,6 +39,7 @@ class Summary extends Component {
         ></InfoDiv>
         <InfoDiv
           editable
+          chosenOption={optionPayment}
           labelText="Otrzymana wypłata"
           labelData={paymentReceived}
           units={currency}
@@ -60,6 +65,7 @@ Summary.propTypes = {
   currency: PropTypes.string,
   paymentReceived: PropTypes.number,
   salary: PropTypes.number,
+  summaryContext: PropTypes.object.isRequired,
 };
 
 Summary.defaultProps = {
@@ -69,4 +75,4 @@ Summary.defaultProps = {
   paymentReceived: 0,
   salary: 0,
 };
-export default connect(mapStateToProps)(Summary);
+export default connect(mapStateToProps)(withSummaryContext(Summary));

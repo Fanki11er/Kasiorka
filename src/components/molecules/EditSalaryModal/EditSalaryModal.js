@@ -47,43 +47,62 @@ const StyledErrorWrapper = styled(ErrorWrapper)`
   text-align: center;
 `;
 
-const EditSalaryModal = ({ currency, salary, changeSalaryValue, monthId, summaryContext }) => {
-  const { toggleEditSummaryModal } = summaryContext;
+const EditSalaryModal = ({
+  currency,
+  value,
+  changeSalaryValue,
+  monthId,
+  summaryContext,
+  chosenOption,
+}) => {
+  const { toggleEditSummaryModal, optionsToChose } = summaryContext;
+  const { optionSalary, optionPayment } = optionsToChose;
   return (
     <Formik
-      initialValues={{ salary: '' }}
+      initialValues={{ [chosenOption]: '' }}
       validate={values => {
         const errors = {};
 
-        if (!/[+]?[0-9]*\.?[0-9]+/.test(values.salary) && values.salary !== '') {
-          errors.salary = 'Błędna wartość';
+        if (!/[+]?[0-9]*\.?[0-9]+/.test(values[chosenOption]) && values[chosenOption] !== '') {
+          errors[chosenOption] = 'Błędna wartość';
         }
         return errors;
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        const newSalary = parseFloat(values.salary);
-        changeSalaryValue(newSalary, monthId);
-        setSubmitting(false);
-        toggleEditSummaryModal();
+        const newValue = parseFloat(values[chosenOption]);
+        chosenOption === optionSalary && changeSalaryValue(newValue, monthId);
+        toggleEditSummaryModal(chosenOption);
         resetForm();
+        setSubmitting(false);
       }}
     >
       {({ isSubmitting, handleSubmit, values, errors }) => (
         <StyledWrapper>
           <StyledForm noValidate onSubmit={handleSubmit}>
-            <ModalInput
-              label="Nowa stawka godzinowa:"
-              type="text"
-              name="salary"
-              units={`${currency}/h`}
-              val={salary}
-            />
+            {chosenOption === optionSalary && (
+              <ModalInput
+                label="Nowa stawka godzinowa:"
+                type="text"
+                name={chosenOption}
+                units={`${currency}/h`}
+                val={value}
+              />
+            )}
+            {chosenOption === optionPayment && (
+              <ModalInput
+                label="Otrzymana wypłata:"
+                type="text"
+                name={chosenOption}
+                units={currency}
+                val={value}
+              />
+            )}
             <StyledErrorWrapper>
-              <FormError name="salary" component="div" />
+              <FormError name={chosenOption} component="div" />
             </StyledErrorWrapper>
 
             <StyledFormButton
-              className={values.salary === '' || errors.salary ? 'noActive' : null}
+              className={values[chosenOption] === '' || errors[chosenOption] ? 'noActive' : null}
               green="true"
               type="submit"
               disabled={isSubmitting}
@@ -91,7 +110,7 @@ const EditSalaryModal = ({ currency, salary, changeSalaryValue, monthId, summary
               Zapisz
             </StyledFormButton>
           </StyledForm>
-          <CloseButton />
+          <CloseButton chosenOption={chosenOption} />
         </StyledWrapper>
       )}
     </Formik>
@@ -100,7 +119,7 @@ const EditSalaryModal = ({ currency, salary, changeSalaryValue, monthId, summary
 
 EditSalaryModal.propTypes = {
   currency: PropTypes.string.isRequired,
-  salary: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
   changeSalaryValue: PropTypes.func.isRequired,
   monthId: PropTypes.number.isRequired,
   summaryContext: PropTypes.object.isRequired,

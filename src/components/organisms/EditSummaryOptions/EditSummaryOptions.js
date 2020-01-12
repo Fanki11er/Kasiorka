@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EditSalaryModal from '../../molecules/EditSalaryModal/EditSalaryModal';
+import withSummaryContext from '../../../hoc/withSummaryContext';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -14,17 +15,42 @@ const StyledWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: ${({ modalToggle }) => (modalToggle === true ? 'translateY(0)' : 'translateY(105%)')};
+  transform: ${({ isSummaryModalOpened }) =>
+    isSummaryModalOpened === true ? 'translateY(0)' : 'translateY(105%)'};
   transition: transform 0.6s ease-in;
 `;
 
 class EditSummaryOptions extends Component {
   render() {
-    const { modalToggle, currency, salary, monthId } = this.props;
-
+    const {
+      isSummaryModalOpened,
+      currency,
+      salary,
+      monthId,
+      chosenOption,
+      summaryContext,
+      paymentReceived,
+    } = this.props;
+    const { optionsToChose } = summaryContext;
+    const { optionPayment, optionSalary } = optionsToChose;
     return (
-      <StyledWrapper modalToggle={modalToggle}>
-        <EditSalaryModal currency={currency} salary={salary} monthId={monthId} />
+      <StyledWrapper isSummaryModalOpened={isSummaryModalOpened}>
+        {chosenOption === optionSalary && (
+          <EditSalaryModal
+            chosenOption={chosenOption}
+            currency={currency}
+            value={salary}
+            monthId={monthId}
+          />
+        )}
+        {chosenOption === optionPayment && (
+          <EditSalaryModal
+            chosenOption={chosenOption}
+            currency={currency}
+            value={paymentReceived}
+            monthId={monthId}
+          />
+        )}
       </StyledWrapper>
     );
   }
@@ -36,21 +62,25 @@ const mapStateToProps = (state, ownProps) => {
   return {
     currency: state.hours.months[monthId].currency,
     salary: state.hours.months[monthId].salary,
+    paymentReceived: state.hours.months[monthId].paymentReceived,
   };
 };
 
 EditSummaryOptions.propTypes = {
   currency: PropTypes.string,
   salary: PropTypes.number,
-  modalToggle: PropTypes.bool,
+  isSummaryModalOpened: PropTypes.bool,
   monthId: PropTypes.number,
+  paymentReceived: PropTypes.number,
+  summaryContext: PropTypes.object.isRequired,
 };
 
 EditSummaryOptions.defaultProps = {
   currency: 'zł',
   salary: 0,
-  modalToggle: false,
+  isSummaryModalOpened: false,
   monthId: 0,
+  paymentReceived: 0,
 };
 
-export default connect(mapStateToProps)(EditSummaryOptions);
+export default connect(mapStateToProps)(withSummaryContext(EditSummaryOptions));

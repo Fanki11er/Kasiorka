@@ -33,10 +33,10 @@ const StyledButton = styled.button`
   align-items: center;
 `;
 
-const CloseButton = ({ summaryContext }) => {
+const CloseButton = ({ summaryContext, chosenOption }) => {
   const { toggleEditSummaryModal: toggleModal } = summaryContext;
   return (
-    <StyledButton onClick={toggleModal}>
+    <StyledButton onClick={() => toggleModal(chosenOption)}>
       <StyledIcon />;
     </StyledButton>
   );
@@ -44,6 +44,7 @@ const CloseButton = ({ summaryContext }) => {
 
 CloseButton.propTypes = {
   summaryContext: PropTypes.object.isRequired,
+  chosenOption: PropTypes.string,
 };
 
 export default withSummaryContext(CloseButton);

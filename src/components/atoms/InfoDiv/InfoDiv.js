@@ -53,14 +53,14 @@ const StyledUnits = styled.div`
   color: ${({ theme }) => theme.green};
   margin-right: 15px;
 `;
-const infoDiv = ({ labelText, labelData, editable, units, summaryContext }) => {
+const infoDiv = ({ labelText, labelData, editable, units, summaryContext, chosenOption }) => {
   const { toggleEditSummaryModal: modalToggle } = summaryContext;
   return (
     <StyledWrapper>
       <StyledLabel>{labelText}:</StyledLabel>
       <StyledSpan>{labelData}</StyledSpan>
       <StyledUnits>{units}</StyledUnits>
-      {editable && <StyledIconPencil onClick={modalToggle} />}
+      {editable && <StyledIconPencil onClick={() => modalToggle(chosenOption)} />}
     </StyledWrapper>
   );
 };
@@ -70,6 +70,8 @@ infoDiv.propTypes = {
   labelData: PropTypes.number.isRequired,
   editable: PropTypes.bool,
   units: PropTypes.string.isRequired,
+  summaryContext: PropTypes.object.isRequired,
+  chosenOption: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 export default withSummaryContext(infoDiv);
