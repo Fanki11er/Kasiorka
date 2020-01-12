@@ -25,3 +25,13 @@ export const changeSalaryValue = (newSalaryValue, monthId) => {
     },
   };
 };
+
+export const changePaymentReceived = (newPaymentValue, monthId) => {
+  return {
+    type: 'CHANGE_PAYMENT_VALUE',
+    payload: {
+      newPaymentValue,
+      monthId,
+    },
+  };
+};

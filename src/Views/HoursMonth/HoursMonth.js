@@ -76,12 +76,13 @@ class HoursMonth extends Component {
             sections.map(({ rangeStart, rangeEnd }) => (
               <StyledSection key={rangeStart}>
                 {addDaysToSection(months[monthId].days, rangeStart, rangeEnd).map(
-                  ({ dayId, nameOfDay, workHours, isHoliday }) => (
+                  ({ dayId, nameOfDay, workHours, isSaturday, isSunday }) => (
                     <DayOfTheWeek
                       dayId={dayId}
                       nameOfDay={nameOfDay}
                       workHours={workHours}
-                      isHoliday={isHoliday}
+                      isSaturday={isSaturday}
+                      isSunday={isSunday}
                       key={dayId}
                       monthId={monthId}
                     ></DayOfTheWeek>

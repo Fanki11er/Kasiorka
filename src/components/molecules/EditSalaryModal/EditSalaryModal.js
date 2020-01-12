@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import PropTypes from 'prop-types';
 import { changeSalaryValue as changeSalaryValueAction } from '../../../actions/hoursActions';
+import { changePaymentReceived as changePaymentReceivedAction } from '../../../actions/hoursActions';
 import ModalInput from '../../atoms/ModalInput/ModalInput';
 import ErrorWrapper from '../../atoms/ErrorWrapper/ErrorWrapper';
 import FormButton from '../../atoms/FormButton/FormButton';
@@ -51,6 +52,7 @@ const EditSalaryModal = ({
   currency,
   value,
   changeSalaryValue,
+  changePaymentReceived,
   monthId,
   summaryContext,
   chosenOption,
@@ -71,6 +73,7 @@ const EditSalaryModal = ({
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const newValue = parseFloat(values[chosenOption]);
         chosenOption === optionSalary && changeSalaryValue(newValue, monthId);
+        chosenOption === optionPayment && changePaymentReceived(newValue, monthId);
         toggleEditSummaryModal(chosenOption);
         resetForm();
         setSubmitting(false);
@@ -78,7 +81,7 @@ const EditSalaryModal = ({
     >
       {({ isSubmitting, handleSubmit, values, errors }) => (
         <StyledWrapper>
-          <StyledForm noValidate onSubmit={handleSubmit}>
+          <StyledForm noValidate onSubmit={handleSubmit} autoComplete="off">
             {chosenOption === optionSalary && (
               <ModalInput
                 label="Nowa stawka godzinowa:"
@@ -129,6 +132,8 @@ const mapDispatchToProps = dispatch => {
   return {
     changeSalaryValue: (newSalaryValue, monthId) =>
       dispatch(changeSalaryValueAction(newSalaryValue, monthId)),
+    changePaymentReceived: (newPaymentValue, monthId) =>
+      dispatch(changePaymentReceivedAction(newPaymentValue, monthId)),
   };
 };
 

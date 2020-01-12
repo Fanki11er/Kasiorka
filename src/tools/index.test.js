@@ -15,6 +15,7 @@ import {
   updateTotalHours,
   newYearsListItem,
   updateSalaryValue,
+  updatePaymentValue,
 } from './index';
 
 test('Create Single Month', () => {
@@ -172,6 +173,37 @@ test('Update salary value', () => {
       {
         id: 2,
         salary: 15,
+      },
+    ],
+  });
+});
+
+test('Update payment value', () => {
+  const testObj = {
+    months: [
+      {
+        id: 1,
+        paymentReceived: 0,
+      },
+
+      {
+        id: 2,
+        paymentReceived: 0,
+      },
+    ],
+  };
+  updatePaymentValue(testObj.months[1], 1500);
+
+  expect(testObj).toEqual({
+    months: [
+      {
+        id: 1,
+        paymentReceived: 0,
+      },
+
+      {
+        id: 2,
+        paymentReceived: 1500,
       },
     ],
   });

@@ -3,6 +3,7 @@ import {
   findIndexToChange,
   updateTotalHours,
   updateSalaryValue,
+  updatePaymentValue,
 } from '../../tools/index';
 const initialState = { isSaved: true, test: '' };
 
@@ -29,6 +30,13 @@ const hoursReducer = (state = initialState, action) => {
       const monthId = action.payload.monthId;
       const newSalaryValue = action.payload.newSalaryValue;
       updateSalaryValue(state.months[monthId], newSalaryValue);
+      return { ...state, isSaved: false };
+    }
+
+    case 'CHANGE_PAYMENT_VALUE': {
+      const monthId = action.payload.monthId;
+      const newPaymentValue = action.payload.newPaymentValue;
+      updatePaymentValue(state.months[monthId], newPaymentValue);
       return { ...state, isSaved: false };
     }
 
