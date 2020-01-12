@@ -28,12 +28,8 @@ class DayOfTheWeek extends Component {
         </DayName>
         <NumberOfHours>{workHours}</NumberOfHours>
         <ArrowsButton
-          increaseWorkHours={() =>
-            updateHours(monthId, dayId, nameOfDay, workHours, isHoliday, increase)
-          }
-          decreaseWorkHours={() =>
-            updateHours(monthId, dayId, nameOfDay, workHours, isHoliday, decrease)
-          }
+          increaseWorkHours={() => updateHours(monthId, dayId, workHours, increase)}
+          decreaseWorkHours={() => updateHours(monthId, dayId, workHours, decrease)}
         ></ArrowsButton>
       </StyledWrapper>
     );
@@ -41,8 +37,8 @@ class DayOfTheWeek extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateHours: (monthId, dayId, nameOfDay, workHours, isHoliday, action) =>
-    dispatch(updateHoursAction(monthId, dayId, nameOfDay, workHours, isHoliday, action)),
+  updateHours: (monthId, dayId, workHours, action) =>
+    dispatch(updateHoursAction(monthId, dayId, workHours, action)),
 });
 
 DayOfTheWeek.propTypes = {
@@ -50,13 +46,15 @@ DayOfTheWeek.propTypes = {
   monthId: PropTypes.number.isRequired,
   updateHours: PropTypes.func.isRequired,
   nameOfDay: PropTypes.string,
-  isHoliday: PropTypes.bool,
+  isSaturday: PropTypes.bool,
+  isSunday: PropTypes.bool,
   workHours: PropTypes.number,
 };
 
-DayOfTheWeek.defaultPropTypes = {
+DayOfTheWeek.defaultProps = {
   nameOfDay: 'NN',
-  isHoliday: false,
+  isSaturday: false,
+  isSunday: false,
   workHours: 0,
 };
 

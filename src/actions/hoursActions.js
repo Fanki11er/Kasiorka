@@ -1,17 +1,13 @@
-export const updateHours = (monthId, dayId, nameOfDay, workHours, isHoliday, action) => {
+export const updateHours = (monthId, dayId, workHours, action) => {
   if (action === '+') workHours++;
   else if (action === '-' && workHours > 0) workHours--;
   return {
     type: 'UPDATE_WORK_HOURS',
     payload: {
       monthId,
+      dayId,
+      workHours,
       actionPerformed: action,
-      item: {
-        dayId,
-        nameOfDay,
-        workHours,
-        isHoliday,
-      },
     },
   };
 };

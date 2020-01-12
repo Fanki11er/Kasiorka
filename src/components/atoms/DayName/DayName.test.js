@@ -11,11 +11,13 @@ describe('Day name component', () => {
     const { getByText } = render(
       <ThemeProvider theme={theme}>
         <DayName>Pn</DayName>
-        <DayName isHoliday={true}>Nd</DayName>
+        <DayName isSunday={true}>Nd</DayName>
+        <DayName isSaturday={true}>So</DayName>
       </ThemeProvider>,
     );
 
     expect(getByText('Pn')).toHaveStyle(`background-color: ${theme.dayNameColour}`);
-    expect(getByText('Nd')).toHaveStyle(`background-color: ${theme.holidayRed}`);
+    expect(getByText('Nd')).toHaveStyle(`background-color: ${theme.sundayRed}`);
+    expect(getByText('So')).toHaveStyle(`background-color: ${theme.saturdayYellow}`);
   });
 });

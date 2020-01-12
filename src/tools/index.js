@@ -134,12 +134,9 @@ const addDaysToSection = (month, rangeStart, rangeEnd) => {
 //Month-----------------------------------------------------------
 //
 //Reducer---------------------------------------------------------
-const replaceDayValue = (prevValue, newValue, indexToChange) => {
-  const startValue = prevValue;
-  const dayId = newValue.dayId;
-  const index = indexToChange(startValue, dayId);
-  startValue.splice(index, 1, newValue);
-  return startValue;
+const replaceWorkHoursValue = (prevValue, dayId, indexToChange, newValue) => {
+  const index = indexToChange(prevValue, dayId);
+  return (prevValue[index].workHours = newValue);
 };
 
 const updateTotalHours = (monthToUpdate, actionPerformed) => {
@@ -180,7 +177,7 @@ const newYearsListItem = (yearsList, yearToAdd) => {
 
 export { createNewYear, findNextYear, addDaysToSection, sections };
 export {
-  replaceDayValue,
+  replaceWorkHoursValue,
   findIndexToChange,
   updateTotalHours,
   updateSalaryValue,

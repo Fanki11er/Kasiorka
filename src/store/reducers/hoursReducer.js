@@ -1,9 +1,9 @@
 import {
-  replaceDayValue,
-  findIndexToChange,
+  replaceWorkHoursValue,
   updateTotalHours,
   updateSalaryValue,
   updatePaymentValue,
+  findIndexToChange,
 } from '../../tools/index';
 const initialState = { isSaved: true, test: '' };
 
@@ -15,9 +15,10 @@ const hoursReducer = (state = initialState, action) => {
     }
     case 'UPDATE_WORK_HOURS': {
       const monthId = action.payload.monthId;
-      const newValue = action.payload.item;
+      const dayId = action.payload.dayId;
+      const newValue = action.payload.workHours;
       const actionPerformed = action.payload.actionPerformed;
-      replaceDayValue(state.months[monthId].days, newValue, findIndexToChange);
+      replaceWorkHoursValue(state.months[monthId].days, dayId, findIndexToChange, newValue);
       updateTotalHours(state.months[monthId], actionPerformed);
       return { ...state, isSaved: false };
     }
