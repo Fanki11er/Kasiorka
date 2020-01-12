@@ -60,7 +60,9 @@ const infoDiv = ({ labelText, labelData, editable, units, summaryContext, chosen
       <StyledLabel>{labelText}:</StyledLabel>
       <StyledSpan>{labelData}</StyledSpan>
       <StyledUnits>{units}</StyledUnits>
-      {editable && <StyledIconPencil onClick={() => modalToggle(chosenOption)} />}
+      {editable && (
+        <StyledIconPencil title={`Edytuj ${labelText}`} onClick={() => modalToggle(chosenOption)} />
+      )}
     </StyledWrapper>
   );
 };
