@@ -158,6 +158,10 @@ const findIndexToChange = (startValue, dayId) => {
   return foundIndex;
 };
 
+const updateSalaryValue = (month, newSalaryValue) => {
+  return (month.salary = newSalaryValue);
+};
+
 //Reducer---------------------------------------------------------
 //Actions---------------------------------------------------------
 const newYearsListItem = (yearsList, yearToAdd) => {
@@ -168,7 +172,7 @@ const newYearsListItem = (yearsList, yearToAdd) => {
 //Actions---------------------------------------------------------
 
 export { createNewYear, findNextYear, addDaysToSection, sections };
-export { replaceDayValue, findIndexToChange, updateTotalHours }; //Reducer
+export { replaceDayValue, findIndexToChange, updateTotalHours, updateSalaryValue }; //Reducer
 export { newYearsListItem }; //Actions
 export {
   SingleMonth,

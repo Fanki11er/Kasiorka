@@ -14,6 +14,7 @@ import {
   findNextYear,
   updateTotalHours,
   newYearsListItem,
+  updateSalaryValue,
 } from './index';
 
 test('Create Single Month', () => {
@@ -142,5 +143,36 @@ test('Find last item on the list', () => {
 
   expect(newYearsListItem(list, 2022)).toEqual({
     3: 2022,
+  });
+});
+
+test('Update salary value', () => {
+  const testObj = {
+    months: [
+      {
+        id: 1,
+        salary: 0,
+      },
+
+      {
+        id: 2,
+        salary: 0,
+      },
+    ],
+  };
+  updateSalaryValue(testObj.months[1], 15);
+
+  expect(testObj).toEqual({
+    months: [
+      {
+        id: 1,
+        salary: 0,
+      },
+
+      {
+        id: 2,
+        salary: 15,
+      },
+    ],
   });
 });

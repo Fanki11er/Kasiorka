@@ -4,7 +4,7 @@ export const updateHours = (monthId, dayId, nameOfDay, workHours, isHoliday, act
   return {
     type: 'UPDATE_WORK_HOURS',
     payload: {
-      monthId: monthId,
+      monthId,
       actionPerformed: action,
       item: {
         dayId,
@@ -12,6 +12,16 @@ export const updateHours = (monthId, dayId, nameOfDay, workHours, isHoliday, act
         workHours,
         isHoliday,
       },
+    },
+  };
+};
+
+export const changeSalaryValue = (newSalaryValue, monthId) => {
+  return {
+    type: 'CHANGE_SALARY_VALUE',
+    payload: {
+      newSalaryValue,
+      monthId,
     },
   };
 };

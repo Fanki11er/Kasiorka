@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import SummaryContext from '../../context/SummaryContext';
 import { addDaysToSection, sections } from '../../tools/index';
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 import DayOfTheWeek from '../../components/molecules/DayOfWeek/DayOfWeek';
@@ -31,6 +32,9 @@ const StyledView = styled.div`
 `;
 
 class HoursMonth extends Component {
+  state = {
+    isSummaryModalOpened: false,
+  };
   componentWillUnmount() {
     const { sendHoursToDataBase, auth, isSaved } = this.props;
     if (!isSaved) {
@@ -41,8 +45,21 @@ class HoursMonth extends Component {
   componentDidUpdate() {}
 
   render() {
+    const toggleEditSummaryModal = () => {
+      this.setState(prevState => {
+        return {
+          isSummaryModalOpened: !prevState.isSummaryModalOpened,
+        };
+      });
+    };
     const { hours, monthId } = this.props;
+    const { isSummaryModalOpened } = this.state;
     const months = hours.months;
+
+    const summaryContext = {
+      toggleEditSummaryModal,
+      monthId,
+    };
 
     return (
       <StyledView>
@@ -66,8 +83,10 @@ class HoursMonth extends Component {
               </StyledSection>
             ))}
         </StyledWrapper>
-        <Summary monthId={monthId} />
-        <EditSummaryOptions />
+        <SummaryContext.Provider value={summaryContext}>
+          <Summary monthId={monthId} />
+          <EditSummaryOptions modalToggle={isSummaryModalOpened} monthId={monthId} />
+        </SummaryContext.Provider>
       </StyledView>
     );
   }

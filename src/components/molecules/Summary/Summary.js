@@ -16,8 +16,9 @@ class Summary extends Component {
   render() {
     const { totalHours, currency, paymentReceived, salary } = this.props;
     const expectedPayout = (totalHours, salary) => {
-      return totalHours * salary;
+      return parseFloat((totalHours * salary).toFixed(2));
     };
+
     return (
       <StyledWrapper>
         <InfoDiv labelText="Suma godzin" labelData={totalHours} units={'h'}></InfoDiv>

@@ -13,7 +13,13 @@ const StyledInput = styled(Field)`
   border: none;
   outline: none;
   &::placeholder {
-    color: ${({ theme }) => theme.green};
+    color: ${({ theme }) => theme.lighterGreen};
+  }
+
+  &:focus {
+    &::placeholder {
+      color: ${({ theme }) => theme.lighterGreen};
+    }
   }
 `;
 

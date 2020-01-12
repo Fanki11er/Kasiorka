@@ -20,5 +20,6 @@ export const theme = {
   hoursColour: '#022873',
   hover: '#FF8C00',
   green: '#83B33B',
+  lighterGreen: 'rgba(131,179, 59, 0.5)',
   primaryTransparent: 'rgba(1, 13, 38, 0.8)',
 };

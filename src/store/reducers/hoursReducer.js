@@ -1,5 +1,10 @@
-import { replaceDayValue, findIndexToChange, updateTotalHours } from '../../tools/index';
-const initialState = { isSaved: true };
+import {
+  replaceDayValue,
+  findIndexToChange,
+  updateTotalHours,
+  updateSalaryValue,
+} from '../../tools/index';
+const initialState = { isSaved: true, test: '' };
 
 const hoursReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -18,6 +23,13 @@ const hoursReducer = (state = initialState, action) => {
 
     case 'SAVED_SUCCESS': {
       return { ...state, isSaved: true };
+    }
+
+    case 'CHANGE_SALARY_VALUE': {
+      const monthId = action.payload.monthId;
+      const newSalaryValue = action.payload.newSalaryValue;
+      updateSalaryValue(state.months[monthId], newSalaryValue);
+      return { ...state, isSaved: false };
     }
 
     default: {
