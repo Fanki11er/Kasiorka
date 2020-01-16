@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Pencil } from 'styled-icons/typicons/';
+import withSummaryContext from '../../../hoc/withSummaryContext';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -52,16 +53,16 @@ const StyledUnits = styled.div`
   color: ${({ theme }) => theme.green};
   margin-right: 15px;
 `;
-const test = () => {
-  console.log('Buziaki');
-};
-const infoDiv = ({ labelText, labelData, editable, units }) => {
+const infoDiv = ({ labelText, labelData, editable, units, summaryContext, chosenOption }) => {
+  const { toggleEditSummaryModal: modalToggle } = summaryContext;
   return (
     <StyledWrapper>
       <StyledLabel>{labelText}:</StyledLabel>
       <StyledSpan>{labelData}</StyledSpan>
       <StyledUnits>{units}</StyledUnits>
-      {editable && <StyledIconPencil onClick={test} />}
+      {editable && (
+        <StyledIconPencil title={`Edytuj ${labelText}`} onClick={() => modalToggle(chosenOption)} />
+      )}
     </StyledWrapper>
   );
 };
@@ -71,6 +72,8 @@ infoDiv.propTypes = {
   labelData: PropTypes.number.isRequired,
   editable: PropTypes.bool,
   units: PropTypes.string.isRequired,
+  summaryContext: PropTypes.object.isRequired,
+  chosenOption: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
-export default infoDiv;
+export default withSummaryContext(infoDiv);

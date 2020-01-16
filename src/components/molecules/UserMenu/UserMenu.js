@@ -16,19 +16,28 @@ const StyledLogOut = styled(MenuItem)`
   width: 150px;
 `;
 
-const UserMenu = ({ signOut }) => {
+const UserMenu = ({ signOut, userName }) => {
   return (
     <StyledWrapper>
-      <UserName>Krzysiek</UserName>
-      <StyledLogOut onClick={signOut} clicked={0}>
-        Wyloguj
-      </StyledLogOut>
+      <UserName>{userName}</UserName>
+      <StyledLogOut onClick={signOut}>Wyloguj</StyledLogOut>
     </StyledWrapper>
   );
 };
 
 UserMenu.propTypes = {
   signOut: PropTypes.func.isRequired,
+  userName: PropTypes.string,
+};
+
+UserMenu.defaultProps = {
+  userName: 'Anonymous',
+};
+
+const mapStateToProps = state => {
+  return {
+    userName: state.user.name,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -37,4 +46,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(UserMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(UserMenu);

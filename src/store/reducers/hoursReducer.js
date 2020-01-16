@@ -1,21 +1,44 @@
-import { replaceDayValue, findIndexToChange } from '../../tools/index';
-const initialState = {};
+import {
+  replaceWorkHoursValue,
+  updateTotalHours,
+  updateSalaryValue,
+  updatePaymentValue,
+  findIndexToChange,
+} from '../../tools/index';
+const initialState = { isSaved: true, test: '' };
 
 const hoursReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'TAKE_HOURS_FROM_DATABASE': {
       state = action.payload;
-      return state;
+      return { ...state, isSaved: true };
     }
     case 'UPDATE_WORK_HOURS': {
       const monthId = action.payload.monthId;
-      const newValue = action.payload.item;
-      replaceDayValue(state.months[monthId].days, newValue, findIndexToChange);
-      return { ...state };
+      const dayId = action.payload.dayId;
+      const newValue = action.payload.workHours;
+      const actionPerformed = action.payload.actionPerformed;
+      replaceWorkHoursValue(state.months[monthId].days, dayId, findIndexToChange, newValue);
+      updateTotalHours(state.months[monthId], actionPerformed);
+      return { ...state, isSaved: false };
     }
 
     case 'SAVED_SUCCESS': {
-      return state;
+      return { ...state, isSaved: true };
+    }
+
+    case 'CHANGE_SALARY_VALUE': {
+      const monthId = action.payload.monthId;
+      const newSalaryValue = action.payload.newSalaryValue;
+      updateSalaryValue(state.months[monthId], newSalaryValue);
+      return { ...state, isSaved: false };
+    }
+
+    case 'CHANGE_PAYMENT_VALUE': {
+      const monthId = action.payload.monthId;
+      const newPaymentValue = action.payload.newPaymentValue;
+      updatePaymentValue(state.months[monthId], newPaymentValue);
+      return { ...state, isSaved: false };
     }
 
     default: {

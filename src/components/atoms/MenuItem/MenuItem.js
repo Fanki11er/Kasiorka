@@ -45,12 +45,11 @@ MenuItem.propTypes = {
   selected: PropTypes.bool,
   id: PropTypes.number,
   year: PropTypes.bool,
-  viewItem: PropTypes.bool,
 };
 
-MenuItem.defaultPropTypes = {
-  year: false,
-  viewItem: false,
+MenuItem.defaultProps = {
+  year: undefined,
   selected: false,
+  clicked: -1,
 };
 export default MenuItem;

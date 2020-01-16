@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import HoursMonth from '../../Views//HoursMonth/HoursMonth';
 import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
@@ -13,6 +14,7 @@ import { createNewYear, monthNames, findNextYear } from '../../tools/index';
 import { addNewYear as addNewYearAction } from '../../actions/dataBaseActions';
 import { routes } from '../../Router/routes';
 import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../actions/dataBaseActions';
+import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -36,12 +38,41 @@ class UserPage extends Component {
     const { selectedYear } = this.state;
     const { auth, takeDataFromDataBase } = this.props;
     takeDataFromDataBase(auth.uid, selectedYear);
+    window.addEventListener('beforeunload', this.whenClosing);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.whenClosing);
   }
 
-  selectMonth = event => {
-    this.setState({
-      selectedMonthId: event.target.id - 1,
-    });
+  selectMonthOrYear = (event, select) => {
+    switch (select) {
+      case 'month': {
+        this.setState({
+          selectedMonthId: event.target.id - 1,
+        });
+        break;
+      }
+
+      case 'year': {
+        const { takeDataFromDataBase, sendHoursToDataBase, auth, user, isSaved } = this.props;
+        const selectedYear = user.yearsList[event.target.id];
+        this.setState({
+          selectedYear: selectedYear,
+        });
+        //!Make it async
+        if (!isSaved) sendHoursToDataBase(auth.uid);
+        takeDataFromDataBase(auth.uid, selectedYear);
+
+        break;
+      }
+      default: {
+        this.setState({
+          selectedYear: new Date().getFullYear(),
+          selectedMonthId: 0,
+        });
+        break;
+      }
+    }
   };
 
   addNewYear = () => {
@@ -51,11 +82,18 @@ class UserPage extends Component {
     newYear(createNewYear(monthNames, year));
   };
 
+  whenClosing = event => {
+    event.preventDefault();
+    const { isSaved, auth, sendHoursToDataBase } = this.props;
+    if (!isSaved) sendHoursToDataBase(auth.uid);
+  };
+
   render() {
-    const { selectedMonthId } = this.state;
+    const { selectedMonthId, selectedYear } = this.state;
     const menuContext = {
       selectedMonthId,
-      selectMonth: this.selectMonth,
+      selectedYear,
+      selectMonthOrYear: this.selectMonthOrYear,
       addNewYear: this.addNewYear,
     };
 
@@ -88,6 +126,7 @@ const mapDispatchToProps = dispatch => {
   return {
     newYear: year => dispatch(addNewYearAction(year)),
     takeDataFromDataBase: (uid, year) => dispatch(takeDataFromDataBaseAction(uid, year)),
+    sendHoursToDataBase: uid => dispatch(sendHoursToDataBaseAction(uid)),
   };
 };
 
@@ -96,7 +135,17 @@ const mapStateToProps = state => {
     months: state.hours.months,
     auth: state.firebase.auth,
     user: state.user,
+    isSaved: state.hours.isSaved,
+    menuContext: PropTypes.object,
   };
+};
+
+UserPage.propTypes = {
+  months: PropTypes.array,
+  auth: PropTypes.object,
+  user: PropTypes.object,
+  newYear: PropTypes.func.isRequired,
+  takeDataFromDataBase: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

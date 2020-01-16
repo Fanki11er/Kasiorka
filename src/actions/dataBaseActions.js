@@ -1,4 +1,5 @@
 import { newYearsListItem } from '../tools/index';
+import { addHolidaysToYear, constantPolishHolidays } from '../tools/holidayTools';
 
 export const takeDataFromDataBase = (uid, year) => {
   return (dispatch, getState, { dataBase, endPoints }) => {
@@ -24,7 +25,6 @@ export const takeDataFromDataBase = (uid, year) => {
 export const sendHoursToDataBase = uid => {
   return (dispatch, getState, { dataBase, endPoints }) => {
     const state = getState();
-    //TODO: Check if state was changed, add bool to state and dispatch action
     const yearToSave = state.hours.yearName;
     dataBase
       .update(endPoints.hours(uid, yearToSave), {
@@ -45,6 +45,8 @@ export const addNewYear = year => {
     const uid = state.firebase.auth.uid;
     const yearToAdd = year.yearName;
     const yearsList = state.user.yearsList;
+    const months = year.months;
+    addHolidaysToYear(yearToAdd, months, constantPolishHolidays);
 
     dataBase
       .update(endPoints.hours(uid, yearToAdd), {

@@ -3,4 +3,5 @@ export const routes = {
   hours: '/hours',
   register: '/reg',
   user: '/user',
+  tests: '/tests', //! Off before deploy
 };

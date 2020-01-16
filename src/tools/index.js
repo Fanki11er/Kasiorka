@@ -3,15 +3,22 @@ class SingleMonth {
     this.id = id + 1;
     this.name = name;
     this.days = [];
+    this.totalHours = 0;
+    this.currency = 'zł';
+    this.paymentReceived = 0;
+    this.salary = 0;
   }
 }
 
 class SingleDay {
-  constructor(dayId, nameOfDay, workHours, isHoliday) {
+  constructor(dayId, nameOfDay, workHours, isSaturday, isSunday) {
     this.dayId = dayId;
     this.nameOfDay = nameOfDay;
     this.workHours = workHours;
-    this.isHoliday = isHoliday;
+    this.isSaturday = isSaturday;
+    this.isSunday = isSunday;
+    this.isHoliday = false;
+    this.isFreeDay = false;
   }
 }
 
@@ -51,10 +58,11 @@ const getMonthLength = (selectedYear, selectedMonth) => {
   return lengthOfMonth;
 };
 
-const createObj = (dayName, isHoliday) => {
+const createObj = (dayName, isSaturday, isSunday) => {
   const settings = {
     dayName,
-    isHoliday,
+    isSaturday,
+    isSunday,
   };
   return settings;
 };
@@ -64,21 +72,21 @@ const getDayName = (selectedYear, selectedMonth, selectedDay, dayNames) => {
 
   switch (dayInWeek) {
     case 0:
-      return createObj(dayNames[0], true);
+      return createObj(dayNames[0], false, true);
     case 1:
-      return createObj(dayNames[1], false);
+      return createObj(dayNames[1], false, false);
     case 2:
-      return createObj(dayNames[2], false);
+      return createObj(dayNames[2], false, false);
     case 3:
-      return createObj(dayNames[3], false);
+      return createObj(dayNames[3], false, false);
     case 4:
-      return createObj(dayNames[4], false);
+      return createObj(dayNames[4], false, false);
     case 5:
-      return createObj(dayNames[5], false);
+      return createObj(dayNames[5], false, false);
     case 6:
-      return createObj(dayNames[6], false);
+      return createObj(dayNames[6], true, false);
     default:
-      return createObj('Error', false);
+      return createObj('Error', false, false);
   }
 };
 
@@ -94,8 +102,8 @@ const createNewYear = (monthNames, selectedYear) => {
       const dayId = i;
       const monthId = month.id - 1;
       const dayNameObj = getDayName(selectedYear, monthId, dayId, dayNames);
-      const { dayName, isHoliday } = dayNameObj;
-      month.days.push(new SingleDay(dayId, dayName, defaultWorkHours, isHoliday));
+      const { dayName, isSaturday, isSunday } = dayNameObj;
+      month.days.push(new SingleDay(dayId, dayName, defaultWorkHours, isSaturday, isSunday));
     }
   }
 
@@ -126,12 +134,24 @@ const addDaysToSection = (month, rangeStart, rangeEnd) => {
 //Month-----------------------------------------------------------
 //
 //Reducer---------------------------------------------------------
-const replaceDayValue = (prevValue, newValue, indexToChange) => {
-  const startValue = prevValue;
-  const dayId = newValue.dayId;
-  const index = indexToChange(startValue, dayId);
-  startValue.splice(index, 1, newValue);
-  return startValue;
+const replaceWorkHoursValue = (prevValue, dayId, indexToChange, newValue) => {
+  const index = indexToChange(prevValue, dayId);
+  return (prevValue[index].workHours = newValue);
+};
+
+const updateTotalHours = (monthToUpdate, actionPerformed) => {
+  let value = monthToUpdate.totalHours;
+  if (actionPerformed === '+') {
+    value++;
+    monthToUpdate.totalHours = value;
+    return monthToUpdate;
+  }
+  if (actionPerformed === '-') {
+    value--;
+    monthToUpdate.totalHours = value;
+    return monthToUpdate;
+  }
+  if (!actionPerformed) return monthToUpdate;
 };
 
 const findIndexToChange = (startValue, dayId) => {
@@ -139,17 +159,30 @@ const findIndexToChange = (startValue, dayId) => {
   return foundIndex;
 };
 
+const updateSalaryValue = (month, newSalaryValue) => {
+  return (month.salary = newSalaryValue);
+};
+
+const updatePaymentValue = (month, newPaymentValue) => {
+  return (month.paymentReceived = newPaymentValue);
+};
 //Reducer---------------------------------------------------------
 //Actions---------------------------------------------------------
 const newYearsListItem = (yearsList, yearToAdd) => {
   const key = Object.keys(yearsList).length;
   return { [key]: yearToAdd };
-}; //TODO: Write tests
+};
 
 //Actions---------------------------------------------------------
 
 export { createNewYear, findNextYear, addDaysToSection, sections };
-export { replaceDayValue, findIndexToChange }; //Reducer
+export {
+  replaceWorkHoursValue,
+  findIndexToChange,
+  updateTotalHours,
+  updateSalaryValue,
+  updatePaymentValue,
+}; //Reducer
 export { newYearsListItem }; //Actions
 export {
   SingleMonth,

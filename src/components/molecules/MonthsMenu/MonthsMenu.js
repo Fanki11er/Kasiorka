@@ -28,13 +28,13 @@ class MonthMenu extends Component {
   };
 
   handleClick = event => {
+    const { selectMonthOrYear } = this.props;
     this.setState({
       clicked: event.target.id,
     });
-    const { selectMonth } = this.props;
-    selectMonth(event);
+    selectMonthOrYear(event, 'month');
   };
-  co;
+
   componentDidMount() {
     const { selectedMonthId } = this.props;
     this.setState({
@@ -70,11 +70,11 @@ class MonthMenu extends Component {
 
 MonthMenu.propTypes = {
   monthNames: PropTypes.array.isRequired,
-  selectMonth: PropTypes.func.isRequired,
+  selectMonthOrYear: PropTypes.func.isRequired,
   selectedMonthId: PropTypes.number,
 };
 
-MonthMenu.defaultPropTypes = {
+MonthMenu.defaultProps = {
   selectedMonthId: 0,
 };
 const mapStateToProps = state => {

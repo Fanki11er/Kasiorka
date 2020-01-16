@@ -1,10 +1,13 @@
 import { createNewYear, monthNames } from '../tools/index';
+import { addHolidaysToYear, constantPolishHolidays } from '../tools/holidayTools';
 
 export const signUp = newUser => {
   return (dispatch, getState, { getFirebase, dataBase }) => {
     const firebase = getFirebase();
     const year = new Date().getFullYear();
     const newYear = createNewYear(monthNames, year);
+    const months = newYear.months;
+    addHolidaysToYear(year, months, constantPolishHolidays);
     firebase
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)

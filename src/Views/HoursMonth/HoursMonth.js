@@ -3,10 +3,12 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import SummaryContext from '../../context/SummaryContext';
 import { addDaysToSection, sections } from '../../tools/index';
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 import DayOfTheWeek from '../../components/molecules/DayOfWeek/DayOfWeek';
 import Summary from '../../components/molecules/Summary/Summary';
+import EditSummaryOptions from '../../components/organisms/EditSummaryOptions/EditSummaryOptions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -30,16 +32,42 @@ const StyledView = styled.div`
 `;
 
 class HoursMonth extends Component {
+  state = {
+    isSummaryModalOpened: false,
+    chosenOption: null,
+  };
   componentWillUnmount() {
-    const { sendHoursToDataBase, auth } = this.props;
-    sendHoursToDataBase(auth.uid);
+    const { sendHoursToDataBase, auth, isSaved } = this.props;
+    if (!isSaved) {
+      sendHoursToDataBase(auth.uid);
+    }
   }
-
-  componentDidUpdate() {}
 
   render() {
     const { hours, monthId } = this.props;
+    const { isSummaryModalOpened, chosenOption } = this.state;
     const months = hours.months;
+    const optionsToChose = {
+      optionSalary: 'salary',
+      optionPayment: 'payment',
+    };
+    const { optionSalary } = optionsToChose;
+
+    const toggleEditSummaryModal = (chosenOption = optionSalary) => {
+      this.setState(prevState => {
+        return {
+          isSummaryModalOpened: !prevState.isSummaryModalOpened,
+          chosenOption,
+        };
+      });
+    };
+
+    const summaryContext = {
+      toggleEditSummaryModal,
+      monthId,
+      optionsToChose,
+    };
+
     return (
       <StyledView>
         <StyledWrapper>
@@ -48,12 +76,23 @@ class HoursMonth extends Component {
             sections.map(({ rangeStart, rangeEnd }) => (
               <StyledSection key={rangeStart}>
                 {addDaysToSection(months[monthId].days, rangeStart, rangeEnd).map(
-                  ({ dayId, nameOfDay, workHours, isHoliday }) => (
+                  ({
+                    dayId,
+                    nameOfDay,
+                    workHours,
+                    isSaturday,
+                    isSunday,
+                    isHoliday,
+                    holidayDesc,
+                  }) => (
                     <DayOfTheWeek
                       dayId={dayId}
                       nameOfDay={nameOfDay}
                       workHours={workHours}
+                      isSaturday={isSaturday}
+                      isSunday={isSunday}
                       isHoliday={isHoliday}
+                      holidayDesc={holidayDesc}
                       key={dayId}
                       monthId={monthId}
                     ></DayOfTheWeek>
@@ -62,7 +101,14 @@ class HoursMonth extends Component {
               </StyledSection>
             ))}
         </StyledWrapper>
-        <Summary />
+        <SummaryContext.Provider value={summaryContext}>
+          <Summary monthId={monthId} />
+          <EditSummaryOptions
+            isSummaryModalOpened={isSummaryModalOpened}
+            chosenOption={chosenOption}
+            monthId={monthId}
+          />
+        </SummaryContext.Provider>
       </StyledView>
     );
   }
@@ -77,6 +123,7 @@ const mapStateToProps = state => {
   return {
     hours: state.hours,
     auth: state.firebase.auth,
+    isSaved: state.hours.isSaved,
   };
 };
 

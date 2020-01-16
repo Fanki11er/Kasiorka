@@ -36,11 +36,14 @@ const Menu = ({ menuContext }) => (
     <TitleHeader small />
     <StyledMenuWrapper>
       <StyledFlexWrapper>
-        <YearsMenu />
+        <YearsMenu
+          selectedYear={menuContext.selectedYear}
+          selectMonthOrYear={menuContext.selectMonthOrYear}
+        />
         <ExtendedMenu addNewYear={menuContext.addNewYear} />
       </StyledFlexWrapper>
       <MonthMenu
-        selectMonth={menuContext.selectMonth}
+        selectMonthOrYear={menuContext.selectMonthOrYear}
         selectedMonthId={menuContext.selectedMonthId}
       />
     </StyledMenuWrapper>

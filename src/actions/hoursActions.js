@@ -1,35 +1,33 @@
-export const updateHours = (monthId, dayId, nameOfDay, workHours, isHoliday, action) => {
+export const updateHours = (monthId, dayId, workHours, action) => {
   if (action === '+') workHours++;
   else if (action === '-' && workHours > 0) workHours--;
   return {
     type: 'UPDATE_WORK_HOURS',
     payload: {
-      monthId: monthId,
-      item: {
-        dayId,
-        nameOfDay,
-        workHours,
-        isHoliday,
-      },
+      monthId,
+      dayId,
+      workHours,
+      actionPerformed: action,
     },
   };
 };
 
-/* firestore
-      .collection('years')
-      .doc(docId)
-      .set({
-        months: JSON.stringify(year.months),
-      })
-      .then(() => {
-        dispatch({
-          type: 'ADD_NEW_YEAR',
-          year,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: 'ERROR',
-          err,
-        });
-      }); */
+export const changeSalaryValue = (newSalaryValue, monthId) => {
+  return {
+    type: 'CHANGE_SALARY_VALUE',
+    payload: {
+      newSalaryValue,
+      monthId,
+    },
+  };
+};
+
+export const changePaymentReceived = (newPaymentValue, monthId) => {
+  return {
+    type: 'CHANGE_PAYMENT_VALUE',
+    payload: {
+      newPaymentValue,
+      monthId,
+    },
+  };
+};
