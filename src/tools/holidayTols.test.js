@@ -2,7 +2,6 @@ import {
   computeEasterSundayDate,
   computeEasterMondayOrCorpusChristiDate,
   addDatesOfMovingHolidays,
-  addHolidaysToYear,
 } from './holidayTools';
 
 describe('Is correct computing easter sunday date', () => {
@@ -100,93 +99,4 @@ describe('Is adding moving holidays to array', () => {
       description: 'Boże Ciało',
     },
   ]);
-});
-
-describe('Is changing isHoliday property from false to true', () => {
-  test('Test', () => {
-    const mockMonths = [
-      { id: 1 },
-      { id: 2 },
-      {
-        id: 3,
-        days: [
-          {
-            dayId: 31,
-            isHoliday: false,
-          },
-        ],
-      },
-      {
-        id: 4,
-        days: [
-          {
-            dayId: 1,
-            isHoliday: false,
-          },
-        ],
-      },
-      {
-        id: 5,
-        days: [
-          {
-            dayId: 30,
-            isHoliday: false,
-          },
-        ],
-      },
-    ];
-    const allHolidayDays = [
-      {
-        dayId: 1,
-        monthId: 2,
-        description: 'Niedziela Wielkanocna',
-      },
-      {
-        dayId: 1,
-        monthId: 3,
-        description: 'Poniedziałek Wielkanocny',
-      },
-      {
-        dayId: 1,
-        monthId: 4,
-        description: 'Boże Ciało',
-      },
-    ];
-
-    /*addHolidaysToYear(2008, mockMonths, allHolidayDays);
-    expect(mockMonths).toEqual([
-      { id: 1 },
-      { id: 2 },
-      {
-        id: 3,
-        days: [
-          {
-            dayId: 31,
-            isHoliday: true,
-            holidayDesc: 'Niedziela Wielkanocna',
-          },
-        ],
-      },
-      {
-        id: 4,
-        days: [
-          {
-            dayId: 1,
-            isHoliday: true,
-            holidayDesc: 'Poniedziałek Wielkanocny',
-          },
-        ],
-      },
-      {
-        id: 5,
-        days: [
-          {
-            dayId: 30,
-            isHoliday: true,
-            holidayDesc: 'Boże Ciało',
-          },
-        ],
-      },
-    ]);*/
-  });
 });
