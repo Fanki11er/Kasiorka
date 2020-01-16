@@ -85,7 +85,7 @@ const EditSalaryModal = ({
             {chosenOption === optionSalary && (
               <ModalInput
                 label="Nowa stawka godzinowa:"
-                type="text"
+                type="number"
                 name={chosenOption}
                 units={`${currency}/h`}
                 val={value}
@@ -94,7 +94,7 @@ const EditSalaryModal = ({
             {chosenOption === optionPayment && (
               <ModalInput
                 label="Otrzymana wypłata:"
-                type="text"
+                type="number"
                 name={chosenOption}
                 units={currency}
                 val={value}
@@ -124,8 +124,10 @@ EditSalaryModal.propTypes = {
   currency: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
   changeSalaryValue: PropTypes.func.isRequired,
+  changePaymentReceived: PropTypes.func.isRequired,
   monthId: PropTypes.number.isRequired,
   summaryContext: PropTypes.object.isRequired,
+  chosenOption: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = dispatch => {

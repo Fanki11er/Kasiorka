@@ -17,13 +17,26 @@ const DayName = styled.div`
     isSaturday &&
     css`
       background-color: ${({ theme }) => theme.saturdayYellow};
+      color: ${({ theme }) => theme.lighterFont};
     `}
 
   ${({ isSunday }) =>
     isSunday &&
     css`
       background-color: ${({ theme }) => theme.sundayRed};
+      color: ${({ theme }) => theme.lighterFont};
     `}
+
+    ${({ isHoliday }) =>
+      isHoliday &&
+      css`
+        background-color: ${({ theme }) => theme.isHoliday};
+        color: ${({ theme }) => theme.lighterFont};
+      `}
+
+      &:hover {
+        cursor: default;
+      }
 `;
 
 DayName.propTypes = {

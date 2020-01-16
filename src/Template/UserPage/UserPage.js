@@ -136,6 +136,7 @@ const mapStateToProps = state => {
     auth: state.firebase.auth,
     user: state.user,
     isSaved: state.hours.isSaved,
+    menuContext: PropTypes.object,
   };
 };
 

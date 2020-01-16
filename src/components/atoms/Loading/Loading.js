@@ -56,7 +56,7 @@ const Loading = ({ innerImage }) => {
 };
 
 Loading.propTypes = {
-  innerImage: PropTypes.string.isRequired,
+  innerImage: PropTypes.oneOf(['padlock', 'sync']).isRequired,
 };
 
 export default Loading;

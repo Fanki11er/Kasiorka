@@ -36,8 +36,7 @@ class ExtendedMenu extends Component {
     return (
       <StyledWrapper>
         <StyledMenuItem onClick={addNewYear}>Dodaj nowy rok</StyledMenuItem>;
-        <StyledMenuItem>{/*Auto uzupełniannie*/} Test</StyledMenuItem>;
-        <StyledMenuItem>{/*Dodaj dzień świąteczny*/}Test Sync</StyledMenuItem>;
+        <StyledMenuItem>Auto uzupełniannie</StyledMenuItem>;
         <StyledMenuItem>
           <StyledIcon />
         </StyledMenuItem>

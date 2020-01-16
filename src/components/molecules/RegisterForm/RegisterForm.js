@@ -83,6 +83,7 @@ const RegisterForm = ({ signUp, auth }) => {
 
 RegisterForm.propTypes = {
   signUp: PropTypes.func.isRequired,
+  auth: PropTypes.object,
 };
 const mapStateToProps = state => {
   return {

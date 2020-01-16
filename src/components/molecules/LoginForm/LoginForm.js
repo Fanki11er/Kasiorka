@@ -30,10 +30,10 @@ const LoginForm = ({ signIn, auth, authErr }) => {
           <ErrorWrapper></ErrorWrapper>
           <FormInput withError label="Hasło" type="password" name="password" />
           <ErrorWrapper>{authErr && <ErrorInfo>{authErr}</ErrorInfo>}</ErrorWrapper>
-          <FormButton clicked={0} type="submit" disabled={isSubmitting}>
+          <FormButton type="submit" disabled={isSubmitting}>
             Zaloguj
           </FormButton>
-          <FormButton clicked={0} as={Link} green="true" to="/reg">
+          <FormButton as={Link} green="true" to="/reg">
             Rejestracja
           </FormButton>
         </StyledForm>
@@ -43,6 +43,8 @@ const LoginForm = ({ signIn, auth, authErr }) => {
 };
 LoginForm.propTypes = {
   signIn: PropTypes.func.isRequired,
+  auth: PropTypes.object,
+  authErr: PropTypes.string,
 };
 
 const mapStateToProps = state => {

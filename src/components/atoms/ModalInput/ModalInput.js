@@ -12,6 +12,7 @@ const StyledInput = styled(Field)`
   text-align: end;
   border: none;
   outline: none;
+
   &::placeholder {
     color: ${({ theme }) => theme.lighterGreen};
   }
@@ -20,6 +21,11 @@ const StyledInput = styled(Field)`
     &::placeholder {
       color: ${({ theme }) => theme.lighterGreen};
     }
+  }
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
   }
 `;
 

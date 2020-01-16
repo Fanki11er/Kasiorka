@@ -10,6 +10,7 @@ export const theme = {
     large: '6em',
   },
   primaryFont: '#94AFD3',
+  lighterFont: '#AEC7EA',
   menuYellow: '#FFD21E',
   menuBlue: '#13B3F2',
   darkGray: '#707070',
@@ -22,5 +23,6 @@ export const theme = {
   green: '#83B33B',
   lighterGreen: 'rgba(131,179, 59, 0.5)',
   primaryTransparent: 'rgba(1, 13, 38, 0.8)',
-  saturdayYellow: '#5F4D08',
+  saturdayYellow: '#8C2703',
+  isHoliday: '#1C6683',
 };

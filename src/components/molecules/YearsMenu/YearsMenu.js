@@ -67,6 +67,11 @@ class YearsMenu extends Component {
 
 YearsMenu.propTypes = {
   yearsList: PropTypes.array.isRequired,
+  selectedYear: PropTypes.number,
+};
+
+YearsMenu.defaultProps = {
+  selectedYear: 0,
 };
 
 const mapStateToProps = state => {

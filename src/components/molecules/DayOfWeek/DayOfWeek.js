@@ -16,14 +16,30 @@ const StyledWrapper = styled.div`
 
 class DayOfTheWeek extends Component {
   render() {
-    const { dayId, nameOfDay, isSaturday, isSunday, workHours, updateHours, monthId } = this.props;
+    const {
+      dayId,
+      nameOfDay,
+      isSaturday,
+      isSunday,
+      workHours,
+      updateHours,
+      monthId,
+      isHoliday,
+      holidayDesc,
+    } = this.props;
     const increase = '+';
     const decrease = '-';
 
     return (
       <StyledWrapper>
         <DayNumber>{dayId}</DayNumber>
-        <DayName isSaturday={isSaturday} isSunday={isSunday}>
+
+        <DayName
+          isSaturday={isSaturday}
+          isSunday={isSunday}
+          isHoliday={isHoliday}
+          title={holidayDesc ? holidayDesc : null}
+        >
           {nameOfDay}
         </DayName>
         <NumberOfHours>{workHours}</NumberOfHours>

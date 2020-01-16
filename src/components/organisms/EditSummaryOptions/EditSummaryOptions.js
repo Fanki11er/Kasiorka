@@ -73,6 +73,7 @@ EditSummaryOptions.propTypes = {
   monthId: PropTypes.number,
   paymentReceived: PropTypes.number,
   summaryContext: PropTypes.object.isRequired,
+  chosenOption: PropTypes.string,
 };
 
 EditSummaryOptions.defaultProps = {

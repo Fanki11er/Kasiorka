@@ -20,9 +20,7 @@ const UserMenu = ({ signOut, userName }) => {
   return (
     <StyledWrapper>
       <UserName>{userName}</UserName>
-      <StyledLogOut onClick={signOut} clicked={0}>
-        Wyloguj
-      </StyledLogOut>
+      <StyledLogOut onClick={signOut}>Wyloguj</StyledLogOut>
     </StyledWrapper>
   );
 };
