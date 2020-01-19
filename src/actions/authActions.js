@@ -1,4 +1,4 @@
-import { createNewYear, monthNames } from '../tools/index';
+import { createNewYear, monthNames, User } from '../tools/index';
 import { addHolidaysToYear, constantPolishHolidays } from '../tools/holidayTools';
 
 export const signUp = newUser => {
@@ -7,6 +7,7 @@ export const signUp = newUser => {
     const year = new Date().getFullYear();
     const newYear = createNewYear(monthNames, year);
     const months = newYear.months;
+    const user = new User(newUser.name, [newYear.yearName]);
     addHolidaysToYear(year, months, constantPolishHolidays);
     firebase
       .auth()
@@ -15,10 +16,8 @@ export const signUp = newUser => {
         dataBase.update('Users', {
           data: {
             [resp.user.uid]: {
-              settings: {
-                name: newUser.name,
-                yearsList: [newYear.yearName],
-              },
+              settings: user,
+
               years: {
                 [newYear.yearName]: {
                   hours: newYear,

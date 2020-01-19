@@ -22,7 +22,7 @@ const MenuItem = styled.button`
       width: 150px;
     `}
 
-  &:hover {
+  &:hover, :focus {
     color: ${({ theme, clicked, id, selected }) =>
       (clicked === id && clicked !== undefined) || selected ? 'none' : theme.hover};
     border: 2px solid

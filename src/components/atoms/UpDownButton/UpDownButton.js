@@ -11,8 +11,10 @@ const UpDownButton = styled.button`
   background-repeat: no-repeat;
   background-size: 20px;
   background-position: 50% 50%;
+  outline: none;
 
-  &:hover {
+  &:hover,
+  :focus {
     background-color: ${({ theme }) => theme.hover};
     cursor: pointer;
   }
@@ -33,7 +35,7 @@ const UpDownButton = styled.button`
 
 UpDownButton.propTypes = {
   upButton: PropTypes.bool,
-  //downButton: PropTypes.bool,
+  downButton: PropTypes.bool,
 };
 
 export default UpDownButton;

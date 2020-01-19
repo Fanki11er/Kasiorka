@@ -10,9 +10,10 @@ import MenuContext from '../../context/MenuContext';
 import Navigation from '../../components/organisms/Navigation/Navigation';
 import Footer from '../../components/atoms/Footer/Footer';
 import StateIsLoaded from '../../components/atoms/StateIsLoaded/StateIsLoaded';
+import EditSettings from '../../components/organisms/EditSettings/EditSettings';
 import { createNewYear, monthNames, findNextYear } from '../../tools/index';
-import { addNewYear as addNewYearAction } from '../../actions/dataBaseActions';
 import { routes } from '../../Router/routes';
+import { addNewYear as addNewYearAction } from '../../actions/dataBaseActions';
 import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../actions/dataBaseActions';
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 
@@ -32,6 +33,7 @@ class UserPage extends Component {
   state = {
     selectedMonthId: new Date().getMonth(),
     selectedYear: new Date().getFullYear(),
+    isSettingsModalOpened: false,
   };
 
   componentDidMount() {
@@ -59,10 +61,8 @@ class UserPage extends Component {
         this.setState({
           selectedYear: selectedYear,
         });
-        //!Make it async
         if (!isSaved) sendHoursToDataBase(auth.uid);
         takeDataFromDataBase(auth.uid, selectedYear);
-
         break;
       }
       default: {
@@ -88,13 +88,22 @@ class UserPage extends Component {
     if (!isSaved) sendHoursToDataBase(auth.uid);
   };
 
+  toggleSettingsModal = () => {
+    this.setState(prevState => {
+      return {
+        isSettingsModalOpened: !prevState.isSettingsModalOpened,
+      };
+    });
+  };
+
   render() {
-    const { selectedMonthId, selectedYear } = this.state;
+    const { selectedMonthId, selectedYear, isSettingsModalOpened } = this.state;
     const menuContext = {
       selectedMonthId,
       selectedYear,
       selectMonthOrYear: this.selectMonthOrYear,
       addNewYear: this.addNewYear,
+      toggleSettingsModal: this.toggleSettingsModal,
     };
 
     const { pathname } = this.props.location;
@@ -110,6 +119,7 @@ class UserPage extends Component {
             <Navigation />
             <MenuContext.Provider value={menuContext}>
               <Menu />
+              <EditSettings isSettingsModalOpened={isSettingsModalOpened} />
             </MenuContext.Provider>
 
             {pathname === '/user/hours' && <HoursMonth monthId={selectedMonthId}></HoursMonth>}

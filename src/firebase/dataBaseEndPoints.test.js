@@ -15,4 +15,9 @@ describe('Test create path to Endpoints', () => {
     expect(endPoints.yearsList('user1')).toBe('Users/user1/settings/yearsList');
     expect(endPoints.yearsList('user2')).toBe('Users/user2/settings/yearsList');
   });
+
+  test('hoursSettings endpoint', () => {
+    expect(endPoints.hoursSettings('user1')).toBe('Users/user1/settings/hoursSettings');
+    expect(endPoints.hoursSettings('user2')).toBe('Users/user2/settings/hoursSettings');
+  });
 });

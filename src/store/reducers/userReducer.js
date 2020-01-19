@@ -1,5 +1,7 @@
 const initialState = {
   yearsList: null,
+  hoursSettings: null,
+  moneySettings: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -16,9 +18,17 @@ const userReducer = (state = initialState, action) => {
         yearsList: [...yearsList, action.payload],
       };
     }
-
     case 'NEW_YEAR_ADDED': {
       return state;
+    }
+    case 'HOURS_SETTINGS_CHANGED': {
+      return state;
+    }
+    case 'ACTUALIZE_HOURS_SETTINGS': {
+      return {
+        ...state,
+        hoursSettings: action.payload,
+      };
     }
 
     default: {

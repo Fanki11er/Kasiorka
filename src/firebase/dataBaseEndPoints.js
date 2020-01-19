@@ -10,10 +10,15 @@ const settings = uid => {
   return `Users/${uid}/settings`;
 };
 
+const hoursSettings = uid => {
+  return `Users/${uid}/settings/hoursSettings`;
+};
+
 const dataBaseEndPints = {
   yearsList,
   hours,
   settings,
+  hoursSettings,
 };
 
 export default dataBaseEndPints;

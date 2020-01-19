@@ -12,7 +12,8 @@ const StyledIcon = styled(Close)`
   border: 2px solid ${({ theme }) => theme.green};
   border-radius: 10px;
 
-  &:hover {
+  &:hover,
+  :focus {
     border: 2px solid ${({ theme }) => theme.hover};
     color: ${({ theme }) => theme.hover};
   }

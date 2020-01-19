@@ -32,20 +32,20 @@ const StyledIcon = styled(Settings)`
 
 class ExtendedMenu extends Component {
   render() {
-    const { addNewYear } = this.props;
+    const { addNewYear, toggleSettingsModal } = this.props;
     return (
       <StyledWrapper>
         <StyledMenuItem onClick={addNewYear}>Dodaj nowy rok</StyledMenuItem>;
         <StyledMenuItem>Auto uzupełniannie</StyledMenuItem>;
-        <StyledMenuItem>
+        <StyledMenuItem title={'Ustawienia'} onClick={toggleSettingsModal}>
           <StyledIcon />
         </StyledMenuItem>
-        ;
       </StyledWrapper>
     );
   }
 }
 ExtendedMenu.propTypes = {
   addNewYear: PropTypes.func.isRequired,
+  toggleSettingsModal: PropTypes.func.isRequired,
 };
 export default ExtendedMenu;
