@@ -1,24 +1,9 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EditSalaryModal from '../../molecules/EditSalaryModal/EditSalaryModal';
+import CoverDiv from '../../atoms/CoverDiv/CoverDiv';
 import withSummaryContext from '../../../hoc/withSummaryContext';
-
-const StyledWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  background-color: rgba(255, 255, 255, 0);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform: ${({ isSummaryModalOpened }) =>
-    isSummaryModalOpened === true ? 'translateY(0)' : 'translateY(105%)'};
-  transition: transform 0.6s ease-in;
-`;
 
 class EditSummaryOptions extends Component {
   render() {
@@ -34,7 +19,7 @@ class EditSummaryOptions extends Component {
     const { optionsToChose } = summaryContext;
     const { optionPayment, optionSalary } = optionsToChose;
     return (
-      <StyledWrapper isSummaryModalOpened={isSummaryModalOpened}>
+      <CoverDiv isModalOpened={isSummaryModalOpened}>
         {chosenOption === optionSalary && (
           <EditSalaryModal
             chosenOption={chosenOption}
@@ -51,7 +36,7 @@ class EditSummaryOptions extends Component {
             monthId={monthId}
           />
         )}
-      </StyledWrapper>
+      </CoverDiv>
     );
   }
 }

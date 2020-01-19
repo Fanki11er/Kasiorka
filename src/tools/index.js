@@ -29,6 +29,23 @@ class SingleYear {
   }
 }
 
+class User {
+  constructor(name, yearsList) {
+    this.name = name;
+    this.yearsList = yearsList;
+    this.hoursSettings = {
+      currency: 'zł',
+      salaryValue: 0,
+      dayWorkHours: 0,
+      freeDayHours: 0,
+      workSaturdays: false,
+      workSundays: false,
+      workHolidays: false,
+    };
+    this.moneySettings = {};
+  }
+}
+
 const monthNames = [
   'Styczeń',
   'Luty',
@@ -72,7 +89,7 @@ const getDayName = (selectedYear, selectedMonth, selectedDay, dayNames) => {
 
   switch (dayInWeek) {
     case 0:
-      return createObj(dayNames[0], false, true);
+      return createObj(dayNames[0], false, true); //Sunday
     case 1:
       return createObj(dayNames[1], false, false);
     case 2:
@@ -84,7 +101,7 @@ const getDayName = (selectedYear, selectedMonth, selectedDay, dayNames) => {
     case 5:
       return createObj(dayNames[5], false, false);
     case 6:
-      return createObj(dayNames[6], true, false);
+      return createObj(dayNames[6], true, false); //Saturday
     default:
       return createObj('Error', false, false);
   }
@@ -193,4 +210,5 @@ export {
   getDayName,
   dayNames,
   monthNames,
+  User,
 }; //For tests

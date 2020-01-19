@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import YearsMenu from '../../molecules/YearsMenu/YearsMenu';
 import MonthMenu from '../../molecules/MonthsMenu/MonthsMenu';
 import TitleHeader from '../../atoms/TitleHeader/TitleHeader';
@@ -40,7 +41,10 @@ const Menu = ({ menuContext }) => (
           selectedYear={menuContext.selectedYear}
           selectMonthOrYear={menuContext.selectMonthOrYear}
         />
-        <ExtendedMenu addNewYear={menuContext.addNewYear} />
+        <ExtendedMenu
+          addNewYear={menuContext.addNewYear}
+          toggleSettingsModal={menuContext.toggleSettingsModal}
+        />
       </StyledFlexWrapper>
       <MonthMenu
         selectMonthOrYear={menuContext.selectMonthOrYear}
@@ -49,5 +53,9 @@ const Menu = ({ menuContext }) => (
     </StyledMenuWrapper>
   </StyledWrapper>
 );
+
+Menu.propTypes = {
+  menuContext: PropTypes.object.isRequired,
+};
 
 export default withMenuContext(Menu);

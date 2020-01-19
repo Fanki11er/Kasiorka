@@ -70,3 +70,30 @@ export const addNewYear = year => {
       });
   };
 };
+
+export const updateUserSettings = newSettings => {
+  return (dispatch, getState, { dataBase, endPoints }) => {
+    const state = getState();
+    const uid = state.firebase.auth.uid;
+    dataBase
+      .update(endPoints.hoursSettings(uid), {
+        data: newSettings,
+      })
+      .then(() => {
+        dispatch({ type: 'HOURS_SETTINGS_CHANGED' }); // User reducer
+        dataBase
+          .fetch(endPoints.hoursSettings(uid), {
+            context: state,
+          })
+          .then(data => {
+            dispatch({ type: 'ACTUALIZE_HOURS_SETTINGS', payload: data }); // User reducer
+          })
+          .catch(err => {
+            dispatch({ type: 'HOURS_SETTINGS_NOT_ACTUAL', payload: err }); // Errors reducer
+          });
+      })
+      .catch(err => {
+        dispatch({ type: 'HOURS_SETTINGS_NOT_CHANGED', payload: err }); // Errors reducer
+      });
+  };
+};

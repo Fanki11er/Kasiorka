@@ -64,7 +64,9 @@ DayOfTheWeek.propTypes = {
   nameOfDay: PropTypes.string,
   isSaturday: PropTypes.bool,
   isSunday: PropTypes.bool,
+  isHoliday: PropTypes.bool,
   workHours: PropTypes.number,
+  holidayDesc: PropTypes.string,
 };
 
 DayOfTheWeek.defaultProps = {

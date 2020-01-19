@@ -4,6 +4,8 @@ const initialState = {
   newYearErr: null,
   saveHoursErr: null,
   signUpErr: null,
+  settingsErr: null,
+  settingsFetchErr: null,
 };
 
 const errorsReducer = (state = initialState, action) => {
@@ -43,6 +45,20 @@ const errorsReducer = (state = initialState, action) => {
       return {
         ...state,
         signUpErr: action.err.message,
+      };
+    }
+
+    case 'HOURS_SETTINGS_NOT_ACTUAL': {
+      return {
+        ...state,
+        settingsFetchErr: action.err.message,
+      };
+    }
+
+    case 'HOURS_SETTINGS_NOT_CHANGED': {
+      return {
+        ...state,
+        settingsErr: action.err.message,
       };
     }
 

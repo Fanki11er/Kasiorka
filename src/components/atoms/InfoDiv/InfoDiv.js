@@ -39,7 +39,8 @@ const StyledIconPencil = styled(Pencil)`
   background-color: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.green};
 
-  &:hover {
+  &:hover,
+  :focus {
     color: ${({ theme }) => theme.hover};
     width: 50px;
     height: 100%;
