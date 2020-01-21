@@ -139,18 +139,21 @@ const EditSettingsModal = ({
               name="workSaturdays"
               type={'checkbox'}
               custom={'400px'}
+              noActive
             />
             <CheckBoxInput
               label={'Pracujące niedziele:'}
               name="workSundays"
               type={'checkbox'}
               custom={'400px'}
+              noActive
             />
             <CheckBoxInput
               label={'Pracujące święta:'}
               name="workHolidays"
               type={'checkbox'}
               custom={'400px'}
+              noActive
             />
             <StyledButtonsWrapper>
               <StyledFormButton

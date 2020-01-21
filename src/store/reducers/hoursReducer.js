@@ -5,7 +5,8 @@ import {
   updatePaymentValue,
   findIndexToChange,
 } from '../../tools/index';
-const initialState = { isSaved: true, test: '' };
+import { autoFillHoursMonth, sumWholeMonthWorkHours } from '../../tools/hoursTools';
+const initialState = { isSaved: true };
 
 const hoursReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -39,6 +40,18 @@ const hoursReducer = (state = initialState, action) => {
       const newPaymentValue = action.payload.newPaymentValue;
       updatePaymentValue(state.months[monthId], newPaymentValue);
       return { ...state, isSaved: false };
+    }
+
+    case 'AUTO_FILL_HOURS_MONTH': {
+      const monthId = action.payload.monthId;
+      const userHoursSettings = action.payload.userHoursSettings;
+      const month = state.months[monthId];
+      autoFillHoursMonth(month, userHoursSettings);
+      sumWholeMonthWorkHours(month);
+      return {
+        ...state,
+        isSaved: false,
+      };
     }
 
     default: {

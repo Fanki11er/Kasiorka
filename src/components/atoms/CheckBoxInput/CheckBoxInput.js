@@ -26,13 +26,20 @@ const StyledCheckBox = styled(Field)`
   &:focus {
     border: 2px solid ${({ theme }) => theme.hover};
   }
+
+  &.noActive {
+    pointer-events: none;
+    border: 2px solid gray;
+    color: gray;
+    opacity: 0.5;
+  }
 `;
 
-const CheckBoxInput = ({ label, name, custom, type }) => {
+const CheckBoxInput = ({ label, name, custom, type, noActive }) => {
   return (
     <FormLabel custom={custom}>
       {label}
-      <StyledCheckBox type={type} name={name} />
+      <StyledCheckBox type={type} name={name} className={noActive ? 'noActive' : null} />
     </FormLabel>
   );
 };

@@ -1,13 +1,19 @@
 export const updateHours = (monthId, dayId, workHours, action) => {
-  if (action === '+') workHours++;
-  else if (action === '-' && workHours > 0) workHours--;
+  let sendAction;
+  if (action === '+' && workHours < 24) {
+    workHours++;
+    sendAction = '+';
+  } else if (action === '-' && workHours > 0) {
+    workHours--;
+    sendAction = '-';
+  } else sendAction = null;
   return {
     type: 'UPDATE_WORK_HOURS',
     payload: {
       monthId,
       dayId,
       workHours,
-      actionPerformed: action,
+      actionPerformed: sendAction,
     },
   };
 };
@@ -28,6 +34,16 @@ export const changePaymentReceived = (newPaymentValue, monthId) => {
     payload: {
       newPaymentValue,
       monthId,
+    },
+  };
+};
+
+export const monthHoursAutoFill = (monthId, userHoursSettings) => {
+  return {
+    type: 'AUTO_FILL_HOURS_MONTH',
+    payload: {
+      monthId,
+      userHoursSettings,
     },
   };
 };

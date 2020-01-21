@@ -16,6 +16,7 @@ import { routes } from '../../Router/routes';
 import { addNewYear as addNewYearAction } from '../../actions/dataBaseActions';
 import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../actions/dataBaseActions';
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
+import { monthHoursAutoFill as monthHoursAutoFillAction } from '../../actions/hoursActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -34,6 +35,7 @@ class UserPage extends Component {
     selectedMonthId: new Date().getMonth(),
     selectedYear: new Date().getFullYear(),
     isSettingsModalOpened: false,
+    limitOfYears: false,
   };
 
   componentDidMount() {
@@ -44,6 +46,10 @@ class UserPage extends Component {
   }
   componentWillUnmount() {
     window.removeEventListener('beforeunload', this.whenClosing);
+  }
+
+  componentDidUpdate() {
+    this.checkAmountOfFutureYears();
   }
 
   selectMonthOrYear = (event, select) => {
@@ -75,11 +81,29 @@ class UserPage extends Component {
     }
   };
 
+  checkAmountOfFutureYears = () => {
+    const presentYear = new Date().getFullYear();
+    const { user } = this.props;
+    const { limitOfYears } = this.state;
+    const yearsList = user.yearsList;
+    if (!limitOfYears && yearsList && yearsList.indexOf(presentYear) + 3 < yearsList.length) {
+      this.setState({
+        limitOfYears: true,
+      });
+    }
+    if (limitOfYears && yearsList && yearsList.indexOf(presentYear) + 3 >= yearsList.length) {
+      this.setState({
+        limitOfYears: false,
+      });
+    }
+  };
+
   addNewYear = () => {
     const { newYear, user } = this.props;
     const years = user.yearsList;
     const year = findNextYear(years);
     newYear(createNewYear(monthNames, year));
+    this.checkAmountOfFutureYears();
   };
 
   whenClosing = event => {
@@ -96,14 +120,22 @@ class UserPage extends Component {
     });
   };
 
+  autoFilHoursMonth = () => {
+    const { selectedMonthId } = this.state;
+    const { monthHoursAutoFill, userHoursSettings } = this.props;
+    monthHoursAutoFill(selectedMonthId, userHoursSettings);
+  };
+
   render() {
-    const { selectedMonthId, selectedYear, isSettingsModalOpened } = this.state;
+    const { selectedMonthId, selectedYear, isSettingsModalOpened, limitOfYears } = this.state;
     const menuContext = {
       selectedMonthId,
       selectedYear,
       selectMonthOrYear: this.selectMonthOrYear,
       addNewYear: this.addNewYear,
       toggleSettingsModal: this.toggleSettingsModal,
+      autoFilHoursMonth: this.autoFilHoursMonth,
+      limitOfYears,
     };
 
     const { pathname } = this.props.location;
@@ -137,6 +169,8 @@ const mapDispatchToProps = dispatch => {
     newYear: year => dispatch(addNewYearAction(year)),
     takeDataFromDataBase: (uid, year) => dispatch(takeDataFromDataBaseAction(uid, year)),
     sendHoursToDataBase: uid => dispatch(sendHoursToDataBaseAction(uid)),
+    monthHoursAutoFill: (monthId, userHoursSettings) =>
+      dispatch(monthHoursAutoFillAction(monthId, userHoursSettings)),
   };
 };
 
@@ -146,7 +180,7 @@ const mapStateToProps = state => {
     auth: state.firebase.auth,
     user: state.user,
     isSaved: state.hours.isSaved,
-    menuContext: PropTypes.object,
+    userHoursSettings: state.user.hoursSettings,
   };
 };
 
@@ -156,6 +190,7 @@ UserPage.propTypes = {
   user: PropTypes.object,
   newYear: PropTypes.func.isRequired,
   takeDataFromDataBase: PropTypes.func.isRequired,
+  monthHoursAutoFill: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
