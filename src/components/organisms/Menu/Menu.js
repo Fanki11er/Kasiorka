@@ -44,6 +44,8 @@ const Menu = ({ menuContext }) => (
         <ExtendedMenu
           addNewYear={menuContext.addNewYear}
           toggleSettingsModal={menuContext.toggleSettingsModal}
+          autoFilHoursMonth={menuContext.autoFilHoursMonth}
+          limitOfYears={menuContext.limitOfYears}
         />
       </StyledFlexWrapper>
       <MonthMenu

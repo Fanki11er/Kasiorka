@@ -45,7 +45,7 @@ class ViewMenu extends Component {
         <StyledViewItem as={NavLink} to="/user/hours" activeclass="active">
           Godziny
         </StyledViewItem>
-        <StyledViewItem as={NavLink} to="/user/money" activeclass="active">
+        <StyledViewItem as={NavLink} to="/user/money" activeclass="active" className="noActive">
           Kasiorka
         </StyledViewItem>
       </StyledWrapper>
