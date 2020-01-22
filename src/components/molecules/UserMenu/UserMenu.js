@@ -6,6 +6,7 @@ import MenuItem from '../../atoms/MenuItem/MenuItem';
 import UserName from '../../atoms/UserName/UserName';
 import IsSavedInfo from '../../atoms/IsSavedInfo/IsSavedInfo';
 import { signOut as signOutAction } from '../../../actions/authActions';
+import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../../actions/dataBaseActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -17,12 +18,17 @@ const StyledLogOut = styled(MenuItem)`
   width: 150px;
 `;
 
-const UserMenu = ({ signOut, userName, isSaved }) => {
+const UserMenu = ({ signOut, userName, isSaved, auth, sendHoursToDataBase }) => {
+  const logOut = () => {
+    const uid = auth.uid;
+    sendHoursToDataBase(uid);
+    setTimeout(signOut, 500);
+  };
   return (
     <StyledWrapper>
       <IsSavedInfo isSaved={isSaved} title={isSaved ? 'Saved' : 'Not saved'} />
       <UserName>{userName}</UserName>
-      <StyledLogOut onClick={signOut}>Wyloguj</StyledLogOut>
+      <StyledLogOut onClick={logOut}>Wyloguj</StyledLogOut>
     </StyledWrapper>
   );
 };
@@ -41,12 +47,14 @@ const mapStateToProps = state => {
   return {
     userName: state.user.name,
     isSaved: state.hours.isSaved,
+    auth: state.firebase.auth,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     signOut: () => dispatch(signOutAction()),
+    sendHoursToDataBase: uid => dispatch(sendHoursToDataBaseAction(uid)),
   };
 };
 
