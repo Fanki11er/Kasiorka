@@ -65,7 +65,10 @@ const EditSalaryModal = ({
       validate={values => {
         const errors = {};
 
-        if (!/[+]?[0-9]*\.?[0-9]+/.test(values[chosenOption]) && values[chosenOption] !== '') {
+        if (
+          (!/[+]?[0-9]*\.?[0-9]+/.test(values[chosenOption]) && values[chosenOption] !== '') ||
+          values[chosenOption] < 0
+        ) {
           errors[chosenOption] = 'Błędna wartość';
         }
         return errors;

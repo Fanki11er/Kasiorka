@@ -74,9 +74,9 @@ const EditSettingsModal = ({
       validate={values => {
         const errors = {};
         if (values.currency === '') errors.error = true;
-        if (values.salary === '') errors.error = true;
-        if (values.dayWorkHours === '') errors.error = true;
-        if (values.freeDayHours === '') errors.error = true;
+        if (values.salary === '' || values.salary < 0) errors.error = true;
+        if (values.dayWorkHours === '' || values.dayWorkHours < 0) errors.error = true;
+        if (values.freeDayHours === '' || values.freeDayHours < 0) errors.error = true;
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
