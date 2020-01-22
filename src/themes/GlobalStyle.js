@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
 
     html {
         font-size: 62.5%;
-        width: 100vw;
+        width: 100%;
     }
 
     body {

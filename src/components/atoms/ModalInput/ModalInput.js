@@ -29,6 +29,9 @@ const StyledInput = styled(Field)`
   &::-webkit-outer-spin-button {
     -webkit-appearance: none;
   }
+  &.fireFoxNumber {
+    -moz-appearance: textfield;
+  }
 `;
 
 const StyledUnits = styled.div`
@@ -41,7 +44,18 @@ const ModalInput = ({ label, type, name, units, val, custom }) => {
   return (
     <FormLabel custom={custom}>
       {label}
-      {type !== 'checkbox' ? <StyledInput type={type} name={name} placeholder={val} /> : <p></p>}
+      {type !== 'checkbox' ? (
+        <StyledInput
+          type={type}
+          name={name}
+          placeholder={val}
+          maxLength={type === 'text' ? '3' : null}
+          inputMode={type === 'number' ? 'numeric' : 'none'}
+          className="fireFoxNumber"
+        />
+      ) : (
+        <p></p>
+      )}
 
       {units && <StyledUnits>{units}</StyledUnits>}
     </FormLabel>

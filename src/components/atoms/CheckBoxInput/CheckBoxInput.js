@@ -39,7 +39,7 @@ const CheckBoxInput = ({ label, name, custom, type, noActive }) => {
   return (
     <FormLabel custom={custom}>
       {label}
-      <StyledCheckBox type={type} name={name} className={noActive ? 'noActive' : null} />
+      <StyledCheckBox type={type} name={name} className={noActive ? 'noActive' : null} disabled />
     </FormLabel>
   );
 };
