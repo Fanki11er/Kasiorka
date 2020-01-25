@@ -8,6 +8,10 @@ const StyledWrapper = styled.div`
   justify-content: space-between;
   padding-left: 20px;
   width: 335px;
+  @media screen and (max-width: 1920px) {
+    width: 225px;
+    padding-left: 10px;
+  }
 `;
 
 const StyledViewItem = styled(MenuItem)`
@@ -35,6 +39,11 @@ const StyledViewItem = styled(MenuItem)`
       border: 2px solid ${({ theme }) => theme.menuYellow};
       cursor: context-menu;
     }
+  }
+
+  @media screen and (max-width: 1920px) {
+    padding-top: 6px;
+    width: 95px;
   }
 `;
 

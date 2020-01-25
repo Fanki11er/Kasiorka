@@ -15,6 +15,11 @@ const DayNumber = styled.div`
   &:hover {
     cursor: default;
   }
+  @media screen and (max-width: 1920px) {
+    width: ${({ theme }) => theme.daysHeightMediumScreen};
+    height: ${({ theme }) => theme.daysHeightMediumScreen};
+    font-size: ${({ theme }) => theme.fontSizeMedium.medium};
+  }
 `;
 
 export default DayNumber;

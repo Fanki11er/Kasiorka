@@ -37,6 +37,13 @@ const DayName = styled.div`
       &:hover {
         cursor: default;
       }
+
+      @media screen and (max-width: 1920px) {
+    width: ${({ theme }) => theme.daysHeightMediumScreen};
+    height: ${({ theme }) => theme.daysHeightMediumScreen};
+    font-size: ${({ theme }) => theme.fontSizeMedium.medium};
+    margin: 0 0 0 1px;
+  }
 `;
 
 DayName.propTypes = {

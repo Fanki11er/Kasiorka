@@ -12,15 +12,19 @@ import FormButton from '../../atoms/FormButton/FormButton';
 import StyledForm from '../../atoms/Form/Form';
 import RegistrationImage from '../../atoms/RegistrationImage/RegistrationImage';
 import ErrorWrapper from '../../atoms/ErrorWrapper/ErrorWrapper';
+import ErrorInfo from '../../atoms/ErrorInfo/ErrorInfo';
 import { signUp as signUpAction } from '../../../actions/authActions';
 
 const StyledRegisterForm = styled(StyledForm)`
   height: 150%;
   align-self: center;
   position: relative;
+  @media screen and (max-width: 1920px) {
+    height: 220%;
+  }
 `;
 
-const RegisterForm = ({ signUp, auth }) => {
+const RegisterForm = ({ signUp, auth, signUpErr }) => {
   if (auth.uid) return <Redirect to="/user/hours" />;
 
   return (
@@ -59,6 +63,7 @@ const RegisterForm = ({ signUp, auth }) => {
           <FormInput withError label="E-mail" type="email" name="email" />
           <ErrorWrapper>
             <FormError name="email" component="div" />
+            {signUpErr ? <ErrorInfo>{signUpErr}</ErrorInfo> : null}
           </ErrorWrapper>
           <FormInput withError label="Hasło" type="password" name="password" />
           <ErrorWrapper>
@@ -68,10 +73,10 @@ const RegisterForm = ({ signUp, auth }) => {
           <ErrorWrapper>
             <FormError name="repeatedPassword" component="div" />
           </ErrorWrapper>
-          <FormButton type="submit" disabled={isSubmitting}>
+          <FormButton type="submit" green="true" disabled={isSubmitting}>
             Zarejestruj
           </FormButton>
-          <FormButton as={Link} green="true" to="/">
+          <FormButton as={Link} to="/">
             Logowanie
           </FormButton>
           <RegistrationImage />
@@ -88,6 +93,7 @@ RegisterForm.propTypes = {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
+    signUpErr: state.errors.signUpErr,
   };
 };
 

@@ -19,6 +19,9 @@ const StyledWrapper = styled.div`
   border-radius: 20px;
   background-color: ${({ theme }) => theme.primaryTransparent};
   align-items: center;
+  @media screen and (max-width: 1920px) {
+    min-width: 330px;
+  }
 `;
 
 const StyledForm = styled.form`
@@ -73,10 +76,22 @@ const EditSettingsModal = ({
       }}
       validate={values => {
         const errors = {};
-        if (values.currency === '') errors.error = true;
-        if (values.salary === '' || values.salary < 0) errors.error = true;
-        if (values.dayWorkHours === '' || values.dayWorkHours < 0) errors.error = true;
-        if (values.freeDayHours === '' || values.freeDayHours < 0) errors.error = true;
+        if (values.currency === '' || values.currency.match(/[0-9]/)) errors.error = true;
+        if (values.salary === '' || values.salary < 0 || values.salary === 'e') errors.error = true;
+        if (
+          values.dayWorkHours === '' ||
+          values.dayWorkHours < 0 ||
+          values.dayWorkHours > 24 ||
+          values.dayWorkHours === 'e'
+        )
+          errors.error = true;
+        if (
+          values.freeDayHours === '' ||
+          values.freeDayHours < 0 ||
+          values.freeDayHours > 24 ||
+          values.freeDayHours === 'e'
+        )
+          errors.error = true;
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
@@ -104,7 +119,8 @@ const EditSettingsModal = ({
               label={'Waluta:'}
               units={''}
               val={currency}
-              custom={'400px'}
+              custom
+              length={3}
             />
 
             <ModalInput
@@ -113,7 +129,8 @@ const EditSettingsModal = ({
               label={'Stawka godzinowa:'}
               units={`${currency}/h`}
               val={salaryValue}
-              custom={'400px'}
+              custom
+              max="900"
             />
 
             <ModalInput
@@ -122,7 +139,8 @@ const EditSettingsModal = ({
               label={'Godziny pracy na dobę:'}
               units={'h'}
               val={dayWorkHours}
-              custom={'400px'}
+              custom
+              length={3}
             />
 
             <ModalInput
@@ -131,28 +149,28 @@ const EditSettingsModal = ({
               label={'Godziny na urlopie:'}
               units={'h'}
               val={freeDayHours}
-              custom={'400px'}
+              custom
             />
 
             <CheckBoxInput
               label={'Pracujące soboty:'}
               name="workSaturdays"
               type={'checkbox'}
-              custom={'400px'}
+              custom
               noActive
             />
             <CheckBoxInput
               label={'Pracujące niedziele:'}
               name="workSundays"
               type={'checkbox'}
-              custom={'400px'}
+              custom
               noActive
             />
             <CheckBoxInput
               label={'Pracujące święta:'}
               name="workHolidays"
               type={'checkbox'}
-              custom={'400px'}
+              custom
               noActive
             />
             <StyledButtonsWrapper>

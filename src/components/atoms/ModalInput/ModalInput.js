@@ -6,7 +6,7 @@ import FormLabel from '../../atoms/FormLabel/FormLabel';
 
 const StyledInput = styled(Field)`
   min-width: 15%;
-  width: 20%;
+  width: 30%;
   font-size: 1.5em;
   font-weight: bold;
   color: ${({ theme }) => theme.green};
@@ -40,7 +40,7 @@ const StyledUnits = styled.div`
   color: ${({ theme }) => theme.green};
 `;
 
-const ModalInput = ({ label, type, name, units, val, custom }) => {
+const ModalInput = ({ label, type, name, units, val, custom, length }) => {
   return (
     <FormLabel custom={custom}>
       {label}
@@ -49,8 +49,7 @@ const ModalInput = ({ label, type, name, units, val, custom }) => {
           type={type}
           name={name}
           placeholder={val}
-          maxLength={type === 'text' ? '3' : null}
-          inputMode={type === 'number' ? 'numeric' : 'none'}
+          maxLength={type === 'text' && length ? length : null}
           className="fireFoxNumber"
         />
       ) : (
@@ -68,7 +67,8 @@ ModalInput.propTypes = {
   name: PropTypes.string,
   units: PropTypes.string,
   val: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  custom: PropTypes.string,
+  custom: PropTypes.bool,
+  length: PropTypes.number,
 };
 
 export default ModalInput;

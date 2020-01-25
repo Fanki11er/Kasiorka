@@ -17,6 +17,9 @@ const StyledIcon = styled(Close)`
     border: 2px solid ${({ theme }) => theme.hover};
     color: ${({ theme }) => theme.hover};
   }
+  @media screen and (max-width: 1920px) {
+    border-radius: 8px;
+  }
 `;
 
 const StyledButton = styled.button`

@@ -21,6 +21,10 @@ const StyledTitleWrapper = styled.div`
   left: 40px;
   width: 400px;
   height: 400px;
+  @media screen and (max-width: 1920px) {
+    top: 30px;
+    left: 30px;
+  }
 `;
 
 const RegisterView = () => (

@@ -31,6 +31,11 @@ const UpDownButton = styled.button`
       background-image: url(${() => DownArrow});
       border-bottom-right-radius: 10px;
     `}
+    @media screen and (max-width: 1920px) {
+    width: 21px;
+    height: 21px;
+    background-size: 15px;
+  }
 `;
 
 UpDownButton.propTypes = {

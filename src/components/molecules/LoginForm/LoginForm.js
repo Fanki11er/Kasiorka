@@ -30,10 +30,10 @@ const LoginForm = ({ signIn, auth, authErr }) => {
           <ErrorWrapper></ErrorWrapper>
           <FormInput withError label="Hasło" type="password" name="password" />
           <ErrorWrapper>{authErr && <ErrorInfo>{authErr}</ErrorInfo>}</ErrorWrapper>
-          <FormButton type="submit" disabled={isSubmitting}>
+          <FormButton type="submit" green="true" disabled={isSubmitting}>
             Zaloguj
           </FormButton>
-          <FormButton as={Link} green="true" to="/reg">
+          <FormButton as={Link} to="/reg">
             Rejestracja
           </FormButton>
         </StyledForm>

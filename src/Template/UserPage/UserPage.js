@@ -28,6 +28,15 @@ const StyledWrapper = styled.div`
   min-height: 100vh;
   height: auto;
   width: calc(100% - 420px);
+
+  @media screen and (max-width: 1920px) {
+    width: calc(100% - ${({ theme }) => theme.menuWidth.mediumScreen} + 7px);
+    margin-left: calc(${({ theme }) => theme.menuWidth.mediumScreen} - 5px);
+  }
+  @media screen and (max-width: 760px) {
+    margin-left: 0;
+    width: 100%;
+  }
 `;
 
 class UserPage extends Component {

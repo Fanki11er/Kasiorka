@@ -12,10 +12,16 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-basis: 300px;
   justify-content: space-between;
+  @media screen and (max-width: 1920px) {
+    flex-basis: 220px;
+  }
 `;
 
 const StyledLogOut = styled(MenuItem)`
   width: 150px;
+  @media screen and (max-width: 1920px) {
+    width: 95px;
+  }
 `;
 
 const UserMenu = ({ signOut, userName, isSaved, auth, sendHoursToDataBase }) => {
