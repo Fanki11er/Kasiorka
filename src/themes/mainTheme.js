@@ -1,5 +1,7 @@
 export const theme = {
   rowHeight: '60px',
+  rowHeightMediumScreen: '32px',
+  daysHeightMediumScreen: '42px',
   rowHeightSmall: '55px',
   fontSize: {
     normal: '2.4em',
@@ -8,6 +10,14 @@ export const theme = {
     smallest: '1.2em',
     larger: '3em',
     large: '6em',
+  },
+  fontSizeMedium: {
+    verySmall: '0.8em',
+    smallest: '0.7em',
+    larger: '2em',
+    smaller: '1.4em',
+    medium: '1em',
+    large: '3.8em',
   },
   primaryFont: '#94AFD3',
   lighterFont: '#AEC7EA',
@@ -25,4 +35,7 @@ export const theme = {
   primaryTransparent: 'rgba(1, 13, 38, 0.8)',
   saturdayYellow: '#8C2703',
   isHoliday: '#1C6683',
+  menuWidth: {
+    mediumScreen: '280px',
+  },
 };

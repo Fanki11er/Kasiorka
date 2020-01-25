@@ -15,12 +15,19 @@ const StyledWrapper = styled.div`
   border: 2px solid ${({ theme }) => theme.menuBlue};
   border-radius: 10px;
   position: relative;
+  @media screen and (max-width: 1920px) {
+    height: ${({ theme }) => theme.daysHeightMediumScreen};
+    padding: 0 15px;
+  }
 `;
 
 const StyledLabel = styled.label`
   color: ${({ theme }) => theme.menuBlue};
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   font-weight: bold;
+  @media screen and (max-width: 1920px) {
+    font-size: ${({ theme }) => theme.fontSizeMedium.medium};
+  }
 `;
 
 const StyledSpan = styled.div`
@@ -28,6 +35,10 @@ const StyledSpan = styled.div`
   font-size: ${({ theme }) => theme.fontSize.smaller};
   font-weight: bold;
   margin: 0 20px;
+  @media screen and (max-width: 1920px) {
+    font-size: ${({ theme }) => theme.fontSizeMedium.smaller};
+    margin: 0 15px;
+  }
 `;
 
 const StyledIconPencil = styled(Pencil)`
@@ -45,6 +56,12 @@ const StyledIconPencil = styled(Pencil)`
     width: 50px;
     height: 100%;
     cursor: pointer;
+    @media screen and (max-width: 1920px) {
+      width: 35px;
+    }
+  }
+  @media screen and (max-width: 1920px) {
+    width: 25px;
   }
 `;
 
@@ -53,6 +70,10 @@ const StyledUnits = styled.div`
   font-weight: bold;
   color: ${({ theme }) => theme.green};
   margin-right: 15px;
+  @media screen and (max-width: 1920px) {
+    font-size: ${({ theme }) => theme.fontSizeMedium.smaller};
+    margin-right: 10px;
+  }
 `;
 const infoDiv = ({ labelText, labelData, editable, units, summaryContext, chosenOption }) => {
   const { toggleEditSummaryModal: modalToggle } = summaryContext;

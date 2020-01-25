@@ -18,6 +18,14 @@ const StyledWrapper = styled.div`
   background-color: ${({ theme }) => theme.primary};
   min-height: 100%;
   max-height: 100vh;
+
+  @media screen and (max-width: 1920px) {
+    padding: 8px 20px 0 20px;
+    max-width: ${({ theme }) => theme.menuWidth.mediumScreen};
+  }
+  @media screen and (max-width: 760px) {
+    display: none;
+  }
 `;
 
 const StyledMenuWrapper = styled.div`
@@ -28,7 +36,6 @@ const StyledMenuWrapper = styled.div`
 const StyledFlexWrapper = styled.div`
   display: flex;
   flex-direction: column;
-
   justify-content: space-between;
 `;
 

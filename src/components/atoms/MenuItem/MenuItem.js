@@ -39,6 +39,13 @@ const MenuItem = styled.button`
     color: gray;
     opacity: 0.5;
   }
+
+  @media screen and (max-width: 1920px) {
+    width: 100px;
+    height: ${({ theme }) => theme.rowHeightMediumScreen};
+    font-size: ${({ theme }) => theme.fontSizeMedium.verySmall};
+    border-radius: 8px;
+  }
 `;
 MenuItem.propTypes = {
   clicked: PropTypes.number,

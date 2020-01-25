@@ -14,6 +14,7 @@ const CoverDiv = styled.div`
   transform: ${({ isModalOpened }) =>
     isModalOpened === true ? 'translateY(0)' : 'translateY(105%)'};
   transition: transform 0.6s;
+  z-index: 10;
 `;
 
 CoverDiv.propTypes = {

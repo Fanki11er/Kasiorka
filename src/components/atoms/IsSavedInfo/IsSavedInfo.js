@@ -9,6 +9,10 @@ const IsSavedInfo = styled.div`
   align-self: center;
   margin: 10px;
   transition: background-color 0.5s;
+  @media screen and (max-width: 1920px) {
+    width: 12px;
+    height: 12px;
+  }
 `;
 
 IsSavedInfo.propTypes = {

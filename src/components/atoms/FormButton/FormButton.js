@@ -10,6 +10,10 @@ const FormButton = styled(MenuItem)`
   border: 2px solid ${({ theme, green }) => (green === 'true' ? theme.green : theme.menuBlue)};
   padding: 10px;
   text-align: center;
+  @media screen and (max-width: 1920px) {
+    padding: 5px;
+    transform: translateX(0);
+  }
 `;
 
 FormButton.propTypes = {

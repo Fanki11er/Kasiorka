@@ -9,6 +9,9 @@ const StyledList = styled.ul`
   margin: 0;
   padding: 0;
   margin-left: 20px;
+  @media screen and (max-width: 1920px) {
+    margin-left: 5px;
+  }
 `;
 
 const StyledListItem = styled.li``;

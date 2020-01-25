@@ -8,11 +8,11 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 3px;
+  height: 35%;
 `;
 
 const StyledMenuItem = styled(MenuItem)`
   width: 150px;
-  height: px;
   color: ${({ theme }) => theme.green};
   border: 2px solid ${({ theme }) => theme.green};
   font-size: ${({ theme }) => theme.fontSize.smallest};
@@ -23,6 +23,12 @@ const StyledMenuItem = styled(MenuItem)`
     background-color: ${({ theme }) => theme.green};
     border: 2px solid ${({ theme }) => theme.green};
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 1920px) {
+    height: 38px;
+    font-size: ${({ theme }) => theme.fontSizeMedium.smallest};
+    width: 95px;
   }
 `;
 
@@ -38,7 +44,7 @@ class ExtendedMenu extends Component {
         <StyledMenuItem className={limitOfYears ? 'noActive' : null} onClick={addNewYear}>
           Dodaj nowy rok
         </StyledMenuItem>
-        ;<StyledMenuItem onClick={autoFilHoursMonth}>Auto uzupełniannie</StyledMenuItem>;
+        ;<StyledMenuItem onClick={autoFilHoursMonth}>Auto uzupełnianie</StyledMenuItem>;
         <StyledMenuItem title={'Ustawienia'} onClick={toggleSettingsModal}>
           <StyledIcon />
         </StyledMenuItem>

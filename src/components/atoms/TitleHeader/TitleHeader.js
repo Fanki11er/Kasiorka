@@ -23,6 +23,20 @@ const StyledHeader = styled.div`
       font-size: ${({ theme }) => theme.fontSize.larger};
       margin: 0 0 20px 15px;
     `}
+
+  @media screen and (max-width: 1920px) {
+    height: 100px;
+    font-size: ${({ theme }) => theme.fontSizeMedium.large};
+    margin: 30px auto;
+
+    ${({ small }) =>
+      small &&
+      css`
+        height: 55px;
+        font-size: ${({ theme }) => theme.fontSizeMedium.larger};
+        margin: 15px auto;
+      `}
+  }
 `;
 
 const StyledSpan = styled.span`

@@ -13,6 +13,13 @@ const StyledForm = styled(Form)`
   border-radius: 30px;
   align-self: flex-end;
   padding: 30px 0;
+
+  @media screen and (max-width: 1920px) {
+    width: 480px;
+    height: 360px;
+    border-radius: 15px;
+    padding: 15px 0;
+  }
 `;
 
 export default StyledForm;

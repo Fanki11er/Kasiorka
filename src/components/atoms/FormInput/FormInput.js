@@ -23,17 +23,25 @@ const StyledInput = styled(Field)`
     border: 2px solid ${({ theme }) => theme.green};
     color: ${({ theme }) => theme.green};
   }
+  @media screen and (max-width: 1920px) {
+    width: 300px;
+    height: 40px;
+    font-size: 20px;
+  }
 `;
 
 const StyledLabel = styled.label`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   width: 85%;
   color: ${({ theme }) => theme.menuBlue};
   font-size: ${({ theme }) => theme.fontSize.smaller};
   margin-bottom: ${({ withError }) => (withError ? '0' : '40px')};
+  @media screen and (max-width: 1920px) {
+    font-size: ${({ theme }) => theme.fontSizeMedium.smaller};
+    margin-bottom: ${({ withError }) => (withError ? '0' : '20px')};
+  }
 `;
 
 const FormInput = ({ label, type, name, withError }) => (

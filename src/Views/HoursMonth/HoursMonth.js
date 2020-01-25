@@ -22,6 +22,9 @@ const StyledSection = styled.div`
   display: flex;
   flex-direction: column;
   margin: 25px 20px;
+  @media screen and (max-width: 1920px) {
+    margin: 20px 15px;
+  }
 `;
 
 const StyledView = styled.div`

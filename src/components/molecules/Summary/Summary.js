@@ -11,6 +11,9 @@ const StyledWrapper = styled.div`
   background-color: transparent;
   width: 525px;
   margin: 0 auto;
+  @media screen and (max-width: 1920px) {
+    width: 350px;
+  }
 `;
 
 class Summary extends Component {

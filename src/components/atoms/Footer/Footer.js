@@ -15,6 +15,9 @@ const StyledAuthor = styled.span`
   color: ${({ theme }) => theme.menuBlue};
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   margin: 0 100px;
+  @media screen and (max-width: 1920px) {
+    font-size: ${({ theme }) => theme.fontSizeMedium.medium};
+  }
 `;
 
 const Footer = () => {

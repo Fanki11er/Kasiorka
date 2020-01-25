@@ -33,6 +33,11 @@ const StyledCheckBox = styled(Field)`
     color: gray;
     opacity: 0.5;
   }
+  @media screen and (max-width: 1920px) {
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+  }
 `;
 
 const CheckBoxInput = ({ label, name, custom, type, noActive }) => {

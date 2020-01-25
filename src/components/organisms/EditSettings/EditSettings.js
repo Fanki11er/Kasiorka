@@ -7,7 +7,7 @@ import EditSettingsModal from '../../molecules/EditSettingsModal/EditSettingsMod
 const StyledCoverDiv = styled(CoverDiv)`
   justify-content: left;
   transform: ${({ isModalOpened }) =>
-    isModalOpened === true ? 'translateX(0)' : 'translateX(-105%)'};
+    isModalOpened === true ? 'translateX(0)' : 'translateX(-110%)'};
   transition: transform 0.8s ease-out;
 `;
 

@@ -14,6 +14,12 @@ const NumberOfHours = styled.div`
   &:hover {
     cursor: default;
   }
+  @media screen and (max-width: 1920px) {
+    width: 55px;
+    height: ${({ theme }) => theme.daysHeightMediumScreen};
+    font-size: ${({ theme }) => theme.fontSizeMedium.medium};
+    margin: 0 1px;
+  }
 `;
 
 export default NumberOfHours;

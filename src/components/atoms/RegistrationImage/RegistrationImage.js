@@ -7,6 +7,10 @@ const StyledImage = styled.img`
   position: absolute;
   right: -180px;
   bottom: 0;
+  @media screen and (max-width: 1920px) {
+    width: 120px;
+    right: -122px;
+  }
 `;
 
 const RegistrationImage = () => <StyledImage src={regImage} alt="Login image" />;

@@ -22,6 +22,10 @@ const StyledWrapper = styled.div`
   border-radius: 20px;
   background-color: ${({ theme }) => theme.primaryTransparent};
   align-items: center;
+  @media screen and (max-width: 1920px) {
+    min-width: 300px;
+    height: 230px;
+  }
 `;
 
 const StyledForm = styled.form`
@@ -92,6 +96,7 @@ const EditSalaryModal = ({
                 name={chosenOption}
                 units={`${currency}/h`}
                 val={value}
+                max={900}
               />
             )}
             {chosenOption === optionPayment && (

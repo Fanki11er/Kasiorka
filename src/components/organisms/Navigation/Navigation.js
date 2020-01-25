@@ -11,8 +11,15 @@ const StyledWrapper = styled.nav`
   width: 100%;
   height: 70px;
   padding: 0 70px;
-
   background-color: ${({ theme }) => theme.primary};
+
+  @media screen and (max-width: 1920px) {
+    height: 50px;
+    padding: 0 30px;
+  }
+  @media screen and (max-width: 760px) {
+    display: none;
+  }
 `;
 
 const Navigation = () => {
