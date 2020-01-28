@@ -21,6 +21,12 @@ const FormLabel = styled.label`
     min-width: ${({ custom }) => (custom ? '300px' : '380px')};
     padding: 15px 10px;
   }
+  @media screen and (max-width: 767px) {
+    min-width: 90%;
+    width: 92%;
+    padding: 15px 10px;
+    height: 47px;
+  }
 `;
 
 FormLabel.propTypes = {

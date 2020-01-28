@@ -16,9 +16,11 @@ const StyledWrapper = styled.nav`
   @media screen and (max-width: 1920px) {
     height: 50px;
     padding: 0 30px;
+    width: 90%;
   }
-  @media screen and (max-width: 760px) {
-    display: none;
+  @media screen and (max-width: 767px) {
+    flex-flow: column-reverse;
+    height: 120px;
   }
 `;
 

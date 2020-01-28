@@ -37,6 +37,14 @@ const StyledHeader = styled.div`
         margin: 15px auto;
       `}
   }
+
+  @media screen and (max-width: 770px) {
+    font-size: ${({ theme }) => theme.fontSizeMedium.larger};
+    height: 55px;
+    letter-spacing: 10px;
+    width: 90%;
+    justify-content: center;
+  }
 `;
 
 const StyledSpan = styled.span`

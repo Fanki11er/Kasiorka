@@ -17,6 +17,7 @@ import { addNewYear as addNewYearAction } from '../../actions/dataBaseActions';
 import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../actions/dataBaseActions';
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 import { monthHoursAutoFill as monthHoursAutoFillAction } from '../../actions/hoursActions';
+import OpenCloseMenuButton from '../../components/atoms/OpenCloseMenuButton/OpenCloseMenuButton';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -25,17 +26,18 @@ const StyledWrapper = styled.div`
   padding: 15px 0 15px 15px;
   margin-left: 415px;
   background-color: ${({ theme }) => theme.primary};
-  min-height: 100vh;
+  min-height: 110vh;
   height: auto;
   width: calc(100% - 420px);
 
   @media screen and (max-width: 1920px) {
-    width: calc(100% - ${({ theme }) => theme.menuWidth.mediumScreen} + 7px);
+    width: calc(100% - ${({ theme }) => theme.menuWidth.mediumScreen} + 8px);
     margin-left: calc(${({ theme }) => theme.menuWidth.mediumScreen} - 5px);
   }
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 770px) {
     margin-left: 0;
     width: 100%;
+    padding-left: 0;
   }
 `;
 
@@ -45,6 +47,7 @@ class UserPage extends Component {
     selectedYear: new Date().getFullYear(),
     isSettingsModalOpened: false,
     limitOfYears: false,
+    isMenuOpened: false,
   };
 
   componentDidMount() {
@@ -135,8 +138,23 @@ class UserPage extends Component {
     monthHoursAutoFill(selectedMonthId, userHoursSettings);
   };
 
+  toggleMenu = () => {
+    this.setState(prevState => {
+      return {
+        isMenuOpened: !prevState.isMenuOpened,
+      };
+    });
+  };
+
   render() {
-    const { selectedMonthId, selectedYear, isSettingsModalOpened, limitOfYears } = this.state;
+    const {
+      selectedMonthId,
+      selectedYear,
+      isSettingsModalOpened,
+      limitOfYears,
+      isMenuOpened,
+    } = this.state;
+
     const menuContext = {
       selectedMonthId,
       selectedYear,
@@ -145,6 +163,7 @@ class UserPage extends Component {
       toggleSettingsModal: this.toggleSettingsModal,
       autoFilHoursMonth: this.autoFilHoursMonth,
       limitOfYears,
+      isMenuOpened,
     };
 
     const { pathname } = this.props.location;
@@ -157,6 +176,7 @@ class UserPage extends Component {
       <StateIsLoaded>
         <>
           <StyledWrapper>
+            <OpenCloseMenuButton opened={isMenuOpened} toggleMenu={this.toggleMenu} />
             <Navigation />
             <MenuContext.Provider value={menuContext}>
               <Menu />

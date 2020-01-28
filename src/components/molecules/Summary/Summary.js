@@ -12,7 +12,13 @@ const StyledWrapper = styled.div`
   width: 525px;
   margin: 0 auto;
   @media screen and (max-width: 1920px) {
-    width: 350px;
+    width: 370px;
+  }
+  @media screen and (max-width: 770px) {
+    margin: 0;
+    width: 98%;
+    max-width: 350px;
+    align-self: center;
   }
 `;
 

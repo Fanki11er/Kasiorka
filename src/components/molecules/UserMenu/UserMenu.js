@@ -12,8 +12,16 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-basis: 300px;
   justify-content: space-between;
+  align-items: center;
+
   @media screen and (max-width: 1920px) {
     flex-basis: 220px;
+  }
+
+  @media screen and (max-width: 770px) {
+    width: 330px;
+    height: 200px;
+    justify-content: space-around;
   }
 `;
 
@@ -21,6 +29,10 @@ const StyledLogOut = styled(MenuItem)`
   width: 150px;
   @media screen and (max-width: 1920px) {
     width: 95px;
+  }
+  @media screen and (max-width: 770px) {
+    justify-self: flex-end;
+    margin-left: 40px;
   }
 `;
 

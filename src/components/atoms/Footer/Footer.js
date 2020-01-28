@@ -18,6 +18,9 @@ const StyledAuthor = styled.span`
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
   }
+  @media screen and (max-width: 770px) {
+    margin: 0 45px;
+  }
 `;
 
 const Footer = () => {

@@ -16,6 +16,10 @@ const StyledWrapper = styled.div`
 const StyledFlexWrapper = styled.div`
   display: flex;
   justify-content: space-around;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 class LoginView extends Component {

@@ -19,6 +19,12 @@ const StyledWrapper = styled.div`
     height: ${({ theme }) => theme.daysHeightMediumScreen};
     padding: 0 15px;
   }
+
+  @media screen and (max-width: 770px) {
+    padding: 0 10px;
+    width: 98%;
+    max-width: 350px;
+  }
 `;
 
 const StyledLabel = styled.label`
@@ -27,6 +33,8 @@ const StyledLabel = styled.label`
   font-weight: bold;
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
+  }
+  @media screen and (max-width: 767px) {
   }
 `;
 
@@ -38,6 +46,10 @@ const StyledSpan = styled.div`
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.smaller};
     margin: 0 15px;
+  }
+  @media screen and (max-width: 767px) {
+    margin: 5px;
+    font-size: ${({ theme }) => theme.fontSizeMedium.medium};
   }
 `;
 
@@ -63,6 +75,10 @@ const StyledIconPencil = styled(Pencil)`
   @media screen and (max-width: 1920px) {
     width: 25px;
   }
+
+  @media screen and (max-width: 767px) {
+    right: 5px;
+  }
 `;
 
 const StyledUnits = styled.div`
@@ -73,6 +89,10 @@ const StyledUnits = styled.div`
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.smaller};
     margin-right: 10px;
+  }
+
+  @media screen and (max-width: 767px) {
+    font-size: ${({ theme }) => theme.fontSizeMedium.small};
   }
 `;
 const infoDiv = ({ labelText, labelData, editable, units, summaryContext, chosenOption }) => {

@@ -11,7 +11,7 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 8%;
+  justify-content: center;
 `;
 
 const WaitingScreen = ({ innerImage }) => {

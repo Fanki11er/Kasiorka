@@ -20,6 +20,9 @@ const StyledIcon = styled(Close)`
   @media screen and (max-width: 1920px) {
     border-radius: 8px;
   }
+  @media screen and (max-width: 767px) {
+    border-radius: 8px;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -35,6 +38,9 @@ const StyledButton = styled.button`
   justify-content: center;
   align-content: center;
   align-items: center;
+  @media screen and (max-width: 767px) {
+    width: 12%;
+  }
 `;
 
 const CloseButton = ({ summaryContext, chosenOption }) => {

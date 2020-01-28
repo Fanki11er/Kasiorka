@@ -15,14 +15,23 @@ const StyledWrapper = styled.div`
   align-self: center;
   justify-content: center;
   margin: 4%;
+  @media screen and (max-width: 770px) {
+    height: 100%;
+  }
 `;
 
 const StyledServer = styled.img`
   width: 8%;
+  @media screen and (max-width: 770px) {
+    width: 15%;
+  }
 `;
 
 const StyledDevice = styled.img`
   width: 8%;
+  @media screen and (max-width: 770px) {
+    width: 15%;
+  }
 `;
 
 const StyledAnimationWrapper = styled.div`
@@ -32,14 +41,23 @@ const StyledAnimationWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 770px) {
+    width: 35%;
+  }
 `;
 
 const StyledPadlock = styled.img`
   width: 12%;
+  @media screen and (max-width: 770px) {
+    width: 20%;
+  }
 `;
 
 const StyledSync = styled.img`
   width: 18%;
+  @media screen and (max-width: 770px) {
+    width: 28%;
+  }
 `;
 
 const Loading = ({ innerImage }) => {

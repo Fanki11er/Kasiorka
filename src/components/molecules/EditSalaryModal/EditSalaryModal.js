@@ -25,6 +25,12 @@ const StyledWrapper = styled.div`
   @media screen and (max-width: 1920px) {
     min-width: 300px;
     height: 230px;
+    width: 55%;
+    max-width: 500px;
+  }
+  @media screen and (max-width: 767px) {
+    min-width: 340px;
+    max-width: 450px;
   }
 `;
 
@@ -35,6 +41,12 @@ const StyledForm = styled.form`
   align-items: center;
   justify-content: center;
   margin-top: 30px;
+  @media screen and (max-width: 1920px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 const StyledFormButton = styled(FormButton)`
