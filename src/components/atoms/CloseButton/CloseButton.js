@@ -35,6 +35,9 @@ const StyledButton = styled.button`
   justify-content: center;
   align-content: center;
   align-items: center;
+  @media screen and (max-width: 767px) {
+    width: 12%;
+  }
 `;
 
 const CloseButton = ({ summaryContext, chosenOption }) => {

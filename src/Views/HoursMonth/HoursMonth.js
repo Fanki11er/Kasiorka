@@ -32,24 +32,66 @@ const StyledView = styled.div`
   flex-direction: column;
   width: 85%;
   margin: 0px auto 0 auto;
+  @media screen and (max-width: 767px) {
+    align-items: center;
+    margin: 0 10px;
+    width: 95%;
+  }
 `;
 
 class HoursMonth extends Component {
   state = {
     isSummaryModalOpened: false,
     chosenOption: null,
+    autoSaveInProgress: false,
   };
   componentWillUnmount() {
-    const { sendHoursToDataBase, auth, isSaved } = this.props;
+    const {
+      sendHoursToDataBase,
+      auth: { uid },
+      isSaved,
+    } = this.props;
     if (!isSaved) {
-      sendHoursToDataBase(auth.uid);
+      sendHoursToDataBase(uid);
+    }
+  }
+
+  componentDidUpdate() {
+    this.autoSave();
+  }
+
+  autoSave() {
+    const {
+      isSaved,
+      auth: { uid },
+      sendHoursToDataBase,
+    } = this.props;
+    const { autoSaveInProgress } = this.state;
+    const check = () => {
+      if (!isSaved) sendHoursToDataBase(uid);
+      this.setState(({ autoSaveInProgress }) => {
+        return {
+          autoSaveInProgress: !autoSaveInProgress,
+        };
+      });
+    };
+    if (!isSaved && !autoSaveInProgress) {
+      this.setState(({ autoSaveInProgress }) => {
+        return {
+          autoSaveInProgress: !autoSaveInProgress,
+        };
+      });
+      setTimeout(check, 2500);
     }
   }
 
   render() {
-    const { hours, monthId } = this.props;
+    const {
+      hours: { months },
+      monthId,
+    } = this.props;
     const { isSummaryModalOpened, chosenOption } = this.state;
-    const months = hours.months;
+
     const optionsToChose = {
       optionSalary: 'salary',
       optionPayment: 'payment',
@@ -57,9 +99,9 @@ class HoursMonth extends Component {
     const { optionSalary } = optionsToChose;
 
     const toggleEditSummaryModal = (chosenOption = optionSalary) => {
-      this.setState(prevState => {
+      this.setState(({ isSummaryModalOpened }) => {
         return {
-          isSummaryModalOpened: !prevState.isSummaryModalOpened,
+          isSummaryModalOpened: !isSummaryModalOpened,
           chosenOption,
         };
       });
@@ -122,11 +164,11 @@ HoursMonth.propTypes = {
   monthId: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ hours, firebase }) => {
   return {
-    hours: state.hours,
-    auth: state.firebase.auth,
-    isSaved: state.hours.isSaved,
+    hours,
+    auth: firebase.auth,
+    isSaved: hours.isSaved,
   };
 };
 

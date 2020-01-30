@@ -13,11 +13,12 @@ class EditSummaryOptions extends Component {
       salary,
       monthId,
       chosenOption,
-      summaryContext,
       paymentReceived,
+      summaryContext: {
+        optionsToChose: { optionPayment, optionSalary },
+      },
     } = this.props;
-    const { optionsToChose } = summaryContext;
-    const { optionPayment, optionSalary } = optionsToChose;
+
     return (
       <CoverDiv isModalOpened={isSummaryModalOpened}>
         {chosenOption === optionSalary && (
@@ -41,13 +42,11 @@ class EditSummaryOptions extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { monthId } = ownProps;
-
+const mapStateToProps = ({ hours: { months } }, { monthId }) => {
   return {
-    currency: state.hours.months[monthId].currency,
-    salary: state.hours.months[monthId].salary,
-    paymentReceived: state.hours.months[monthId].paymentReceived,
+    currency: months[monthId].currency,
+    salary: months[monthId].salary,
+    paymentReceived: months[monthId].paymentReceived,
   };
 };
 

@@ -12,8 +12,16 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-basis: 300px;
   justify-content: space-between;
+  align-items: center;
+
   @media screen and (max-width: 1920px) {
     flex-basis: 220px;
+  }
+
+  @media screen and (max-width: 770px) {
+    width: 330px;
+    height: 200px;
+    justify-content: space-around;
   }
 `;
 
@@ -22,11 +30,14 @@ const StyledLogOut = styled(MenuItem)`
   @media screen and (max-width: 1920px) {
     width: 95px;
   }
+  @media screen and (max-width: 770px) {
+    justify-self: flex-end;
+    margin-left: 40px;
+  }
 `;
 
-const UserMenu = ({ signOut, userName, isSaved, auth, sendHoursToDataBase }) => {
+const UserMenu = ({ signOut, userName, isSaved, auth: { uid }, sendHoursToDataBase }) => {
   const logOut = () => {
-    const uid = auth.uid;
     sendHoursToDataBase(uid);
     setTimeout(signOut, 500);
   };
@@ -49,11 +60,11 @@ UserMenu.defaultProps = {
   userName: 'Anonymous',
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ user, hours, firebase }) => {
   return {
-    userName: state.user.name,
-    isSaved: state.hours.isSaved,
-    auth: state.firebase.auth,
+    userName: user.name,
+    isSaved: hours.isSaved,
+    auth: firebase.auth,
   };
 };
 

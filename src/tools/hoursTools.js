@@ -1,12 +1,23 @@
-const autoFillHoursMonth = (month, userSettings) => {
-  month.currency = userSettings.currency;
-  month.salary = userSettings.salaryValue;
+const autoFillHoursMonth = (
+  month,
+  {
+    currency,
+    salaryValue,
+    saturdayWorkHours,
+    sundayWorkHours,
+    holidayWorkHours,
+    freeDayHours,
+    dayWorkHours,
+  },
+) => {
+  month.currency = currency;
+  month.salary = salaryValue;
   month.days.map(day => {
-    if (day.isSaturday) day.workHours = userSettings.saturdayWorkHours;
-    else if (day.isSunday) day.workHours = userSettings.sundayWorkHours;
-    else if (day.isHoliday) day.workHours = userSettings.holidayWorkHours;
-    else if (day.isFreeDay) day.workHours = userSettings.freeDayHours;
-    else day.workHours = userSettings.dayWorkHours;
+    if (day.isSaturday) day.workHours = saturdayWorkHours;
+    else if (day.isSunday) day.workHours = sundayWorkHours;
+    else if (day.isHoliday) day.workHours = holidayWorkHours;
+    else if (day.isFreeDay) day.workHours = freeDayHours;
+    else day.workHours = dayWorkHours;
     return null;
   });
 };

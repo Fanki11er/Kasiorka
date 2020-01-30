@@ -20,7 +20,7 @@ const StyledWrapper = styled.div`
   background-color: ${({ theme }) => theme.primaryTransparent};
   align-items: center;
   @media screen and (max-width: 1920px) {
-    min-width: 330px;
+    min-width: 345px;
   }
 `;
 
@@ -77,7 +77,13 @@ const EditSettingsModal = ({
       validate={values => {
         const errors = {};
         if (values.currency === '' || values.currency.match(/[0-9]/)) errors.error = true;
-        if (values.salary === '' || values.salary < 0 || values.salary === 'e') errors.error = true;
+        if (
+          values.salary === '' ||
+          values.salary < 0 ||
+          values.salary === 'e' ||
+          values.salary > 999999
+        )
+          errors.error = true;
         if (
           values.dayWorkHours === '' ||
           values.dayWorkHours < 0 ||
@@ -130,7 +136,6 @@ const EditSettingsModal = ({
               units={`${currency}/h`}
               val={salaryValue}
               custom
-              max="900"
             />
 
             <ModalInput
@@ -140,7 +145,6 @@ const EditSettingsModal = ({
               units={'h'}
               val={dayWorkHours}
               custom
-              length={3}
             />
 
             <ModalInput

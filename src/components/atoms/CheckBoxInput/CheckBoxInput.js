@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Field } from 'formik';
+import PropTypes from 'prop-types';
 import FormLabel from '../FormLabel/FormLabel';
 
 const StyledCheckBox = styled(Field)`
@@ -47,6 +48,14 @@ const CheckBoxInput = ({ label, name, custom, type, noActive }) => {
       <StyledCheckBox type={type} name={name} className={noActive ? 'noActive' : null} disabled />
     </FormLabel>
   );
+};
+
+CheckBoxInput.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  custom: PropTypes.bool,
+  type: PropTypes.string.isRequired,
+  noActive: PropTypes.bool,
 };
 
 export default CheckBoxInput;

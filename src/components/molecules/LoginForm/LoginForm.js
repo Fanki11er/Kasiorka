@@ -47,10 +47,10 @@ LoginForm.propTypes = {
   authErr: PropTypes.string,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ firebase, errors }) => {
   return {
-    auth: state.firebase.auth,
-    authErr: state.errors.authErr,
+    auth: firebase.auth,
+    authErr: errors.authErr,
   };
 };
 const mapDispatchToProps = dispatch => {

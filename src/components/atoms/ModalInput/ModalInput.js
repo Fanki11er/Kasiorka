@@ -32,6 +32,12 @@ const StyledInput = styled(Field)`
   &.fireFoxNumber {
     -moz-appearance: textfield;
   }
+
+  @media screen and (max-width: 767px) {
+    transform: translateX(-10px);
+    width: 25%;
+    margin-left: 5px;
+  }
 `;
 
 const StyledUnits = styled.div`

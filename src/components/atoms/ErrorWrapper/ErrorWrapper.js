@@ -8,6 +8,9 @@ const ErrorWrapper = styled.div`
     height: 20px;
     padding-left: 120px;
   }
+  @media screen and (max-width: 770px) {
+    padding-left: 30px;
+  }
 `;
 
 export default ErrorWrapper;

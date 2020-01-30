@@ -90,10 +90,10 @@ RegisterForm.propTypes = {
   signUp: PropTypes.func.isRequired,
   auth: PropTypes.object,
 };
-const mapStateToProps = state => {
+const mapStateToProps = ({ firebase, errors }) => {
   return {
-    auth: state.firebase.auth,
-    signUpErr: state.errors.signUpErr,
+    auth: firebase.auth,
+    signUpErr: errors.signUpErr,
   };
 };
 

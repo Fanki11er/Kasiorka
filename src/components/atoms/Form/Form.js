@@ -20,6 +20,11 @@ const StyledForm = styled(Form)`
     border-radius: 15px;
     padding: 15px 0;
   }
+  @media screen and (max-width: 770px) {
+    width: 320px;
+    height: 400px;
+    align-self: center;
+  }
 `;
 
 export default StyledForm;

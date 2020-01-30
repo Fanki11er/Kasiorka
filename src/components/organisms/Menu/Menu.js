@@ -17,20 +17,32 @@ const StyledWrapper = styled.div`
   top: 0;
   background-color: ${({ theme }) => theme.primary};
   min-height: 100%;
-  max-height: 100vh;
+  height: 100%;
 
   @media screen and (max-width: 1920px) {
     padding: 8px 20px 0 20px;
     max-width: ${({ theme }) => theme.menuWidth.mediumScreen};
   }
-  @media screen and (max-width: 760px) {
-    display: none;
+  @media screen and (max-width: 770px) {
+    border: 2px solid ${({ theme }) => theme.menuBlue};
+    border-radius: 10px;
+    max-width: 100%;
+    width: 100%;
+    height: 100vh;
+    z-index: 2;
+    justify-content: center;
+    transition: transform 0.8s;
+    transform: translateX(-99.5%);
+    transform: translateX(${({ isMenuOpened }) => (isMenuOpened ? 0 : `${-99.5}%`)});
   }
 `;
 
 const StyledMenuWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  @media screen and (max-width: 770px) {
+    margin-top: 2%;
+  }
 `;
 
 const StyledFlexWrapper = styled.div`
@@ -39,26 +51,31 @@ const StyledFlexWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const Menu = ({ menuContext }) => (
-  <StyledWrapper>
+const Menu = ({
+  menuContext: {
+    isMenuOpened,
+    selectedYear,
+    selectMonthOrYear,
+    addNewYear,
+    toggleSettingsModal,
+    autoFilHoursMonth,
+    limitOfYears,
+    selectedMonthId,
+  },
+}) => (
+  <StyledWrapper isMenuOpened={isMenuOpened}>
     <TitleHeader small />
     <StyledMenuWrapper>
       <StyledFlexWrapper>
-        <YearsMenu
-          selectedYear={menuContext.selectedYear}
-          selectMonthOrYear={menuContext.selectMonthOrYear}
-        />
+        <YearsMenu selectedYear={selectedYear} selectMonthOrYear={selectMonthOrYear} />
         <ExtendedMenu
-          addNewYear={menuContext.addNewYear}
-          toggleSettingsModal={menuContext.toggleSettingsModal}
-          autoFilHoursMonth={menuContext.autoFilHoursMonth}
-          limitOfYears={menuContext.limitOfYears}
+          addNewYear={addNewYear}
+          toggleSettingsModal={toggleSettingsModal}
+          autoFilHoursMonth={autoFilHoursMonth}
+          limitOfYears={limitOfYears}
         />
       </StyledFlexWrapper>
-      <MonthMenu
-        selectMonthOrYear={menuContext.selectMonthOrYear}
-        selectedMonthId={menuContext.selectedMonthId}
-      />
+      <MonthMenu selectMonthOrYear={selectMonthOrYear} selectedMonthId={selectedMonthId} />
     </StyledMenuWrapper>
   </StyledWrapper>
 );

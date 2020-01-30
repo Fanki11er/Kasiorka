@@ -5,6 +5,7 @@ const UserName = styled.div`
   align-items: center;
   font-size: ${({ theme }) => theme.fontSize.smaller};
   color: ${({ theme }) => theme.menuYellow};
+  height: 40px;
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.smaller};
   }

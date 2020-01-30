@@ -20,6 +20,13 @@ const NumberOfHours = styled.div`
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
     margin: 0 1px;
   }
+
+  @media screen and (max-width: 767px) {
+    width: 70px;
+    height: ${({ theme }) => theme.daysHeightSmallScreen};
+    font-size: ${({ theme }) => theme.fontSizeMedium.small};
+    margin: 0 2px;
+  }
 `;
 
 export default NumberOfHours;

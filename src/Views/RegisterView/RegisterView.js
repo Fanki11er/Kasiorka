@@ -13,6 +13,9 @@ const StyledWrapper = styled.div`
   min-height: 100vh;
   height: auto;
   padding-top: 65px;
+  @media screen and (max-width: 770px) {
+    padding-top: 15px;
+  }
 `;
 
 const StyledTitleWrapper = styled.div`
@@ -24,6 +27,14 @@ const StyledTitleWrapper = styled.div`
   @media screen and (max-width: 1920px) {
     top: 30px;
     left: 30px;
+  }
+  @media screen and (max-width: 770px) {
+    position: inherit;
+    margin: 0 auto;
+    height: 100px;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
   }
 `;
 

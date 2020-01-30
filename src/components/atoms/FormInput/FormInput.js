@@ -28,6 +28,13 @@ const StyledInput = styled(Field)`
     height: 40px;
     font-size: 20px;
   }
+  @media screen and (max-width: 770px) {
+    padding: 0 10px;
+    width: 100%;
+    font-size: 20px;
+    height: 40px;
+    margin: 2px 0;
+  }
 `;
 
 const StyledLabel = styled.label`
@@ -41,6 +48,11 @@ const StyledLabel = styled.label`
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.smaller};
     margin-bottom: ${({ withError }) => (withError ? '0' : '20px')};
+  }
+  @media screen and (max-width: 770px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 `;
 

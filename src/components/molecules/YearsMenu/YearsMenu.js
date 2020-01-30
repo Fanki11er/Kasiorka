@@ -77,9 +77,9 @@ YearsMenu.defaultProps = {
   selectedYear: 0,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ user }) => {
   return {
-    yearsList: state.user.yearsList,
+    yearsList: user.yearsList,
   };
 };
 
