@@ -108,7 +108,6 @@ const EditSalaryModal = ({
                 name={chosenOption}
                 units={`${currency}/h`}
                 val={value}
-                max={900}
               />
             )}
             {chosenOption === optionPayment && (

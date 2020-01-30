@@ -22,8 +22,8 @@ const StyledForm = styled(Form)`
   }
   @media screen and (max-width: 770px) {
     width: 320px;
-    align-self: center;
     height: 400px;
+    align-self: center;
   }
 `;
 

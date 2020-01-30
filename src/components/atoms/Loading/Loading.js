@@ -22,6 +22,7 @@ const StyledWrapper = styled.div`
 
 const StyledServer = styled.img`
   width: 8%;
+
   @media screen and (max-width: 770px) {
     width: 15%;
   }
@@ -29,6 +30,7 @@ const StyledServer = styled.img`
 
 const StyledDevice = styled.img`
   width: 8%;
+
   @media screen and (max-width: 770px) {
     width: 15%;
   }

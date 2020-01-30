@@ -15,12 +15,14 @@ const FormLabel = styled.label`
   border-radius: 10px;
   padding: 15px 20px;
   align-items: center;
+
   @media screen and (max-width: 1920px) {
     height: 35px;
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
     min-width: ${({ custom }) => (custom ? '300px' : '380px')};
     padding: 15px 10px;
   }
+
   @media screen and (max-width: 767px) {
     min-width: 90%;
     width: 92%;

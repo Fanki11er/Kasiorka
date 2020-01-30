@@ -24,9 +24,16 @@ const StyledWrapper = styled.div`
 
 class Summary extends Component {
   render() {
-    const { totalHours, currency, paymentReceived, salary, summaryContext } = this.props;
-    const { optionsToChose } = summaryContext;
-    const { optionSalary, optionPayment } = optionsToChose;
+    const {
+      totalHours,
+      currency,
+      paymentReceived,
+      salary,
+      summaryContext: {
+        optionsToChose: { optionSalary, optionPayment },
+      },
+    } = this.props;
+
     const expectedPayout = (totalHours, salary) => {
       return parseFloat((totalHours * salary).toFixed(2));
     };
@@ -58,13 +65,12 @@ class Summary extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { monthId } = ownProps;
+const mapStateToProps = ({ hours: { months } }, { monthId }) => {
   return {
-    totalHours: state.hours.months[monthId].totalHours,
-    currency: state.hours.months[monthId].currency,
-    paymentReceived: state.hours.months[monthId].paymentReceived,
-    salary: state.hours.months[monthId].salary,
+    totalHours: months[monthId].totalHours,
+    currency: months[monthId].currency,
+    paymentReceived: months[monthId].paymentReceived,
+    salary: months[monthId].salary,
   };
 };
 

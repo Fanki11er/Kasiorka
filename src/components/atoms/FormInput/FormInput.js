@@ -29,7 +29,6 @@ const StyledInput = styled(Field)`
     font-size: 20px;
   }
   @media screen and (max-width: 770px) {
-    margin: 0;
     padding: 0 10px;
     width: 100%;
     font-size: 20px;

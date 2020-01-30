@@ -77,9 +77,9 @@ MonthMenu.propTypes = {
 MonthMenu.defaultProps = {
   selectedMonthId: 0,
 };
-const mapStateToProps = state => {
+const mapStateToProps = ({ hours }) => {
   return {
-    monthNames: state.hours.months,
+    monthNames: hours.months,
   };
 };
 

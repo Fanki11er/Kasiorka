@@ -36,9 +36,8 @@ const StyledLogOut = styled(MenuItem)`
   }
 `;
 
-const UserMenu = ({ signOut, userName, isSaved, auth, sendHoursToDataBase }) => {
+const UserMenu = ({ signOut, userName, isSaved, auth: { uid }, sendHoursToDataBase }) => {
   const logOut = () => {
-    const uid = auth.uid;
     sendHoursToDataBase(uid);
     setTimeout(signOut, 500);
   };
@@ -61,11 +60,11 @@ UserMenu.defaultProps = {
   userName: 'Anonymous',
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ user, hours, firebase }) => {
   return {
-    userName: state.user.name,
-    isSaved: state.hours.isSaved,
-    auth: state.firebase.auth,
+    userName: user.name,
+    isSaved: hours.isSaved,
+    auth: firebase.auth,
   };
 };
 

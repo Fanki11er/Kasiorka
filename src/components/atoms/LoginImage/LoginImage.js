@@ -9,6 +9,7 @@ const StyledImage = styled.img`
   @media screen and (max-width: 1920px) {
     width: 315px;
   }
+
   @media screen and (max-width: 770px) {
     width: 150px;
     align-self: flex-start;

@@ -12,7 +12,7 @@ const StyledButton = styled.button`
   border-top-right-radius: 50%;
   border-bottom-right-radius: 50%;
   outline: none;
-  background-color: transparent;
+  background-color: ${({ theme }) => theme.menuBlue};
   border: 2px solid ${({ theme }) => theme.menuBlue};
   display: none;
 
@@ -24,7 +24,7 @@ const StyledButton = styled.button`
 const StyledIcon = styled(ArrowForwardIos)`
   width: 100%;
   height: 80%;
-  color: ${({ theme }) => theme.green};
+  color: ${({ theme }) => theme.primary};
   transition: transform 0.5s;
   transition-delay: 0.3s;
   transform: rotate(${({ opened }) => (opened ? `${180}deg` : 0)});

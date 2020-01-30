@@ -179,13 +179,10 @@ const findIndexToChange = (startValue, dayId) => {
   return foundIndex;
 };
 
-const updateSalaryValue = (month, newSalaryValue) => {
-  return (month.salary = newSalaryValue);
-};
+const updateSalaryValue = (month, newSalaryValue) => (month.salary = newSalaryValue);
 
-const updatePaymentValue = (month, newPaymentValue) => {
-  return (month.paymentReceived = newPaymentValue);
-};
+const updatePaymentValue = (month, newPaymentValue) => (month.paymentReceived = newPaymentValue);
+
 //Reducer---------------------------------------------------------
 //Actions---------------------------------------------------------
 const newYearsListItem = (yearsList, yearToAdd) => {

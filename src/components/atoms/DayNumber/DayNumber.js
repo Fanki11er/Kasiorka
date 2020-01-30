@@ -20,6 +20,12 @@ const DayNumber = styled.div`
     height: ${({ theme }) => theme.daysHeightMediumScreen};
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
   }
+
+  @media screen and (max-width: 767px) {
+    width: ${({ theme }) => theme.daysHeightSmallScreen};
+    height: ${({ theme }) => theme.daysHeightSmallScreen};
+    font-size: ${({ theme }) => theme.fontSizeMedium.small};
+  }
 `;
 
 export default DayNumber;

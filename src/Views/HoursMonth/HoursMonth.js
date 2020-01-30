@@ -46,9 +46,13 @@ class HoursMonth extends Component {
     autoSaveInProgress: false,
   };
   componentWillUnmount() {
-    const { sendHoursToDataBase, auth, isSaved } = this.props;
+    const {
+      sendHoursToDataBase,
+      auth: { uid },
+      isSaved,
+    } = this.props;
     if (!isSaved) {
-      sendHoursToDataBase(auth.uid);
+      sendHoursToDataBase(uid);
     }
   }
 
@@ -57,10 +61,14 @@ class HoursMonth extends Component {
   }
 
   autoSave() {
-    const { isSaved, auth, sendHoursToDataBase } = this.props;
+    const {
+      isSaved,
+      auth: { uid },
+      sendHoursToDataBase,
+    } = this.props;
     const { autoSaveInProgress } = this.state;
     const check = () => {
-      if (!isSaved) sendHoursToDataBase(auth.uid);
+      if (!isSaved) sendHoursToDataBase(uid);
       this.setState(({ autoSaveInProgress }) => {
         return {
           autoSaveInProgress: !autoSaveInProgress,
@@ -78,9 +86,12 @@ class HoursMonth extends Component {
   }
 
   render() {
-    const { hours, monthId } = this.props;
+    const {
+      hours: { months },
+      monthId,
+    } = this.props;
     const { isSummaryModalOpened, chosenOption } = this.state;
-    const months = hours.months;
+
     const optionsToChose = {
       optionSalary: 'salary',
       optionPayment: 'payment',
@@ -153,11 +164,11 @@ HoursMonth.propTypes = {
   monthId: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ hours, firebase }) => {
   return {
-    hours: state.hours,
-    auth: state.firebase.auth,
-    isSaved: state.hours.isSaved,
+    hours,
+    auth: firebase.auth,
+    isSaved: hours.isSaved,
   };
 };
 

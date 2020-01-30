@@ -52,8 +52,11 @@ class UserPage extends Component {
 
   componentDidMount() {
     const { selectedYear } = this.state;
-    const { auth, takeDataFromDataBase } = this.props;
-    takeDataFromDataBase(auth.uid, selectedYear);
+    const {
+      auth: { uid },
+      takeDataFromDataBase,
+    } = this.props;
+    takeDataFromDataBase(uid, selectedYear);
     window.addEventListener('beforeunload', this.whenClosing);
   }
   componentWillUnmount() {
@@ -64,23 +67,29 @@ class UserPage extends Component {
     this.checkAmountOfFutureYears();
   }
 
-  selectMonthOrYear = (event, select) => {
+  selectMonthOrYear = ({ target }, select) => {
     switch (select) {
       case 'month': {
         this.setState({
-          selectedMonthId: event.target.id - 1,
+          selectedMonthId: target.id - 1,
         });
         break;
       }
 
       case 'year': {
-        const { takeDataFromDataBase, sendHoursToDataBase, auth, user, isSaved } = this.props;
-        const selectedYear = user.yearsList[event.target.id];
+        const {
+          takeDataFromDataBase,
+          sendHoursToDataBase,
+          auth: { uid },
+          user,
+          isSaved,
+        } = this.props;
+        const selectedYear = user.yearsList[target.id];
         this.setState({
           selectedYear: selectedYear,
         });
-        if (!isSaved) sendHoursToDataBase(auth.uid);
-        takeDataFromDataBase(auth.uid, selectedYear);
+        if (!isSaved) sendHoursToDataBase(uid);
+        takeDataFromDataBase(uid, selectedYear);
         break;
       }
       default: {
@@ -95,9 +104,10 @@ class UserPage extends Component {
 
   checkAmountOfFutureYears = () => {
     const presentYear = new Date().getFullYear();
-    const { user } = this.props;
+    const {
+      user: { yearsList },
+    } = this.props;
     const { limitOfYears } = this.state;
-    const yearsList = user.yearsList;
     if (!limitOfYears && yearsList && yearsList.indexOf(presentYear) + 3 < yearsList.length) {
       this.setState({
         limitOfYears: true,
@@ -111,8 +121,11 @@ class UserPage extends Component {
   };
 
   addNewYear = () => {
-    const { newYear, user } = this.props;
-    const years = user.yearsList;
+    const {
+      newYear,
+      user: { yearsList },
+    } = this.props;
+    const years = yearsList;
     const year = findNextYear(years);
     newYear(createNewYear(monthNames, year));
     this.checkAmountOfFutureYears();
@@ -120,14 +133,18 @@ class UserPage extends Component {
 
   whenClosing = event => {
     event.preventDefault();
-    const { isSaved, auth, sendHoursToDataBase } = this.props;
-    if (!isSaved) sendHoursToDataBase(auth.uid);
+    const {
+      isSaved,
+      auth: { uid },
+      sendHoursToDataBase,
+    } = this.props;
+    if (!isSaved) sendHoursToDataBase(uid);
   };
 
   toggleSettingsModal = () => {
-    this.setState(prevState => {
+    this.setState(({ isSettingsModalOpened }) => {
       return {
-        isSettingsModalOpened: !prevState.isSettingsModalOpened,
+        isSettingsModalOpened: !isSettingsModalOpened,
       };
     });
   };
@@ -139,9 +156,9 @@ class UserPage extends Component {
   };
 
   toggleMenu = () => {
-    this.setState(prevState => {
+    this.setState(({ isMenuOpened }) => {
       return {
-        isMenuOpened: !prevState.isMenuOpened,
+        isMenuOpened: !isMenuOpened,
       };
     });
   };
@@ -168,8 +185,10 @@ class UserPage extends Component {
 
     const { pathname } = this.props.location;
 
-    const { auth } = this.props;
-    if (!auth.uid) return <Redirect to={routes.login} />;
+    const {
+      auth: { uid },
+    } = this.props;
+    if (!uid) return <Redirect to={routes.login} />;
     if (pathname === '/user') return <Redirect to={'user/hours'} />;
 
     return (
@@ -203,13 +222,13 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ hours, firebase, user }) => {
   return {
-    months: state.hours.months,
-    auth: state.firebase.auth,
-    user: state.user,
-    isSaved: state.hours.isSaved,
-    userHoursSettings: state.user.hoursSettings,
+    months: hours.months,
+    auth: firebase.auth,
+    user,
+    isSaved: hours.isSaved,
+    userHoursSettings: user.hoursSettings,
   };
 };
 

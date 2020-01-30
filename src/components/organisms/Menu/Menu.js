@@ -51,26 +51,31 @@ const StyledFlexWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const Menu = ({ menuContext }) => (
-  <StyledWrapper isMenuOpened={menuContext.isMenuOpened}>
+const Menu = ({
+  menuContext: {
+    isMenuOpened,
+    selectedYear,
+    selectMonthOrYear,
+    addNewYear,
+    toggleSettingsModal,
+    autoFilHoursMonth,
+    limitOfYears,
+    selectedMonthId,
+  },
+}) => (
+  <StyledWrapper isMenuOpened={isMenuOpened}>
     <TitleHeader small />
     <StyledMenuWrapper>
       <StyledFlexWrapper>
-        <YearsMenu
-          selectedYear={menuContext.selectedYear}
-          selectMonthOrYear={menuContext.selectMonthOrYear}
-        />
+        <YearsMenu selectedYear={selectedYear} selectMonthOrYear={selectMonthOrYear} />
         <ExtendedMenu
-          addNewYear={menuContext.addNewYear}
-          toggleSettingsModal={menuContext.toggleSettingsModal}
-          autoFilHoursMonth={menuContext.autoFilHoursMonth}
-          limitOfYears={menuContext.limitOfYears}
+          addNewYear={addNewYear}
+          toggleSettingsModal={toggleSettingsModal}
+          autoFilHoursMonth={autoFilHoursMonth}
+          limitOfYears={limitOfYears}
         />
       </StyledFlexWrapper>
-      <MonthMenu
-        selectMonthOrYear={menuContext.selectMonthOrYear}
-        selectedMonthId={menuContext.selectedMonthId}
-      />
+      <MonthMenu selectMonthOrYear={selectMonthOrYear} selectedMonthId={selectedMonthId} />
     </StyledMenuWrapper>
   </StyledWrapper>
 );

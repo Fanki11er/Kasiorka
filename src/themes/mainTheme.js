@@ -2,6 +2,7 @@ export const theme = {
   rowHeight: '60px',
   rowHeightMediumScreen: '32px',
   daysHeightMediumScreen: '42px',
+  daysHeightSmallScreen: '54px',
   rowHeightSmall: '55px',
   fontSize: {
     normal: '2.4em',

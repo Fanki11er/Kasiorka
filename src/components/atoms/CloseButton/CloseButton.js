@@ -20,9 +20,6 @@ const StyledIcon = styled(Close)`
   @media screen and (max-width: 1920px) {
     border-radius: 8px;
   }
-  @media screen and (max-width: 767px) {
-    border-radius: 8px;
-  }
 `;
 
 const StyledButton = styled.button`

@@ -38,11 +38,18 @@ const DayName = styled.div`
         cursor: default;
       }
 
-      @media screen and (max-width: 1920px) {
+    @media screen and (max-width: 1920px) {
     width: ${({ theme }) => theme.daysHeightMediumScreen};
     height: ${({ theme }) => theme.daysHeightMediumScreen};
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
     margin: 0 0 0 1px;
+  }
+
+  @media screen and (max-width: 767px) {
+    width: ${({ theme }) => theme.daysHeightSmallScreen};
+    height: ${({ theme }) => theme.daysHeightSmallScreen};
+    font-size: ${({ theme }) => theme.fontSizeMedium.small};
+    margin: 0 0 0 2px;
   }
 `;
 
