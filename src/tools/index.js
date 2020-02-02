@@ -5,7 +5,10 @@ class SingleMonth {
     this.days = [];
     this.totalHours = 0;
     this.currency = 'zł';
-    this.paymentReceived = 0;
+    this.payments = {
+      paymentReceived: 0,
+      expectedPayout: 0,
+    };
     this.salary = 0;
   }
 }
@@ -181,7 +184,12 @@ const findIndexToChange = (startValue, dayId) => {
 
 const updateSalaryValue = (month, newSalaryValue) => (month.salary = newSalaryValue);
 
-const updatePaymentValue = (month, newPaymentValue) => (month.paymentReceived = newPaymentValue);
+const updatePaymentValue = (month, newPaymentValue) =>
+  (month.payments.paymentReceived = newPaymentValue);
+
+const expectedPayout = (month, totalHours, salary) => {
+  month.payments.expectedPayout = parseFloat((totalHours * salary).toFixed(2));
+};
 
 //Reducer---------------------------------------------------------
 //Actions---------------------------------------------------------
@@ -199,6 +207,7 @@ export {
   updateTotalHours,
   updateSalaryValue,
   updatePaymentValue,
+  expectedPayout,
 }; //Reducer
 export { newYearsListItem }; //Actions
 export {

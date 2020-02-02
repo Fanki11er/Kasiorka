@@ -25,7 +25,10 @@ test('Create Single Month', () => {
     days: [],
     totalHours: 0,
     currency: 'zł',
-    paymentReceived: 0,
+    payments: {
+      paymentReceived: 0,
+      expectedPayout: 0,
+    },
     salary: 0,
   });
 });
@@ -191,12 +194,16 @@ test('Update payment value', () => {
     months: [
       {
         id: 1,
-        paymentReceived: 0,
+        payments: {
+          paymentReceived: 0,
+        },
       },
 
       {
         id: 2,
-        paymentReceived: 0,
+        payments: {
+          paymentReceived: 0,
+        },
       },
     ],
   };
@@ -206,12 +213,16 @@ test('Update payment value', () => {
     months: [
       {
         id: 1,
-        paymentReceived: 0,
+        payments: {
+          paymentReceived: 0,
+        },
       },
 
       {
         id: 2,
-        paymentReceived: 1500,
+        payments: {
+          paymentReceived: 1500,
+        },
       },
     ],
   });

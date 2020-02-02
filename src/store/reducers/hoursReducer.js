@@ -4,6 +4,7 @@ import {
   updateSalaryValue,
   updatePaymentValue,
   findIndexToChange,
+  expectedPayout,
 } from '../../tools/index';
 import { autoFillHoursMonth, sumWholeMonthWorkHours } from '../../tools/hoursTools';
 const initialState = { isSaved: true };
@@ -21,6 +22,11 @@ const hoursReducer = (state = initialState, action) => {
       const actionPerformed = action.payload.actionPerformed;
       replaceWorkHoursValue(state.months[monthId].days, dayId, findIndexToChange, newValue);
       updateTotalHours(state.months[monthId], actionPerformed);
+      expectedPayout(
+        state.months[monthId],
+        state.months[monthId].totalHours,
+        state.months[monthId].salary,
+      );
       return { ...state, isSaved: false };
     }
 
@@ -32,6 +38,11 @@ const hoursReducer = (state = initialState, action) => {
       const monthId = action.payload.monthId;
       const newSalaryValue = action.payload.newSalaryValue;
       updateSalaryValue(state.months[monthId], newSalaryValue);
+      expectedPayout(
+        state.months[monthId],
+        state.months[monthId].totalHours,
+        state.months[monthId].salary,
+      );
       return { ...state, isSaved: false };
     }
 

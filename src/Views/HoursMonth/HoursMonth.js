@@ -9,6 +9,7 @@ import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/
 import DayOfTheWeek from '../../components/molecules/DayOfWeek/DayOfWeek';
 import Summary from '../../components/molecules/Summary/Summary';
 import EditSummaryOptions from '../../components/organisms/EditSummaryOptions/EditSummaryOptions';
+import withViewsContext from '../../hoc/withViewsContext';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -67,6 +68,7 @@ class HoursMonth extends Component {
       sendHoursToDataBase,
     } = this.props;
     const { autoSaveInProgress } = this.state;
+
     const check = () => {
       if (!isSaved) sendHoursToDataBase(uid);
       this.setState(({ autoSaveInProgress }) => {
@@ -75,6 +77,7 @@ class HoursMonth extends Component {
         };
       });
     };
+
     if (!isSaved && !autoSaveInProgress) {
       this.setState(({ autoSaveInProgress }) => {
         return {
@@ -88,7 +91,7 @@ class HoursMonth extends Component {
   render() {
     const {
       hours: { months },
-      monthId,
+      viewsContext: { selectedMonthId: monthId },
     } = this.props;
     const { isSummaryModalOpened, chosenOption } = this.state;
 
@@ -161,7 +164,6 @@ class HoursMonth extends Component {
 
 HoursMonth.propTypes = {
   months: PropTypes.array,
-  monthId: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = ({ hours, firebase }) => {
@@ -178,4 +180,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HoursMonth);
+export default connect(mapStateToProps, mapDispatchToProps)(withViewsContext(HoursMonth));

@@ -1,27 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
+import ExpensesModalContext from '../../context/ExpensesModalContext';
+import MoneyAccount from '../../components/organisms/MoneyAccount/MoneyAccount';
 
 const StyledWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  flex-flow: wrap row;
+  margin: 0 0 20px 0;
   width: 100%;
-  height: auto;
-  background-color: ${({ theme }) => theme.primary};
+  justify-content: space-around;
 `;
 
-const StyledInfo = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.large};
-  color: ${({ theme }) => theme.hover};
-`;
+class MoneyMonth extends Component {
+  state = {
+    isExpensesModalOpened: false,
+  };
 
-const MoneyMonth = () => {
-  return (
-    <StyledWrapper>
-      <StyledInfo>I'm still building</StyledInfo>
-    </StyledWrapper>
-  );
-};
+  toggleExpensesModal = () => {
+    this.setState(({ isExpensesModalOpened }) => {
+      return {
+        isExpensesModalOpened: !isExpensesModalOpened,
+      };
+    });
+  };
+
+  render() {
+    const expensesModalContext = {
+      toggleExpensesModal: this.toggleExpensesModal,
+    };
+    return (
+      <StyledWrapper>
+        <ExpensesModalContext.Provider value={expensesModalContext}>
+          <MoneyAccount />
+        </ExpensesModalContext.Provider>
+      </StyledWrapper>
+    );
+  }
+}
 
 export default MoneyMonth;

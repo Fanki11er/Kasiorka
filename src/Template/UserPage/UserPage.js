@@ -7,6 +7,7 @@ import HoursMonth from '../../Views//HoursMonth/HoursMonth';
 import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
 import MenuContext from '../../context/MenuContext';
+import ViewsContext from '../../context/ViewsContext';
 import Navigation from '../../components/organisms/Navigation/Navigation';
 import Footer from '../../components/atoms/Footer/Footer';
 import StateIsLoaded from '../../components/atoms/StateIsLoaded/StateIsLoaded';
@@ -18,6 +19,7 @@ import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../action
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 import { monthHoursAutoFill as monthHoursAutoFillAction } from '../../actions/hoursActions';
 import OpenCloseMenuButton from '../../components/atoms/OpenCloseMenuButton/OpenCloseMenuButton';
+import { MainAccount } from '../../tools/moneyTools';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -127,7 +129,7 @@ class UserPage extends Component {
     } = this.props;
     const years = yearsList;
     const year = findNextYear(years);
-    newYear(createNewYear(monthNames, year));
+    newYear(createNewYear(monthNames, year), new MainAccount());
     this.checkAmountOfFutureYears();
   };
 
@@ -183,6 +185,10 @@ class UserPage extends Component {
       isMenuOpened,
     };
 
+    const viewsContext = {
+      selectedMonthId,
+    };
+
     const { pathname } = this.props.location;
 
     const {
@@ -201,9 +207,10 @@ class UserPage extends Component {
               <Menu />
               <EditSettings isSettingsModalOpened={isSettingsModalOpened} />
             </MenuContext.Provider>
-
-            {pathname === '/user/hours' && <HoursMonth monthId={selectedMonthId}></HoursMonth>}
-            {pathname === '/user/money' && <MoneyMonth></MoneyMonth>}
+            <ViewsContext.Provider value={viewsContext}>
+              {pathname === '/user/hours' && <HoursMonth />}
+              {pathname === '/user/money' && <MoneyMonth />}
+            </ViewsContext.Provider>
             <Footer />
           </StyledWrapper>
         </>
