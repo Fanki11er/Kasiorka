@@ -5,7 +5,8 @@ const IsSavedInfo = styled.div`
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: ${({ theme, isSaved }) => (isSaved ? theme.green : theme.sundayRed)};
+  background-color: ${({ theme, isSaved: { isSaved, moneyIsSaved } }) =>
+    !isSaved || !moneyIsSaved ? theme.sundayRed : theme.green};
   align-self: center;
   margin: 10px;
   transition: background-color 0.5s;
@@ -16,6 +17,6 @@ const IsSavedInfo = styled.div`
 `;
 
 IsSavedInfo.propTypes = {
-  isSaved: PropTypes.bool,
+  isSaved: PropTypes.object,
 };
 export default IsSavedInfo;

@@ -51,10 +51,11 @@ describe('Test FixedExpenses class', () => {
     const testFixedExpenses = new FixedExpenses('Wydatki stałe');
     expect(testFixedExpenses).toEqual({
       name: 'Wydatki stałe',
-      expenses: [{ name: 'Portfel:', predicted: 0, real: 0, percentage: 0 }],
+      expenses: [{ name: 'Portfel:', predicted: 0, real: 0, percentage: 0, type: '-' }],
       predictedSum: 0,
       realSum: 0,
       percentage: 0,
+      type: ['mainAccount', 'fixedExpenses'],
     });
   });
 });
@@ -74,15 +75,19 @@ describe('Test MainAccount class', () => {
       },
       fixedExpenses: {
         name: 'Wydatki stałe',
-        expenses: [{ name: 'Portfel:', predicted: 0, real: 0, percentage: 0 }],
+        expenses: [{ name: 'Portfel:', predicted: 0, real: 0, percentage: 0, type: '-' }],
         predictedSum: 0,
         realSum: 0,
         percentage: 0,
+        type: ['mainAccount', 'fixedExpenses'],
+        name: 'Transakcje',
       },
       transactions: {
         transactions: [],
-        sum: 0,
+        predictedSum: 0,
+        realSum: 0,
         percentage: 0,
+        type: ['mainAccount', 'fixedExpenses'],
       },
     });
   });

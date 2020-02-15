@@ -58,9 +58,7 @@ const ModalInput = ({ label, type, name, units, val, custom, length }) => {
           maxLength={type === 'text' && length ? length : null}
           className="fireFoxNumber"
         />
-      ) : (
-        <p></p>
-      )}
+      ) : null}
 
       {units && <StyledUnits>{units}</StyledUnits>}
     </FormLabel>

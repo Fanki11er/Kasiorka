@@ -9,6 +9,11 @@ const StyledHeader = styled.div`
   font-weight: bold;
   margin: 5px;
   text-align: center;
+
+  @media screen and (max-width: 1920px) {
+    font-size: ${({ theme, forSection }) =>
+      forSection ? theme.fontSizeMedium.medium : theme.fontSizeMedium.smaller};
+  }
 `;
 
 const AccountHeader = ({ forSection, label }) => {

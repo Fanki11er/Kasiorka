@@ -10,12 +10,21 @@ const StyledWrapper = styled.div`
   height: ${({ theme }) => theme.rowHeight};
   min-width: 250px;
   justify-content: space-between;
+
+  @media screen and (max-width: 1920px) {
+    height: ${({ theme }) => theme.rowHeightMediumScreen};
+    min-width: 180px;
+  }
 `;
 
 const StyledNumbers = styled.div`
   font-size: ${({ theme }) => theme.fontSize.verySmall};
-  color: ${({ theme }) => theme.green};
+  color: ${({ theme, action }) => (action === '+' ? theme.green : theme.sundayRed)};
   margin-right: 12px;
+
+  @media screen and (max-width: 1920px) {
+    font-size: ${({ theme }) => theme.fontSizeMedium.medium};
+  }
 `;
 
 const StyledPencilIcon = styled(PencilIcon)`
@@ -29,21 +38,36 @@ const EndWrapper = styled.div`
   align-items: center;
   width: 100px;
   justify-content: space-between;
+
+  @media screen and (max-width: 1920px) {
+    width: 70px;
+  }
 `;
 
 const StyledPercentage = styled.div`
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   color: ${({ theme }) => theme.green};
   margin-right: 5px;
+
+  @media screen and (max-width: 1920px) {
+    font-size: ${({ theme }) => theme.fontSizeMedium.medium};
+  }
 `;
 
-const ExpenseRow = ({ text, percentage, expensesModalContext: { toggleExpensesModal } }) => {
+const ExpenseRow = ({
+  text,
+  percentage,
+  expensesModalContext: { toggleExpensesModal },
+  id,
+  type,
+  action,
+}) => {
   return (
     <StyledWrapper>
-      <StyledNumbers>{text}</StyledNumbers>
+      <StyledNumbers action={action}>{text}</StyledNumbers>
       <EndWrapper>
         {percentage !== undefined && <StyledPercentage>{percentage}%</StyledPercentage>}
-        <StyledPencilIcon onClick={toggleExpensesModal} />
+        <StyledPencilIcon onClick={() => toggleExpensesModal(id, type, 'edit')} />
       </EndWrapper>
     </StyledWrapper>
   );
@@ -52,6 +76,8 @@ const ExpenseRow = ({ text, percentage, expensesModalContext: { toggleExpensesMo
 ExpenseRow.propTypes = {
   text: PropTypes.string,
   percentage: PropTypes.number,
+  id: PropTypes.number.isRequired,
+  type: PropTypes.array.isRequired,
 };
 
 export default withExpensesModal(ExpenseRow);

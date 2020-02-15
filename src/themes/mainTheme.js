@@ -4,6 +4,7 @@ export const theme = {
   daysHeightMediumScreen: '42px',
   daysHeightSmallScreen: '54px',
   rowHeightSmall: '55px',
+  rowHeightSmaller: '50px',
   fontSize: {
     normal: '2.4em',
     smaller: '2em',

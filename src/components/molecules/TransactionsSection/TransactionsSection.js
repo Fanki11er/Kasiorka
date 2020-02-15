@@ -13,11 +13,12 @@ const StyledMainSection = styled.section`
   align-content: space-around;
 `;
 
-const AccountFixedExpensesSection = ({
+const TransactionsSection = ({
   accountLabel,
   expenses,
   currency,
   type,
+  toggleExpensesModal,
   renderExpenses,
 }) => {
   return (
@@ -25,32 +26,34 @@ const AccountFixedExpensesSection = ({
       <AccountHeader label={accountLabel} forSection={true} />
       <StyledMainSection>
         {renderExpenses(expenses, currency, type)}
-        <AccountButton>Edit</AccountButton>
+        <AccountButton onClick={() => toggleExpensesModal(null, type, 'add')}>Add</AccountButton>
       </StyledMainSection>
       <SumInfo expenses={expenses} units={currency} />
     </AccountStyledSection>
   );
 };
 
-const mapStateToProps = ({ money: { months }, user: { hoursSettings } }, { selectedMonthId }) => {
+const mapStateToProps = (
+  { money: { months }, user: { hoursSettings } },
+  { selectedMonthId, path },
+) => {
   return {
-    accountLabel: months[selectedMonthId].mainAccount.fixedExpenses.name,
-    expenses: months[selectedMonthId].mainAccount.fixedExpenses.expenses,
+    accountLabel: months[selectedMonthId][path[0]][path[1]].name,
+    expenses: months[selectedMonthId][path[0]][path[1]].expenses,
     currency: hoursSettings.currency,
-    type: months[selectedMonthId].mainAccount.fixedExpenses.type,
-
-    reRender: months[selectedMonthId].mainAccount.fixedExpenses.expenses[0].real, // need to re render component
+    type: months[selectedMonthId][path[0]][path[1]].type,
+    //reRender: months[selectedMonthId].mainAccount.fixedExpenses.expenses[0].real, // need to re render component
   };
 };
 
-AccountFixedExpensesSection.propTypes = {
+TransactionsSection.propTypes = {
   accountLabel: PropTypes.string,
   currency: PropTypes.string,
   expenses: PropTypes.array,
 };
 
-AccountFixedExpensesSection.defaultProps = {
-  accountLabel: 'Wydatki stałe',
+TransactionsSection.defaultProps = {
+  accountLabel: 'Transakcje',
 };
 
-export default connect(mapStateToProps)(AccountFixedExpensesSection);
+export default connect(mapStateToProps)(TransactionsSection);

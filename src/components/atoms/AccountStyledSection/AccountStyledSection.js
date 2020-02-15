@@ -8,6 +8,10 @@ const AccountStyledSection = styled.section`
   border-radius: 10px;
   min-width: 450px;
   margin: 2px;
+  @media screen and (max-width: 1920px) {
+    min-width: 320px;
+    width: 320px;
+  }
 `;
 
 export default AccountStyledSection;
