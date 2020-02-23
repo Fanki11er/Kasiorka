@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AccountStyledSection from '../../atoms/AccountStyledSection/AccountStyledSection';
 import AccountHeader from '../../atoms/AccountHeader/AccountHeader';
-import SumInfo from '../../atoms/SumInfo/SumInfo';
 import AccountButton from '../../atoms/AccountButton/AccountButton';
 
 const StyledMainSection = styled.section`
@@ -15,7 +14,7 @@ const StyledMainSection = styled.section`
 
 const TransactionsSection = ({
   accountLabel,
-  expenses,
+  transactions,
   currency,
   type,
   toggleExpensesModal,
@@ -25,10 +24,9 @@ const TransactionsSection = ({
     <AccountStyledSection>
       <AccountHeader label={accountLabel} forSection={true} />
       <StyledMainSection>
-        {renderExpenses(expenses, currency, type)}
+        {transactions.length > 0 && renderExpenses(transactions, currency, type)}
         <AccountButton onClick={() => toggleExpensesModal(null, type, 'add')}>Add</AccountButton>
       </StyledMainSection>
-      <SumInfo expenses={expenses} units={currency} />
     </AccountStyledSection>
   );
 };
@@ -39,21 +37,24 @@ const mapStateToProps = (
 ) => {
   return {
     accountLabel: months[selectedMonthId][path[0]][path[1]].name,
-    expenses: months[selectedMonthId][path[0]][path[1]].expenses,
+    transactions: months[selectedMonthId][path[0]][path[1]].transactions,
     currency: hoursSettings.currency,
-    type: months[selectedMonthId][path[0]][path[1]].type,
-    //reRender: months[selectedMonthId].mainAccount.fixedExpenses.expenses[0].real, // need to re render component
+    type: months[selectedMonthId][path[0]][path[1]].path,
   };
 };
 
 TransactionsSection.propTypes = {
   accountLabel: PropTypes.string,
   currency: PropTypes.string,
-  expenses: PropTypes.array,
+  transactions: PropTypes.array,
+  type: PropTypes.array,
+  toggleExpensesModal: PropTypes.func,
+  renderExpenses: PropTypes.func,
 };
 
 TransactionsSection.defaultProps = {
   accountLabel: 'Transakcje',
+  transactions: [],
 };
 
 export default connect(mapStateToProps)(TransactionsSection);

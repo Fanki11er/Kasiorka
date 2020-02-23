@@ -6,6 +6,7 @@ import hoursReducer from './hoursReducer';
 import errorsReducer from './errorsReducer';
 import moneyReducer from './moneyReducer';
 import prevYearReducer from './prevYearReducer';
+import testReducer from './testReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   errors: errorsReducer,
   money: moneyReducer,
   prevYearData: prevYearReducer,
+  tests: testReducer,
 });
 
 export default rootReducer;

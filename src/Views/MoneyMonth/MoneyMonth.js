@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import ExpensesModalContext from '../../context/ExpensesModalContext';
-import MoneyAccount from '../../components/organisms/MoneyAccount/MoneyAccount';
+import MainAccount from '../../components/organisms/MainAccount/MainAccount';
 import AccountModal from '../../components/molecules/AccountModal/AccountModal';
 
 const StyledWrapper = styled.div`
@@ -21,6 +21,8 @@ class MoneyMonth extends Component {
       action: null,
     },
   };
+
+  componentDidMount() {}
 
   toggleExpensesModal = (id, type, action) => {
     this.setState(({ isExpensesModalOpened }) => {
@@ -45,7 +47,7 @@ class MoneyMonth extends Component {
     return (
       <StyledWrapper>
         <ExpensesModalContext.Provider value={expensesModalContext}>
-          <MoneyAccount />
+          <MainAccount />
           <AccountModal isExpensesModalOpened={isExpensesModalOpened} modalInfo={modalInfo} />
         </ExpensesModalContext.Provider>
       </StyledWrapper>

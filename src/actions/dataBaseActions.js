@@ -5,6 +5,7 @@ import { Money } from '../tools/moneyTools';
 export const takeDataFromDataBase = (uid, year) => {
   return (dispatch, getState, { dataBase, endPoints }) => {
     const state = getState();
+    const prevMoney = {};
     dataBase
       .fetch(endPoints.hours(uid, year), {
         context: state,
@@ -21,7 +22,7 @@ export const takeDataFromDataBase = (uid, year) => {
         dispatch({ type: 'TAKE_USER_SETTINGS_FROM_DATABASE', payload: data }); // User reducer
       });
 
-    dataBase
+    /*dataBase
       .fetch(endPoints.money(uid, year), {
         context: state,
       })
@@ -34,11 +35,22 @@ export const takeDataFromDataBase = (uid, year) => {
         context: state,
       })
       .then(data => {
-        dispatch({ type: 'GET_PREVIOUS_PAYMENTS', payload: data }); // Money reducer
+        dispatch({ type: 'GET_PREVIOUS_PAYMENTS', payload: data }); // prev reducer
       })
       .catch(err => {
         console.log(err.message);
       });
+
+    dataBase
+      .fetch(endPoints.previousMoney(uid, year - 1), {
+        context: state,
+      })
+      .then(data => {
+        dispatch({ type: 'GET_PREVIOUS_AMOUNTS', payload: data }); // prev reducer
+      })
+      .catch(err => {
+        console.log(err.message);
+      });*/
   };
 };
 

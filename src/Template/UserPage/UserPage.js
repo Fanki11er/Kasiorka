@@ -19,7 +19,7 @@ import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../action
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 import { monthHoursAutoFill as monthHoursAutoFillAction } from '../../actions/hoursActions';
 import OpenCloseMenuButton from '../../components/atoms/OpenCloseMenuButton/OpenCloseMenuButton';
-import { MainAccount } from '../../tools/moneyTools';
+import { Account } from '../../tools/moneyTools';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -129,7 +129,7 @@ class UserPage extends Component {
     } = this.props;
     const years = yearsList;
     const year = findNextYear(years);
-    newYear(createNewYear(monthNames, year), new MainAccount());
+    newYear(createNewYear(monthNames, year), new Account());
     this.checkAmountOfFutureYears();
   };
 

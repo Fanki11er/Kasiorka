@@ -15,7 +15,7 @@ const AccountButton = styled(MenuItem)`
     height: ${({ theme }) => theme.rowHeightMediumScreen};
     font-size: ${({ theme }) => theme.fontSizeMedium.verySmall};
     border-radius: 8px;
-    margin: 15px 5px 15px;
+    margin: 15px 15px 15px;
   }
 `;
 

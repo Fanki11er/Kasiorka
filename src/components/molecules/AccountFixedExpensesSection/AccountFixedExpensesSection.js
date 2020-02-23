@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AccountStyledSection from '../../atoms/AccountStyledSection/AccountStyledSection';
 import AccountHeader from '../../atoms/AccountHeader/AccountHeader';
-import SumInfo from '../../atoms/SumInfo/SumInfo';
 import AccountButton from '../../atoms/AccountButton/AccountButton';
 
 const StyledMainSection = styled.section`
@@ -24,10 +23,9 @@ const AccountFixedExpensesSection = ({
     <AccountStyledSection>
       <AccountHeader label={accountLabel} forSection={true} />
       <StyledMainSection>
-        {renderExpenses(expenses, currency, type)}
+        {expenses !== undefined && expenses.length > 0 && renderExpenses(expenses, currency, type)}
         <AccountButton>Edit</AccountButton>
       </StyledMainSection>
-      <SumInfo expenses={expenses} units={currency} />
     </AccountStyledSection>
   );
 };
@@ -35,11 +33,11 @@ const AccountFixedExpensesSection = ({
 const mapStateToProps = ({ money: { months }, user: { hoursSettings } }, { selectedMonthId }) => {
   return {
     accountLabel: months[selectedMonthId].mainAccount.fixedExpenses.name,
-    expenses: months[selectedMonthId].mainAccount.fixedExpenses.expenses,
+    expenses: months[selectedMonthId].mainAccount.fixedExpenses.transactions,
     currency: hoursSettings.currency,
     type: months[selectedMonthId].mainAccount.fixedExpenses.type,
 
-    reRender: months[selectedMonthId].mainAccount.fixedExpenses.expenses[0].real, // need to re render component
+    // reRender: months[selectedMonthId].mainAccount.fixedExpenses.expenses[0].real, // need to re render component
   };
 };
 
@@ -51,6 +49,7 @@ AccountFixedExpensesSection.propTypes = {
 
 AccountFixedExpensesSection.defaultProps = {
   accountLabel: 'Wydatki stałe',
+  expenses: [],
 };
 
 export default connect(mapStateToProps)(AccountFixedExpensesSection);

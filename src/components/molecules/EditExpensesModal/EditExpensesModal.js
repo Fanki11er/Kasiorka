@@ -10,8 +10,7 @@ import FormButton from '../../atoms/FormButton/FormButton';
 import ExpensesWrapper from '../../atoms/ExpensesWrapper/ExpensesWrapper';
 import ExpensesSign from '../../atoms/ExpensesSign/ExpensesSign';
 import withExpensesModal from '../../../hoc/withExpensesModal';
-import { editExpense as editExpenseAction } from '../../../actions/moneyActions';
-import { addExpense as addExpenseAction } from '../../../actions/moneyActions';
+import { calculateTransactions as calculateTransactionsAction } from '../../../actions/moneyActions';
 import ModalInput from '../../atoms/ModalInput/ModalInput';
 
 const StyledWrapper = styled.div`
@@ -128,10 +127,9 @@ const EditExpensesModal = ({
   currency,
   modalInfo: { type, id, action },
   expensesModalContext: { toggleExpensesModal },
-  editExpense,
   selectedMonthId,
   expenseType,
-  addExpense,
+  calculateTransactions,
 }) => {
   return (
     <Formik
@@ -169,9 +167,8 @@ const EditExpensesModal = ({
           id,
           selectedMonthId,
         };
-        action === 'edit' && editExpense(data, path);
-        action === 'add' && addExpense(data, path);
 
+        calculateTransactions(data, path, action);
         toggleExpensesModal(null, null, null);
         resetForm();
         setSubmitting(false);
@@ -244,8 +241,8 @@ const EditExpensesModal = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    editExpense: (data, path) => dispatch(editExpenseAction(data, path)),
-    addExpense: (data, path) => dispatch(addExpenseAction(data, path)),
+    calculateTransactions: (data, path, action) =>
+      dispatch(calculateTransactionsAction(data, path, action)),
   };
 };
 
@@ -257,53 +254,38 @@ const mapStateToProps = (
     predicted:
       type &&
       (id || id === 0) &&
-      money.months[selectedMonthId][type[0]][type[1]].expenses[id].predicted,
+      money.months[selectedMonthId][type[0]][type[1]].transactions[id].predicted,
     real:
-      type && (id || id === 0) && money.months[selectedMonthId][type[0]][type[1]].expenses[id].real,
+      type &&
+      (id || id === 0) &&
+      money.months[selectedMonthId][type[0]][type[1]].transactions[id].real,
     percentage:
       type &&
       (id || id === 0) &&
-      money.months[selectedMonthId][type[0]][type[1]].expenses[id].percentage,
+      money.months[selectedMonthId][type[0]][type[1]].transactions[id].percentage,
     name:
-      type && (id || id === 0) && money.months[selectedMonthId][type[0]][type[1]].expenses[id].name,
+      type &&
+      (id || id === 0) &&
+      money.months[selectedMonthId][type[0]][type[1]].transactions[id].name,
     expenseType:
       type &&
       (id || id === 0) &&
-      money.months[selectedMonthId][type[0]][type[1]].expenses[id].action,
+      money.months[selectedMonthId][type[0]][type[1]].transactions[id].action,
     currency: hoursSettings.currency,
   };
 };
 
+EditExpensesModal.propTypes = {
+  predicted: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+  real: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  percentage: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+  currency: PropTypes.string,
+  modalInfo: PropTypes.object,
+  expensesModalContext: PropTypes.object,
+  selectedMonthId: PropTypes.number,
+  expenseType: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  calculateTransactions: PropTypes.func,
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(withExpensesModal(EditExpensesModal));
-
-/*            <StyledErrorWrapper>
-              <FormError name={chosenOption} component="div" />
-            </StyledErrorWrapper>
-
-            <StyledFormButton
-              className={values[chosenOption] === '' || errors[chosenOption] ? 'noActive' : null}
-              green="true"
-              type="submit"
-              disabled={isSubmitting}
-            >
-              Zapisz
-            </StyledFormButton> */
-
-/*{chosenOption === optionSalary && (
-              <ModalInput
-                label="Nowa stawka godzinowa:"
-                type="number"
-                name={chosenOption}
-                units={`${currency}/h`}
-                val={value}
-              />
-            )}
-            {chosenOption === optionPayment && (
-              <ModalInput
-                label="Otrzymana wypłata:"
-                type="number"
-                name={chosenOption}
-                units={currency}
-                val={value}
-              />
-            )} */
