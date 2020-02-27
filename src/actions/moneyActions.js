@@ -1,10 +1,10 @@
 import {
   sumSection,
   actualizeComputedDataSums,
-  getPayments,
   ActualizeMonthsTotal,
   addTransaction,
   editTransaction,
+  getPayments,
 } from '../tools/moneyTools';
 
 export const calculateTransactions = (data, path, action) => {
@@ -28,13 +28,12 @@ export const calculateTransactions = (data, path, action) => {
   };
 };
 
-export const reCalculateTransactions = type => {
+export const actualizeMoneyWithActualPayments = newPayments => {
   return (dispatch, getState) => {
-    const { money, hours, prevYearData } = getState();
+    const { money, prevYearData } = getState();
     const months = money.months;
-    const payments = getPayments(hours, prevYearData);
+    ActualizeMonthsTotal(months, newPayments, 'mainAccount', prevYearData);
 
-    ActualizeMonthsTotal(months, payments, type[0], prevYearData);
     dispatch({ type: 'CALCULATE_TRANSACTIONS', payload: money });
   };
 };

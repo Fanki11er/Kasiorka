@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import ExpensesModalContext from '../../context/ExpensesModalContext';
 import MainAccount from '../../components/organisms/MainAccount/MainAccount';
 import AccountModal from '../../components/molecules/AccountModal/AccountModal';
+import { getPayments } from '../../tools/moneyTools';
+import { actualizeMoneyWithActualPayments as actualizeMoneyWithActualPaymentsAction } from '../../actions/moneyActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -12,47 +16,54 @@ const StyledWrapper = styled.div`
   justify-content: space-around;
 `;
 
-class MoneyMonth extends Component {
-  state = {
-    isExpensesModalOpened: false,
-    modalInfo: {
-      id: null,
-      type: null,
-      action: null,
-    },
+const MoneyMonth = ({ actualizeMoneyWithActualPayments, hours, prevYearData }) => {
+  const [isExpensesModalOpened, setIsExpensesModalOpened] = useState(false);
+  const [modalInfo, setModalInfo] = useState({
+    id: null,
+    type: null,
+    action: null,
+  });
+
+  const actualPayments = getPayments(hours, prevYearData);
+  actualizeMoneyWithActualPayments(actualPayments);
+
+  const toggleExpensesModal = (id, type, action) => {
+    setIsExpensesModalOpened(!isExpensesModalOpened);
+    setModalInfo({ id, type, action });
   };
 
-  componentDidMount() {}
-
-  toggleExpensesModal = (id, type, action) => {
-    this.setState(({ isExpensesModalOpened }) => {
-      return {
-        isExpensesModalOpened: !isExpensesModalOpened,
-        modalInfo: {
-          id,
-          type,
-          action,
-        },
-      };
-    });
+  const expensesModalContext = {
+    toggleExpensesModal,
   };
 
-  render() {
-    const { isExpensesModalOpened, modalInfo } = this.state;
+  return (
+    <StyledWrapper>
+      <ExpensesModalContext.Provider value={expensesModalContext}>
+        <MainAccount />
+        <AccountModal isExpensesModalOpened={isExpensesModalOpened} modalInfo={modalInfo} />
+      </ExpensesModalContext.Provider>
+    </StyledWrapper>
+  );
+};
 
-    const expensesModalContext = {
-      toggleExpensesModal: this.toggleExpensesModal,
-    };
+const mapStateToProps = ({ hours, prevYearData }) => {
+  return {
+    hours,
+    prevYearData,
+  };
+};
 
-    return (
-      <StyledWrapper>
-        <ExpensesModalContext.Provider value={expensesModalContext}>
-          <MainAccount />
-          <AccountModal isExpensesModalOpened={isExpensesModalOpened} modalInfo={modalInfo} />
-        </ExpensesModalContext.Provider>
-      </StyledWrapper>
-    );
-  }
-}
+const mapDispatchToProps = dispatch => {
+  return {
+    actualizeMoneyWithActualPayments: newPayments =>
+      dispatch(actualizeMoneyWithActualPaymentsAction(newPayments)),
+  };
+};
 
-export default MoneyMonth;
+MoneyMonth.propTypes = {
+  prevYearData: PropTypes.object,
+  hours: PropTypes.object,
+  actualizeMoneyWithActualPayments: PropTypes.func,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoneyMonth);

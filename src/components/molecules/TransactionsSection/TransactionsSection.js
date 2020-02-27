@@ -23,9 +23,9 @@ const TransactionsSection = ({
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} forSection={true} />
+      <AccountButton onClick={() => toggleExpensesModal(null, type, 'add')}>Add</AccountButton>
       <StyledMainSection>
         {transactions.length > 0 && renderExpenses(transactions, currency, type)}
-        <AccountButton onClick={() => toggleExpensesModal(null, type, 'add')}>Add</AccountButton>
       </StyledMainSection>
     </AccountStyledSection>
   );

@@ -133,7 +133,7 @@ const sumSections = (account, property) => {
 
 const addTransaction = (section, data) => {
   section['transactions']
-    ? section['transactions'].push(new Expense(data))
+    ? section['transactions'].unshift(new Expense(data))
     : (section['transactions'] = new Array(new Expense(data)));
 };
 
@@ -196,6 +196,42 @@ const ActualizeMonthsTotal = (months, payments, type, prevYearData) => {
   });
 };
 
+const comparePayments = (hours, prevYearData, money, action) => {
+  const actualPayments = getPayments(hours, prevYearData);
+  const prevPayments = money.payments;
+  actualPayments.toString() !== prevPayments.toString() && action(actualPayments);
+};
+
+const createStats = (month, { payment }, accountName) => {
+  const sections = month[accountName].sections;
+  const account = month[accountName];
+  const stats = {
+    incomes: payment,
+    expenses: 0,
+  };
+  sections.forEach(section => {
+    stats.expenses =
+      account[section].transactions.length &&
+      account[section].transactions.reduce((total, { action, real }) => {
+        action === '-' && (total += real);
+        return total;
+      }, 0);
+    stats.incomes +=
+      account[section].transactions.length &&
+      account[section].transactions.reduce((total, { action, real }) => {
+        action === '+' && (total += real);
+        return total;
+      }, 0);
+  });
+  return stats;
+};
+
+const calculateExpensesPercent = stats => {
+  const { incomes, expenses } = stats;
+
+  return Math.abs(expenses / incomes) * 100;
+};
+
 export {
   Expense,
   FixedExpenses,
@@ -208,4 +244,7 @@ export {
   getPayments,
   ActualizeMonthsTotal,
   addTransaction,
+  comparePayments,
+  createStats,
+  calculateExpensesPercent,
 };

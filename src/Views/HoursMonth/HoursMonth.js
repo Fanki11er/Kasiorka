@@ -45,17 +45,8 @@ class HoursMonth extends Component {
     isSummaryModalOpened: false,
     chosenOption: null,
     autoSaveInProgress: false,
+    timeout: null,
   };
-  componentWillUnmount() {
-    const {
-      sendHoursToDataBase,
-      auth: { uid },
-      isSaved,
-    } = this.props;
-    if (!isSaved) {
-      sendHoursToDataBase(uid);
-    }
-  }
 
   componentDidUpdate() {
     this.autoSave();
@@ -84,8 +75,23 @@ class HoursMonth extends Component {
           autoSaveInProgress: !autoSaveInProgress,
         };
       });
-      setTimeout(check, 2500);
+      this.setState({ timeout: setTimeout(check, 1500) });
     }
+  }
+
+  componentWillUnmount() {
+    const {
+      sendHoursToDataBase,
+      auth: { uid },
+      isSaved,
+    } = this.props;
+    const { timeout } = this.state;
+
+    if (!isSaved) {
+      sendHoursToDataBase(uid);
+    }
+
+    clearTimeout(timeout);
   }
 
   render() {

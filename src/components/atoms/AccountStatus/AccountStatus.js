@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import ExpensesSign from '../ExpensesSign/ExpensesSign';
 
 const StyledWrapper = styled.div`
@@ -64,6 +65,15 @@ const AccountStatus = ({ status, units }) => {
       </StyledFlexWrapper>
     </StyledWrapper>
   );
+};
+
+AccountStatus.propTypes = {
+  status: PropTypes.object.isRequired,
+  units: PropTypes.string,
+};
+
+AccountStatus.defaultProps = {
+  units: 'zł',
 };
 
 export default AccountStatus;

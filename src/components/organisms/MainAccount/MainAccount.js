@@ -33,15 +33,12 @@ const MainAccount = ({
 
   return (
     <StyledAccount>
-      <AccountHeaderSection
-        selectedMonthId={selectedMonthId}
-        path={['mainAccount', 'transactions']}
-      />
+      <AccountHeaderSection selectedMonthId={selectedMonthId} path={['mainAccount', null]} />
       <TransactionsSection
         renderExpenses={renderExpenses}
         toggleExpensesModal={toggleExpensesModal}
         selectedMonthId={selectedMonthId}
-        path={['mainAccount', 'transactions']} //! BY HAND
+        path={['mainAccount', 'transactions']}
       />
     </StyledAccount>
   );
@@ -52,16 +49,3 @@ MainAccount.propTypes = {
 };
 
 export default compose(withViewsContext, withExpensesModal)(MainAccount);
-
-/*const renderExpenses = (expenses, currency, type) => {
-    return expenses.map(({ name, percentage, predicted, real, action }, index) => (
-      <MoneyRow
-        label={name}
-        content={{ percentage, predicted, real, action }}
-        units={currency}
-        key={index}
-        type={type}
-        id={index}
-      />
-    ));
-  }; */
