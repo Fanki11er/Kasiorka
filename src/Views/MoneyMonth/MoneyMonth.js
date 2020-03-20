@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ExpensesModalContext from '../../context/ExpensesModalContext';
-import MainAccount from '../../components/organisms/MainAccount/MainAccount';
+import Account from '../../components/organisms/Account/Account';
 import AccountModal from '../../components/molecules/AccountModal/AccountModal';
+import DeleteFixedTransactionsModal from '../../components/molecules/DeleteFixedTransacionsModal/DeleteFixedTransactionsModal';
 import { getPayments } from '../../tools/moneyTools';
 import { actualizeMoneyWithActualPayments as actualizeMoneyWithActualPaymentsAction } from '../../actions/moneyActions';
 
@@ -18,11 +19,21 @@ const StyledWrapper = styled.div`
 
 const MoneyMonth = ({ actualizeMoneyWithActualPayments, hours, prevYearData }) => {
   const [isExpensesModalOpened, setIsExpensesModalOpened] = useState(false);
+  const [isDeleteFixedTransactionModalOpened, setIsFixedTransactionsModalOpened] = useState(false);
   const [modalInfo, setModalInfo] = useState({
     id: null,
     type: null,
     action: null,
   });
+  const [fixedTransactionsDeleteModalInfo, setFixedTransactionsDeleteModalInfo] = useState({
+    selectedMonthId: null,
+    path: null,
+  });
+
+  const toggleDeleteFixedTransactionsModal = (selectedMonthId, path) => {
+    setIsFixedTransactionsModalOpened(!isDeleteFixedTransactionModalOpened);
+    setFixedTransactionsDeleteModalInfo({ selectedMonthId, path });
+  };
 
   const actualPayments = getPayments(hours, prevYearData);
   actualizeMoneyWithActualPayments(actualPayments);
@@ -34,13 +45,20 @@ const MoneyMonth = ({ actualizeMoneyWithActualPayments, hours, prevYearData }) =
 
   const expensesModalContext = {
     toggleExpensesModal,
+    toggleDeleteFixedTransactionsModal,
   };
 
   return (
     <StyledWrapper>
       <ExpensesModalContext.Provider value={expensesModalContext}>
-        <MainAccount />
+        <Account accountName={'mainAccount'} />
+        <Account accountName={'wallet'} />
         <AccountModal isExpensesModalOpened={isExpensesModalOpened} modalInfo={modalInfo} />
+        <DeleteFixedTransactionsModal
+          isDeleteFixedTransactionModalOpened={isDeleteFixedTransactionModalOpened}
+          modalInfo={fixedTransactionsDeleteModalInfo}
+          toggleModal={toggleDeleteFixedTransactionsModal}
+        />
       </ExpensesModalContext.Provider>
     </StyledWrapper>
   );

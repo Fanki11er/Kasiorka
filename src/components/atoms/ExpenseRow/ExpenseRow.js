@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import withExpensesModal from '../../../hoc/withExpensesModal';
 import PropTypes from 'prop-types';
 import PencilIcon from '../../atoms/PencilIcon/PencilIcon';
+import { accountActions } from '../../../tools/moneyTools';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -62,12 +63,24 @@ const ExpenseRow = ({
   type,
   action,
 }) => {
+  const { edit, chargeWalletAccount } = accountActions;
+  const getAccountAction = type => {
+    switch (type[1]) {
+      case 'accounts': {
+        return chargeWalletAccount;
+      }
+      default: {
+        return edit;
+      }
+    }
+  };
+  const accountAction = getAccountAction(type);
   return (
     <StyledWrapper>
       <StyledNumbers action={action}>{text}</StyledNumbers>
       <EndWrapper>
         {percentage !== undefined && <StyledPercentage>{percentage}%</StyledPercentage>}
-        <StyledPencilIcon onClick={() => toggleExpensesModal(id, type, 'edit')} />
+        <StyledPencilIcon onClick={() => toggleExpensesModal(id, type, accountAction)} />
       </EndWrapper>
     </StyledWrapper>
   );

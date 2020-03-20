@@ -12,32 +12,51 @@ const StyledMainSection = styled.section`
   align-content: space-around;
 `;
 
+const StyledFlex = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const AccountFixedExpensesSection = ({
   accountLabel,
-  expenses,
+  transactions,
   currency,
   type,
   renderExpenses,
+  toggleExpensesModal,
+  toggleDeleteFixedTransactionsModal,
+  selectedMonthId,
+  path,
 }) => {
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} forSection={true} />
       <StyledMainSection>
-        {expenses !== undefined && expenses.length > 0 && renderExpenses(expenses, currency, type)}
-        <AccountButton>Edit</AccountButton>
+        {transactions !== undefined &&
+          transactions.length > 0 &&
+          renderExpenses(transactions, currency, type)}
+        <StyledFlex>
+          <AccountButton onClick={() => toggleExpensesModal(null, type, 'addFixed')}>
+            Add
+          </AccountButton>
+          <AccountButton onClick={() => toggleDeleteFixedTransactionsModal(selectedMonthId, path)}>
+            Delete
+          </AccountButton>
+        </StyledFlex>
       </StyledMainSection>
     </AccountStyledSection>
   );
 };
 
-const mapStateToProps = ({ money: { months }, user: { hoursSettings } }, { selectedMonthId }) => {
+const mapStateToProps = (
+  { money: { months }, user: { hoursSettings } },
+  { selectedMonthId, path },
+) => {
   return {
-    accountLabel: months[selectedMonthId].mainAccount.fixedExpenses.name,
-    expenses: months[selectedMonthId].mainAccount.fixedExpenses.transactions,
+    accountLabel: months[selectedMonthId][path[0]][path[1]].name,
+    transactions: months[selectedMonthId][path[0]][path[1]].transactions,
     currency: hoursSettings.currency,
-    type: months[selectedMonthId].mainAccount.fixedExpenses.type,
-
-    // reRender: months[selectedMonthId].mainAccount.fixedExpenses.expenses[0].real, // need to re render component
+    type: months[selectedMonthId][path[0]][path[1]].path,
   };
 };
 
@@ -49,7 +68,7 @@ AccountFixedExpensesSection.propTypes = {
 
 AccountFixedExpensesSection.defaultProps = {
   accountLabel: 'Wydatki stałe',
-  expenses: [],
+  transactions: [],
 };
 
 export default connect(mapStateToProps)(AccountFixedExpensesSection);

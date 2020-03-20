@@ -8,7 +8,7 @@ import AccountStatus from '../../atoms/AccountStatus/AccountStatus';
 import AccountStats from '../AccountStats/AccountStats';
 import { createStats, calculateExpensesPercent } from '../../../tools/moneyTools';
 
-const AccountHeaderSection = ({
+const MainAccountHeaderSection = ({
   accountLabel,
   payment,
   currency,
@@ -30,7 +30,7 @@ const AccountHeaderSection = ({
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} />
-      <MoneyRow label={'Wypłata:'} content={actualPayment} units={currency} />
+      <MoneyRow label={'Wypłata'} content={actualPayment} units={currency} />
       <AccountStatus units={currency} status={computedStatus} />
       <AccountStats label={'Wydatki / Przychody'} expensesPercents={expensesPercents} />
     </AccountStyledSection>
@@ -55,16 +55,16 @@ const mapStateToProps = (
   };
 };
 
-AccountHeaderSection.propTypes = {
+MainAccountHeaderSection.propTypes = {
   accountLabel: PropTypes.string,
   selectedMonthId: PropTypes.number,
   currency: PropTypes.string,
   computedStatus: PropTypes.object,
 };
 
-AccountHeaderSection.defaultProps = {
+MainAccountHeaderSection.defaultProps = {
   accountLabel: 'Konto główne',
   selectedMonthId: 0,
 };
 
-export default connect(mapStateToProps)(AccountHeaderSection);
+export default connect(mapStateToProps)(MainAccountHeaderSection);

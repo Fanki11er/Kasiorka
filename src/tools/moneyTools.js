@@ -5,6 +5,8 @@ class Expense {
     this.real = action === '-' ? -real : real;
     this.percentage = Math.abs(this.countPercentage());
     this.action = action;
+    this.expenseId = new Date().getTime().toString();
+    this.created = new Date().toLocaleDateString();
   }
   countPercentage() {
     return this.predicted ? ((this.real / this.predicted) * 100).toFixed() : this.real;
@@ -12,10 +14,11 @@ class Expense {
 }
 
 class FixedExpenses {
-  constructor(name, path, transactions = []) {
+  constructor(name, path /*transactionsList = []*/) {
     this.name = name;
-    this.transactions = transactions;
+    this.transactions = [];
     this.path = path;
+    //this.transactionsList = transactionsList;
     this.realSum = 0;
     this.predictedSum = 0;
   }
@@ -24,6 +27,17 @@ class FixedExpenses {
 class Transactions {
   constructor(name, path) {
     this.transactions = [];
+    this.path = path;
+    this.name = name;
+    this.realSum = 0;
+    this.predictedSum = 0;
+  }
+}
+
+class OtherAccounts extends Transactions {
+  constructor(name, path) {
+    super(name, path);
+    this.transactions = [new Expense({ name: 'Portfel', predicted: 0 })];
     this.path = path;
     this.name = name;
     this.realSum = 0;
@@ -53,28 +67,58 @@ class Account {
   }
 }
 
-/*class MainAccount extends Account {
+class Wallet extends Account {
   constructor(title, type, sections) {
     super(title, type, sections);
+    this.reCharge = {
+      accountReal: 0,
+      accountPredicted: 0,
+    };
   }
-}*/
+}
 const mainAccountSections = [
-  /*{
+  {
     path: 'fixedExpenses',
     classType: FixedExpenses,
     name: 'Wydatki stałe',
-  },*/
+  },
+  {
+    path: 'transactions',
+    classType: Transactions,
+    name: 'Transakcje',
+  },
+  {
+    path: 'accounts',
+    classType: OtherAccounts,
+    name: 'Konta',
+  },
+];
+
+const walletSections = [
+  {
+    path: 'fixedExpenses',
+    classType: FixedExpenses,
+    name: 'Wydatki stałe',
+  },
   {
     path: 'transactions',
     classType: Transactions,
     name: 'Transakcje',
   },
 ];
+
+const accountActions = {
+  edit: 'edit',
+  add: 'add',
+  addFixed: 'addFixed',
+  chargeWalletAccount: 'chargeWallet',
+};
 class MoneyMonth {
   constructor(id) {
     this.id = id;
     this.accountsList = [];
     this.createAccount(Account, 'Konto główne', 'mainAccount', mainAccountSections);
+    this.createAccount(Wallet, 'Portfel', 'wallet', walletSections);
     this.computedData = this.createComputedData(this.accountsList);
   }
 
@@ -124,6 +168,10 @@ const editTransaction = (transaction, { real, predicted, action }) => {
   transaction.predicted =
     action === '-' ? transaction.predicted - predicted : transaction.transaction + predicted;
   transaction.percentage = countPercentage(transaction.predicted, transaction.real);
+  return {
+    real: transaction.real,
+    predicted: transaction.predicted,
+  };
 };
 
 const sumSections = (account, property) => {
@@ -132,9 +180,57 @@ const sumSections = (account, property) => {
 };
 
 const addTransaction = (section, data) => {
+  const expense = new Expense(data);
   section['transactions']
-    ? section['transactions'].unshift(new Expense(data))
-    : (section['transactions'] = new Array(new Expense(data)));
+    ? section['transactions'].unshift(expense)
+    : (section['transactions'] = new Array(expense));
+};
+
+const addFixedTransaction = (months, type, data, selectedMonthId) => {
+  let section;
+  let account;
+
+  for (let i = selectedMonthId; i < 12; i++) {
+    section = months[i][type[0]][type[1]];
+    addTransaction(section, data);
+    data.real = 0;
+    if (i === 11) {
+      account = months[i][type[0]];
+      if (!account.fixedExpensesRegistry) account.fixedExpensesRegistry = [];
+      account.fixedExpensesRegistry.unshift({
+        action: 'addFixed',
+        data,
+        type,
+      });
+    }
+  }
+};
+
+const deleteTransaction = (section, id) => {
+  let indexOfExpense;
+  section.forEach(({ expenseId }, index) => {
+    if (expenseId === id) indexOfExpense = index;
+  });
+  section.splice(indexOfExpense, 1);
+};
+
+const deleteFixedTransaction = (months, selectedMonthId, type, id) => {
+  let section;
+  let account;
+  for (let i = selectedMonthId; i < 12; i++) {
+    section = months[i][type[0]][type[1]].transactions;
+    deleteTransaction(section, id);
+
+    if (i === 11) {
+      account = months[i][type[0]];
+      if (!account.fixedExpensesRegistry) account.fixedExpensesRegistry = [];
+      account.fixedExpensesRegistry.unshift({
+        action: 'deleteFixed',
+        id,
+        type,
+      });
+    }
+  }
 };
 
 const sumSection = section => {
@@ -160,19 +256,44 @@ const actualizeComputedDataSums = (month, account, type) => {
   computedData[type].predictedSum = sumSections(account, 'predictedSum');
 };
 
-const chosePayment = ({ paymentReceived, expectedPayout }) => {
+/*const chosePayment = ({ paymentReceived, expectedPayout }) => {
   if (!paymentReceived && !expectedPayout) return 0;
 
   return paymentReceived > 0 ? paymentReceived : expectedPayout;
+};*/
+
+const choseValue = (valueReceived, valueExpected) => {
+  if (!valueExpected && !valueReceived) return 0;
+
+  return valueReceived > 0 ? valueReceived : valueExpected;
 };
 
 const getPayments = (hours, prevYearData) => {
   const months = hours.months;
   const { prevPayments } = prevYearData;
   const paymentsTable = [];
-  paymentsTable.push(chosePayment(prevPayments));
-  months.forEach(({ payments }) => paymentsTable.push(chosePayment(payments)));
+  paymentsTable.push(choseValue(prevPayments.paymentReceived, prevPayments.expectedPayout));
+  months.forEach(({ payments }) =>
+    paymentsTable.push(choseValue(payments.paymentReceived, payments.expectedPayout)),
+  );
   return paymentsTable;
+};
+
+const chargeWallet = (computed, month) => {
+  const reCharge = month.wallet.reCharge;
+  const { real, predicted } = computed;
+  reCharge.accountReal = real;
+  reCharge.accountPredicted = predicted;
+};
+
+const getIncome = (money, accountType) => {
+  const months = money.months;
+  const incomesTable = [];
+  months.forEach(month => {
+    const charge = month[accountType].reCharge;
+    incomesTable.push(-choseValue(charge.accountReal, charge.accountPredicted));
+  });
+  return incomesTable;
 };
 
 const ActualizeMonthsTotal = (months, payments, type, prevYearData) => {
@@ -210,7 +331,7 @@ const createStats = (month, { payment }, accountName) => {
     expenses: 0,
   };
   sections.forEach(section => {
-    stats.expenses =
+    stats.expenses +=
       account[section].transactions.length &&
       account[section].transactions.reduce((total, { action, real }) => {
         action === '-' && (total += real);
@@ -223,6 +344,7 @@ const createStats = (month, { payment }, accountName) => {
         return total;
       }, 0);
   });
+
   return stats;
 };
 
@@ -247,4 +369,9 @@ export {
   comparePayments,
   createStats,
   calculateExpensesPercent,
+  addFixedTransaction,
+  deleteFixedTransaction,
+  chargeWallet,
+  getIncome,
+  accountActions,
 };
