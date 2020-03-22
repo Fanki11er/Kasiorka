@@ -52,6 +52,7 @@ const MoneyMonth = ({ actualizeMoneyWithActualPayments, hours, prevYearData }) =
     <StyledWrapper>
       <ExpensesModalContext.Provider value={expensesModalContext}>
         <Account accountName={'mainAccount'} />
+        <Account accountName={'debitCard'} />
         <Account accountName={'wallet'} />
         <AccountModal isExpensesModalOpened={isExpensesModalOpened} modalInfo={modalInfo} />
         <DeleteFixedTransactionsModal

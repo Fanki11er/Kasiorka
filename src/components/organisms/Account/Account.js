@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import withViewsContext from '../../../hoc/withViewsContext';
 import AccountFixedExpensesSection from '../../molecules/AccountFixedExpensesSection/AccountFixedExpensesSection';
 import MainAccountHeaderSection from '../../molecules/MainAccountHeaderSection/MainAccountHeaderSection';
+import DebitCardHeaderSection from '../../molecules/DebitCardHeaderSection/DebitCardHeaderSection';
 import WalletHeaderSection from '../../molecules/WalletHeaderSection/WalletHeaderSection.js';
 import TransactionsSection from '../../molecules/TransactionsSection/TransactionsSection';
 import OtherAccountsSection from '../../molecules/OtherAccountsSection/OtherAccountsSection';
@@ -41,6 +42,9 @@ const Account = ({
       )}
       {accountName === 'wallet' && (
         <WalletHeaderSection selectedMonthId={selectedMonthId} path={[accountName, null]} />
+      )}
+      {accountName === 'debitCard' && (
+        <DebitCardHeaderSection selectedMonthId={selectedMonthId} path={[accountName, null]} />
       )}
       {accountName === 'mainAccount' && (
         <OtherAccountsSection

@@ -7,6 +7,7 @@ const StyledWrapper = styled.div`
   padding: 0 15px;
   justify-content: space-between;
   align-items: center;
+  margin-top: 5px;
 `;
 
 const StyledLabel = styled.div`

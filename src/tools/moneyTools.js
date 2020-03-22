@@ -37,7 +37,10 @@ class Transactions {
 class OtherAccounts extends Transactions {
   constructor(name, path) {
     super(name, path);
-    this.transactions = [new Expense({ name: 'Portfel', predicted: 0 })];
+    this.transactions = [
+      new Expense({ name: 'Portfel', predicted: 0 }),
+      new Expense({ name: 'Karta Debetowa', predicted: 0 }),
+    ];
     this.path = path;
     this.name = name;
     this.realSum = 0;
@@ -76,6 +79,17 @@ class Wallet extends Account {
     };
   }
 }
+
+class DebitCard extends Wallet {
+  constructor(title, type, sections) {
+    super(title, type, sections);
+    this.interests = 0;
+    this.cardSettings = {
+      debit: 5000,
+      interestRate: 9.0,
+    };
+  }
+}
 const mainAccountSections = [
   {
     path: 'fixedExpenses',
@@ -107,6 +121,19 @@ const walletSections = [
   },
 ];
 
+const debitCardSections = [
+  {
+    path: 'fixedExpenses',
+    classType: FixedExpenses,
+    name: 'Wydatki stałe',
+  },
+  {
+    path: 'transactions',
+    classType: Transactions,
+    name: 'Transakcje',
+  },
+];
+
 const accountActions = {
   edit: 'edit',
   add: 'add',
@@ -119,6 +146,7 @@ class MoneyMonth {
     this.accountsList = [];
     this.createAccount(Account, 'Konto główne', 'mainAccount', mainAccountSections);
     this.createAccount(Wallet, 'Portfel', 'wallet', walletSections);
+    this.createAccount(DebitCard, 'Karta debetowa', 'debitCard', debitCardSections);
     this.computedData = this.createComputedData(this.accountsList);
   }
 
@@ -317,6 +345,16 @@ const ActualizeMonthsTotal = (months, payments, type, prevYearData) => {
   });
 };
 
+const calculateComputed = (months, selectedMonthId, type) => {
+  for (let i = selectedMonthId; i < 12; i++) {
+    let targetSection = months[i][type[0]][type[1]];
+    let targetMonth = months[i];
+    let targetAccount = targetMonth[type[0]];
+    sumSection(targetSection);
+    actualizeComputedDataSums(targetMonth, targetAccount, type[0]);
+  }
+};
+
 const comparePayments = (hours, prevYearData, money, action) => {
   const actualPayments = getPayments(hours, prevYearData);
   const prevPayments = money.payments;
@@ -373,5 +411,6 @@ export {
   deleteFixedTransaction,
   chargeWallet,
   getIncome,
+  calculateComputed,
   accountActions,
 };

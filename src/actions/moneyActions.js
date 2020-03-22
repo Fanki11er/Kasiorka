@@ -9,6 +9,7 @@ import {
   deleteFixedTransaction,
   chargeWallet,
   getIncome,
+  calculateComputed,
   accountActions,
 } from '../tools/moneyTools';
 
@@ -29,23 +30,12 @@ export const calculateTransactions = (data, path, action) => {
     action === edit && editTransaction(transaction, data);
     action === addFixed && addFixedTransaction(months, type, data, selectedMonthId);
     if (action === addFixed) {
-      for (let i = selectedMonthId; i < 12; i++) {
-        let targetSection = months[i][type[0]][type[1]];
-        let targetMonth = months[i];
-        let targetAccount = targetMonth[type[0]];
-        sumSection(targetSection);
-        actualizeComputedDataSums(targetMonth, targetAccount, type[0]);
-      }
+      calculateComputed(months, selectedMonthId, type);
     } else if (action === chargeWalletAccount) {
       const computed = editTransaction(transaction, data);
       chargeWallet(computed, month);
-      for (let i = selectedMonthId; i < 12; i++) {
-        let targetSection = months[i][type[0]][type[1]];
-        let targetMonth = months[i];
-        let targetAccount = targetMonth[type[0]];
-        sumSection(targetSection);
-        actualizeComputedDataSums(targetMonth, targetAccount, type[0]);
-      }
+      calculateComputed(months, selectedMonthId, type);
+
       const income = getIncome(money, 'wallet');
       ActualizeMonthsTotal(months, income, 'wallet', prevYearData);
     } else {
@@ -81,19 +71,13 @@ export const deleteFixedTransactions = (id, modalInfo) => {
     const newMoney = Object.assign({}, money);
     const { selectedMonthId, path: type } = modalInfo;
     const months = newMoney.months;
-    const month = months[selectedMonthId];
     deleteFixedTransaction(months, selectedMonthId, type, id);
 
-    for (let i = selectedMonthId; i < 12; i++) {
-      let targetSection = months[i][type[0]][type[1]];
-      let targetMonth = months[i];
-      let targetAccount = targetMonth[type[0]];
-      sumSection(targetSection);
-      actualizeComputedDataSums(targetMonth, targetAccount, type[0]);
-    }
+    calculateComputed(months, selectedMonthId, type);
+
     //const payments = getPayments(hours, prevYearData);
     //ActualizeMonthsTotal(months, payments, type[0], prevYearData);
-
+    //!To function
     if (type[0] !== 'wallet') {
       const payments = getPayments(hours, prevYearData);
       ActualizeMonthsTotal(months, payments, type[0], prevYearData);

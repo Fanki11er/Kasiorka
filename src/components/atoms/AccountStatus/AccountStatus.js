@@ -51,11 +51,11 @@ const StyledFlexWrapper = styled.div`
   justify-content: center;
 `;
 
-const AccountStatus = ({ status, units }) => {
+const AccountStatus = ({ status, units, label }) => {
   const { monthTotal, monthTotalPredicted } = status;
   return (
     <StyledWrapper>
-      <StyledLabel>Stan konta:</StyledLabel>
+      <StyledLabel>{label}:</StyledLabel>
       <StyledFlexWrapper>
         <StyledInfo minus={monthTotal < 0 ? true : false}> {`${monthTotal} ${units}`} </StyledInfo>
         <ExpensesSign>/</ExpensesSign>
@@ -70,10 +70,12 @@ const AccountStatus = ({ status, units }) => {
 AccountStatus.propTypes = {
   status: PropTypes.object.isRequired,
   units: PropTypes.string,
+  label: PropTypes.string,
 };
 
 AccountStatus.defaultProps = {
   units: 'zł',
+  label: 'Stan konta',
 };
 
 export default AccountStatus;

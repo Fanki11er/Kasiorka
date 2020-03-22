@@ -2,10 +2,8 @@ import React from 'react';
 import AccountHeader from '../../atoms/AccountHeader/AccountHeader';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import MoneyRow from '../../atoms/MoneyRow/MoneyRow';
 import AccountStyledSection from '../../atoms/AccountStyledSection/AccountStyledSection';
 import AccountStatus from '../../atoms/AccountStatus/AccountStatus';
-import AccountStats from '../AccountStats/AccountStats';
 
 const WalletHeaderSection = ({ accountLabel, currency, computedStatus }) => {
   return (
@@ -17,12 +15,7 @@ const WalletHeaderSection = ({ accountLabel, currency, computedStatus }) => {
   );
 };
 const mapStateToProps = (
-  {
-    money: { months },
-    prevYearData: { prevPayments },
-    hours: { months: hourMonths },
-    user: { hoursSettings },
-  },
+  { money: { months }, user: { hoursSettings } },
   { selectedMonthId, path },
 ) => {
   return {
