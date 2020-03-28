@@ -15,6 +15,7 @@ import MoneyRow from '../../atoms/MoneyRow/MoneyRow';
 const StyledAccount = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
 `;
 
 const Account = ({
@@ -23,16 +24,19 @@ const Account = ({
   expensesModalContext: { toggleExpensesModal, toggleDeleteFixedTransactionsModal },
 }) => {
   const renderExpenses = (expenses, currency, type) => {
-    return expenses.map(({ name, percentage, predicted, real, action }, index) => (
-      <MoneyRow
-        label={name}
-        content={{ percentage, predicted, real, action }}
-        units={currency}
-        key={index}
-        type={type}
-        id={index}
-      />
-    ));
+    return expenses.map(
+      ({ name, percentage, predicted, real, action, signature = 'standard' }, index) => (
+        <MoneyRow
+          label={name}
+          content={{ percentage, predicted, real, action }}
+          units={currency}
+          key={index}
+          type={type}
+          id={index}
+          signature={signature}
+        />
+      ),
+    );
   };
 
   return (

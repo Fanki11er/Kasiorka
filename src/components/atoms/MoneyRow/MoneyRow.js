@@ -46,6 +46,7 @@ const MoneyRow = ({
   units,
   type,
   id,
+  signature,
 }) => {
   const formatData = (real, predicted) => {
     return `${real} ${units} / ${predicted} ${units}`;
@@ -63,6 +64,7 @@ const MoneyRow = ({
             type={type}
             text={formatData(real, predicted)}
             action={action}
+            signature={signature}
           />
         )}
         {units && predicted === undefined && <StyledNumbers received={true}>{units}</StyledNumbers>}

@@ -52,6 +52,7 @@ const StyledRowWrapper = styled.div`
 const StyledInput = styled(Field)`
   min-width: 20%;
   width: 40%;
+
   font-size: 1.5em;
   font-weight: bold;
   color: ${({ theme }) => theme.green};
@@ -131,6 +132,9 @@ const EditExpensesModal = ({
         if (values.name === '' && action === 'add') {
           errors.name = true;
         }
+        if (action === 'payTheCard' && values.real > -predicted) {
+          errors.predicted = true;
+        }
         return errors;
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -185,12 +189,19 @@ const EditExpensesModal = ({
                 />
               </StyledRowWrapper>
             )}
-            <ExpensesWrapper>
-              <ExpensesSign>{action === 'edit' ? expenseType : values.action}</ExpensesSign>
-              <StyledInput type={'Number'} name="real" placeholder={'Rzeczywista'} />
-              <ExpensesSign>/</ExpensesSign>
-              <StyledInput type={'Number'} name="predicted" placeholder={'Przewidywana'} />
-            </ExpensesWrapper>
+            {action !== 'payTheCard' && (
+              <ExpensesWrapper>
+                <ExpensesSign>{action === 'edit' ? expenseType : values.action}</ExpensesSign>
+                <StyledInput type={'Number'} name="real" placeholder={'Rzeczywista'} />
+                <ExpensesSign>/</ExpensesSign>
+                <StyledInput type={'Number'} name="predicted" placeholder={'Przewidywana'} />
+              </ExpensesWrapper>
+            )}
+            {action === 'payTheCard' && (
+              <ExpensesWrapper>
+                <StyledInput type={'Number'} name="real" placeholder={'Spłata'} />
+              </ExpensesWrapper>
+            )}
             <StyledRowWrapper>
               <StyledFormButton
                 green="true"

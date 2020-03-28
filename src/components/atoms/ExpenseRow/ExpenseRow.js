@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import withExpensesModal from '../../../hoc/withExpensesModal';
 import PropTypes from 'prop-types';
 import PencilIcon from '../../atoms/PencilIcon/PencilIcon';
+import WalletIcon from '../../atoms/WalletIcon/WalletIcon';
+import CardIcon from '../../atoms/CardIcon/CardIcon';
 import { accountActions } from '../../../tools/moneyTools';
 
 const StyledWrapper = styled.div`
@@ -62,25 +64,24 @@ const ExpenseRow = ({
   id,
   type,
   action,
+  signature,
 }) => {
-  const { edit, chargeWalletAccount } = accountActions;
-  const getAccountAction = type => {
-    switch (type[1]) {
-      case 'accounts': {
-        return chargeWalletAccount;
-      }
-      default: {
-        return edit;
-      }
-    }
-  };
-  const accountAction = getAccountAction(type);
+  const { edit, chargeWalletAccount, payTheCard } = accountActions;
+
   return (
     <StyledWrapper>
       <StyledNumbers action={action}>{text}</StyledNumbers>
       <EndWrapper>
         {percentage !== undefined && <StyledPercentage>{percentage}%</StyledPercentage>}
-        <StyledPencilIcon onClick={() => toggleExpensesModal(id, type, accountAction)} />
+        {signature === 'standard' && (
+          <StyledPencilIcon onClick={() => toggleExpensesModal(id, type, edit)} />
+        )}
+        {signature === 'wallet' && (
+          <WalletIcon onClick={() => toggleExpensesModal(id, type, chargeWalletAccount)} />
+        )}
+        {signature === 'debit' && (
+          <CardIcon onClick={() => toggleExpensesModal(id, type, payTheCard)} />
+        )}
       </EndWrapper>
     </StyledWrapper>
   );
@@ -91,6 +92,9 @@ ExpenseRow.propTypes = {
   percentage: PropTypes.number,
   id: PropTypes.number.isRequired,
   type: PropTypes.array.isRequired,
+  signature: PropTypes.string,
+  action: PropTypes.string,
+  expensesModalContext: PropTypes.object,
 };
 
 export default withExpensesModal(ExpenseRow);

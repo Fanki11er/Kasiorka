@@ -17,7 +17,7 @@ import {
   accountActions,
 } from '../tools/moneyTools';
 
-const { add, edit, addFixed, chargeWalletAccount } = accountActions;
+const { add, edit, addFixed, chargeWalletAccount, payTheCard } = accountActions;
 
 export const calculateTransactions = (data, path, action) => {
   return (dispatch, getState) => {
@@ -37,11 +37,17 @@ export const calculateTransactions = (data, path, action) => {
       calculateComputed(months, selectedMonthId, type);
     } else if (action === chargeWalletAccount) {
       const computed = editTransaction(transaction, data);
-      chargeWallet(computed, month);
+      chargeWallet(computed, month, 'wallet');
       calculateComputed(months, selectedMonthId, type);
 
       const income = getIncome(money, 'wallet');
       ActualizeMonthsTotal(months, income, 'wallet', prevYearData);
+    } else if (action === payTheCard) {
+      const computed = editTransaction(transaction, data);
+      chargeWallet(computed, month, 'debitCard');
+      calculateComputed(months, selectedMonthId, type);
+      const income = getIncome(money, 'debitCard');
+      ActualizeMonthsTotal(months, income, 'debitCard', prevYearData);
     } else {
       sumSection(section);
       actualizeComputedDataSums(month, account, type[0]);

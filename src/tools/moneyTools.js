@@ -1,5 +1,5 @@
 class Expense {
-  constructor({ name, predicted, real = 0, action = '-' }) {
+  constructor({ name, predicted, real = 0, action = '-', signature = 'standard' }) {
     this.name = name;
     this.predicted = action === '-' ? -predicted : predicted;
     this.real = action === '-' ? -real : real;
@@ -7,13 +7,19 @@ class Expense {
     this.action = action;
     this.expenseId = new Date().getTime().toString();
     this.created = new Date().toLocaleDateString();
+    this.signature = signature;
   }
   countPercentage() {
     return this.predicted ? ((this.real / this.predicted) * 100).toFixed() : this.real;
   }
 }
 
-class DebitExpense extends Expense {}
+class DebitExpense extends Expense {
+  /*constructor({ name, predicted, real = 0, action = '-' }) {
+    super({ name, predicted, real, action });
+    this.signature = 'debit';
+  }*/
+}
 
 class FixedExpenses {
   constructor(name, path /*transactionsList = []*/) {
@@ -40,8 +46,8 @@ class OtherAccounts extends Transactions {
   constructor(name, path) {
     super(name, path);
     this.transactions = [
-      new Expense({ name: 'Portfel', predicted: 0 }),
-      new DebitExpense({ name: 'Karta Debetowa', predicted: 0 }),
+      new Expense({ name: 'Zasil portfel:', predicted: 0, signature: 'wallet' }),
+      new DebitExpense({ name: 'Spłać kartę:', predicted: 0, signature: 'debit' }),
     ];
     this.path = path;
     this.name = name;
@@ -145,6 +151,7 @@ const accountActions = {
   add: 'add',
   addFixed: 'addFixed',
   chargeWalletAccount: 'chargeWallet',
+  payTheCard: 'payTheCard',
 };
 class MoneyMonth {
   constructor(id) {
@@ -307,8 +314,8 @@ const getPayments = (hours, prevYearData) => {
   return paymentsTable;
 };
 
-const chargeWallet = (computed, month) => {
-  const reCharge = month.wallet.reCharge;
+const chargeWallet = (computed, month, account) => {
+  const reCharge = month[account].reCharge;
   const { real, predicted } = computed;
   reCharge.accountReal = real;
   reCharge.accountPredicted = predicted;
@@ -324,23 +331,36 @@ const getIncome = (money, accountType) => {
   return incomesTable;
 };
 
+const fixNumber = (number, position) => {
+  return Number(number.toFixed(position));
+};
 const ActualizeMonthsTotal = (months, payments, type, prevYearData) => {
   const { prevMoney } = prevYearData;
   months.forEach((month, index, months) => {
     if (index === 0) {
-      month.computedData[type].monthTotal =
-        month.computedData[type].realSum + payments[index] + prevMoney.monthTotal;
-      month.computedData[type].monthTotalPredicted =
-        month.computedData[type].predictedSum + payments[index] + prevMoney.monthTotalPredicted;
+      month.computedData[type].monthTotal = fixNumber(
+        month.computedData[type].realSum + payments[index] + prevMoney.monthTotal,
+        2,
+      );
+
+      month.computedData[type].monthTotalPredicted = fixNumber(
+        month.computedData[type].predictedSum + payments[index] + prevMoney.monthTotalPredicted,
+        2,
+      );
     } else {
-      month.computedData[type].monthTotal =
+      month.computedData[type].monthTotal = fixNumber(
         month.computedData[type].realSum +
-        payments[index] +
-        months[index - 1].computedData[type].monthTotal;
-      month.computedData[type].monthTotalPredicted =
+          payments[index] +
+          months[index - 1].computedData[type].monthTotal,
+        2,
+      );
+
+      month.computedData[type].monthTotalPredicted = fixNumber(
         month.computedData[type].predictedSum +
-        payments[index] +
-        months[index - 1].computedData[type].monthTotalPredicted;
+          payments[index] +
+          months[index - 1].computedData[type].monthTotalPredicted,
+        2,
+      );
     }
   });
 };
