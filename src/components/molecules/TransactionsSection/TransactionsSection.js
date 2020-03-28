@@ -19,11 +19,17 @@ const TransactionsSection = ({
   type,
   toggleExpensesModal,
   renderExpenses,
+  isClosed,
 }) => {
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} forSection={true} />
-      <AccountButton onClick={() => toggleExpensesModal(null, type, 'add')}>Add</AccountButton>
+      <AccountButton
+        onClick={() => toggleExpensesModal(null, type, 'add')}
+        className={isClosed ? 'noActive' : null}
+      >
+        Add
+      </AccountButton>
       <StyledMainSection>
         {transactions.length > 0 && renderExpenses(transactions, currency, type)}
       </StyledMainSection>
@@ -40,6 +46,8 @@ const mapStateToProps = (
     transactions: months[selectedMonthId][path[0]][path[1]].transactions,
     currency: hoursSettings.currency,
     type: months[selectedMonthId][path[0]][path[1]].path,
+    reRender: months[selectedMonthId][path[0]][path[1]].transactions[0],
+    isClosed: path[0] === 'debitCard' ? months[selectedMonthId][path[0]].isClosed : false,
   };
 };
 
@@ -50,11 +58,13 @@ TransactionsSection.propTypes = {
   type: PropTypes.array,
   toggleExpensesModal: PropTypes.func,
   renderExpenses: PropTypes.func,
+  isClosed: PropTypes.bool,
 };
 
 TransactionsSection.defaultProps = {
   accountLabel: 'Transakcje',
   transactions: [],
+  isClosed: false,
 };
 
 export default connect(mapStateToProps)(TransactionsSection);

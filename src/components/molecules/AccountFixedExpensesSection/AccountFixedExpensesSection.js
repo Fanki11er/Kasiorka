@@ -27,6 +27,7 @@ const AccountFixedExpensesSection = ({
   toggleDeleteFixedTransactionsModal,
   selectedMonthId,
   path,
+  isClosed,
 }) => {
   return (
     <AccountStyledSection>
@@ -36,10 +37,16 @@ const AccountFixedExpensesSection = ({
           transactions.length > 0 &&
           renderExpenses(transactions, currency, type)}
         <StyledFlex>
-          <AccountButton onClick={() => toggleExpensesModal(null, type, 'addFixed')}>
+          <AccountButton
+            onClick={() => toggleExpensesModal(null, type, 'addFixed')}
+            className={isClosed ? 'noActive' : null}
+          >
             Add
           </AccountButton>
-          <AccountButton onClick={() => toggleDeleteFixedTransactionsModal(selectedMonthId, path)}>
+          <AccountButton
+            onClick={() => toggleDeleteFixedTransactionsModal(selectedMonthId, path)}
+            className={isClosed ? 'noActive' : null}
+          >
             Delete
           </AccountButton>
         </StyledFlex>
@@ -57,6 +64,7 @@ const mapStateToProps = (
     transactions: months[selectedMonthId][path[0]][path[1]].transactions,
     currency: hoursSettings.currency,
     type: months[selectedMonthId][path[0]][path[1]].path,
+    isClosed: path[0] === 'debitCard' ? months[selectedMonthId][path[0]].isClosed : false,
   };
 };
 
@@ -64,11 +72,13 @@ AccountFixedExpensesSection.propTypes = {
   accountLabel: PropTypes.string,
   currency: PropTypes.string,
   expenses: PropTypes.array,
+  isClosed: PropTypes.bool,
 };
 
 AccountFixedExpensesSection.defaultProps = {
   accountLabel: 'Wydatki stałe',
   transactions: [],
+  isClosed: false,
 };
 
 export default connect(mapStateToProps)(AccountFixedExpensesSection);

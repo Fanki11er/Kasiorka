@@ -10,6 +10,10 @@ import {
   chargeWallet,
   getIncome,
   calculateComputed,
+  checkType,
+  actualizePredictedDebit,
+  createInterestData,
+  makeCorrect,
   accountActions,
 } from '../tools/moneyTools';
 
@@ -42,14 +46,12 @@ export const calculateTransactions = (data, path, action) => {
       sumSection(section);
       actualizeComputedDataSums(month, account, type[0]);
     }
-
-    if (type[0] !== 'wallet') {
-      const payments = getPayments(hours, prevYearData);
-      ActualizeMonthsTotal(months, payments, type[0], prevYearData);
-    } else {
-      const income = getIncome(money, type[0]);
-      ActualizeMonthsTotal(months, income, type[0], prevYearData);
+    if (type[0] === 'debitCard') {
+      actualizePredictedDebit(prevYearData, months, selectedMonthId);
+      calculateComputed(months, selectedMonthId, ['mainAccount', 'accounts']);
     }
+
+    checkType(type, hours, newMoney, prevYearData, months);
 
     dispatch({ type: 'CALCULATE_TRANSACTIONS', payload: newMoney });
   };
@@ -74,17 +76,37 @@ export const deleteFixedTransactions = (id, modalInfo) => {
     deleteFixedTransaction(months, selectedMonthId, type, id);
 
     calculateComputed(months, selectedMonthId, type);
-
-    //const payments = getPayments(hours, prevYearData);
-    //ActualizeMonthsTotal(months, payments, type[0], prevYearData);
-    //!To function
-    if (type[0] !== 'wallet') {
-      const payments = getPayments(hours, prevYearData);
-      ActualizeMonthsTotal(months, payments, type[0], prevYearData);
-    } else {
-      const income = getIncome(money, type[0]);
-      ActualizeMonthsTotal(months, income, type[0], prevYearData);
+    if (type[0] === 'debitCard') {
+      actualizePredictedDebit(prevYearData, months, selectedMonthId);
+      calculateComputed(months, selectedMonthId, ['mainAccount', 'accounts']);
     }
+
+    checkType(type, hours, newMoney, prevYearData, months);
+
+    dispatch({ type: 'CALCULATE_TRANSACTIONS', payload: newMoney });
+  };
+};
+
+export const closePeriod = (selectedMonthId, path) => {
+  return (dispatch, getState) => {
+    const { money, hours, prevYearData } = getState();
+    const newMoney = Object.assign({}, money);
+    const months = newMoney.months;
+    const month = months[selectedMonthId];
+    const account = month['debitCard'];
+    const section = account['transactions'];
+    const type = path;
+    const interest = createInterestData(month);
+
+    months[selectedMonthId][type[0]].isClosed = true;
+    makeCorrect(month, section);
+    addTransaction(section, interest);
+    calculateComputed(months, selectedMonthId, ['debitCard', 'transactions']);
+    actualizePredictedDebit(prevYearData, months, selectedMonthId);
+    calculateComputed(months, selectedMonthId, ['mainAccount', 'accounts']);
+
+    checkType(type, hours, newMoney, prevYearData, months);
+    checkType(['mainAccount'], hours, newMoney, prevYearData, months);
 
     dispatch({ type: 'CALCULATE_TRANSACTIONS', payload: newMoney });
   };

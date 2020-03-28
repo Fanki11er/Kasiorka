@@ -13,6 +13,8 @@ class Expense {
   }
 }
 
+class DebitExpense extends Expense {}
+
 class FixedExpenses {
   constructor(name, path /*transactionsList = []*/) {
     this.name = name;
@@ -39,7 +41,7 @@ class OtherAccounts extends Transactions {
     super(name, path);
     this.transactions = [
       new Expense({ name: 'Portfel', predicted: 0 }),
-      new Expense({ name: 'Karta Debetowa', predicted: 0 }),
+      new DebitExpense({ name: 'Karta Debetowa', predicted: 0 }),
     ];
     this.path = path;
     this.name = name;
@@ -83,10 +85,14 @@ class Wallet extends Account {
 class DebitCard extends Wallet {
   constructor(title, type, sections) {
     super(title, type, sections);
-    this.interests = 0;
+    this.interests = {
+      realInterest: 0,
+      predictedInterest: 0,
+    };
+    this.isClosed = false;
     this.cardSettings = {
       debit: 5000,
-      interestRate: 9.0,
+      interestRate: 0.13,
     };
   }
 }
@@ -284,12 +290,6 @@ const actualizeComputedDataSums = (month, account, type) => {
   computedData[type].predictedSum = sumSections(account, 'predictedSum');
 };
 
-/*const chosePayment = ({ paymentReceived, expectedPayout }) => {
-  if (!paymentReceived && !expectedPayout) return 0;
-
-  return paymentReceived > 0 ? paymentReceived : expectedPayout;
-};*/
-
 const choseValue = (valueReceived, valueExpected) => {
   if (!valueExpected && !valueReceived) return 0;
 
@@ -392,6 +392,119 @@ const calculateExpensesPercent = stats => {
   return Math.abs(expenses / incomes) * 100;
 };
 
+const checkType = (type, hours, money, prevYearData, months) => {
+  switch (type[0]) {
+    case 'wallet': {
+      const income = getIncome(money, type[0]);
+      ActualizeMonthsTotal(months, income, type[0], prevYearData);
+      break;
+    }
+
+    case 'debitCard': {
+      const income = getIncome(money, type[0]);
+      ActualizeMonthsTotal(months, income, type[0], prevYearData);
+      break;
+    }
+    default: {
+      const payments = getPayments(hours, prevYearData);
+      ActualizeMonthsTotal(months, payments, type[0], prevYearData);
+      break;
+    }
+  }
+};
+
+const createExtendedComputedStatus = (computedStatus, cardSettings) => {
+  const status = Object.assign({}, computedStatus);
+  const { debit } = cardSettings;
+  status.monthTotal += debit;
+  status.monthTotalPredicted += debit;
+
+  return status;
+};
+
+const computeDebit = month => {
+  const isClosed = month.debitCard.isClosed;
+  if (!isClosed) {
+    return month.computedData.debitCard.predictedSum;
+  } else return month.computedData.debitCard.realSum;
+};
+
+const actualizeInterests = month => {
+  const interestRate = month.debitCard.cardSettings.interestRate / 100;
+  const predictedInterest = month.computedData.debitCard.predictedSum * interestRate;
+  month.debitCard.interests.predictedInterest = Number(predictedInterest.toFixed(2));
+};
+
+const getPredictedDebits = (prevYearData, months) => {
+  const debits = [];
+
+  let computedDebit;
+  const {
+    prevMoney: { debitCardPredicted },
+  } = prevYearData;
+
+  debits.push(debitCardPredicted);
+  for (let i = 0; i < 11; i++) {
+    actualizeInterests(months[i]);
+    computedDebit = computeDebit(months[i]);
+
+    debits.push(computedDebit);
+  }
+
+  return debits;
+};
+
+const actualizePredictedDebit = (prevYearData, months, selectedMonthId) => {
+  let accounts;
+  let predictedDebits = getPredictedDebits(prevYearData, months);
+  for (let i = selectedMonthId; i < 12; i++) {
+    accounts = months[i].mainAccount.accounts.transactions;
+
+    accounts.forEach(transaction => {
+      if (transaction instanceof DebitExpense) {
+        transaction.predicted = predictedDebits[i];
+      }
+    });
+  }
+};
+
+const choseInterest = (isPeriodClosed, interests) => {
+  const { realInterest, predictedInterest } = interests;
+  return isPeriodClosed ? realInterest : predictedInterest;
+};
+
+const createInterestData = month => {
+  const realInterest = month.debitCard.interests.predictedInterest;
+  month.debitCard.interests.realInterest = realInterest;
+  return {
+    real: -realInterest,
+    predicted: -realInterest,
+    action: '-',
+    name: 'Odsetki',
+  };
+};
+const makeCorrect = (month, section) => {
+  const real = month.computedData.debitCard.realSum;
+  const predicted = month.computedData.debitCard.predictedSum;
+  const correct = {
+    real: 0,
+    predicted: 0,
+    action: '-',
+    name: 'Korekta',
+  };
+  if (real > predicted) {
+    const difference = predicted - real;
+    correct.predicted = -difference;
+    correct.action = '+';
+    addTransaction(section, correct);
+  } else if (real < predicted) {
+    const difference = real - predicted;
+    correct.predicted = -difference;
+    correct.action = '-';
+    addTransaction(section, correct);
+  }
+};
+
 export {
   Expense,
   FixedExpenses,
@@ -412,5 +525,11 @@ export {
   chargeWallet,
   getIncome,
   calculateComputed,
+  checkType,
+  createExtendedComputedStatus,
+  actualizePredictedDebit,
+  choseInterest,
+  createInterestData,
+  makeCorrect,
   accountActions,
 };

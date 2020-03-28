@@ -6,6 +6,7 @@ const initialState = {
   prevMoney: {
     monthTotal: 0,
     monthTotalPredicted: 0,
+    debitCardPredicted: 0,
   },
 };
 const prevYearReducer = (state = initialState, action) => {
