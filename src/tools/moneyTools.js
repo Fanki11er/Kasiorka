@@ -315,6 +315,7 @@ const choseValue = (valueReceived, valueExpected) => {
 };
 
 const getPayments = (hours, prevYearData) => {
+  //!!!!!!!!!!!!!!
   const months = hours.months;
   const { prevPayments } = prevYearData;
   const paymentsTable = [];
@@ -325,7 +326,7 @@ const getPayments = (hours, prevYearData) => {
   return paymentsTable;
 };
 
-const chargeWallet = (computed, month, account) => {
+const chargeAccount = (computed, month, account) => {
   const reCharge = month[account].reCharge;
   const { real, predicted } = computed;
   reCharge.accountReal = real;
@@ -473,8 +474,6 @@ const actualizeInterests = month => {
   const interestRate = month.debitCard.cardSettings.interestRate / 100;
   const predictedInterest = month.computedData.debitCard.predictedSum * interestRate;
   month.debitCard.interests.predictedInterest = Number(predictedInterest.toFixed(2));
-  /*const realInterest = month.computedData.debitCard.realSum * interestRate;
-  month.debitCard.interests.realInterest = Number(realInterest.toFixed(2));*/
 };
 
 const getPredictedDebits = (prevYearData, months) => {
@@ -564,7 +563,7 @@ export {
   calculateExpensesPercent,
   addFixedTransaction,
   deleteFixedTransaction,
-  chargeWallet,
+  chargeAccount,
   getIncome,
   calculateComputed,
   checkType,

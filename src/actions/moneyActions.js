@@ -7,7 +7,7 @@ import {
   getPayments,
   addFixedTransaction,
   deleteFixedTransaction,
-  chargeWallet,
+  chargeAccount,
   getIncome,
   calculateComputed,
   checkType,
@@ -44,21 +44,21 @@ export const calculateTransactions = (data, path, action) => {
       calculateComputed(months, selectedMonthId, type);
     } else if (action === chargeWalletAccount) {
       const computed = editTransaction(transaction, data);
-      chargeWallet(computed, month, 'wallet');
+      chargeAccount(computed, month, 'wallet');
       calculateComputed(months, selectedMonthId, type);
 
       const income = getIncome(money, 'wallet');
       ActualizeMonthsTotal(months, income, 'wallet', prevYearData);
     } else if (action === chargeSavingAccount) {
       const computed = editTransaction(transaction, data);
-      chargeWallet(computed, month, 'savingAccount');
+      chargeAccount(computed, month, 'savingAccount');
       calculateComputed(months, selectedMonthId, type);
 
       const income = getIncome(money, 'savingAccount');
       ActualizeMonthsTotal(months, income, 'savingAccount', prevYearData);
     } else if (action === payTheCard) {
       const computed = editTransaction(transaction, data);
-      chargeWallet(computed, month, 'debitCard');
+      chargeAccount(computed, month, 'debitCard');
       calculateComputed(months, selectedMonthId, type);
       const income = getIncome(money, 'debitCard');
       ActualizeMonthsTotal(months, income, 'debitCard', prevYearData);
