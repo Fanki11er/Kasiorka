@@ -11,7 +11,7 @@ const AccountStyledSection = styled.section`
 
   @media screen and (max-width: 1920px) {
     min-width: 350px;
-    width: 350px;
+    width: 385px;
   }
 `;
 

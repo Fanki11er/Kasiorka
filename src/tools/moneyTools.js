@@ -332,8 +332,12 @@ const getIncome = (money, accountType) => {
 };
 
 const fixNumber = (number, position) => {
-  return Number(number.toFixed(position));
+  if (typeof number !== 'number') {
+    const newNumber = Number(number);
+    return Number(newNumber.toFixed(position));
+  } else return Number(number.toFixed(position));
 };
+
 const ActualizeMonthsTotal = (months, payments, type, prevYearData) => {
   const { prevMoney } = prevYearData;
   months.forEach((month, index, months) => {
@@ -436,8 +440,8 @@ const checkType = (type, hours, money, prevYearData, months) => {
 const createExtendedComputedStatus = (computedStatus, cardSettings) => {
   const status = Object.assign({}, computedStatus);
   const { debit } = cardSettings;
-  status.monthTotal += debit;
-  status.monthTotalPredicted += debit;
+  status.monthTotal = fixNumber(status.monthTotal + debit, 2);
+  status.monthTotalPredicted = fixNumber(status.monthTotalPredicted + debit, 2);
 
   return status;
 };
@@ -453,6 +457,8 @@ const actualizeInterests = month => {
   const interestRate = month.debitCard.cardSettings.interestRate / 100;
   const predictedInterest = month.computedData.debitCard.predictedSum * interestRate;
   month.debitCard.interests.predictedInterest = Number(predictedInterest.toFixed(2));
+  /*const realInterest = month.computedData.debitCard.realSum * interestRate;
+  month.debitCard.interests.realInterest = Number(realInterest.toFixed(2));*/
 };
 
 const getPredictedDebits = (prevYearData, months) => {
@@ -551,5 +557,6 @@ export {
   choseInterest,
   createInterestData,
   makeCorrect,
+  fixNumber,
   accountActions,
 };

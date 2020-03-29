@@ -15,7 +15,7 @@ import MoneyRow from '../../atoms/MoneyRow/MoneyRow';
 const StyledAccount = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 30px;
 `;
 
 const Account = ({

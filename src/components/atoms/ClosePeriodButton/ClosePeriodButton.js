@@ -6,7 +6,7 @@ const ClosePeriodButton = styled(MenuItem)`
   min-width: 50%;
   max-width: 360px;
   margin: 15px 0 5px 0;
-  transform: translateX(90px);
+  transform: translateX(100px);
 
   color: ${({ theme, green }) => (green === 'true' ? theme.green : theme.menuBlue)};
   border: 2px solid ${({ theme, green }) => (green === 'true' ? theme.green : theme.menuBlue)};

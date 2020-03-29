@@ -102,10 +102,13 @@ export const closePeriod = (selectedMonthId, path) => {
     const account = month['debitCard'];
     const section = account['transactions'];
     const type = path;
-    const interest = createInterestData(month);
+    let interest;
 
     months[selectedMonthId][type[0]].isClosed = true;
     makeCorrect(month, section);
+    calculateComputed(months, selectedMonthId, ['debitCard', 'transactions']);
+    actualizePredictedDebit(prevYearData, months, selectedMonthId);
+    interest = createInterestData(month);
     addTransaction(section, interest);
     calculateComputed(months, selectedMonthId, ['debitCard', 'transactions']);
     actualizePredictedDebit(prevYearData, months, selectedMonthId);

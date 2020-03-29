@@ -13,6 +13,7 @@ import withExpensesModal from '../../../hoc/withExpensesModal';
 import { calculateTransactions as calculateTransactionsAction } from '../../../actions/moneyActions';
 import ModalInput from '../../atoms/ModalInput/ModalInput';
 import ModalWrapper from '../../atoms/ModalWrapper/ModalWrapper';
+import { fixNumber } from '../../../tools/moneyTools';
 
 const StyledFormHeader = styled(FormHeader)`
   margin: 0;
@@ -79,6 +80,13 @@ const StyledInput = styled(Field)`
     -moz-appearance: textfield;
   }
 
+  &.noActive {
+    pointer-events: none;
+    &::placeholder {
+      color: ${({ theme }) => theme.green};
+    }
+  }
+
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.small};
   }
@@ -110,6 +118,7 @@ const EditExpensesModal = ({
   selectedMonthId,
   expenseType,
   calculateTransactions,
+  isPeriodClosed,
 }) => {
   return (
     <Formik
@@ -122,10 +131,18 @@ const EditExpensesModal = ({
       validate={values => {
         const errors = {};
 
-        if (!/[+]?[0-9]*\.?[0-9]+/.test(values.real) || values.real < 0 || values.real === 'e') {
+        if (
+          !/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.real) ||
+          values.real < 0 ||
+          values.real === 'e'
+        ) {
           errors.real = true;
         }
-        if (values.predicted === 'e' || values.predicted < 0) {
+        if (
+          !/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.predicted) ||
+          values.predicted === 'e' ||
+          values.predicted < 0
+        ) {
           errors.predicted = true;
         }
 
@@ -135,12 +152,16 @@ const EditExpensesModal = ({
         if (action === 'payTheCard' && values.real > -predicted) {
           errors.predicted = true;
         }
+
+        if (isPeriodClosed) {
+          errors.periodClosed = true;
+        }
         return errors;
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const data = {
-          real: values.real,
-          predicted: values.predicted,
+          real: fixNumber(values.real, 2),
+          predicted: fixNumber(values.predicted, 2),
           action: values.action,
           name: values.name || 'none',
         };
@@ -200,6 +221,13 @@ const EditExpensesModal = ({
             {action === 'payTheCard' && (
               <ExpensesWrapper>
                 <StyledInput type={'Number'} name="real" placeholder={'Spłata'} />
+                <ExpensesSign>/</ExpensesSign>
+                <StyledInput
+                  type={'Number'}
+                  name="predicted"
+                  placeholder={-predicted}
+                  className={'noActive'}
+                />
               </ExpensesWrapper>
             )}
             <StyledRowWrapper>
@@ -208,7 +236,11 @@ const EditExpensesModal = ({
                 type="submit"
                 disabled={isSubmitting}
                 className={
-                  errors.real || values.real === '' || errors.predicted || errors.name
+                  errors.real ||
+                  values.real === '' ||
+                  errors.predicted ||
+                  errors.name ||
+                  errors.periodClosed
                     ? 'noActive'
                     : null
                 }
@@ -264,6 +296,7 @@ const mapStateToProps = (
       (id || id === 0) &&
       money.months[selectedMonthId][type[0]][type[1]].transactions[id].action,
     currency: hoursSettings.currency,
+    isPeriodClosed: (type && money.months[selectedMonthId][type[0]].isClosed) || false,
   };
 };
 
