@@ -239,6 +239,7 @@ const addTransaction = (section, data) => {
 };
 
 const addFixedTransaction = (months, type, data, selectedMonthId) => {
+  //!!ComputedData
   let section;
   let account;
 
@@ -267,6 +268,7 @@ const deleteTransaction = (section, id) => {
 };
 
 const deleteFixedTransaction = (months, selectedMonthId, type, id) => {
+  //!!ComputedData
   let section;
   let account;
   for (let i = selectedMonthId; i < 12; i++) {
@@ -284,22 +286,25 @@ const deleteFixedTransaction = (months, selectedMonthId, type, id) => {
     }
   }
 };
-
+//!!!!!!!!!!!!!!!!!!
 const sumSection = section => {
   const { transactions } = section;
+
   section.realSum =
-    transactions &&
-    transactions.reduce((sum, { real }) => {
-      sum = fixNumber(sum + real, 2);
-      return sum;
-    }, 0);
+    (transactions &&
+      transactions.reduce((sum, { real }) => {
+        sum = fixNumber(sum + real, 2);
+        return sum;
+      }, 0)) ||
+    0;
 
   section.predictedSum =
-    transactions &&
-    transactions.reduce((sum, { predicted }) => {
-      sum = fixNumber(sum + predicted, 2);
-      return sum;
-    }, 0);
+    (transactions &&
+      transactions.reduce((sum, { predicted }) => {
+        sum = fixNumber(sum + predicted, 2);
+        return sum;
+      }, 0)) ||
+    0;
 };
 
 const actualizeComputedDataSums = (month, account, type) => {
@@ -315,7 +320,6 @@ const choseValue = (valueReceived, valueExpected) => {
 };
 
 const getPayments = (hours, prevYearData) => {
-  //!!!!!!!!!!!!!!
   const months = hours.months;
   const { prevPayments } = prevYearData;
   const paymentsTable = [];
@@ -351,16 +355,23 @@ const fixNumber = (number, position) => {
 };
 
 const ActualizeMonthsTotal = (months, payments, type, prevYearData) => {
+  //!!ComputeData
   const { prevMoney } = prevYearData;
+  let monthTotal;
+  let monthTotalPredicted;
+
+  monthTotal = prevMoney.computedData ? prevMoney.computedData[type].monthTotal : 0;
+  monthTotalPredicted = prevMoney.computedData
+    ? prevMoney.computedData[type].monthTotalPredicted
+    : 0;
   months.forEach((month, index, months) => {
     if (index === 0) {
       month.computedData[type].monthTotal = fixNumber(
-        month.computedData[type].realSum + payments[index] + prevMoney.monthTotal,
+        month.computedData[type].realSum + payments[index] + monthTotal,
         2,
       );
-
       month.computedData[type].monthTotalPredicted = fixNumber(
-        month.computedData[type].predictedSum + payments[index] + prevMoney.monthTotalPredicted,
+        month.computedData[type].predictedSum + payments[index] + monthTotalPredicted,
         2,
       );
     } else {
@@ -406,12 +417,14 @@ const createStats = (month, { payment }, accountName) => {
   };
   sections.forEach(section => {
     stats.expenses +=
+      account[section].transactions &&
       account[section].transactions.length &&
       account[section].transactions.reduce((total, { action, real }) => {
         action === '-' && (total += real);
         return total;
       }, 0);
     stats.incomes +=
+      account[section].transactions &&
       account[section].transactions.length &&
       account[section].transactions.reduce((total, { action, real }) => {
         action === '+' && (total += real);
@@ -480,18 +493,15 @@ const getPredictedDebits = (prevYearData, months) => {
   const debits = [];
 
   let computedDebit;
-  const {
-    prevMoney: { debitCardPredicted },
-  } = prevYearData;
-
-  debits.push(debitCardPredicted);
+  const { prevMoney } = prevYearData;
+  const prevDebitCard = prevMoney.computedData ? prevMoney.computedData.debitCard.realSum : 0;
+  debits.push(prevDebitCard);
   for (let i = 0; i < 11; i++) {
     actualizeInterests(months[i]);
     computedDebit = computeDebit(months[i]);
 
     debits.push(computedDebit);
   }
-
   return debits;
 };
 
@@ -502,7 +512,7 @@ const actualizePredictedDebit = (prevYearData, months, selectedMonthId) => {
     accounts = months[i].mainAccount.accounts.transactions;
 
     accounts.forEach(transaction => {
-      if (transaction instanceof DebitExpense) {
+      if (transaction.signature === 'debit') {
         transaction.predicted = predictedDebits[i];
       }
     });

@@ -23,7 +23,8 @@ const previousHours = (uid, year) => {
 };
 
 const previousMoney = (uid, year) => {
-  return `Users/${uid}/years/${year}/money/months/11/statistics`;
+  //return `Users/${uid}/years/${year}/money/months/11/statistics`;
+  return `Users/${uid}/years/${year}/money/months/11/computedData`;
 };
 
 const dataBaseEndPints = {

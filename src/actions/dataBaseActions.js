@@ -22,7 +22,7 @@ export const takeDataFromDataBase = (uid, year) => {
         dispatch({ type: 'TAKE_USER_SETTINGS_FROM_DATABASE', payload: data }); // User reducer
       });
 
-    /*dataBase
+    dataBase
       .fetch(endPoints.money(uid, year), {
         context: state,
       })
@@ -50,7 +50,7 @@ export const takeDataFromDataBase = (uid, year) => {
       })
       .catch(err => {
         console.log(err.message);
-      });*/
+      });
   };
 };
 

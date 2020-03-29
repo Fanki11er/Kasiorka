@@ -35,9 +35,10 @@ export const calculateTransactions = (data, path, action) => {
     const month = months[selectedMonthId];
     const account = month[type[0]];
     const section = account[type[1]];
-    const transaction = section.transactions[id];
+    let transaction;
 
     action === add && addTransaction(section, data);
+    transaction = section.transactions[id];
     action === edit && editTransaction(transaction, data);
     action === addFixed && addFixedTransaction(months, type, data, selectedMonthId);
     if (action === addFixed) {

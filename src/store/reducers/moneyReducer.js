@@ -1,6 +1,6 @@
-import { Money } from '../../tools/moneyTools';
-//const initialState = { isSaved: true };
-const initialState = new Money();
+//import { Money } from '../../tools/moneyTools';
+const initialState = { isSaved: true };
+//const initialState = new Money();
 const moneyReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'TAKE_MONEY_FROM_DATABASE': {

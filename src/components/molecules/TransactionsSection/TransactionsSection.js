@@ -46,7 +46,9 @@ const mapStateToProps = (
     transactions: months[selectedMonthId][path[0]][path[1]].transactions,
     currency: hoursSettings.currency,
     type: months[selectedMonthId][path[0]][path[1]].path,
-    reRender: months[selectedMonthId][path[0]][path[1]].transactions[0],
+    reRender:
+      months[selectedMonthId][path[0]][path[1]].transactions &&
+      months[selectedMonthId][path[0]][path[1]].transactions[0],
     isClosed: path[0] === 'debitCard' ? months[selectedMonthId][path[0]].isClosed : false,
   };
 };

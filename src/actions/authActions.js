@@ -7,7 +7,7 @@ export const signUp = newUser => {
     const firebase = getFirebase();
     const year = new Date().getFullYear();
     const newYear = createNewYear(monthNames, year);
-    //const money = new Money();
+    const money = new Money();
     const months = newYear.months;
     const user = new User(newUser.name, [newYear.yearName]);
     addHolidaysToYear(year, months, constantPolishHolidays);
@@ -23,7 +23,7 @@ export const signUp = newUser => {
               years: {
                 [newYear.yearName]: {
                   hours: newYear,
-                  //money,
+                  money,
                 },
               },
             },
