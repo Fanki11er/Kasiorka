@@ -4,6 +4,7 @@ export const theme = {
   daysHeightMediumScreen: '42px',
   daysHeightSmallScreen: '54px',
   rowHeightSmall: '55px',
+  rowHeightSmaller: '50px',
   fontSize: {
     normal: '2.4em',
     smaller: '2em',
@@ -34,7 +35,9 @@ export const theme = {
   hover: '#FF8C00',
   green: '#83B33B',
   lighterGreen: 'rgba(131,179, 59, 0.5)',
+  lightGreen: 'rgba(131,179, 59, 0.8)',
   primaryTransparent: 'rgba(1, 13, 38, 0.8)',
+  blueTransparent: 'rgba(19, 179, 242, 0.02)',
   saturdayYellow: '#8C2703',
   isHoliday: '#1C6683',
   menuWidth: {

@@ -1,11 +1,13 @@
 import { createNewYear, monthNames, User } from '../tools/index';
 import { addHolidaysToYear, constantPolishHolidays } from '../tools/holidayTools';
+import { Money } from '../tools/moneyTools';
 
 export const signUp = newUser => {
   return (dispatch, getState, { getFirebase, dataBase }) => {
     const firebase = getFirebase();
     const year = new Date().getFullYear();
     const newYear = createNewYear(monthNames, year);
+    //const money = new Money();
     const months = newYear.months;
     const user = new User(newUser.name, [newYear.yearName]);
     addHolidaysToYear(year, months, constantPolishHolidays);
@@ -21,7 +23,7 @@ export const signUp = newUser => {
               years: {
                 [newYear.yearName]: {
                   hours: newYear,
-                  money: 'None',
+                  //money,
                 },
               },
             },

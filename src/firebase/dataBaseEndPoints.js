@@ -14,11 +14,26 @@ const hoursSettings = uid => {
   return `Users/${uid}/settings/hoursSettings`;
 };
 
+const money = (uid, year) => {
+  return `Users/${uid}/years/${year}/money`;
+};
+
+const previousHours = (uid, year) => {
+  return `Users/${uid}/years/${year}/hours/months/11/payments`;
+};
+
+const previousMoney = (uid, year) => {
+  return `Users/${uid}/years/${year}/money/months/11/statistics`;
+};
+
 const dataBaseEndPints = {
   yearsList,
   hours,
   settings,
   hoursSettings,
+  money,
+  previousHours,
+  previousMoney,
 };
 
 export default dataBaseEndPints;

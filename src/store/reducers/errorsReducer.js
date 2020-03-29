@@ -6,6 +6,7 @@ const initialState = {
   signUpErr: null,
   settingsErr: null,
   settingsFetchErr: null,
+  moneyErr: null,
 };
 
 const errorsReducer = (state = initialState, action) => {
@@ -59,6 +60,13 @@ const errorsReducer = (state = initialState, action) => {
       return {
         ...state,
         settingsErr: action.err.message,
+      };
+    }
+
+    case 'MONEY_NOT_ADDED': {
+      return {
+        ...state,
+        moneyErr: action.err.message,
       };
     }
 

@@ -29,14 +29,11 @@ class Summary extends Component {
       currency,
       paymentReceived,
       salary,
+      expectedPayout,
       summaryContext: {
         optionsToChose: { optionSalary, optionPayment },
       },
     } = this.props;
-
-    const expectedPayout = (totalHours, salary) => {
-      return parseFloat((totalHours * salary).toFixed(2));
-    };
 
     return (
       <StyledWrapper>
@@ -50,7 +47,7 @@ class Summary extends Component {
         ></InfoDiv>
         <InfoDiv
           labelText="Przewidywana wypłata"
-          labelData={expectedPayout(totalHours, salary)}
+          labelData={expectedPayout}
           units={currency}
         ></InfoDiv>
         <InfoDiv
@@ -69,8 +66,9 @@ const mapStateToProps = ({ hours: { months } }, { monthId }) => {
   return {
     totalHours: months[monthId].totalHours,
     currency: months[monthId].currency,
-    paymentReceived: months[monthId].paymentReceived,
+    paymentReceived: months[monthId].payments.paymentReceived,
     salary: months[monthId].salary,
+    expectedPayout: months[monthId].payments.expectedPayout,
   };
 };
 

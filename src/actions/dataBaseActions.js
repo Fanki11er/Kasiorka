@@ -1,9 +1,11 @@
 import { newYearsListItem } from '../tools/index';
 import { addHolidaysToYear, constantPolishHolidays } from '../tools/holidayTools';
+import { Money } from '../tools/moneyTools';
 
 export const takeDataFromDataBase = (uid, year) => {
   return (dispatch, getState, { dataBase, endPoints }) => {
     const state = getState();
+    const prevMoney = {};
     dataBase
       .fetch(endPoints.hours(uid, year), {
         context: state,
@@ -19,6 +21,36 @@ export const takeDataFromDataBase = (uid, year) => {
       .then(data => {
         dispatch({ type: 'TAKE_USER_SETTINGS_FROM_DATABASE', payload: data }); // User reducer
       });
+
+    /*dataBase
+      .fetch(endPoints.money(uid, year), {
+        context: state,
+      })
+      .then(data => {
+        dispatch({ type: 'TAKE_MONEY_FROM_DATABASE', payload: data }); //Money Reducer
+      });
+
+    dataBase
+      .fetch(endPoints.previousHours(uid, year - 1), {
+        context: state,
+      })
+      .then(data => {
+        dispatch({ type: 'GET_PREVIOUS_PAYMENTS', payload: data }); // prev reducer
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+
+    dataBase
+      .fetch(endPoints.previousMoney(uid, year - 1), {
+        context: state,
+      })
+      .then(data => {
+        dispatch({ type: 'GET_PREVIOUS_AMOUNTS', payload: data }); // prev reducer
+      })
+      .catch(err => {
+        console.log(err.message);
+      });*/
   };
 };
 
@@ -39,9 +71,10 @@ export const sendHoursToDataBase = uid => {
   };
 };
 
-export const addNewYear = year => {
+export const addNewYear = (year, money) => {
   return (dispatch, getState, { dataBase, endPoints }) => {
     const state = getState();
+    const money = new Money();
     const uid = state.firebase.auth.uid;
     const yearToAdd = year.yearName;
     const yearsList = state.user.yearsList;
@@ -63,6 +96,16 @@ export const addNewYear = year => {
           })
           .catch(err => {
             dispatch({ type: 'YEAR_NOT_ADDED_TO_LIST', payload: err }); // Errors reducer
+          });
+        dataBase
+          .update(endPoints.money(uid, yearToAdd), {
+            data: money,
+          })
+          .then(() => {
+            dispatch({ type: 'MONEY_ADDED' }); // Money reducer
+          })
+          .catch(err => {
+            dispatch({ type: 'MONEY_NOT_ADDED', payload: err }); // Errors reducer
           });
       })
       .catch(err => {
