@@ -46,8 +46,9 @@ class OtherAccounts extends Transactions {
   constructor(name, path) {
     super(name, path);
     this.transactions = [
-      new Expense({ name: 'Zasil portfel:', predicted: 0, signature: 'wallet' }),
-      new DebitExpense({ name: 'Spłać kartę:', predicted: 0, signature: 'debit' }),
+      new Expense({ name: 'Zasil portfel', predicted: 0, signature: 'wallet' }),
+      new DebitExpense({ name: 'Spłać kartę', predicted: 0, signature: 'debit' }),
+      new Expense({ name: 'Oszczędź', predicted: 0, signature: 'saving' }),
     ];
     this.path = path;
     this.name = name;
@@ -146,12 +147,21 @@ const debitCardSections = [
   },
 ];
 
+const savingAccountSections = [
+  {
+    path: 'transactions',
+    classType: Transactions,
+    name: 'Transakcje',
+  },
+];
+
 const accountActions = {
   edit: 'edit',
   add: 'add',
   addFixed: 'addFixed',
   chargeWalletAccount: 'chargeWallet',
   payTheCard: 'payTheCard',
+  chargeSavingAccount: 'chargeSavingAccount',
 };
 class MoneyMonth {
   constructor(id) {
@@ -160,6 +170,7 @@ class MoneyMonth {
     this.createAccount(Account, 'Konto główne', 'mainAccount', mainAccountSections);
     this.createAccount(Wallet, 'Portfel', 'wallet', walletSections);
     this.createAccount(DebitCard, 'Karta debetowa', 'debitCard', debitCardSections);
+    this.createAccount(Wallet, 'Konto oszczędnościowe', 'savingAccount', savingAccountSections);
     this.computedData = this.createComputedData(this.accountsList);
   }
 
@@ -279,14 +290,14 @@ const sumSection = section => {
   section.realSum =
     transactions &&
     transactions.reduce((sum, { real }) => {
-      sum += real;
+      sum = fixNumber(sum + real, 2);
       return sum;
     }, 0);
 
   section.predictedSum =
     transactions &&
     transactions.reduce((sum, { predicted }) => {
-      sum += predicted;
+      sum = fixNumber(sum + predicted, 2);
       return sum;
     }, 0);
 };
@@ -300,7 +311,7 @@ const actualizeComputedDataSums = (month, account, type) => {
 const choseValue = (valueReceived, valueExpected) => {
   if (!valueExpected && !valueReceived) return 0;
 
-  return valueReceived > 0 ? valueReceived : valueExpected;
+  return Math.abs(valueReceived) > 0 ? valueReceived : valueExpected;
 };
 
 const getPayments = (hours, prevYearData) => {
@@ -425,6 +436,11 @@ const checkType = (type, hours, money, prevYearData, months) => {
     }
 
     case 'debitCard': {
+      const income = getIncome(money, type[0]);
+      ActualizeMonthsTotal(months, income, type[0], prevYearData);
+      break;
+    }
+    case 'savingAccount': {
       const income = getIncome(money, type[0]);
       ActualizeMonthsTotal(months, income, type[0], prevYearData);
       break;

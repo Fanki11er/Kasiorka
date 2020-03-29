@@ -9,6 +9,7 @@ import DebitCardHeaderSection from '../../molecules/DebitCardHeaderSection/Debit
 import WalletHeaderSection from '../../molecules/WalletHeaderSection/WalletHeaderSection.js';
 import TransactionsSection from '../../molecules/TransactionsSection/TransactionsSection';
 import OtherAccountsSection from '../../molecules/OtherAccountsSection/OtherAccountsSection';
+import SavingAccountHeaderSection from '../../molecules/SavingAccountHeaderSection/SavingAccountHeaderSection';
 import withExpensesModal from '../../../hoc/withExpensesModal';
 import MoneyRow from '../../atoms/MoneyRow/MoneyRow';
 
@@ -50,6 +51,10 @@ const Account = ({
       {accountName === 'debitCard' && (
         <DebitCardHeaderSection selectedMonthId={selectedMonthId} path={[accountName, null]} />
       )}
+
+      {accountName === 'savingAccount' && (
+        <SavingAccountHeaderSection selectedMonthId={selectedMonthId} path={[accountName, null]} />
+      )}
       {accountName === 'mainAccount' && (
         <OtherAccountsSection
           renderExpenses={renderExpenses}
@@ -57,13 +62,15 @@ const Account = ({
           path={[accountName, 'accounts']}
         />
       )}
-      <AccountFixedExpensesSection
-        renderExpenses={renderExpenses}
-        selectedMonthId={selectedMonthId}
-        toggleExpensesModal={toggleExpensesModal}
-        toggleDeleteFixedTransactionsModal={toggleDeleteFixedTransactionsModal}
-        path={[accountName, 'fixedExpenses']}
-      />
+      {accountName !== 'savingAccount' && (
+        <AccountFixedExpensesSection
+          renderExpenses={renderExpenses}
+          selectedMonthId={selectedMonthId}
+          toggleExpensesModal={toggleExpensesModal}
+          toggleDeleteFixedTransactionsModal={toggleDeleteFixedTransactionsModal}
+          path={[accountName, 'fixedExpenses']}
+        />
+      )}
       <TransactionsSection
         renderExpenses={renderExpenses}
         toggleExpensesModal={toggleExpensesModal}

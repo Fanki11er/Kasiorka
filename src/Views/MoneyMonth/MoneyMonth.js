@@ -54,6 +54,7 @@ const MoneyMonth = ({ actualizeMoneyWithActualPayments, hours, prevYearData }) =
         <Account accountName={'mainAccount'} />
         <Account accountName={'debitCard'} />
         <Account accountName={'wallet'} />
+        <Account accountName={'savingAccount'} />
         <AccountModal isExpensesModalOpened={isExpensesModalOpened} modalInfo={modalInfo} />
         <DeleteFixedTransactionsModal
           isDeleteFixedTransactionModalOpened={isDeleteFixedTransactionModalOpened}

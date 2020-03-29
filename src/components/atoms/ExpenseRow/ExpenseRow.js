@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import PencilIcon from '../../atoms/PencilIcon/PencilIcon';
 import WalletIcon from '../../atoms/WalletIcon/WalletIcon';
 import CardIcon from '../../atoms/CardIcon/CardIcon';
+import PiggyIcon from '../../atoms/PiggyIcon/PiggyIcon';
 import { accountActions } from '../../../tools/moneyTools';
 
 const StyledWrapper = styled.div`
@@ -66,7 +67,7 @@ const ExpenseRow = ({
   action,
   signature,
 }) => {
-  const { edit, chargeWalletAccount, payTheCard } = accountActions;
+  const { edit, chargeWalletAccount, payTheCard, chargeSavingAccount } = accountActions;
 
   return (
     <StyledWrapper>
@@ -81,6 +82,10 @@ const ExpenseRow = ({
         )}
         {signature === 'debit' && (
           <CardIcon onClick={() => toggleExpensesModal(id, type, payTheCard)} />
+        )}
+
+        {signature === 'saving' && (
+          <PiggyIcon onClick={() => toggleExpensesModal(id, type, chargeSavingAccount)} />
         )}
       </EndWrapper>
     </StyledWrapper>
