@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
 
@@ -49,17 +50,34 @@ const StyledViewItem = styled(MenuItem)`
 
 class ViewMenu extends Component {
   render() {
+    const { isHoursSaved, isMoneySaved } = this.props;
     return (
       <StyledWrapper>
-        <StyledViewItem as={NavLink} to="/user/hours" activeclass="active">
+        <StyledViewItem
+          as={NavLink}
+          to="/user/hours"
+          activeclass="active"
+          className={!isMoneySaved ? 'noActive' : null}
+        >
           Godziny
         </StyledViewItem>
-        <StyledViewItem as={NavLink} to="/user/money" activeclass="active">
+        <StyledViewItem
+          as={NavLink}
+          to="/user/money"
+          activeclass="active"
+          className={!isHoursSaved ? 'noActive' : null}
+        >
           Kasiorka
         </StyledViewItem>
       </StyledWrapper>
     );
   }
 }
+const mapStateToProps = ({ hours, money }) => {
+  return {
+    isHoursSaved: hours.isSaved,
+    isMoneySaved: money.isSaved,
+  };
+};
 
-export default ViewMenu;
+export default connect(mapStateToProps)(ViewMenu);

@@ -417,28 +417,29 @@ const createStats = (month, { payment }, accountName) => {
   };
   sections.forEach(section => {
     stats.expenses +=
-      account[section].transactions &&
-      account[section].transactions.length &&
-      account[section].transactions.reduce((total, { action, real }) => {
-        action === '-' && (total += real);
-        return total;
-      }, 0);
+      (account[section].transactions &&
+        account[section].transactions.length &&
+        account[section].transactions.reduce((total, { action, real }) => {
+          action === '-' && (total += real);
+          return total;
+        }, 0)) ||
+      0;
     stats.incomes +=
-      account[section].transactions &&
-      account[section].transactions.length &&
-      account[section].transactions.reduce((total, { action, real }) => {
-        action === '+' && (total += real);
-        return total;
-      }, 0);
+      (account[section].transactions &&
+        account[section].transactions.length &&
+        account[section].transactions.reduce((total, { action, real }) => {
+          action === '+' && (total += real);
+          return total;
+        }, 0)) ||
+      0;
   });
-
   return stats;
 };
 
 const calculateExpensesPercent = stats => {
-  const { incomes, expenses } = stats;
+  let { incomes, expenses } = stats;
 
-  return Math.abs(expenses / incomes) * 100;
+  return fixNumber(Math.abs(expenses / incomes) * 100, 2);
 };
 
 const checkType = (type, hours, money, prevYearData, months) => {

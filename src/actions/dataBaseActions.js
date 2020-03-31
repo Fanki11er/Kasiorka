@@ -71,6 +71,23 @@ export const sendHoursToDataBase = uid => {
   };
 };
 
+export const sendMoneyToDataBase = uid => {
+  return (dispatch, getState, { dataBase, endPoints }) => {
+    const state = getState();
+    const yearToSave = state.hours.yearName;
+    dataBase
+      .update(endPoints.money(uid, yearToSave), {
+        data: state.money,
+      })
+      .then(() => {
+        dispatch({ type: 'SAVED_SUCCESS' }); // Money reducer
+      })
+      .catch(err => {
+        dispatch({ type: 'MONEY_NOT_SAVED', payload: err }); // Errors Reducer
+      });
+  };
+};
+
 export const addNewYear = (year, money) => {
   return (dispatch, getState, { dataBase, endPoints }) => {
     const state = getState();

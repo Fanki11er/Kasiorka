@@ -38,7 +38,7 @@ export const calculateTransactions = (data, path, action) => {
     let transaction;
 
     action === add && addTransaction(section, data);
-    transaction = section.transactions[id];
+    transaction = section.transactions && id !== null ? section.transactions[id] : null;
     action === edit && editTransaction(transaction, data);
     action === addFixed && addFixedTransaction(months, type, data, selectedMonthId);
     if (action === addFixed) {
@@ -83,7 +83,6 @@ export const actualizeMoneyWithActualPayments = newPayments => {
     const { money, prevYearData } = getState();
     const months = money.months;
     ActualizeMonthsTotal(months, newPayments, 'mainAccount', prevYearData);
-
     dispatch({ type: 'CALCULATE_TRANSACTIONS', payload: money });
   };
 };

@@ -5,6 +5,7 @@ const moneyReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'TAKE_MONEY_FROM_DATABASE': {
       state = action.payload;
+
       return {
         ...state,
         isSaved: true,
@@ -12,6 +13,10 @@ const moneyReducer = (state = initialState, action) => {
     }
     case 'MONEY_ADDED': {
       return state;
+    }
+
+    case 'SAVED_SUCCESS': {
+      return { ...state, isSaved: true };
     }
 
     case 'CALCULATE_TRANSACTIONS': {
