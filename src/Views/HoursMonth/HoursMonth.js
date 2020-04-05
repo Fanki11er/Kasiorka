@@ -9,6 +9,7 @@ import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/
 import DayOfTheWeek from '../../components/molecules/DayOfWeek/DayOfWeek';
 import Summary from '../../components/molecules/Summary/Summary';
 import EditSummaryOptions from '../../components/organisms/EditSummaryOptions/EditSummaryOptions';
+import withViewsContext from '../../hoc/withViewsContext';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -44,17 +45,8 @@ class HoursMonth extends Component {
     isSummaryModalOpened: false,
     chosenOption: null,
     autoSaveInProgress: false,
+    timeout: null,
   };
-  componentWillUnmount() {
-    const {
-      sendHoursToDataBase,
-      auth: { uid },
-      isSaved,
-    } = this.props;
-    if (!isSaved) {
-      sendHoursToDataBase(uid);
-    }
-  }
 
   componentDidUpdate() {
     this.autoSave();
@@ -67,6 +59,7 @@ class HoursMonth extends Component {
       sendHoursToDataBase,
     } = this.props;
     const { autoSaveInProgress } = this.state;
+
     const check = () => {
       if (!isSaved) sendHoursToDataBase(uid);
       this.setState(({ autoSaveInProgress }) => {
@@ -75,20 +68,36 @@ class HoursMonth extends Component {
         };
       });
     };
+
     if (!isSaved && !autoSaveInProgress) {
       this.setState(({ autoSaveInProgress }) => {
         return {
           autoSaveInProgress: !autoSaveInProgress,
         };
       });
-      setTimeout(check, 2500);
+      this.setState({ timeout: setTimeout(check, 1500) });
     }
+  }
+
+  componentWillUnmount() {
+    const {
+      sendHoursToDataBase,
+      auth: { uid },
+      isSaved,
+    } = this.props;
+    const { timeout } = this.state;
+
+    if (!isSaved) {
+      sendHoursToDataBase(uid);
+    }
+
+    clearTimeout(timeout);
   }
 
   render() {
     const {
       hours: { months },
-      monthId,
+      viewsContext: { selectedMonthId: monthId },
     } = this.props;
     const { isSummaryModalOpened, chosenOption } = this.state;
 
@@ -161,7 +170,6 @@ class HoursMonth extends Component {
 
 HoursMonth.propTypes = {
   months: PropTypes.array,
-  monthId: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = ({ hours, firebase }) => {
@@ -178,4 +186,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HoursMonth);
+export default connect(mapStateToProps, mapDispatchToProps)(withViewsContext(HoursMonth));

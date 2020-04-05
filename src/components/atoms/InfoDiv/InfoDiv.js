@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Pencil } from 'styled-icons/typicons/';
+import PencilIcon from '../../atoms/PencilIcon/PencilIcon';
 import withSummaryContext from '../../../hoc/withSummaryContext';
 
 const StyledWrapper = styled.div`
@@ -53,34 +53,6 @@ const StyledSpan = styled.div`
   }
 `;
 
-const StyledIconPencil = styled(Pencil)`
-  position: absolute;
-  right: 20px;
-  top: 0;
-  width: 40px;
-  height: 90%;
-  background-color: ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.green};
-
-  &:hover,
-  :focus {
-    color: ${({ theme }) => theme.hover};
-    width: 50px;
-    height: 100%;
-    cursor: pointer;
-    @media screen and (max-width: 1920px) {
-      width: 35px;
-    }
-  }
-  @media screen and (max-width: 1920px) {
-    width: 25px;
-  }
-
-  @media screen and (max-width: 767px) {
-    right: 5px;
-  }
-`;
-
 const StyledUnits = styled.div`
   font-size: ${({ theme }) => theme.fontSize.smaller};
   font-weight: bold;
@@ -103,7 +75,7 @@ const infoDiv = ({ labelText, labelData, editable, units, summaryContext, chosen
       <StyledSpan>{labelData}</StyledSpan>
       <StyledUnits>{units}</StyledUnits>
       {editable && (
-        <StyledIconPencil title={`Edytuj ${labelText}`} onClick={() => modalToggle(chosenOption)} />
+        <PencilIcon title={`Edytuj ${labelText}`} onClick={() => modalToggle(chosenOption)} />
       )}
     </StyledWrapper>
   );

@@ -34,7 +34,7 @@ class YearsMenu extends Component {
     return yearsList.indexOf(selectedYear);
   };
 
-  handleClick = event => {
+  handleClick = (event) => {
     this.setState({
       clicked: event.target.id,
     });
@@ -42,7 +42,7 @@ class YearsMenu extends Component {
     selectMonthOrYear(event, 'year');
   };
   render() {
-    const { yearsList } = this.props;
+    const { yearsList, isHoursSaved, isMoneySaved } = this.props;
     const { clicked } = this.state;
 
     return (
@@ -50,7 +50,13 @@ class YearsMenu extends Component {
         {yearsList && yearsList.length > 0 ? (
           yearsList.map((yearName, yearId) => (
             <StyledListItem key={yearName}>
-              <MenuItem year clicked={parseFloat(clicked)} onClick={this.handleClick} id={yearId}>
+              <MenuItem
+                year
+                clicked={parseFloat(clicked)}
+                onClick={this.handleClick}
+                id={yearId}
+                className={!isHoursSaved || !isMoneySaved ? 'noActive' : null}
+              >
                 {yearName}
               </MenuItem>
             </StyledListItem>
@@ -77,9 +83,11 @@ YearsMenu.defaultProps = {
   selectedYear: 0,
 };
 
-const mapStateToProps = ({ user }) => {
+const mapStateToProps = ({ user, hours, money }) => {
   return {
     yearsList: user.yearsList,
+    isHoursSaved: hours.isSaved,
+    isMoneySaved: money.isSaved,
   };
 };
 

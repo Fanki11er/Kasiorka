@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import ViewMenu from '../../molecules/ViewMenu/ViewMenu';
 import UserMenu from '../../molecules/UserMenu/UserMenu';
+import ModalExtraInfo from '../../atoms/MobileExtraInfo/MobileExtraInfo';
+import withMenuContext from '../../../hoc/withMenuContext';
 
 const StyledWrapper = styled.nav`
   display: flex;
@@ -18,19 +20,20 @@ const StyledWrapper = styled.nav`
     padding: 0 30px;
     width: 90%;
   }
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 769px) {
     flex-flow: column-reverse;
-    height: 120px;
+    height: 150px;
   }
 `;
 
-const Navigation = () => {
+const Navigation = ({ menuContext: { selectedMonthId } }) => {
   return (
     <StyledWrapper>
+      <ModalExtraInfo selectedMonthId={selectedMonthId} />
       <ViewMenu />
       <UserMenu />
     </StyledWrapper>
   );
 };
 
-export default Navigation;
+export default withMenuContext(Navigation);

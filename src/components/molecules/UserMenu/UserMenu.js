@@ -36,14 +36,21 @@ const StyledLogOut = styled(MenuItem)`
   }
 `;
 
-const UserMenu = ({ signOut, userName, isSaved, auth: { uid }, sendHoursToDataBase }) => {
+const UserMenu = ({
+  signOut,
+  userName,
+  isSaved,
+  moneyIsSaved,
+  auth: { uid },
+  sendHoursToDataBase,
+}) => {
   const logOut = () => {
     sendHoursToDataBase(uid);
     setTimeout(signOut, 500);
   };
   return (
     <StyledWrapper>
-      <IsSavedInfo isSaved={isSaved} title={isSaved ? 'Saved' : 'Not saved'} />
+      <IsSavedInfo isSaved={{ isSaved, moneyIsSaved }} title={isSaved ? 'Saved' : 'Not saved'} />
       <UserName>{userName}</UserName>
       <StyledLogOut onClick={logOut}>Wyloguj</StyledLogOut>
     </StyledWrapper>
@@ -60,10 +67,11 @@ UserMenu.defaultProps = {
   userName: 'Anonymous',
 };
 
-const mapStateToProps = ({ user, hours, firebase }) => {
+const mapStateToProps = ({ user, hours, firebase, money }) => {
   return {
     userName: user.name,
     isSaved: hours.isSaved,
+    moneyIsSaved: money.isSaved,
     auth: firebase.auth,
   };
 };

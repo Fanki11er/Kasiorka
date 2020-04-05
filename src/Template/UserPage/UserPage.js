@@ -7,6 +7,7 @@ import HoursMonth from '../../Views//HoursMonth/HoursMonth';
 import MoneyMonth from '../../Views/MoneyMonth/MoneyMonth';
 import Menu from '../../components/organisms/Menu/Menu';
 import MenuContext from '../../context/MenuContext';
+import ViewsContext from '../../context/ViewsContext';
 import Navigation from '../../components/organisms/Navigation/Navigation';
 import Footer from '../../components/atoms/Footer/Footer';
 import StateIsLoaded from '../../components/atoms/StateIsLoaded/StateIsLoaded';
@@ -17,6 +18,8 @@ import { addNewYear as addNewYearAction } from '../../actions/dataBaseActions';
 import { takeDataFromDataBase as takeDataFromDataBaseAction } from '../../actions/dataBaseActions';
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 import { monthHoursAutoFill as monthHoursAutoFillAction } from '../../actions/hoursActions';
+import { sendMoneyToDataBase as sendMoneyToDataBaseAction } from '../../actions/dataBaseActions';
+import { reCalculateMoney as reCalculateMoneyAction } from '../../actions/moneyActions';
 import OpenCloseMenuButton from '../../components/atoms/OpenCloseMenuButton/OpenCloseMenuButton';
 
 const StyledWrapper = styled.div`
@@ -48,6 +51,7 @@ class UserPage extends Component {
     isSettingsModalOpened: false,
     limitOfYears: false,
     isMenuOpened: false,
+    isLoading: null,
   };
 
   componentDidMount() {
@@ -63,8 +67,17 @@ class UserPage extends Component {
     window.removeEventListener('beforeunload', this.whenClosing);
   }
 
+  test = () => {
+    if (this.state.isLoading !== this.props.isLoading) {
+      this.setState({
+        isLoading: this.props.isLoading,
+      });
+    }
+  };
+
   componentDidUpdate() {
     this.checkAmountOfFutureYears();
+    this.test();
   }
 
   selectMonthOrYear = ({ target }, select) => {
@@ -77,19 +90,39 @@ class UserPage extends Component {
       }
 
       case 'year': {
+        let intervalLoop = 0;
         const {
           takeDataFromDataBase,
           sendHoursToDataBase,
+          sendMoneyToDataBase,
+          reCalculateMoney,
           auth: { uid },
           user,
           isSaved,
+          moneyIsSaved,
         } = this.props;
         const selectedYear = user.yearsList[target.id];
         this.setState({
           selectedYear: selectedYear,
         });
         if (!isSaved) sendHoursToDataBase(uid);
+        if (!moneyIsSaved) sendMoneyToDataBase(uid);
         takeDataFromDataBase(uid, selectedYear);
+        const interval = setInterval(() => {
+          if (this.state.isLoading === false) {
+            reCalculateMoney();
+            sendMoneyToDataBase(uid);
+            clearInterval(interval);
+          }
+
+          if (intervalLoop > 30) {
+            clearInterval(interval);
+            throw new Error('Nie można przekalkulować');
+          }
+          console.log(intervalLoop, 'INTERVAL_LOOP');
+          intervalLoop++;
+        }, 500);
+
         break;
       }
       default: {
@@ -108,12 +141,12 @@ class UserPage extends Component {
       user: { yearsList },
     } = this.props;
     const { limitOfYears } = this.state;
-    if (!limitOfYears && yearsList && yearsList.indexOf(presentYear) + 3 < yearsList.length) {
+    if (!limitOfYears && yearsList && yearsList.indexOf(presentYear) + 1 < yearsList.length) {
       this.setState({
         limitOfYears: true,
       });
     }
-    if (limitOfYears && yearsList && yearsList.indexOf(presentYear) + 3 >= yearsList.length) {
+    if (limitOfYears && yearsList && yearsList.indexOf(presentYear) + 1 >= yearsList.length) {
       this.setState({
         limitOfYears: false,
       });
@@ -127,18 +160,21 @@ class UserPage extends Component {
     } = this.props;
     const years = yearsList;
     const year = findNextYear(years);
-    newYear(createNewYear(monthNames, year));
+    newYear(createNewYear(monthNames, year) /*, new Account()*/);
     this.checkAmountOfFutureYears();
   };
 
-  whenClosing = event => {
+  whenClosing = (event) => {
     event.preventDefault();
     const {
       isSaved,
+      moneyIsSaved,
       auth: { uid },
       sendHoursToDataBase,
+      sendMoneyToDataBase,
     } = this.props;
     if (!isSaved) sendHoursToDataBase(uid);
+    if (!moneyIsSaved) sendMoneyToDataBase(uid);
   };
 
   toggleSettingsModal = () => {
@@ -181,6 +217,11 @@ class UserPage extends Component {
       autoFilHoursMonth: this.autoFilHoursMonth,
       limitOfYears,
       isMenuOpened,
+      selectedPage: this.props.location,
+    };
+
+    const viewsContext = {
+      selectedMonthId,
     };
 
     const { pathname } = this.props.location;
@@ -196,14 +237,15 @@ class UserPage extends Component {
         <>
           <StyledWrapper>
             <OpenCloseMenuButton opened={isMenuOpened} toggleMenu={this.toggleMenu} />
-            <Navigation />
             <MenuContext.Provider value={menuContext}>
+              <Navigation />
               <Menu />
               <EditSettings isSettingsModalOpened={isSettingsModalOpened} />
             </MenuContext.Provider>
-
-            {pathname === '/user/hours' && <HoursMonth monthId={selectedMonthId}></HoursMonth>}
-            {pathname === '/user/money' && <MoneyMonth></MoneyMonth>}
+            <ViewsContext.Provider value={viewsContext}>
+              {pathname === '/user/hours' && <HoursMonth />}
+              {pathname === '/user/money' && <MoneyMonth />}
+            </ViewsContext.Provider>
             <Footer />
           </StyledWrapper>
         </>
@@ -212,23 +254,28 @@ class UserPage extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    newYear: year => dispatch(addNewYearAction(year)),
+    newYear: (year) => dispatch(addNewYearAction(year)),
     takeDataFromDataBase: (uid, year) => dispatch(takeDataFromDataBaseAction(uid, year)),
-    sendHoursToDataBase: uid => dispatch(sendHoursToDataBaseAction(uid)),
+    sendHoursToDataBase: (uid) => dispatch(sendHoursToDataBaseAction(uid)),
     monthHoursAutoFill: (monthId, userHoursSettings) =>
       dispatch(monthHoursAutoFillAction(monthId, userHoursSettings)),
+    sendMoneyToDataBase: (uid) => dispatch(sendMoneyToDataBaseAction(uid)),
+    reCalculateMoney: () => dispatch(reCalculateMoneyAction()),
   };
 };
 
-const mapStateToProps = ({ hours, firebase, user }) => {
+const mapStateToProps = ({ hours, firebase, user, money, prevYearData }) => {
   return {
     months: hours.months,
     auth: firebase.auth,
     user,
     isSaved: hours.isSaved,
     userHoursSettings: user.hoursSettings,
+    moneyIsSaved: money.isSaved,
+    prevYearData: prevYearData.prevMoney.testReady,
+    isLoading: money.isLoading,
   };
 };
 
@@ -239,6 +286,8 @@ UserPage.propTypes = {
   newYear: PropTypes.func.isRequired,
   takeDataFromDataBase: PropTypes.func.isRequired,
   monthHoursAutoFill: PropTypes.func.isRequired,
+  moneyIsSaved: PropTypes.bool.isRequired,
+  reCalculateMoney: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

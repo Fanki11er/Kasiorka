@@ -14,6 +14,7 @@ const StyledInput = styled(Field)`
   text-align: end;
   border: none;
   outline: none;
+  caret-color: ${({ theme }) => theme.hover};
 
   &::placeholder {
     color: ${({ theme }) => theme.lighterGreen};
@@ -37,6 +38,7 @@ const StyledInput = styled(Field)`
     transform: translateX(-10px);
     width: 25%;
     margin-left: 5px;
+    font-size: 1em;
   }
 `;
 
@@ -57,10 +59,9 @@ const ModalInput = ({ label, type, name, units, val, custom, length }) => {
           placeholder={val}
           maxLength={type === 'text' && length ? length : null}
           className="fireFoxNumber"
+          autoFocus={true}
         />
-      ) : (
-        <p></p>
-      )}
+      ) : null}
 
       {units && <StyledUnits>{units}</StyledUnits>}
     </FormLabel>

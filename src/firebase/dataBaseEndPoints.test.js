@@ -20,4 +20,8 @@ describe('Test create path to Endpoints', () => {
     expect(endPoints.hoursSettings('user1')).toBe('Users/user1/settings/hoursSettings');
     expect(endPoints.hoursSettings('user2')).toBe('Users/user2/settings/hoursSettings');
   });
+  test('money endpoint', () => {
+    expect(endPoints.money('user1', '2019')).toBe('Users/user1/years/2019/money');
+    expect(endPoints.money('user2', '2020')).toBe('Users/user2/years/2020/money');
+  });
 });

@@ -7,7 +7,7 @@ const StyledButton = styled.button`
   height: 70px;
   position: fixed;
   z-index: 4;
-  top: 30%;
+  top: 20%;
   left: -2px;
   border-top-right-radius: 50%;
   border-bottom-right-radius: 50%;

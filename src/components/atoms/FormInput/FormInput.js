@@ -56,10 +56,10 @@ const StyledLabel = styled.label`
   }
 `;
 
-const FormInput = ({ label, type, name, withError }) => (
+const FormInput = ({ label, type, name, withError, focused }) => (
   <StyledLabel withError={withError}>
     {label}
-    <StyledInput type={type} name={name} />
+    <StyledInput type={type} name={name} autoFocus={focused ? true : false} />
   </StyledLabel>
 );
 
@@ -68,12 +68,14 @@ FormInput.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string,
   withError: PropTypes.bool,
+  focused: PropTypes.bool,
 };
 
 FormInput.defaultProps = {
   label: 'No-Label',
   name: 'Anonymous',
   withError: false,
+  focused: false,
 };
 
 export default FormInput;
