@@ -61,6 +61,7 @@ const Menu = ({
     autoFilHoursMonth,
     limitOfYears,
     selectedMonthId,
+    selectedPage,
   },
 }) => (
   <StyledWrapper isMenuOpened={isMenuOpened}>
@@ -73,6 +74,7 @@ const Menu = ({
           toggleSettingsModal={toggleSettingsModal}
           autoFilHoursMonth={autoFilHoursMonth}
           limitOfYears={limitOfYears}
+          selectedPage={selectedPage}
         />
       </StyledFlexWrapper>
       <MonthMenu selectMonthOrYear={selectMonthOrYear} selectedMonthId={selectedMonthId} />

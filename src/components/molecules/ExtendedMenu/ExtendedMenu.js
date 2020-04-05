@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 3px;
-  height: 35%;
+  justify-content: flex-end;
+  padding: 3px 3px 15px 3px;
 `;
 
 const StyledMenuItem = styled(MenuItem)`
@@ -17,7 +17,8 @@ const StyledMenuItem = styled(MenuItem)`
   border: 2px solid ${({ theme }) => theme.green};
   font-size: ${({ theme }) => theme.fontSize.smallest};
   transition: none;
-  margin: 0 auto;
+  margin: 5px auto;
+  transition: color 0.2s, background-color 0.2s, border 0.2s;
   &:hover {
     color: ${({ theme }) => theme.primary};
     background-color: ${({ theme }) => theme.green};
@@ -38,16 +39,28 @@ const StyledIcon = styled(Settings)`
 
 class ExtendedMenu extends Component {
   render() {
-    const { addNewYear, toggleSettingsModal, autoFilHoursMonth, limitOfYears } = this.props;
+    const {
+      addNewYear,
+      toggleSettingsModal,
+      autoFilHoursMonth,
+      limitOfYears,
+      selectedPage,
+    } = this.props;
+    const { pathname } = selectedPage;
     return (
       <StyledWrapper>
         <StyledMenuItem className={limitOfYears ? 'noActive' : null} onClick={addNewYear}>
           Dodaj nowy rok
         </StyledMenuItem>
-        ;<StyledMenuItem onClick={autoFilHoursMonth}>Auto uzupełnianie</StyledMenuItem>;
-        <StyledMenuItem title={'Ustawienia'} onClick={toggleSettingsModal}>
-          <StyledIcon />
-        </StyledMenuItem>
+
+        {pathname === '/user/hours' && (
+          <StyledMenuItem onClick={autoFilHoursMonth}>Auto uzupełnianie</StyledMenuItem>
+        )}
+        {pathname === '/user/hours' && (
+          <StyledMenuItem title={'Ustawienia'} onClick={toggleSettingsModal}>
+            <StyledIcon />
+          </StyledMenuItem>
+        )}
       </StyledWrapper>
     );
   }
@@ -55,5 +68,8 @@ class ExtendedMenu extends Component {
 ExtendedMenu.propTypes = {
   addNewYear: PropTypes.func.isRequired,
   toggleSettingsModal: PropTypes.func.isRequired,
+  autoFilHoursMonth: PropTypes.func.isRequired,
+  limitOfYears: PropTypes.bool.isRequired,
+  selectedPage: PropTypes.object.isRequired,
 };
 export default ExtendedMenu;

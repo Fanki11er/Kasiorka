@@ -128,7 +128,7 @@ const EditExpensesModal = ({
         predicted: '',
         name: 'Zakupy',
       }}
-      validate={values => {
+      validate={(values) => {
         const errors = {};
 
         if (
@@ -263,7 +263,7 @@ const EditExpensesModal = ({
   );
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     calculateTransactions: (data, path, action) =>
       dispatch(calculateTransactionsAction(data, path, action)),

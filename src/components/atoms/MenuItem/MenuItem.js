@@ -10,7 +10,7 @@ const MenuItem = styled.button`
   border-radius: 10px;
   font-weight: bold;
   outline-style: none;
-  transition: color, background-color 0.4s;
+  transition: color 0.2s, background-color 0.2s, border 0.2s;
   color: ${({ theme, clicked, id }) => (clicked === id ? theme.primary : theme.menuBlue)};
   background-color: ${({ theme, clicked, id }) =>
     clicked === id && clicked !== undefined ? theme.menuBlue : 'transparent'};

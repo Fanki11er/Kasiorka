@@ -38,14 +38,11 @@ const MoneyMonth = ({
     path: null,
   });
   const [autoSaveInProgress, setAutoSaveStatus] = useState(false);
-  //const [timeout, setTimeoutFunction] = useState(null);
 
   const toggleDeleteFixedTransactionsModal = (selectedMonthId, path) => {
     setIsFixedTransactionsModalOpened(!isDeleteFixedTransactionModalOpened);
     setFixedTransactionsDeleteModalInfo({ selectedMonthId, path });
   };
-  /*const actualPayments = getPayments(hours, prevYearData);
-  actualizeMoneyWithActualPayments(actualPayments);*/
 
   useEffect(() => {
     let actualPayments = getPayments(hours, prevYearData);
@@ -80,9 +77,6 @@ const MoneyMonth = ({
   };
   useEffect(() => {
     autoSave(isSaved, auth, sendMoneyToDataBase);
-    /*return () => {
-      !autoSaveInProgress && clearTimeout(timeout);
-    };*/
   });
 
   return (
@@ -121,9 +115,12 @@ const mapDispatchToProps = dispatch => {
 };
 
 MoneyMonth.propTypes = {
-  prevYearData: PropTypes.object,
-  hours: PropTypes.object,
-  actualizeMoneyWithActualPayments: PropTypes.func,
+  prevYearData: PropTypes.object.isRequired,
+  hours: PropTypes.object.isRequired,
+  actualizeMoneyWithActualPayments: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  isSaved: PropTypes.bool.isRequired,
+  sendMoneyToDataBase: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoneyMonth);

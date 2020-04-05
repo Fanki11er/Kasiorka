@@ -58,7 +58,7 @@ const DeleteFixedTransactionsModal = ({
   modalInfo,
   deleteFixedTransactions,
 }) => {
-  const renderFixedExpenses = fixedExpenses => {
+  const renderFixedExpenses = (fixedExpenses) => {
     return fixedExpenses.map(({ name, predicted, expenseId, created }) => (
       <StyledRow key={expenseId}>
         <StyledLabel>
@@ -91,11 +91,14 @@ const mapStateToProps = (
   return {
     transactions: path && months[selectedMonthId][path[0]][path[1]].transactions,
     currency: hoursSettings.currency,
-    reRender: path && months[selectedMonthId][path[0]][path[1]].transactions[0], //Need for re-render
+    reRender:
+      path && months[selectedMonthId][path[0]][path[1]].transactions
+        ? months[selectedMonthId][path[0]][path[1]].transactions[0]
+        : null, //Need for re-render
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     deleteFixedTransactions: (id, modalInfo) =>
       dispatch(deleteFixedTransactionsAction(id, modalInfo)),

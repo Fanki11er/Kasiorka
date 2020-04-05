@@ -26,4 +26,15 @@ const mapStateToProps = (
   };
 };
 
+WalletHeaderSection.propTypes = {
+  accountLabel: PropTypes.string,
+  currency: PropTypes.string,
+  computedStatus: PropTypes.object,
+};
+
+WalletHeaderSection.defaultProps = {
+  accountLabel: 'None',
+  currency: 'zł',
+};
+
 export default connect(mapStateToProps)(WalletHeaderSection);

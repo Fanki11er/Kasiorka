@@ -14,6 +14,7 @@ const StyledInput = styled(Field)`
   text-align: end;
   border: none;
   outline: none;
+  caret-color: ${({ theme }) => theme.hover};
 
   &::placeholder {
     color: ${({ theme }) => theme.lighterGreen};
@@ -57,6 +58,7 @@ const ModalInput = ({ label, type, name, units, val, custom, length }) => {
           placeholder={val}
           maxLength={type === 'text' && length ? length : null}
           className="fireFoxNumber"
+          autoFocus={true}
         />
       ) : null}
 

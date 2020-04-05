@@ -8,6 +8,8 @@ const initialState = {
     monthTotalPredicted: 0,
     debitCardPredicted: 0,
   },
+  prevPaymentsReady: false,
+  prevMoneyReady: false,
 };
 const prevYearReducer = (state = initialState, action) => {
   switch (action.type) {

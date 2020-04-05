@@ -4,7 +4,6 @@ import {
   ActualizeMonthsTotal,
   addTransaction,
   editTransaction,
-  getPayments,
   addFixedTransaction,
   deleteFixedTransaction,
   chargeAccount,
@@ -14,6 +13,7 @@ import {
   actualizePredictedDebit,
   createInterestData,
   makeCorrect,
+  actualizeFixedTransactions,
   accountActions,
 } from '../tools/moneyTools';
 
@@ -40,7 +40,7 @@ export const calculateTransactions = (data, path, action) => {
     action === add && addTransaction(section, data);
     transaction = section.transactions && id !== null ? section.transactions[id] : null;
     action === edit && editTransaction(transaction, data);
-    action === addFixed && addFixedTransaction(months, type, data, selectedMonthId);
+    action === addFixed && addFixedTransaction(months, path, data);
     if (action === addFixed) {
       calculateComputed(months, selectedMonthId, type);
     } else if (action === chargeWalletAccount) {
@@ -78,12 +78,25 @@ export const calculateTransactions = (data, path, action) => {
   };
 };
 
-export const actualizeMoneyWithActualPayments = newPayments => {
+export const actualizeMoneyWithActualPayments = (newPayments) => {
   return (dispatch, getState) => {
     const { money, prevYearData } = getState();
     const months = money.months;
     ActualizeMonthsTotal(months, newPayments, 'mainAccount', prevYearData);
     dispatch({ type: 'CALCULATE_TRANSACTIONS', payload: money });
+  };
+};
+export const reCalculateMoney = () => {
+  return (dispatch, getState) => {
+    const { money, prevYearData, hours } = getState();
+    const newMoney = Object.assign({}, money);
+    actualizeFixedTransactions(prevYearData, newMoney);
+    const months = newMoney.months;
+    const accountsList = months[0].accountsList;
+    accountsList.forEach((accountType) => {
+      checkType([accountType, null], hours, newMoney, prevYearData, months, true);
+    });
+    dispatch({ type: 'RECALCULATE_MONEY', payload: newMoney });
   };
 };
 
@@ -119,6 +132,7 @@ export const closePeriod = (selectedMonthId, path) => {
     let interest;
 
     months[selectedMonthId][type[0]].isClosed = true;
+    if (selectedMonthId === 11) months[selectedMonthId].computedData.debitCard.isClosed = true;
     makeCorrect(month, section);
     calculateComputed(months, selectedMonthId, ['debitCard', 'transactions']);
     actualizePredictedDebit(prevYearData, months, selectedMonthId);

@@ -1,6 +1,4 @@
-//import { Money } from '../../tools/moneyTools';
-const initialState = { isSaved: true };
-//const initialState = new Money();
+const initialState = { isSaved: true, isLoading: false };
 const moneyReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'TAKE_MONEY_FROM_DATABASE': {
@@ -15,7 +13,7 @@ const moneyReducer = (state = initialState, action) => {
       return state;
     }
 
-    case 'SAVED_SUCCESS': {
+    case 'SAVED_SUCCESS2': {
       return { ...state, isSaved: true };
     }
 
@@ -24,6 +22,26 @@ const moneyReducer = (state = initialState, action) => {
       return {
         ...state,
         isSaved: false,
+      };
+    }
+    case 'RECALCULATE_MONEY': {
+      const state = action.payload;
+      return {
+        ...state,
+        isSaved: false,
+      };
+    }
+    case 'START_DOWNLOADING': {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+
+    case 'DATA_DOWNLOADED': {
+      return {
+        ...state,
+        isLoading: false,
       };
     }
 
