@@ -13,6 +13,11 @@ const AccountStyledSection = styled.section`
     min-width: 350px;
     width: 385px;
   }
+
+  @media screen and (max-width: 360px) {
+    min-width: 350px;
+    width: 350px;
+  }
 `;
 
 export default AccountStyledSection;

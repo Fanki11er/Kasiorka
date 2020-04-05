@@ -26,4 +26,15 @@ const mapStateToProps = (
   };
 };
 
+SavingAccountHeaderSection.propTypes = {
+  accountLabel: PropTypes.string,
+  currency: PropTypes.string,
+  computedStatus: PropTypes.object,
+};
+
+SavingAccountHeaderSection.defaultProps = {
+  accountLabel: 'None',
+  currency: 'zł',
+};
+
 export default connect(mapStateToProps)(SavingAccountHeaderSection);

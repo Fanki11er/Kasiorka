@@ -30,7 +30,7 @@ const RegisterForm = ({ signUp, auth, signUpErr }) => {
   return (
     <Formik
       initialValues={{ email: '', password: '', repeatedPassword: '', name: '' }}
-      validate={values => {
+      validate={(values) => {
         const errors = {};
 
         if (!values.name) errors.name = 'Pole wymagane';
@@ -56,7 +56,7 @@ const RegisterForm = ({ signUp, auth, signUpErr }) => {
       {({ isSubmitting }) => (
         <StyledRegisterForm noValidate>
           <FormHeader>Rejestracja</FormHeader>
-          <FormInput withError label="Imię" type="Text" name="name" />
+          <FormInput withError label="Imię" type="Text" name="name" focused={true} />
           <ErrorWrapper>
             <FormError name="name" component="div" />
           </ErrorWrapper>
@@ -97,9 +97,9 @@ const mapStateToProps = ({ firebase, errors }) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    signUp: values => dispatch(signUpAction(values)),
+    signUp: (values) => dispatch(signUpAction(values)),
   };
 };
 

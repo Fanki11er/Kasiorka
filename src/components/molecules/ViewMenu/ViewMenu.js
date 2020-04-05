@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import withMenuContext from '../../../hoc/withMenuContext';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
 
 const StyledWrapper = styled.div`
@@ -22,6 +25,7 @@ const StyledViewItem = styled(MenuItem)`
   text-align: center;
   padding-top: 10px;
   margin: 0;
+  transition: all 0.5s;
 
   &.noActive {
     pointer-events: none;
@@ -49,17 +53,48 @@ const StyledViewItem = styled(MenuItem)`
 
 class ViewMenu extends Component {
   render() {
+    const {
+      isHoursSaved,
+      isMoneySaved,
+      menuContext: {
+        selectedPage: { pathname },
+      },
+    } = this.props;
     return (
       <StyledWrapper>
-        <StyledViewItem as={NavLink} to="/user/hours" activeclass="active">
+        <StyledViewItem
+          as={NavLink}
+          to="/user/hours"
+          activeclass="active"
+          className={!isMoneySaved && pathname === '/user/money' ? 'noActive' : null}
+        >
           Godziny
         </StyledViewItem>
-        <StyledViewItem as={NavLink} to="/user/money" activeclass="active">
+        <StyledViewItem
+          as={NavLink}
+          to="/user/money"
+          activeclass="active"
+          className={
+            !isHoursSaved || (!isMoneySaved && pathname === '/user/hours') ? 'noActive' : null
+          }
+        >
           Kasiorka
         </StyledViewItem>
       </StyledWrapper>
     );
   }
 }
+const mapStateToProps = ({ hours, money }) => {
+  return {
+    isHoursSaved: hours.isSaved,
+    isMoneySaved: money.isSaved,
+  };
+};
 
-export default ViewMenu;
+ViewMenu.propTypes = {
+  isHoursSaved: PropTypes.bool,
+  isMoneySaved: PropTypes.bool,
+  menuContext: PropTypes.object,
+};
+
+export default connect(mapStateToProps)(withMenuContext(ViewMenu));

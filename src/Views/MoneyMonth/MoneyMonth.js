@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,6 +8,7 @@ import AccountModal from '../../components/molecules/AccountModal/AccountModal';
 import DeleteFixedTransactionsModal from '../../components/molecules/DeleteFixedTransacionsModal/DeleteFixedTransactionsModal';
 import { getPayments } from '../../tools/moneyTools';
 import { actualizeMoneyWithActualPayments as actualizeMoneyWithActualPaymentsAction } from '../../actions/moneyActions';
+import { sendMoneyToDataBase as sendMoneyToDataBaseAction } from '../../actions/dataBaseActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -17,7 +18,14 @@ const StyledWrapper = styled.div`
   justify-content: space-around;
 `;
 
-const MoneyMonth = ({ actualizeMoneyWithActualPayments, hours, prevYearData }) => {
+const MoneyMonth = ({
+  actualizeMoneyWithActualPayments,
+  hours,
+  prevYearData,
+  auth,
+  isSaved,
+  sendMoneyToDataBase,
+}) => {
   const [isExpensesModalOpened, setIsExpensesModalOpened] = useState(false);
   const [isDeleteFixedTransactionModalOpened, setIsFixedTransactionsModalOpened] = useState(false);
   const [modalInfo, setModalInfo] = useState({
@@ -29,14 +37,17 @@ const MoneyMonth = ({ actualizeMoneyWithActualPayments, hours, prevYearData }) =
     selectedMonthId: null,
     path: null,
   });
+  const [autoSaveInProgress, setAutoSaveStatus] = useState(false);
 
   const toggleDeleteFixedTransactionsModal = (selectedMonthId, path) => {
     setIsFixedTransactionsModalOpened(!isDeleteFixedTransactionModalOpened);
     setFixedTransactionsDeleteModalInfo({ selectedMonthId, path });
   };
 
-  const actualPayments = getPayments(hours, prevYearData);
-  actualizeMoneyWithActualPayments(actualPayments);
+  useEffect(() => {
+    let actualPayments = getPayments(hours, prevYearData);
+    actualizeMoneyWithActualPayments(actualPayments);
+  }, []);
 
   const toggleExpensesModal = (id, type, action) => {
     setIsExpensesModalOpened(!isExpensesModalOpened);
@@ -47,6 +58,26 @@ const MoneyMonth = ({ actualizeMoneyWithActualPayments, hours, prevYearData }) =
     toggleExpensesModal,
     toggleDeleteFixedTransactionsModal,
   };
+
+  const autoSave = (isSaved, auth, callback) => {
+    const { uid } = auth;
+
+    const check = () => {
+      if (!isSaved) {
+        callback(uid);
+      }
+
+      setAutoSaveStatus(false);
+    };
+
+    if (!isSaved && !autoSaveInProgress) {
+      setAutoSaveStatus(!autoSaveInProgress);
+      setTimeout(check, 1500);
+    }
+  };
+  useEffect(() => {
+    autoSave(isSaved, auth, sendMoneyToDataBase);
+  });
 
   return (
     <StyledWrapper>
@@ -66,10 +97,12 @@ const MoneyMonth = ({ actualizeMoneyWithActualPayments, hours, prevYearData }) =
   );
 };
 
-const mapStateToProps = ({ hours, prevYearData }) => {
+const mapStateToProps = ({ hours, prevYearData, firebase, money }) => {
   return {
     hours,
     prevYearData,
+    auth: firebase.auth,
+    isSaved: money.isSaved,
   };
 };
 
@@ -77,13 +110,17 @@ const mapDispatchToProps = dispatch => {
   return {
     actualizeMoneyWithActualPayments: newPayments =>
       dispatch(actualizeMoneyWithActualPaymentsAction(newPayments)),
+    sendMoneyToDataBase: uid => dispatch(sendMoneyToDataBaseAction(uid)),
   };
 };
 
 MoneyMonth.propTypes = {
-  prevYearData: PropTypes.object,
-  hours: PropTypes.object,
-  actualizeMoneyWithActualPayments: PropTypes.func,
+  prevYearData: PropTypes.object.isRequired,
+  hours: PropTypes.object.isRequired,
+  actualizeMoneyWithActualPayments: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  isSaved: PropTypes.bool.isRequired,
+  sendMoneyToDataBase: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoneyMonth);

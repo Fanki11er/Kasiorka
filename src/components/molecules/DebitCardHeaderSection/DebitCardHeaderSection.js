@@ -12,6 +12,7 @@ import {
   calculateExpensesPercent,
   createExtendedComputedStatus,
   choseInterest,
+  checkIsPrevPeriodClosed,
 } from '../../../tools/moneyTools';
 import { closePeriod as closePeriodAction } from '../../../actions/moneyActions';
 
@@ -27,6 +28,7 @@ const DebitCardHeaderSection = ({
   selectedMonthId,
   path,
   closePeriod,
+  isPrevPeriodClosed,
 }) => {
   const stats = createStats(selectedMonth, { payment: debit }, 'debitCard');
   const expensesPercents = calculateExpensesPercent(stats);
@@ -44,7 +46,7 @@ const DebitCardHeaderSection = ({
       <ClosePeriodButton
         green="true"
         onClick={() => closePeriod(selectedMonthId, path)}
-        className={isPeriodClosed ? 'noActive' : null}
+        className={isPeriodClosed || !isPrevPeriodClosed ? 'noActive' : null}
       >
         Zakończ okres
       </ClosePeriodButton>
@@ -53,7 +55,7 @@ const DebitCardHeaderSection = ({
 };
 
 const mapStateToProps = (
-  { money: { months }, user: { hoursSettings } },
+  { money: { months }, user: { hoursSettings }, prevYearData: { prevMoney } },
   { selectedMonthId, path },
 ) => {
   return {
@@ -64,10 +66,11 @@ const mapStateToProps = (
     cardSettings: months[selectedMonthId].debitCard.cardSettings,
     interests: months[selectedMonthId].debitCard.interests,
     isPeriodClosed: months[selectedMonthId].debitCard.isClosed,
+    isPrevPeriodClosed: checkIsPrevPeriodClosed(prevMoney, selectedMonthId, months),
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     closePeriod: (selectedMonthId, path) => dispatch(closePeriodAction(selectedMonthId, path)),
   };
@@ -82,6 +85,7 @@ DebitCardHeaderSection.propTypes = {
   interests: PropTypes.object,
   isPeriodClosed: PropTypes.bool,
   closePeriod: PropTypes.func,
+  isPrevPeriodClosed: PropTypes.bool,
 };
 
 DebitCardHeaderSection.defaultProps = {
@@ -96,6 +100,7 @@ DebitCardHeaderSection.defaultProps = {
     interestRate: 0,
   },
   isPeriodClosed: false,
+  isPrevPeriodClosed: false,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DebitCardHeaderSection);
