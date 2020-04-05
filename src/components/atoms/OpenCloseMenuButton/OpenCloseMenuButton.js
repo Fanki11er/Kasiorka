@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { ArrowForwardIos } from 'styled-icons/material';
 
 const StyledButton = styled.button`
@@ -36,6 +37,11 @@ const OpenCloseMenuButton = ({ opened, toggleMenu }) => {
       <StyledIcon opened={opened} />
     </StyledButton>
   );
+};
+
+OpenCloseMenuButton.propTypes = {
+  opened: PropTypes.bool,
+  toggleMenu: PropTypes.func.isRequired,
 };
 
 export default OpenCloseMenuButton;

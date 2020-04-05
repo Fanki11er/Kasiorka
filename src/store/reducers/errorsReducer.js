@@ -36,9 +36,24 @@ const errorsReducer = (state = initialState, action) => {
       };
     }
     case 'LOGIN_ERROR': {
+      console.log(action.err.code, 'LOG_ERR'); //!!!!!!
+      let message = '';
+      switch (action.err.code) {
+        case 'auth/user-not-found': {
+          message = 'Nie znaleziono użytkownika';
+          break;
+        }
+        case 'auth/invalid-email': {
+          message = 'Nie prawidłowy e-mail';
+          break;
+        }
+        default: {
+          message = 'Nieznany błąd';
+        }
+      }
       return {
         ...state,
-        authErr: action.err.message,
+        authErr: message,
       };
     }
 

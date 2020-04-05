@@ -22,7 +22,11 @@ const AccountHeader = ({ forSection, label }) => {
 
 AccountHeader.propTypes = {
   forSection: PropTypes.bool,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
+};
+
+AccountHeader.defaultProps = {
+  label: '----',
 };
 
 export default AccountHeader;

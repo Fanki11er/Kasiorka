@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -70,6 +71,16 @@ const AccountStats = ({ label, expensesPercents }) => {
       </StyledStatsWrapper>
     </StyledWrapper>
   );
+};
+
+AccountStats.propTypes = {
+  label: PropTypes.string,
+  expensesPercents: PropTypes.number,
+};
+
+AccountStats.defaultProps = {
+  label: '----',
+  expensesPercents: 0,
 };
 
 export default AccountStats;

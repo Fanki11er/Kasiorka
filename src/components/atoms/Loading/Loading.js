@@ -15,6 +15,7 @@ const StyledWrapper = styled.div`
   align-self: center;
   justify-content: center;
   margin: 4%;
+
   @media screen and (max-width: 770px) {
     height: 100%;
   }
@@ -50,15 +51,34 @@ const StyledAnimationWrapper = styled.div`
 
 const StyledPadlock = styled.img`
   width: 12%;
+  animation-name: rotationY;
+  animation-duration: 2s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+
   @media screen and (max-width: 770px) {
     width: 20%;
+  }
+  @keyframes rotationY {
+    to {
+      transform: rotateY(360deg);
+    }
   }
 `;
 
 const StyledSync = styled.img`
   width: 18%;
+  animation-name: rotation;
+  animation-duration: 2s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
   @media screen and (max-width: 770px) {
     width: 28%;
+  }
+  @keyframes rotation {
+    to {
+      transform: rotate(360deg);
+    }
   }
 `;
 

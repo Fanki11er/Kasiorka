@@ -51,11 +51,18 @@ const CheckBoxInput = ({ label, name, custom, type, noActive }) => {
 };
 
 CheckBoxInput.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  name: PropTypes.string,
   custom: PropTypes.bool,
   type: PropTypes.string.isRequired,
   noActive: PropTypes.bool,
+};
+
+CheckBoxInput.defaultProps = {
+  label: '----',
+  name: '----',
+  custom: false,
+  noActive: false,
 };
 
 export default CheckBoxInput;

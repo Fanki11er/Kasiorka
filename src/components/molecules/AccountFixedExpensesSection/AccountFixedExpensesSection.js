@@ -73,6 +73,13 @@ AccountFixedExpensesSection.propTypes = {
   currency: PropTypes.string,
   expenses: PropTypes.array,
   isClosed: PropTypes.bool,
+  transactions: PropTypes.array,
+  selectedMonthId: PropTypes.number,
+  toggleDeleteFixedTransactionsModal: PropTypes.func.isRequired,
+  toggleExpensesModal: PropTypes.func.isRequired,
+  renderExpenses: PropTypes.func.isRequired,
+  path: PropTypes.array,
+  type: PropTypes.array,
 };
 
 AccountFixedExpensesSection.defaultProps = {
@@ -82,3 +89,13 @@ AccountFixedExpensesSection.defaultProps = {
 };
 
 export default connect(mapStateToProps)(AccountFixedExpensesSection);
+
+/*
+
+  
+
+  type,
+  
+  path,
+
+*/

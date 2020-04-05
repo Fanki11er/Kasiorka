@@ -34,4 +34,8 @@ const FormLabel = styled.label`
 FormLabel.propTypes = {
   custom: PropTypes.bool,
 };
+
+FormLabel.defaultProps = {
+  custom: false,
+};
 export default FormLabel;
