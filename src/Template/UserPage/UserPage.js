@@ -119,7 +119,7 @@ class UserPage extends Component {
             clearInterval(interval);
             throw new Error('Nie można przekalkulować');
           }
-          console.log(intervalLoop, 'INTERVALLOOP');
+          console.log(intervalLoop, 'INTERVAL_LOOP');
           intervalLoop++;
         }, 500);
 

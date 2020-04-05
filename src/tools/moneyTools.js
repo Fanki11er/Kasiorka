@@ -14,19 +14,13 @@ class Expense {
   }
 }
 
-class DebitExpense extends Expense {
-  /*constructor({ name, predicted, real = 0, action = '-' }) {
-    super({ name, predicted, real, action });
-    this.signature = 'debit';
-  }*/
-}
+class DebitExpense extends Expense {}
 
 class FixedExpenses {
-  constructor(name, path /*transactionsList = []*/) {
+  constructor(name, path) {
     this.name = name;
     this.transactions = [];
     this.path = path;
-    //this.transactionsList = transactionsList;
     this.realSum = 0;
     this.predictedSum = 0;
   }
@@ -59,9 +53,6 @@ class OtherAccounts extends Transactions {
 
 class Account {
   constructor(title, type, sections = []) {
-    /* if (new.target === Account) {
-      throw new Error('Account is an abstract class');
-    }*/
     this.title = title;
     this.sections = [];
     this.type = type;
@@ -293,10 +284,11 @@ const addFixedTransaction = (months, path, data) => {
 
 const deleteTransaction = (section, id) => {
   let indexOfExpense;
-  section.forEach(({ expenseId }, index) => {
-    if (expenseId === id) indexOfExpense = index;
-  });
-  section.splice(indexOfExpense, 1);
+  section &&
+    section.forEach(({ expenseId }, index) => {
+      if (expenseId === id) indexOfExpense = index;
+    });
+  section && section.splice(indexOfExpense, 1);
 };
 
 const deleteFixedTransaction = (months, selectedMonthId, type, id) => {
@@ -643,7 +635,7 @@ const getUndoneFixedTransactions = (account, computedData) => {
     return account;
   }
 };
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 const updateDoneList = (months, path, actionId) => {
   const { type, selectedMonthId } = path;
   const { computedData } = months[selectedMonthId];
@@ -669,25 +661,45 @@ const actualizeFixedTransactions = (prevYearData, money) => {
   const { months } = money;
   let fixedTransactionsList;
   let path;
+  let adds = [];
+  let deletes = [];
   if (changesInFixedTransactions.length) {
     fixedTransactionsList = makeFixedTransactionsList(
       changesInFixedTransactions,
       prevYearData,
       money,
     );
+    adds = fixedTransactionsList.filter((transaction) => {
+      return transaction.action === 'addFixed';
+    });
 
-    fixedTransactionsList.forEach((transaction) => {
-      let { action, type, data, actionId, id } = transaction;
+    deletes = fixedTransactionsList.filter((transaction) => {
+      return transaction.action === 'deleteFixed';
+    });
+    adds.forEach((transaction) => {
+      let { type, data, actionId } = transaction;
       path = { type, selectedMonthId: 0 };
-      if (action === 'addFixed') {
-        addFixedTransaction(months, path, data);
-        updateDoneList(months, path, actionId);
-      } else {
-        deleteFixedTransaction(months, 0, type, id);
-        updateDoneList(months, path, actionId);
-      }
+      addFixedTransaction(months, path, data);
+      updateDoneList(months, path, actionId);
+    });
+
+    deletes.forEach((transaction) => {
+      let { type, actionId, id } = transaction;
+      path = { type, selectedMonthId: 0 };
+      deleteFixedTransaction(months, 0, type, id);
+      updateDoneList(months, path, actionId);
     });
   }
+};
+
+const checkIsPrevPeriodClosed = (prevMoney, selectedMonthId, months) => {
+  let isClosed;
+  if (selectedMonthId === 0) {
+    isClosed = prevMoney.debitCard ? prevMoney.debitCard.isClosed : true;
+  } else {
+    isClosed = months[selectedMonthId - 1].debitCard.isClosed;
+  }
+  return isClosed;
 };
 
 export {
@@ -718,5 +730,6 @@ export {
   makeCorrect,
   fixNumber,
   actualizeFixedTransactions,
+  checkIsPrevPeriodClosed,
   accountActions,
 };

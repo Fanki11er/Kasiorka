@@ -1,3 +1,5 @@
+export const appVersion = 0.3;
+
 class SingleMonth {
   constructor(id, name) {
     this.id = id + 1;
@@ -33,9 +35,10 @@ class SingleYear {
 }
 
 class User {
-  constructor(name, yearsList) {
+  constructor(name, yearsList, appVersion = 0) {
     this.name = name;
     this.yearsList = yearsList;
+    this.appVersion = appVersion;
     this.hoursSettings = {
       currency: 'zł',
       salaryValue: 0,
@@ -133,7 +136,7 @@ const createNewYear = (monthNames, selectedYear) => {
   return year;
 };
 
-const findNextYear = years => {
+const findNextYear = (years) => {
   let newYear;
   const lastYear = years.length - 1;
   if (years.length === 0) newYear = new Date().getFullYear();
@@ -146,7 +149,7 @@ const findNextYear = years => {
 const addDaysToSection = (month, rangeStart, rangeEnd) => {
   const daysArr = [];
   month &&
-    month.map(day => {
+    month.map((day) => {
       if (day.dayId >= rangeStart && day.dayId <= rangeEnd) {
         daysArr.push(day);
       }
@@ -178,7 +181,7 @@ const updateTotalHours = (monthToUpdate, actionPerformed) => {
 };
 
 const findIndexToChange = (startValue, dayId) => {
-  const foundIndex = startValue.indexOf(startValue.find(day => day.dayId === dayId));
+  const foundIndex = startValue.indexOf(startValue.find((day) => day.dayId === dayId));
   return foundIndex;
 };
 

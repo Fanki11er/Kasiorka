@@ -74,7 +74,7 @@ const EditSettingsModal = ({
         workSundays,
         workHolidays,
       }}
-      validate={values => {
+      validate={(values) => {
         const errors = {};
         if (values.currency === '' || values.currency.match(/[0-9]/)) errors.error = true;
         if (
@@ -214,7 +214,7 @@ EditSettingsModal.propTypes = {
   updateUserSettings: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     currency: state.user.hoursSettings.currency,
     salaryValue: state.user.hoursSettings.salaryValue,
@@ -226,9 +226,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    updateUserSettings: newSettings => dispatch(updateUserSettingsAction(newSettings)),
+    updateUserSettings: (newSettings) => dispatch(updateUserSettingsAction(newSettings)),
   };
 };
 

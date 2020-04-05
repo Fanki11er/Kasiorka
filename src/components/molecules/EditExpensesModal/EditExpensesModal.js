@@ -61,6 +61,7 @@ const StyledInput = styled(Field)`
   text-align: center;
   border: none;
   outline: none;
+  caret-color: ${({ theme }) => theme.hover};
 
   &::placeholder {
     color: ${({ theme }) => theme.lighterGreen};
@@ -213,20 +214,25 @@ const EditExpensesModal = ({
             {action !== 'payTheCard' && (
               <ExpensesWrapper>
                 <ExpensesSign>{action === 'edit' ? expenseType : values.action}</ExpensesSign>
-                <StyledInput type={'Number'} name="real" placeholder={'Rzeczywista'} />
+                <StyledInput
+                  type={'number'}
+                  name="real"
+                  placeholder={'Rzeczywista'}
+                  className="fireFoxNumber"
+                />
                 <ExpensesSign>/</ExpensesSign>
-                <StyledInput type={'Number'} name="predicted" placeholder={'Przewidywana'} />
+                <StyledInput type={'number'} name="predicted" placeholder={'Przewidywana'} />
               </ExpensesWrapper>
             )}
             {action === 'payTheCard' && (
               <ExpensesWrapper>
-                <StyledInput type={'Number'} name="real" placeholder={'Spłata'} />
+                <StyledInput type={'number'} name="real" placeholder={'Spłata'} />
                 <ExpensesSign>/</ExpensesSign>
                 <StyledInput
-                  type={'Number'}
+                  type={'number'}
                   name="predicted"
                   placeholder={-predicted}
-                  className={'noActive'}
+                  className={'noActive fireFoxNumber'}
                 />
               </ExpensesWrapper>
             )}

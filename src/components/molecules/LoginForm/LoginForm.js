@@ -26,7 +26,7 @@ const LoginForm = ({ signIn, auth, authErr }) => {
       {({ isSubmitting }) => (
         <StyledForm noValidate>
           <FormHeader>Logowanie</FormHeader>
-          <FormInput withError label="E-mail" type="email" name="email" />
+          <FormInput withError label="E-mail" type="email" name="email" focused={true} />
           <ErrorWrapper></ErrorWrapper>
           <FormInput withError label="Hasło" type="password" name="password" />
           <ErrorWrapper>{authErr && <ErrorInfo>{authErr}</ErrorInfo>}</ErrorWrapper>
@@ -53,9 +53,9 @@ const mapStateToProps = ({ firebase, errors }) => {
     authErr: errors.authErr,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: credentials => dispatch(signInAction(credentials)),
+    signIn: (credentials) => dispatch(signInAction(credentials)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -38,6 +38,7 @@ const StyledInput = styled(Field)`
     transform: translateX(-10px);
     width: 25%;
     margin-left: 5px;
+    font-size: 1em;
   }
 `;
 

@@ -1,20 +1,20 @@
-import { createNewYear, monthNames, User } from '../tools/index';
+import { createNewYear, monthNames, User, appVersion } from '../tools/index';
 import { addHolidaysToYear, constantPolishHolidays } from '../tools/holidayTools';
 import { Money } from '../tools/moneyTools';
 
-export const signUp = newUser => {
+export const signUp = (newUser) => {
   return (dispatch, getState, { getFirebase, dataBase }) => {
     const firebase = getFirebase();
     const year = new Date().getFullYear();
     const newYear = createNewYear(monthNames, year);
     const money = new Money();
     const months = newYear.months;
-    const user = new User(newUser.name, [newYear.yearName]);
+    const user = new User(newUser.name, [newYear.yearName], appVersion);
     addHolidaysToYear(year, months, constantPolishHolidays);
     firebase
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
-      .then(resp => {
+      .then((resp) => {
         dataBase.update('Users', {
           data: {
             [resp.user.uid]: {
@@ -33,13 +33,13 @@ export const signUp = newUser => {
       .then(() => {
         dispatch({ type: 'SIGNUP_SUCCESS' });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({ type: 'SIGNUP_ERROR', err });
       });
   };
 };
 
-export const signIn = credentials => {
+export const signIn = (credentials) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
     firebase
@@ -48,7 +48,7 @@ export const signIn = credentials => {
       .then(() => {
         dispatch({ type: 'LOGIN_SUCCESS' });
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({ type: 'LOGIN_ERROR', err });
       });
   };
