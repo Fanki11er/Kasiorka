@@ -67,6 +67,7 @@ class ViewMenu extends Component {
           to="/user/hours"
           activeclass="active"
           className={!isMoneySaved && pathname === '/user/money' ? 'noActive' : null}
+          disabled={!isMoneySaved && pathname === '/user/money' ? true : false}
         >
           Godziny
         </StyledViewItem>
@@ -77,6 +78,7 @@ class ViewMenu extends Component {
           className={
             !isHoursSaved || (!isMoneySaved && pathname === '/user/hours') ? 'noActive' : null
           }
+          disabled={!isHoursSaved || (!isMoneySaved && pathname === '/user/hours') ? true : false}
         >
           Kasiorka
         </StyledViewItem>

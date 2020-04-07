@@ -40,12 +40,14 @@ const AccountFixedExpensesSection = ({
           <AccountButton
             onClick={() => toggleExpensesModal(null, type, 'addFixed')}
             className={isClosed ? 'noActive' : null}
+            disabled={isClosed ? true : false}
           >
             Add
           </AccountButton>
           <AccountButton
             onClick={() => toggleDeleteFixedTransactionsModal(selectedMonthId, path)}
             className={isClosed || !transactions.length ? 'noActive' : null}
+            disabled={isClosed || !transactions.length ? true : false}
           >
             Delete
           </AccountButton>

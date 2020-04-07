@@ -13,6 +13,7 @@ import withExpensesModal from '../../../hoc/withExpensesModal';
 import { calculateTransactions as calculateTransactionsAction } from '../../../actions/moneyActions';
 import ModalInput from '../../atoms/ModalInput/ModalInput';
 import ModalWrapper from '../../atoms/ModalWrapper/ModalWrapper';
+import { ErrorMessage } from 'formik';
 import { fixNumber } from '../../../tools/moneyTools';
 
 const StyledFormHeader = styled(FormHeader)`
@@ -108,6 +109,30 @@ const StyledFormButton = styled(FormButton)`
   }
 `;
 
+const StyledErrorWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  padding: 0 30px;
+  @media screen and (max-width: 1920px) {
+  }
+  @media screen and (max-width: 770px) {
+  }
+`;
+
+const StyledFormError = styled(ErrorMessage)`
+  color: ${({ theme }) => theme.sundayRed};
+  font-size: 18px;
+  margin: 0 0 3px 0;
+  font-weight: bold;
+  padding: 0;
+  height: 15px;
+  @media screen and (max-width: 1920px) {
+    font-size: 14px;
+  }
+`;
+
 const EditExpensesModal = ({
   predicted,
   real,
@@ -132,26 +157,34 @@ const EditExpensesModal = ({
       validate={(values) => {
         const errors = {};
 
-        if (
-          !/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.real) ||
-          values.real < 0 ||
-          values.real === 'e'
-        ) {
+        if (!/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.real)) {
           errors.real = true;
         }
-        if (
-          !/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.predicted) ||
-          values.predicted === 'e' ||
-          values.predicted < 0
-        ) {
+        if (values.real < 0) {
+          errors.real = 'Rzeczywiste: Tylko liczby dodatnie';
+        }
+
+        if (values.real === 'e') {
+          errors.real = 'Tylko cyfry';
+        }
+
+        if (!/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.predicted)) {
           errors.predicted = true;
         }
 
-        if (values.name === '' && action === 'add') {
-          errors.name = true;
+        if (values.predicted < 0) {
+          errors.predicted = 'Przewidywane: Tylko liczby dodatnie';
+        }
+
+        if (values.predicted === 'e') {
+          errors.predicted = 'Tylko cyfry';
+        }
+
+        if (values.name === '' && (action === 'add' || action === 'addFixed')) {
+          errors.name = 'Opis nie może być pusty';
         }
         if (action === 'payTheCard' && values.real > -predicted) {
-          errors.predicted = true;
+          errors.real = 'Spłata przewyższa wartość debetu ';
         }
 
         if (isPeriodClosed) {
@@ -224,6 +257,7 @@ const EditExpensesModal = ({
                 <StyledInput type={'number'} name="predicted" placeholder={'Przewidywana'} />
               </ExpensesWrapper>
             )}
+
             {action === 'payTheCard' && (
               <ExpensesWrapper>
                 <StyledInput type={'number'} name="real" placeholder={'Spłata'} />
@@ -233,14 +267,27 @@ const EditExpensesModal = ({
                   name="predicted"
                   placeholder={-predicted}
                   className={'noActive fireFoxNumber'}
+                  disabled={true}
                 />
               </ExpensesWrapper>
             )}
+            <StyledErrorWrapper>
+              {errors.name && <StyledFormError name="name" component="div" />}
+              {errors.predicted && <StyledFormError name="predicted" component="div" />}
+              {errors.real && <StyledFormError name="real" component="div" />}
+            </StyledErrorWrapper>
             <StyledRowWrapper>
               <StyledFormButton
                 green="true"
                 type="submit"
-                disabled={isSubmitting}
+                disabled={
+                  isSubmitting ||
+                  errors.real ||
+                  values.real === '' ||
+                  errors.predicted ||
+                  errors.name ||
+                  errors.periodClosed
+                }
                 className={
                   errors.real ||
                   values.real === '' ||

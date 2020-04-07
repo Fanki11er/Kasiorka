@@ -36,15 +36,18 @@ const errorsReducer = (state = initialState, action) => {
       };
     }
     case 'LOGIN_ERROR': {
-      console.log(action.err.code, 'LOG_ERR'); //!!!!!!
       let message = '';
       switch (action.err.code) {
         case 'auth/user-not-found': {
-          message = 'Nie znaleziono użytkownika';
+          message = 'Nie prawidłowe dane logowania';
           break;
         }
         case 'auth/invalid-email': {
-          message = 'Nie prawidłowy e-mail';
+          message = 'Nie prawidłowe dane logowania';
+          break;
+        }
+        case 'auth/wrong-password': {
+          message = 'Nie prawidłowe dane logowania';
           break;
         }
         default: {
@@ -58,9 +61,20 @@ const errorsReducer = (state = initialState, action) => {
     }
 
     case 'SIGNUP_ERROR': {
+      let message = '';
+      switch (action.err.code) {
+        case 'auth/email-already-in-use': {
+          message = 'Adres e-mail jest już wykożystany';
+          break;
+        }
+        default: {
+          message = 'Nieznany błąd';
+          break;
+        }
+      }
       return {
         ...state,
-        signUpErr: action.err.message,
+        signUpErr: message,
       };
     }
 

@@ -47,6 +47,7 @@ const DebitCardHeaderSection = ({
         green="true"
         onClick={() => closePeriod(selectedMonthId, path)}
         className={isPeriodClosed || !isPrevPeriodClosed ? 'noActive' : null}
+        disabled={isPeriodClosed || !isPrevPeriodClosed ? true : false}
       >
         Zakończ okres
       </ClosePeriodButton>
