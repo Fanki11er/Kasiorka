@@ -15,6 +15,11 @@ const StyledInput = styled(Field)`
   border: none;
   outline: none;
   caret-color: ${({ theme }) => theme.hover};
+  transition: color 0.8s;
+
+  &.error {
+    color: ${({ theme }) => theme.sundayRed};
+  }
 
   &::placeholder {
     color: ${({ theme }) => theme.lighterGreen};
@@ -48,7 +53,7 @@ const StyledUnits = styled.div`
   color: ${({ theme }) => theme.green};
 `;
 
-const ModalInput = ({ label, type, name, units, val, custom, length }) => {
+const ModalInput = ({ label, type, name, units, val, custom, length, error }) => {
   return (
     <FormLabel custom={custom}>
       {label}
@@ -59,6 +64,7 @@ const ModalInput = ({ label, type, name, units, val, custom, length }) => {
           placeholder={val}
           maxLength={type === 'text' && length ? length : null}
           className="fireFoxNumber"
+          className={error ? 'error' : null}
           autoFocus={true}
         />
       ) : null}
@@ -76,6 +82,7 @@ ModalInput.propTypes = {
   val: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   custom: PropTypes.bool,
   length: PropTypes.number,
+  error: PropTypes.bool,
 };
 
 export default ModalInput;

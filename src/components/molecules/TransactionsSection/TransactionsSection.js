@@ -27,6 +27,7 @@ const TransactionsSection = ({
       <AccountButton
         onClick={() => toggleExpensesModal(null, type, 'add')}
         className={isClosed ? 'noActive' : null}
+        disabled={isClosed ? true : false}
       >
         Add
       </AccountButton>

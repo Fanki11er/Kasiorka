@@ -76,13 +76,17 @@ const EditSettingsModal = ({
       }}
       validate={(values) => {
         const errors = {};
-        if (values.currency === '' || values.currency.match(/[-0-9]/)) errors.error = true;
+        if (values.currency === '' || values.currency.match(/[-0-9]/)) {
+          errors.currency = true;
+          errors.error = true;
+        }
 
         if (
           !/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.salary) ||
           values.salary > 999999 ||
           values.salary === ''
         ) {
+          errors.salary = true;
           errors.error = true;
         }
         if (
@@ -90,15 +94,19 @@ const EditSettingsModal = ({
           values.dayWorkHours === '' ||
           values.dayWorkHours > 24 ||
           values.dayWorkHours === 'e'
-        )
+        ) {
+          errors.dayWorkHours = true;
           errors.error = true;
+        }
         if (
           !/^[+]?[0-9]*$/.test(values.freeDayHours) ||
           values.freeDayHours === '' ||
           values.freeDayHours > 24 ||
           values.freeDayHours === 'e'
-        )
+        ) {
+          errors.freeDayHours = true;
           errors.error = true;
+        }
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
@@ -128,6 +136,7 @@ const EditSettingsModal = ({
               val={currency}
               custom
               length={3}
+              error={errors.currency ? true : false}
             />
 
             <ModalInput
@@ -136,6 +145,7 @@ const EditSettingsModal = ({
               label={'Stawka godzinowa:'}
               units={`${currency}/h`}
               val={salaryValue}
+              error={errors.salary ? true : false}
               custom
             />
 
@@ -145,6 +155,7 @@ const EditSettingsModal = ({
               label={'Godziny pracy na dobę:'}
               units={'h'}
               val={dayWorkHours}
+              error={errors.dayWorkHours ? true : false}
               custom
             />
 
@@ -154,6 +165,7 @@ const EditSettingsModal = ({
               label={'Godziny na urlopie:'}
               units={'h'}
               val={freeDayHours}
+              error={errors.freeDayHours ? true : false}
               custom
             />
 

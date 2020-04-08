@@ -55,7 +55,6 @@ const StyledRowWrapper = styled.div`
 const StyledInput = styled(Field)`
   min-width: 20%;
   width: 40%;
-
   font-size: 1.5em;
   font-weight: bold;
   color: ${({ theme }) => theme.green};
@@ -64,6 +63,11 @@ const StyledInput = styled(Field)`
   border: none;
   outline: none;
   caret-color: ${({ theme }) => theme.hover};
+  transition: color 0.8s;
+
+  &.error {
+    color: ${({ theme }) => theme.sundayRed};
+  }
 
   &::placeholder {
     color: ${({ theme }) => theme.lighterGreen};
@@ -222,6 +226,7 @@ const EditExpensesModal = ({
                   name="real"
                   placeholder={'Rzeczywista'}
                   className="fireFoxNumber"
+                  className={errors.real ? 'error' : null}
                 />
                 <ExpensesSign>/</ExpensesSign>
                 <StyledInput type={'number'} name="predicted" placeholder={'Przewidywana'} />
@@ -230,7 +235,12 @@ const EditExpensesModal = ({
 
             {action === 'payTheCard' && (
               <ExpensesWrapper>
-                <StyledInput type={'number'} name="real" placeholder={'Spłata'} />
+                <StyledInput
+                  type={'number'}
+                  name="real"
+                  placeholder={'Spłata'}
+                  className={errors.real ? 'error' : null}
+                />
                 <ExpensesSign>/</ExpensesSign>
                 <StyledInput
                   type={'number'}
@@ -334,6 +344,7 @@ EditExpensesModal.propTypes = {
   selectedMonthId: PropTypes.number,
   expenseType: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   calculateTransactions: PropTypes.func,
+  isPeriodClosed: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withExpensesModal(EditExpensesModal));

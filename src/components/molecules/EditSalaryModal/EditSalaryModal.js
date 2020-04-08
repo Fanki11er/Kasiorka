@@ -110,6 +110,7 @@ const EditSalaryModal = ({
                 name={chosenOption}
                 units={`${currency}/h`}
                 val={value}
+                error={errors[chosenOption] ? true : false}
               />
             )}
             {chosenOption === optionPayment && (
@@ -119,6 +120,7 @@ const EditSalaryModal = ({
                 name={chosenOption}
                 units={currency}
                 val={value}
+                error={errors[chosenOption] ? true : false}
               />
             )}
             <StyledModalErrorWrapper>
