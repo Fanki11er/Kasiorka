@@ -76,24 +76,25 @@ const EditSettingsModal = ({
       }}
       validate={(values) => {
         const errors = {};
-        if (values.currency === '' || values.currency.match(/[0-9]/)) errors.error = true;
+        if (values.currency === '' || values.currency.match(/[-0-9]/)) errors.error = true;
+
         if (
-          values.salary === '' ||
-          values.salary < 0 ||
-          values.salary === 'e' ||
-          values.salary > 999999
-        )
+          !/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.salary) ||
+          values.salary > 999999 ||
+          values.salary === ''
+        ) {
           errors.error = true;
+        }
         if (
+          !/^[+]?[0-9]*$/.test(values.dayWorkHours) ||
           values.dayWorkHours === '' ||
-          values.dayWorkHours < 0 ||
           values.dayWorkHours > 24 ||
           values.dayWorkHours === 'e'
         )
           errors.error = true;
         if (
+          !/^[+]?[0-9]*$/.test(values.freeDayHours) ||
           values.freeDayHours === '' ||
-          values.freeDayHours < 0 ||
           values.freeDayHours > 24 ||
           values.freeDayHours === 'e'
         )

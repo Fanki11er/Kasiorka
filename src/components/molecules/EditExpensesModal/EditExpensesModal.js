@@ -13,7 +13,8 @@ import withExpensesModal from '../../../hoc/withExpensesModal';
 import { calculateTransactions as calculateTransactionsAction } from '../../../actions/moneyActions';
 import ModalInput from '../../atoms/ModalInput/ModalInput';
 import ModalWrapper from '../../atoms/ModalWrapper/ModalWrapper';
-import { ErrorMessage } from 'formik';
+import ModalErrorWrapper from '../../atoms/ModalErrorWrapper/ModalErrorWrapper';
+import ModalError from '../../atoms/ModalError/ModalError';
 import { fixNumber } from '../../../tools/moneyTools';
 
 const StyledFormHeader = styled(FormHeader)`
@@ -109,30 +110,6 @@ const StyledFormButton = styled(FormButton)`
   }
 `;
 
-const StyledErrorWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 100%;
-  padding: 0 30px;
-  @media screen and (max-width: 1920px) {
-  }
-  @media screen and (max-width: 770px) {
-  }
-`;
-
-const StyledFormError = styled(ErrorMessage)`
-  color: ${({ theme }) => theme.sundayRed};
-  font-size: 18px;
-  margin: 0 0 3px 0;
-  font-weight: bold;
-  padding: 0;
-  height: 15px;
-  @media screen and (max-width: 1920px) {
-    font-size: 14px;
-  }
-`;
-
 const EditExpensesModal = ({
   predicted,
   real,
@@ -158,26 +135,18 @@ const EditExpensesModal = ({
         const errors = {};
 
         if (!/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.real)) {
-          errors.real = true;
+          errors.real = 'Nie prawidłowy format liczby';
         }
         if (values.real < 0) {
           errors.real = 'Rzeczywiste: Tylko liczby dodatnie';
         }
 
-        if (values.real === 'e') {
-          errors.real = 'Tylko cyfry';
-        }
-
         if (!/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.predicted)) {
-          errors.predicted = true;
+          errors.predicted = 'Nie prawidłowy format liczby';
         }
 
         if (values.predicted < 0) {
           errors.predicted = 'Przewidywane: Tylko liczby dodatnie';
-        }
-
-        if (values.predicted === 'e') {
-          errors.predicted = 'Tylko cyfry';
         }
 
         if (values.name === '' && (action === 'add' || action === 'addFixed')) {
@@ -190,6 +159,7 @@ const EditExpensesModal = ({
         if (isPeriodClosed) {
           errors.periodClosed = true;
         }
+
         return errors;
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -197,7 +167,7 @@ const EditExpensesModal = ({
           real: fixNumber(values.real, 2),
           predicted: fixNumber(values.predicted, 2),
           action: values.action,
-          name: values.name || 'none',
+          name: values.name || '----',
         };
 
         const path = {
@@ -271,11 +241,11 @@ const EditExpensesModal = ({
                 />
               </ExpensesWrapper>
             )}
-            <StyledErrorWrapper>
-              {errors.name && <StyledFormError name="name" component="div" />}
-              {errors.predicted && <StyledFormError name="predicted" component="div" />}
-              {errors.real && <StyledFormError name="real" component="div" />}
-            </StyledErrorWrapper>
+            <ModalErrorWrapper>
+              {errors.name && <ModalError name="name" component="div" />}
+              {errors.predicted && <ModalError name="predicted" component="div" />}
+              {errors.real && <ModalError name="real" component="div" />}
+            </ModalErrorWrapper>
             <StyledRowWrapper>
               <StyledFormButton
                 green="true"
