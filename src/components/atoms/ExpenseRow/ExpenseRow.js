@@ -25,6 +25,7 @@ const StyledNumbers = styled.div`
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   color: ${({ theme, action }) => (action === '+' ? theme.green : theme.sundayRed)};
   margin-right: 12px;
+  user-select: none;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
@@ -52,6 +53,7 @@ const StyledPercentage = styled.div`
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   color: ${({ theme }) => theme.green};
   margin-right: 5px;
+  user-select: none;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};

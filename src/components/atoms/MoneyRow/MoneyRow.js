@@ -19,6 +19,7 @@ const StyledLabel = styled.div`
   margin-right: 10px;
   margin-left: 5px;
   justify-self: center;
+  user-select: none;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
@@ -31,6 +32,7 @@ const StyledNumbers = styled.div`
   color: ${({ theme, received, predicted }) =>
     received || predicted !== undefined ? theme.green : theme.lighterGreen};
   margin-right: 5px;
+  user-select: none;
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
   }

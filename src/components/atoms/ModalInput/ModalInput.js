@@ -51,6 +51,7 @@ const StyledUnits = styled.div`
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   font-weight: bold;
   color: ${({ theme }) => theme.green};
+  user-select: none;
 `;
 
 const ModalInput = ({ label, type, name, units, val, custom, length, error }) => {
@@ -63,8 +64,7 @@ const ModalInput = ({ label, type, name, units, val, custom, length, error }) =>
           name={name}
           placeholder={val}
           maxLength={type === 'text' && length ? length : null}
-          className="fireFoxNumber"
-          className={error ? 'error' : null}
+          className={error ? 'error fireFoxNumber' : 'fireFoxNumber'}
           autoFocus={true}
         />
       ) : null}

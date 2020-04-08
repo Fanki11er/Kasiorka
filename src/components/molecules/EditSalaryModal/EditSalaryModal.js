@@ -100,7 +100,7 @@ const EditSalaryModal = ({
         setSubmitting(false);
       }}
     >
-      {({ isSubmitting, handleSubmit, values, errors }) => (
+      {({ isSubmitting, handleSubmit, values, errors, resetForm }) => (
         <StyledWrapper>
           <StyledForm noValidate onSubmit={handleSubmit} autoComplete="off">
             {chosenOption === optionSalary && (
@@ -136,7 +136,7 @@ const EditSalaryModal = ({
               Zapisz
             </StyledFormButton>
           </StyledForm>
-          <CloseButton chosenOption={chosenOption} />
+          <CloseButton chosenOption={chosenOption} additionalFunc={resetForm} />
         </StyledWrapper>
       )}
     </Formik>

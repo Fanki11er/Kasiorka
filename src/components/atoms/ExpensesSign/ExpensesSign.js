@@ -6,6 +6,7 @@ const ExpensesSign = styled.div`
   width: 10%;
   text-align: center;
   transition: color 0.2s;
+  user-select: none;
 
   @media screen and (max-width: 770px) {
     width: 6%;

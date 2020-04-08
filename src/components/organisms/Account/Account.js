@@ -83,6 +83,8 @@ const Account = ({
 
 Account.propTypes = {
   viewsContext: PropTypes.object.isRequired,
+  accountName: PropTypes.string,
+  expensesModalContext: PropTypes.object,
 };
 
 export default compose(withViewsContext, withExpensesModal)(Account);

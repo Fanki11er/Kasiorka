@@ -17,6 +17,7 @@ const StyledAuthor = styled.span`
   color: ${({ theme }) => theme.menuBlue};
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   margin: 0 100px;
+  user-select: none;
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
   }
@@ -29,6 +30,7 @@ const StyledAppVersion = styled.span`
   color: ${({ theme }) => theme.green};
   font-size: ${({ theme }) => theme.fontSize.smallest};
   margin: 0 100px;
+  user-select: none;
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.smallest};
   }

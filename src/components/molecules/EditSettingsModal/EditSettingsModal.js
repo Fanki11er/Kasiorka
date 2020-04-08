@@ -203,7 +203,9 @@ const EditSettingsModal = ({
                 green="true"
                 type="button"
                 disabled={isSubmitting}
-                onClick={menuContext.toggleSettingsModal}
+                onClick={() => {
+                  menuContext.toggleSettingsModal();
+                }}
               >
                 Anuluj
               </StyledFormButton>

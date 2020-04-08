@@ -186,7 +186,7 @@ const EditExpensesModal = ({
         setSubmitting(false);
       }}
     >
-      {({ isSubmitting, handleSubmit, values, errors }) => (
+      {({ isSubmitting, handleSubmit, values, errors, resetForm }) => (
         <ModalWrapper>
           <StyledForm noValidate onSubmit={handleSubmit} autoComplete="off">
             <StyledFormHeader>{name}</StyledFormHeader>
@@ -225,11 +225,15 @@ const EditExpensesModal = ({
                   type={'number'}
                   name="real"
                   placeholder={'Rzeczywista'}
-                  className="fireFoxNumber"
-                  className={errors.real ? 'error' : null}
+                  className={errors.real ? 'error fireFoxNumber' : 'fireFoxNumber'}
                 />
                 <ExpensesSign>/</ExpensesSign>
-                <StyledInput type={'number'} name="predicted" placeholder={'Przewidywana'} />
+                <StyledInput
+                  type={'number'}
+                  name="predicted"
+                  placeholder={'Przewidywana'}
+                  className={errors.predicted ? 'error fireFoxNumber' : 'fireFoxNumber'}
+                />
               </ExpensesWrapper>
             )}
 
@@ -239,14 +243,14 @@ const EditExpensesModal = ({
                   type={'number'}
                   name="real"
                   placeholder={'Spłata'}
-                  className={errors.real ? 'error' : null}
+                  className={errors.real ? 'error fireFoxNumber' : 'fireFoxNumber'}
                 />
                 <ExpensesSign>/</ExpensesSign>
                 <StyledInput
-                  type={'number'}
+                  type={'text'}
                   name="predicted"
                   placeholder={-predicted}
-                  className={'noActive fireFoxNumber'}
+                  className={errors.predicted ? 'error noActive' : 'noActive'}
                   disabled={true}
                 />
               </ExpensesWrapper>
@@ -284,7 +288,10 @@ const EditExpensesModal = ({
                 green="true"
                 type="button"
                 disabled={isSubmitting}
-                onClick={() => toggleExpensesModal(null, null, null)}
+                onClick={() => {
+                  resetForm();
+                  toggleExpensesModal(null, null, null);
+                }}
               >
                 Anuluj
               </StyledFormButton>

@@ -15,6 +15,7 @@ const StyledLabel = styled.div`
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   color: ${({ theme }) => theme.menuBlue};
   min-width: 45%;
+  user-select: none;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};

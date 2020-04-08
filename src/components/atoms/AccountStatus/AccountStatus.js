@@ -23,6 +23,7 @@ const StyledLabel = styled.div`
   margin-right: 10px;
   min-width: 20%;
   display: flex;
+  user-select: none;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
@@ -37,6 +38,7 @@ const StyledInfo = styled.div`
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   padding: 0 10px;
   justify-content: center;
+  user-select: none;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};

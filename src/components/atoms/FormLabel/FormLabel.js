@@ -15,6 +15,7 @@ const FormLabel = styled.label`
   border-radius: 10px;
   padding: 15px 20px;
   align-items: center;
+  user-select: none;
 
   @media screen and (max-width: 1920px) {
     height: 35px;
