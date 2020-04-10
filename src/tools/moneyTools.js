@@ -702,6 +702,11 @@ const checkIsPrevPeriodClosed = (prevMoney, selectedMonthId, months) => {
   return isClosed;
 };
 
+const correctionFunction = (real, predicted) => {
+  let difference = real - predicted;
+  return difference;
+};
+
 export {
   Expense,
   FixedExpenses,
@@ -731,5 +736,6 @@ export {
   fixNumber,
   actualizeFixedTransactions,
   checkIsPrevPeriodClosed,
+  correctionFunction,
   accountActions,
 };
