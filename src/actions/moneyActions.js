@@ -14,6 +14,7 @@ import {
   createInterestData,
   makeCorrect,
   actualizeFixedTransactions,
+  changeDebitSettings,
   accountActions,
 } from '../tools/moneyTools';
 
@@ -146,5 +147,14 @@ export const closePeriod = (selectedMonthId, path) => {
     checkType(['mainAccount'], hours, newMoney, prevYearData, months);
 
     dispatch({ type: 'CALCULATE_TRANSACTIONS', payload: newMoney });
+  };
+};
+
+export const setNewDebitSettings = (data) => {
+  return (dispatch, getState) => {
+    const { money } = getState();
+    const newMoney = Object.assign({}, money);
+    changeDebitSettings(newMoney, data);
+    dispatch({ type: 'SET_NEW_DEBITS', payload: newMoney });
   };
 };

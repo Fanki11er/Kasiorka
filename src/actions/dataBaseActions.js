@@ -1,4 +1,4 @@
-import { newYearsListItem } from '../tools/index';
+import { newYearsListItem, checkForUpdates } from '../tools/index';
 import { addHolidaysToYear, constantPolishHolidays } from '../tools/holidayTools';
 import { Money } from '../tools/moneyTools';
 
@@ -20,7 +20,8 @@ export const takeDataFromDataBase = (uid, year) => {
           context: state,
         })
         .then((data) => {
-          dispatch({ type: 'TAKE_USER_SETTINGS_FROM_DATABASE', payload: data }); // User reducer
+          const checkedData = checkForUpdates(data);
+          dispatch({ type: 'TAKE_USER_SETTINGS_FROM_DATABASE', payload: checkedData }); // User reducer
         }),
 
       dataBase

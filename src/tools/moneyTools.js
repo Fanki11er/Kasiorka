@@ -707,6 +707,15 @@ const correctionFunction = (real, predicted) => {
   return difference;
 };
 
+const changeDebitSettings = (newMoney, data) => {
+  const { account, property, newValue, selectedMonthId } = data;
+  let selectedAccount;
+  for (let i = selectedMonthId; i < 12; i++) {
+    selectedAccount = newMoney.months[i][account];
+    selectedAccount.cardSettings[property] = newValue;
+  }
+};
+
 export {
   Expense,
   FixedExpenses,
@@ -737,5 +746,6 @@ export {
   actualizeFixedTransactions,
   checkIsPrevPeriodClosed,
   correctionFunction,
+  changeDebitSettings,
   accountActions,
 };

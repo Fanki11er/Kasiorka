@@ -70,7 +70,7 @@ const StyledSync = styled.img`
   width: 18%;
   animation-name: rotation;
   animation-duration: 2s;
-  animation-timing-function: ease-in;
+  animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   @media screen and (max-width: 770px) {
     width: 28%;

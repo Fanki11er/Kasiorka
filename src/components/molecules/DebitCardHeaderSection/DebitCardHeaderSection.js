@@ -38,8 +38,20 @@ const DebitCardHeaderSection = ({
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} />
-      <DebitCardInfo amount={debit} label={'Debet:'} units={currency} />
-      <DebitCardInfo amount={interestRate} label={'Oprocentowanie:'} units={'%'} />
+      <DebitCardInfo
+        amount={debit}
+        label={'Debet:'}
+        units={currency}
+        settings={['debitCard', 'debit']}
+        editable={isPeriodClosed ? false : true}
+      />
+      <DebitCardInfo
+        amount={interestRate}
+        label={'Oprocentowanie:'}
+        units={'%'}
+        settings={['debitCard', 'interestRate']}
+        editable={isPeriodClosed ? false : true}
+      />
       <AccountStatus units={currency} status={extendedComputedStatus} label={'Środki'} />
       <DebitCardInfo amount={interest} label={'Odsetki:'} units={currency} editable={false} />
       <AccountStats label={'Wydatki / Środki'} expensesPercents={expensesPercents} />

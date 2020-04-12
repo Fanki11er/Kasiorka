@@ -57,14 +57,23 @@ const StyledLabel = styled.div`
   }
 `;
 
-const DebitCardInfo = ({ amount, label, units, editable }) => {
+const DebitCardInfo = ({
+  amount,
+  label,
+  units,
+  editable,
+  expensesModalContext: { toggleDebitModal },
+  settings,
+}) => {
   return (
     <StyledWrapper>
       <StyledLabel>{label}</StyledLabel>
       <StyledAmount>
         {amount} {units}
       </StyledAmount>
-      <EndWrapper>{editable && <StyledPencilIcon />}</EndWrapper>
+      <EndWrapper>
+        {editable && <StyledPencilIcon onClick={() => toggleDebitModal(settings, amount)} />}
+      </EndWrapper>
     </StyledWrapper>
   );
 };
@@ -74,12 +83,13 @@ DebitCardInfo.propTypes = {
   label: PropTypes.string,
   units: PropTypes.string,
   editable: PropTypes.bool,
+  settings: PropTypes.array,
 };
 
 DebitCardInfo.defaultProps = {
   amount: 0,
-  label: '????',
-  units: '??',
+  label: '----',
+  units: '--',
   editable: true,
 };
 
