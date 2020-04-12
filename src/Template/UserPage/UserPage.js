@@ -225,12 +225,15 @@ class UserPage extends Component {
     };
 
     const { pathname } = this.props.location;
+    const { hours, money, login, user } = routes;
 
     const {
       auth: { uid },
     } = this.props;
-    if (!uid) return <Redirect to={routes.login} />;
-    if (pathname === '/user') return <Redirect to={'user/money'} />;
+    if (!uid) return <Redirect to={login} />;
+    if (pathname === user) return <Redirect to={money} />;
+    if (pathname !== user && pathname !== money && pathname !== hours)
+      return <Redirect to={money} />;
 
     return (
       <StateIsLoaded>
@@ -243,8 +246,8 @@ class UserPage extends Component {
               <EditSettings isSettingsModalOpened={isSettingsModalOpened} />
             </MenuContext.Provider>
             <ViewsContext.Provider value={viewsContext}>
-              {pathname === '/user/hours' && <HoursMonth />}
-              {pathname === '/user/money' && <MoneyMonth />}
+              {pathname === hours && <HoursMonth />}
+              {pathname === money && <MoneyMonth />}
             </ViewsContext.Provider>
             <Footer />
           </StyledWrapper>

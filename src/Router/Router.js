@@ -33,6 +33,7 @@ function Router() {
                 <Route exact path={login} component={LoginView} />
                 <Route path={user} component={UserPage} />
                 <Route path={register} component={RegisterView} />
+                <Route path={'*'} component={LoginView} />
               </Switch>
             </AuthIsLoaded>
           </ThemeProvider>
