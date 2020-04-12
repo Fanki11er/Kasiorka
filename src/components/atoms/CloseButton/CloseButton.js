@@ -40,10 +40,15 @@ const StyledButton = styled.button`
   }
 `;
 
-const CloseButton = ({ summaryContext, chosenOption }) => {
+const CloseButton = ({ summaryContext, chosenOption, additionalFunc }) => {
   const { toggleEditSummaryModal: toggleModal } = summaryContext;
   return (
-    <StyledButton onClick={() => toggleModal(chosenOption)}>
+    <StyledButton
+      onClick={() => {
+        additionalFunc && additionalFunc();
+        toggleModal(chosenOption);
+      }}
+    >
       <StyledIcon />;
     </StyledButton>
   );
@@ -52,6 +57,10 @@ const CloseButton = ({ summaryContext, chosenOption }) => {
 CloseButton.propTypes = {
   summaryContext: PropTypes.object.isRequired,
   chosenOption: PropTypes.string,
+  additionalFunc: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+};
+CloseButton.defaultProps = {
+  additionalFunc: null,
 };
 
 export default withSummaryContext(CloseButton);

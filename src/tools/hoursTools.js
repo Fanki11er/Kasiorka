@@ -12,7 +12,7 @@ const autoFillHoursMonth = (
 ) => {
   month.currency = currency;
   month.salary = salaryValue;
-  month.days.map(day => {
+  month.days.map((day) => {
     if (day.isSaturday) day.workHours = saturdayWorkHours;
     else if (day.isSunday) day.workHours = sundayWorkHours;
     else if (day.isHoliday) day.workHours = holidayWorkHours;
@@ -22,7 +22,7 @@ const autoFillHoursMonth = (
   });
 };
 
-const sumWholeMonthWorkHours = month => {
+const sumWholeMonthWorkHours = (month) => {
   month.totalHours = month.days.reduce((total, day) => {
     return total + day.workHours;
   }, 0);

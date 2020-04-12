@@ -44,6 +44,13 @@ const moneyReducer = (state = initialState, action) => {
         isLoading: false,
       };
     }
+    case 'SET_NEW_DEBITS': {
+      const state = action.payload;
+      return {
+        ...state,
+        isSaved: false,
+      };
+    }
 
     default: {
       return state;

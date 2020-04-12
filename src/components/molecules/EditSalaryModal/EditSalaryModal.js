@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import { changeSalaryValue as changeSalaryValueAction } from '../../../actions/hoursActions';
 import { changePaymentReceived as changePaymentReceivedAction } from '../../../actions/hoursActions';
 import ModalInput from '../../atoms/ModalInput/ModalInput';
-import ErrorWrapper from '../../atoms/ErrorWrapper/ErrorWrapper';
 import FormButton from '../../atoms/FormButton/FormButton';
 import CloseButton from '../../atoms/CloseButton/CloseButton';
-import FormError from '../../atoms/FormError/FormError';
+import ModalErrorWrapper from '../../atoms/ModalErrorWrapper/ModalErrorWrapper';
+import ModalError from '../../atoms/ModalError/ModalError';
 import withSummaryContext from '../../../hoc/withSummaryContext';
 
 const StyledWrapper = styled.div`
@@ -59,8 +59,9 @@ const StyledFormButton = styled(FormButton)`
   }
 `;
 
-const StyledErrorWrapper = styled(ErrorWrapper)`
-  padding-left: 0;
+const StyledModalErrorWrapper = styled(ModalErrorWrapper)`
+  height: 15px;
+  margin: 5px 0;
   text-align: center;
 `;
 
@@ -78,11 +79,12 @@ const EditSalaryModal = ({
   return (
     <Formik
       initialValues={{ [chosenOption]: '' }}
-      validate={values => {
+      validate={(values) => {
         const errors = {};
 
         if (
-          (!/[+]?[0-9]*\.?[0-9]+/.test(values[chosenOption]) && values[chosenOption] !== '') ||
+          (!/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values[chosenOption]) &&
+            values[chosenOption] !== '') ||
           values[chosenOption] < 0
         ) {
           errors[chosenOption] = 'Błędna wartość';
@@ -98,7 +100,7 @@ const EditSalaryModal = ({
         setSubmitting(false);
       }}
     >
-      {({ isSubmitting, handleSubmit, values, errors }) => (
+      {({ isSubmitting, handleSubmit, values, errors, resetForm }) => (
         <StyledWrapper>
           <StyledForm noValidate onSubmit={handleSubmit} autoComplete="off">
             {chosenOption === optionSalary && (
@@ -108,6 +110,7 @@ const EditSalaryModal = ({
                 name={chosenOption}
                 units={`${currency}/h`}
                 val={value}
+                error={errors[chosenOption] ? true : false}
               />
             )}
             {chosenOption === optionPayment && (
@@ -117,11 +120,12 @@ const EditSalaryModal = ({
                 name={chosenOption}
                 units={currency}
                 val={value}
+                error={errors[chosenOption] ? true : false}
               />
             )}
-            <StyledErrorWrapper>
-              <FormError name={chosenOption} component="div" />
-            </StyledErrorWrapper>
+            <StyledModalErrorWrapper>
+              <ModalError name={chosenOption} component="div" />
+            </StyledModalErrorWrapper>
 
             <StyledFormButton
               className={values[chosenOption] === '' || errors[chosenOption] ? 'noActive' : null}
@@ -132,7 +136,7 @@ const EditSalaryModal = ({
               Zapisz
             </StyledFormButton>
           </StyledForm>
-          <CloseButton chosenOption={chosenOption} />
+          <CloseButton chosenOption={chosenOption} additionalFunc={resetForm} />
         </StyledWrapper>
       )}
     </Formik>
@@ -149,7 +153,7 @@ EditSalaryModal.propTypes = {
   chosenOption: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     changeSalaryValue: (newSalaryValue, monthId) =>
       dispatch(changeSalaryValueAction(newSalaryValue, monthId)),

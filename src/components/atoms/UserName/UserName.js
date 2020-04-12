@@ -6,6 +6,7 @@ const UserName = styled.div`
   font-size: ${({ theme }) => theme.fontSize.smaller};
   color: ${({ theme }) => theme.menuYellow};
   height: 40px;
+  user-select: none;
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.smaller};
   }

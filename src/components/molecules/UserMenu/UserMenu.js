@@ -61,6 +61,9 @@ UserMenu.propTypes = {
   signOut: PropTypes.func.isRequired,
   userName: PropTypes.string,
   isSaved: PropTypes.bool.isRequired,
+  moneyIsSaved: PropTypes.bool.isRequired,
+  auth: PropTypes.object.isRequired,
+  sendHoursToDataBase: PropTypes.func.isRequired,
 };
 
 UserMenu.defaultProps = {
@@ -76,10 +79,10 @@ const mapStateToProps = ({ user, hours, firebase, money }) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     signOut: () => dispatch(signOutAction()),
-    sendHoursToDataBase: uid => dispatch(sendHoursToDataBaseAction(uid)),
+    sendHoursToDataBase: (uid) => dispatch(sendHoursToDataBaseAction(uid)),
   };
 };
 

@@ -52,7 +52,7 @@ class DayOfTheWeek extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   updateHours: (monthId, dayId, workHours, action) =>
     dispatch(updateHoursAction(monthId, dayId, workHours, action)),
 });

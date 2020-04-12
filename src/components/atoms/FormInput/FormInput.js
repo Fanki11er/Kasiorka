@@ -72,8 +72,8 @@ FormInput.propTypes = {
 };
 
 FormInput.defaultProps = {
-  label: 'No-Label',
-  name: 'Anonymous',
+  label: '----',
+  name: '----',
   withError: false,
   focused: false,
 };

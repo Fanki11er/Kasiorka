@@ -9,6 +9,7 @@ const StyledHeader = styled.div`
   font-weight: bold;
   margin: 5px;
   text-align: center;
+  user-select: none;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme, forSection }) =>
@@ -22,7 +23,11 @@ const AccountHeader = ({ forSection, label }) => {
 
 AccountHeader.propTypes = {
   forSection: PropTypes.bool,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
+};
+
+AccountHeader.defaultProps = {
+  label: '----',
 };
 
 export default AccountHeader;

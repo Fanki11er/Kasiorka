@@ -40,12 +40,14 @@ const AccountFixedExpensesSection = ({
           <AccountButton
             onClick={() => toggleExpensesModal(null, type, 'addFixed')}
             className={isClosed ? 'noActive' : null}
+            disabled={isClosed ? true : false}
           >
             Add
           </AccountButton>
           <AccountButton
             onClick={() => toggleDeleteFixedTransactionsModal(selectedMonthId, path)}
             className={isClosed || !transactions.length ? 'noActive' : null}
+            disabled={isClosed || !transactions.length ? true : false}
           >
             Delete
           </AccountButton>
@@ -73,6 +75,13 @@ AccountFixedExpensesSection.propTypes = {
   currency: PropTypes.string,
   expenses: PropTypes.array,
   isClosed: PropTypes.bool,
+  transactions: PropTypes.array,
+  selectedMonthId: PropTypes.number,
+  toggleDeleteFixedTransactionsModal: PropTypes.func.isRequired,
+  toggleExpensesModal: PropTypes.func.isRequired,
+  renderExpenses: PropTypes.func.isRequired,
+  path: PropTypes.array,
+  type: PropTypes.array,
 };
 
 AccountFixedExpensesSection.defaultProps = {
@@ -82,3 +91,13 @@ AccountFixedExpensesSection.defaultProps = {
 };
 
 export default connect(mapStateToProps)(AccountFixedExpensesSection);
+
+/*
+
+  
+
+  type,
+  
+  path,
+
+*/

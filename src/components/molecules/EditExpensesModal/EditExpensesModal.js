@@ -13,7 +13,10 @@ import withExpensesModal from '../../../hoc/withExpensesModal';
 import { calculateTransactions as calculateTransactionsAction } from '../../../actions/moneyActions';
 import ModalInput from '../../atoms/ModalInput/ModalInput';
 import ModalWrapper from '../../atoms/ModalWrapper/ModalWrapper';
-import { fixNumber } from '../../../tools/moneyTools';
+import ModalErrorWrapper from '../../atoms/ModalErrorWrapper/ModalErrorWrapper';
+import ModalError from '../../atoms/ModalError/ModalError';
+import SecondCheckBoxInput from '../../atoms/SecondCheckBoxInput/SecondCheckBoxInput';
+import { fixNumber, correctionFunction } from '../../../tools/moneyTools';
 
 const StyledFormHeader = styled(FormHeader)`
   margin: 0;
@@ -21,6 +24,7 @@ const StyledFormHeader = styled(FormHeader)`
   align-self: flex-start;
   transform: translateX(30px);
   font-size: ${({ theme }) => theme.fontSize.verySmall};
+  user-select: none;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.small};
@@ -53,7 +57,6 @@ const StyledRowWrapper = styled.div`
 const StyledInput = styled(Field)`
   min-width: 20%;
   width: 40%;
-
   font-size: 1.5em;
   font-weight: bold;
   color: ${({ theme }) => theme.green};
@@ -62,6 +65,18 @@ const StyledInput = styled(Field)`
   border: none;
   outline: none;
   caret-color: ${({ theme }) => theme.hover};
+  transition: color 0.8s;
+
+  &.hidden {
+    opacity: 0.3;
+    user-select: none;
+    pointer-events: none;
+    cursor: auto;
+  }
+
+  &.error {
+    color: ${({ theme }) => theme.sundayRed};
+  }
 
   &::placeholder {
     color: ${({ theme }) => theme.lighterGreen};
@@ -83,6 +98,7 @@ const StyledInput = styled(Field)`
 
   &.noActive {
     pointer-events: none;
+    user-select: none;
     &::placeholder {
       color: ${({ theme }) => theme.green};
     }
@@ -121,6 +137,13 @@ const EditExpensesModal = ({
   calculateTransactions,
   isPeriodClosed,
 }) => {
+  const changeClass = (errors, values, errorType) => {
+    if (errors[errorType]) {
+      return 'error fireFoxNumber';
+    } else if (values.correct) {
+      return ' fireFoxNumber';
+    } else return 'fireFoxNumber';
+  };
   return (
     <Formik
       initialValues={{
@@ -128,43 +151,50 @@ const EditExpensesModal = ({
         real: '',
         predicted: '',
         name: 'Zakupy',
+        correct: false,
       }}
       validate={(values) => {
         const errors = {};
 
-        if (
-          !/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.real) ||
-          values.real < 0 ||
-          values.real === 'e'
-        ) {
-          errors.real = true;
+        if (!/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.real) && !values.correct) {
+          errors.real = 'Nie prawidłowy format liczby';
         }
-        if (
-          !/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.predicted) ||
-          values.predicted === 'e' ||
-          values.predicted < 0
-        ) {
-          errors.predicted = true;
+        if (values.real < 0 && !values.correct) {
+          errors.real = 'Rzeczywiste: Tylko liczby dodatnie';
         }
 
-        if (values.name === '' && action === 'add') {
-          errors.name = true;
+        if (!/^[+]?[0-9]*(\.[0-9]{1,2})?$/.test(values.predicted) && !values.correct) {
+          errors.predicted = 'Nie prawidłowy format liczby';
+        }
+
+        if (values.predicted < 0 && !values.correct) {
+          errors.predicted = 'Przewidywane: Tylko liczby dodatnie';
+        }
+
+        if (values.name === '' && (action === 'add' || action === 'addFixed')) {
+          errors.name = 'Opis nie może być pusty';
         }
         if (action === 'payTheCard' && values.real > -predicted) {
-          errors.predicted = true;
+          errors.real = 'Spłata przewyższa wartość debetu ';
         }
 
         if (isPeriodClosed) {
           errors.periodClosed = true;
         }
+
         return errors;
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        if (values.correct) {
+          values.predicted = -correctionFunction(real, predicted);
+          values.real = 0;
+          console.log(values.real, values.predicted);
+        }
         const data = {
           real: fixNumber(values.real, 2),
           predicted: fixNumber(values.predicted, 2),
           action: values.action,
-          name: values.name || 'none',
+          name: values.name || '----',
         };
 
         const path = {
@@ -179,15 +209,15 @@ const EditExpensesModal = ({
         setSubmitting(false);
       }}
     >
-      {({ isSubmitting, handleSubmit, values, errors }) => (
+      {({ isSubmitting, handleSubmit, values, errors, resetForm }) => (
         <ModalWrapper>
           <StyledForm noValidate onSubmit={handleSubmit} autoComplete="off">
             <StyledFormHeader>{name}</StyledFormHeader>
-            {action === 'edit' && (
+            {(action === 'edit' || values.correct) && (
               <ExpensesInfo
-                predicted={predicted}
+                predicted={values.correct ? real : predicted}
                 real={real}
-                percentage={percentage}
+                percentage={values.correct ? 100 : percentage}
                 units={currency}
               />
             )}
@@ -212,43 +242,81 @@ const EditExpensesModal = ({
               </StyledRowWrapper>
             )}
             {action !== 'payTheCard' && (
+              <>
+                {action !== 'addFixed' && action !== 'add' && (
+                  <SecondCheckBoxInput
+                    label={'Zrób autokorektę:'}
+                    name="correct"
+                    type={'checkbox'}
+                    hidden={real !== predicted ? false : true}
+                  />
+                )}
+                <ExpensesWrapper className={values.correct ? 'hidden' : null}>
+                  <ExpensesSign>{action === 'edit' ? expenseType : values.action}</ExpensesSign>
+                  <StyledInput
+                    type={'number'}
+                    name="real"
+                    placeholder="Rzeczywista"
+                    className={changeClass(errors, values, 'real')}
+                    disabled={values.correct ? true : false}
+                  />
+                  <ExpensesSign>/</ExpensesSign>
+                  <StyledInput
+                    type={'number'}
+                    name="predicted"
+                    placeholder="Przewidywana"
+                    className={changeClass(errors, values, 'predicted')}
+                    disabled={values.correct ? true : false}
+                  />
+                </ExpensesWrapper>
+              </>
+            )}
+
+            {action === 'payTheCard' && (
               <ExpensesWrapper>
-                <ExpensesSign>{action === 'edit' ? expenseType : values.action}</ExpensesSign>
                 <StyledInput
                   type={'number'}
                   name="real"
-                  placeholder={'Rzeczywista'}
-                  className="fireFoxNumber"
+                  placeholder={'Spłata'}
+                  className={errors.real ? 'error fireFoxNumber' : 'fireFoxNumber'}
                 />
-                <ExpensesSign>/</ExpensesSign>
-                <StyledInput type={'number'} name="predicted" placeholder={'Przewidywana'} />
-              </ExpensesWrapper>
-            )}
-            {action === 'payTheCard' && (
-              <ExpensesWrapper>
-                <StyledInput type={'number'} name="real" placeholder={'Spłata'} />
                 <ExpensesSign>/</ExpensesSign>
                 <StyledInput
-                  type={'number'}
+                  type={'text'}
                   name="predicted"
                   placeholder={-predicted}
-                  className={'noActive fireFoxNumber'}
+                  className={errors.predicted ? 'error noActive' : 'noActive'}
+                  disabled={true}
                 />
               </ExpensesWrapper>
             )}
+            <ModalErrorWrapper>
+              {errors.name && <ModalError name="name" component="div" />}
+              {errors.predicted && <ModalError name="predicted" component="div" />}
+              {errors.real && <ModalError name="real" component="div" />}
+            </ModalErrorWrapper>
             <StyledRowWrapper>
               <StyledFormButton
                 green="true"
                 type="submit"
-                disabled={isSubmitting}
+                disabled={
+                  !values.correct &&
+                  (isSubmitting ||
+                    errors.real ||
+                    values.real === '' ||
+                    errors.predicted ||
+                    errors.name ||
+                    errors.periodClosed)
+                }
                 className={
-                  errors.real ||
+                  !values.correct &&
+                  (errors.real ||
                   values.real === '' ||
                   errors.predicted ||
                   errors.name ||
                   errors.periodClosed
                     ? 'noActive'
-                    : null
+                    : null)
                 }
               >
                 Zapisz
@@ -257,7 +325,10 @@ const EditExpensesModal = ({
                 green="true"
                 type="button"
                 disabled={isSubmitting}
-                onClick={() => toggleExpensesModal(null, null, null)}
+                onClick={() => {
+                  resetForm();
+                  toggleExpensesModal(null, null, null);
+                }}
               >
                 Anuluj
               </StyledFormButton>
@@ -317,6 +388,7 @@ EditExpensesModal.propTypes = {
   selectedMonthId: PropTypes.number,
   expenseType: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   calculateTransactions: PropTypes.func,
+  isPeriodClosed: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withExpensesModal(EditExpensesModal));

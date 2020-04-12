@@ -180,9 +180,9 @@ const mapStateToProps = ({ hours, firebase }) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    sendHoursToDataBase: uid => dispatch(sendHoursToDataBaseAction(uid)),
+    sendHoursToDataBase: (uid) => dispatch(sendHoursToDataBaseAction(uid)),
   };
 };
 

@@ -9,7 +9,6 @@ const SavingAccountHeaderSection = ({ accountLabel, currency, computedStatus }) 
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} />
-
       <AccountStatus units={currency} status={computedStatus} />
     </AccountStyledSection>
   );

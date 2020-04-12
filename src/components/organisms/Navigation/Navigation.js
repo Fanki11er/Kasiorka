@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import ViewMenu from '../../molecules/ViewMenu/ViewMenu';
 import UserMenu from '../../molecules/UserMenu/UserMenu';
 import ModalExtraInfo from '../../atoms/MobileExtraInfo/MobileExtraInfo';
@@ -34,6 +35,10 @@ const Navigation = ({ menuContext: { selectedMonthId } }) => {
       <UserMenu />
     </StyledWrapper>
   );
+};
+
+Navigation.propTypes = {
+  menuContext: PropTypes.object.isRequired,
 };
 
 export default withMenuContext(Navigation);

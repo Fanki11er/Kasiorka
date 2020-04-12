@@ -1,4 +1,4 @@
-export const appVersion = 0.3;
+export const appVersion = '0.4';
 
 class SingleMonth {
   constructor(id, name) {
@@ -194,6 +194,13 @@ const expectedPayout = (month, totalHours, salary) => {
   month.payments.expectedPayout = parseFloat((totalHours * salary).toFixed(2));
 };
 
+const checkForUpdates = (data) => {
+  if (data.appVersion !== appVersion) {
+    data.appVersion = appVersion;
+    return data;
+  } else return data;
+};
+
 //Reducer---------------------------------------------------------
 //Actions---------------------------------------------------------
 const newYearsListItem = (yearsList, yearToAdd) => {
@@ -212,7 +219,7 @@ export {
   updatePaymentValue,
   expectedPayout,
 }; //Reducer
-export { newYearsListItem }; //Actions
+export { newYearsListItem, checkForUpdates }; //Actions
 export {
   SingleMonth,
   SingleDay,

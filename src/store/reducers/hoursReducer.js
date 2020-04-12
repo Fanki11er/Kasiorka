@@ -59,6 +59,11 @@ const hoursReducer = (state = initialState, action) => {
       const month = state.months[monthId];
       autoFillHoursMonth(month, userHoursSettings);
       sumWholeMonthWorkHours(month);
+      expectedPayout(
+        state.months[monthId],
+        state.months[monthId].totalHours,
+        state.months[monthId].salary,
+      );
       return {
         ...state,
         isSaved: false,
