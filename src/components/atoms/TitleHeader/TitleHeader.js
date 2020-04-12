@@ -11,6 +11,7 @@ const StyledHeader = styled.div`
   height: 150px;
   font-size: ${({ theme }) => theme.fontSize.large};
   letter-spacing: 20px;
+  user-select: none;
   &:last-of-type {
     margin-left: 20px;
   }

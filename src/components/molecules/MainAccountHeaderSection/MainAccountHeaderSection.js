@@ -60,6 +60,7 @@ MainAccountHeaderSection.propTypes = {
   selectedMonthId: PropTypes.number,
   currency: PropTypes.string,
   computedStatus: PropTypes.object,
+  payment: PropTypes.object,
 };
 
 MainAccountHeaderSection.defaultProps = {

@@ -11,7 +11,7 @@ const store = createStore(
   compose(
     reduxFirestore(firebase),
     applyMiddleware(thunk.withExtraArgument({ getFirebase, dataBase, endPoints })),
-    /*window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),*/
+    //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   ),
 );
 

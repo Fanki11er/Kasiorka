@@ -31,6 +31,7 @@ const StyledLabel = styled.label`
   color: ${({ theme }) => theme.menuBlue};
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   font-weight: bold;
+  user-select: none;
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
   }
@@ -43,6 +44,7 @@ const StyledSpan = styled.div`
   font-size: ${({ theme }) => theme.fontSize.smaller};
   font-weight: bold;
   margin: 0 20px;
+  user-select: none;
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.smaller};
     margin: 0 15px;
@@ -58,6 +60,7 @@ const StyledUnits = styled.div`
   font-weight: bold;
   color: ${({ theme }) => theme.green};
   margin-right: 15px;
+  user-select: none;
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.smaller};
     margin-right: 10px;

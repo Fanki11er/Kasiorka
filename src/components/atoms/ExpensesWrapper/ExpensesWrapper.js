@@ -8,9 +8,17 @@ const ExpensesWrapper = styled.div`
   border-radius: 10px;
   align-items: center;
   padding: 0 10px;
+  opacity: 1;
+  transition: opacity 0.5s;
 
   @media screen and (max-width: 1920px) {
     height: ${({ theme }) => theme.rowHeightMediumScreen};
+  }
+
+  &.hidden {
+    opacity: 0.3;
+    user-select: none;
+    cursor: auto;
   }
 `;
 

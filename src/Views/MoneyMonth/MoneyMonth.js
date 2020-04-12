@@ -6,6 +6,7 @@ import ExpensesModalContext from '../../context/ExpensesModalContext';
 import Account from '../../components/organisms/Account/Account';
 import AccountModal from '../../components/molecules/AccountModal/AccountModal';
 import DeleteFixedTransactionsModal from '../../components/molecules/DeleteFixedTransacionsModal/DeleteFixedTransactionsModal';
+import DebitModal from '../../components/molecules/DebitModal/DebitModal';
 import { getPayments } from '../../tools/moneyTools';
 import { actualizeMoneyWithActualPayments as actualizeMoneyWithActualPaymentsAction } from '../../actions/moneyActions';
 import { sendMoneyToDataBase as sendMoneyToDataBaseAction } from '../../actions/dataBaseActions';
@@ -38,6 +39,12 @@ const MoneyMonth = ({
     path: null,
   });
   const [autoSaveInProgress, setAutoSaveStatus] = useState(false);
+  const [isDebitModalOpened, setIsDebitModalOpened] = useState(false);
+  const [debitModalInfo, setDebitModalInfo] = useState({
+    account: null,
+    property: null,
+    amount: null,
+  });
 
   const toggleDeleteFixedTransactionsModal = (selectedMonthId, path) => {
     setIsFixedTransactionsModalOpened(!isDeleteFixedTransactionModalOpened);
@@ -54,9 +61,15 @@ const MoneyMonth = ({
     setModalInfo({ id, type, action });
   };
 
+  const toggleDebitModal = ([account, property], amount) => {
+    setDebitModalInfo({ account, property, amount });
+    setIsDebitModalOpened(!isDebitModalOpened);
+  };
+
   const expensesModalContext = {
     toggleExpensesModal,
     toggleDeleteFixedTransactionsModal,
+    toggleDebitModal,
   };
 
   const autoSave = (isSaved, auth, callback) => {
@@ -92,6 +105,7 @@ const MoneyMonth = ({
           modalInfo={fixedTransactionsDeleteModalInfo}
           toggleModal={toggleDeleteFixedTransactionsModal}
         />
+        <DebitModal isDebitModalOpened={isDebitModalOpened} modalInfo={debitModalInfo} />
       </ExpensesModalContext.Provider>
     </StyledWrapper>
   );
@@ -106,11 +120,11 @@ const mapStateToProps = ({ hours, prevYearData, firebase, money }) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    actualizeMoneyWithActualPayments: newPayments =>
+    actualizeMoneyWithActualPayments: (newPayments) =>
       dispatch(actualizeMoneyWithActualPaymentsAction(newPayments)),
-    sendMoneyToDataBase: uid => dispatch(sendMoneyToDataBaseAction(uid)),
+    sendMoneyToDataBase: (uid) => dispatch(sendMoneyToDataBaseAction(uid)),
   };
 };
 

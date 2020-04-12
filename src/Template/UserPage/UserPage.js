@@ -230,7 +230,7 @@ class UserPage extends Component {
       auth: { uid },
     } = this.props;
     if (!uid) return <Redirect to={routes.login} />;
-    if (pathname === '/user') return <Redirect to={'user/hours'} />;
+    if (pathname === '/user') return <Redirect to={'user/money'} />;
 
     return (
       <StateIsLoaded>

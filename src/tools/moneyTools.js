@@ -702,6 +702,20 @@ const checkIsPrevPeriodClosed = (prevMoney, selectedMonthId, months) => {
   return isClosed;
 };
 
+const correctionFunction = (real, predicted) => {
+  let difference = real - predicted;
+  return difference;
+};
+
+const changeDebitSettings = (newMoney, data) => {
+  const { account, property, newValue, selectedMonthId } = data;
+  let selectedAccount;
+  for (let i = selectedMonthId; i < 12; i++) {
+    selectedAccount = newMoney.months[i][account];
+    selectedAccount.cardSettings[property] = newValue;
+  }
+};
+
 export {
   Expense,
   FixedExpenses,
@@ -731,5 +745,7 @@ export {
   fixNumber,
   actualizeFixedTransactions,
   checkIsPrevPeriodClosed,
+  correctionFunction,
+  changeDebitSettings,
   accountActions,
 };

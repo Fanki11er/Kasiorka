@@ -56,6 +56,7 @@ class YearsMenu extends Component {
                 onClick={this.handleClick}
                 id={yearId}
                 className={!isHoursSaved || !isMoneySaved ? 'noActive' : null}
+                disabled={!isHoursSaved || !isMoneySaved ? true : false}
               >
                 {yearName}
               </MenuItem>

@@ -22,6 +22,7 @@ const StyledAmount = styled.div`
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   color: ${({ theme }) => theme.green};
   margin-right: 12px;
+  user-select: none;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
@@ -49,20 +50,30 @@ const StyledLabel = styled.div`
   font-size: ${({ theme }) => theme.fontSize.verySmall};
   color: ${({ theme }) => theme.menuBlue};
   margin-right: 5px;
+  user-select: none;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
   }
 `;
 
-const DebitCardInfo = ({ amount, label, units, editable }) => {
+const DebitCardInfo = ({
+  amount,
+  label,
+  units,
+  editable,
+  expensesModalContext: { toggleDebitModal },
+  settings,
+}) => {
   return (
     <StyledWrapper>
       <StyledLabel>{label}</StyledLabel>
       <StyledAmount>
         {amount} {units}
       </StyledAmount>
-      <EndWrapper>{editable && <StyledPencilIcon />}</EndWrapper>
+      <EndWrapper>
+        {editable && <StyledPencilIcon onClick={() => toggleDebitModal(settings, amount)} />}
+      </EndWrapper>
     </StyledWrapper>
   );
 };
@@ -72,12 +83,13 @@ DebitCardInfo.propTypes = {
   label: PropTypes.string,
   units: PropTypes.string,
   editable: PropTypes.bool,
+  settings: PropTypes.array,
 };
 
 DebitCardInfo.defaultProps = {
   amount: 0,
-  label: '????',
-  units: '??',
+  label: '----',
+  units: '--',
   editable: true,
 };
 
