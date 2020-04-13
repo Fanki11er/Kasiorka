@@ -52,8 +52,8 @@ const StyledAnimationWrapper = styled.div`
 const StyledPadlock = styled.img`
   width: 12%;
   animation-name: rotationY;
-  animation-duration: 2s;
-  animation-timing-function: ease-in;
+  animation-duration: 6s;
+  animation-timing-function: ease;
   animation-iteration-count: infinite;
 
   @media screen and (max-width: 770px) {
@@ -61,7 +61,7 @@ const StyledPadlock = styled.img`
   }
   @keyframes rotationY {
     to {
-      transform: rotateY(360deg);
+      transform: rotateY(1080deg);
     }
   }
 `;
@@ -69,15 +69,15 @@ const StyledPadlock = styled.img`
 const StyledSync = styled.img`
   width: 18%;
   animation-name: rotation;
-  animation-duration: 2s;
-  animation-timing-function: ease-in-out;
+  animation-duration: 6s;
+  animation-timing-function: ease;
   animation-iteration-count: infinite;
   @media screen and (max-width: 770px) {
     width: 28%;
   }
   @keyframes rotation {
     to {
-      transform: rotate(360deg);
+      transform: rotate(1080deg);
     }
   }
 `;

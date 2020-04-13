@@ -51,8 +51,15 @@ const UserMenu = ({
   return (
     <StyledWrapper>
       <IsSavedInfo isSaved={{ isSaved, moneyIsSaved }} title={isSaved ? 'Saved' : 'Not saved'} />
+
       <UserName>{userName}</UserName>
-      <StyledLogOut onClick={logOut}>Wyloguj</StyledLogOut>
+      <StyledLogOut
+        onClick={logOut}
+        className={!isSaved || !moneyIsSaved ? 'noActive' : null}
+        disabled={!isSaved || !moneyIsSaved ? true : false}
+      >
+        Wyloguj
+      </StyledLogOut>
     </StyledWrapper>
   );
 };

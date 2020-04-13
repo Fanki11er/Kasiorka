@@ -131,6 +131,7 @@ const EditDebitModal = ({
                 val={amount}
                 units={'%'}
                 error={errors.selectedValue ? true : false}
+                modalOpened={isDebitModalOpened}
               />
             )}
             <StyledModalErrorWrapper>

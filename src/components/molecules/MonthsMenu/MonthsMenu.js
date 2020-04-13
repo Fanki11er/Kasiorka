@@ -12,10 +12,10 @@ const StyledList = styled.ul`
 
 const StyledListItem = styled.li``;
 
-const getMonthNames = state => {
+const getMonthNames = (state) => {
   const monthNames = [];
   state &&
-    state.map(month => {
+    state.map((month) => {
       monthNames.push({ monthName: month.name, monthId: month.id });
       return null;
     });
@@ -27,7 +27,7 @@ class MonthMenu extends Component {
     clicked: 0,
   };
 
-  handleClick = event => {
+  handleClick = (event) => {
     const { selectMonthOrYear } = this.props;
     this.setState({
       clicked: event.target.id,
@@ -43,7 +43,7 @@ class MonthMenu extends Component {
   }
 
   render() {
-    const { monthNames } = this.props;
+    const { monthNames, toggleMenu, isMenuOpened } = this.props;
     const { clicked } = this.state;
 
     const namesOfMonths = getMonthNames(monthNames);
@@ -52,7 +52,14 @@ class MonthMenu extends Component {
         {namesOfMonths ? (
           namesOfMonths.map(({ monthName, monthId }) => (
             <StyledListItem key={monthId}>
-              <MenuItem clicked={parseFloat(clicked)} onClick={this.handleClick} id={monthId}>
+              <MenuItem
+                clicked={parseFloat(clicked)}
+                onClick={(target) => {
+                  this.handleClick(target);
+                  isMenuOpened && setTimeout(toggleMenu, 400);
+                }}
+                id={monthId}
+              >
                 {monthName}
               </MenuItem>
             </StyledListItem>
@@ -72,10 +79,13 @@ MonthMenu.propTypes = {
   monthNames: PropTypes.array.isRequired,
   selectMonthOrYear: PropTypes.func.isRequired,
   selectedMonthId: PropTypes.number,
+  toggleMenu: PropTypes.func.isRequired,
+  isMenuOpened: PropTypes.bool,
 };
 
 MonthMenu.defaultProps = {
   selectedMonthId: 0,
+  isMenuOpened: false,
 };
 const mapStateToProps = ({ hours }) => {
   return {

@@ -62,6 +62,7 @@ const Menu = ({
     limitOfYears,
     selectedMonthId,
     selectedPage,
+    toggleMenu,
   },
 }) => (
   <StyledWrapper isMenuOpened={isMenuOpened}>
@@ -77,7 +78,12 @@ const Menu = ({
           selectedPage={selectedPage}
         />
       </StyledFlexWrapper>
-      <MonthMenu selectMonthOrYear={selectMonthOrYear} selectedMonthId={selectedMonthId} />
+      <MonthMenu
+        selectMonthOrYear={selectMonthOrYear}
+        selectedMonthId={selectedMonthId}
+        toggleMenu={toggleMenu}
+        isMenuOpened={isMenuOpened}
+      />
     </StyledMenuWrapper>
   </StyledWrapper>
 );
