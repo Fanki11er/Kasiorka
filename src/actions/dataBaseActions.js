@@ -1,6 +1,6 @@
-import { newYearsListItem, checkForUpdates } from '../tools/index';
+import { newYearsListItem, checkForUpdates, appVersion } from '../tools/index';
 import { addHolidaysToYear, constantPolishHolidays } from '../tools/holidayTools';
-import { Money } from '../tools/moneyTools';
+import { Money, moneyVersion, moneyUpdatesArray } from '../tools/moneyTools';
 
 export const takeDataFromDataBase = (uid, year) => {
   return (dispatch, getState, { dataBase, endPoints }) => {
@@ -20,7 +20,7 @@ export const takeDataFromDataBase = (uid, year) => {
           context: state,
         })
         .then((data) => {
-          const checkedData = checkForUpdates(data);
+          const checkedData = checkForUpdates(data, appVersion, 'app', []);
           dispatch({ type: 'TAKE_USER_SETTINGS_FROM_DATABASE', payload: checkedData }); // User reducer
         }),
 
@@ -29,7 +29,9 @@ export const takeDataFromDataBase = (uid, year) => {
           context: state,
         })
         .then((data) => {
-          dispatch({ type: 'TAKE_MONEY_FROM_DATABASE', payload: data }); //Money Reducer
+          const checkedData = checkForUpdates(data, moneyVersion, 'money', moneyUpdatesArray);
+
+          dispatch({ type: 'TAKE_MONEY_FROM_DATABASE', payload: checkedData }); //Money Reducer
         }),
 
       dataBase

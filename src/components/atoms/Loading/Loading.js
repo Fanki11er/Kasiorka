@@ -52,7 +52,7 @@ const StyledAnimationWrapper = styled.div`
 const StyledPadlock = styled.img`
   width: 12%;
   animation-name: rotationY;
-  animation-duration: 6s;
+  animation-duration: 7s;
   animation-timing-function: ease;
   animation-iteration-count: infinite;
 
@@ -69,7 +69,7 @@ const StyledPadlock = styled.img`
 const StyledSync = styled.img`
   width: 18%;
   animation-name: rotation;
-  animation-duration: 6s;
+  animation-duration: 7s;
   animation-timing-function: ease;
   animation-iteration-count: infinite;
   @media screen and (max-width: 770px) {

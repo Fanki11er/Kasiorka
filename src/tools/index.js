@@ -1,4 +1,4 @@
-export const appVersion = '0.5';
+export const appVersion = 0.6;
 
 class SingleMonth {
   constructor(id, name) {
@@ -194,9 +194,16 @@ const expectedPayout = (month, totalHours, salary) => {
   month.payments.expectedPayout = parseFloat((totalHours * salary).toFixed(2));
 };
 
-const checkForUpdates = (data) => {
-  if (data.appVersion !== appVersion) {
-    data.appVersion = appVersion;
+const checkForUpdates = (data, version, module, updatesTable) => {
+  let property = 'Version';
+  property = `${module}${property}`;
+  if (data[property] === undefined) data[property] = 0;
+  if (data[property] < version) {
+    data[property] = version;
+    updatesTable &&
+      updatesTable.forEach((update) => {
+        update(data);
+      });
     return data;
   } else return data;
 };
