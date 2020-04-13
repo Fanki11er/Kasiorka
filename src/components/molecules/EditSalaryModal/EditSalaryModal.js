@@ -74,7 +74,7 @@ const EditSalaryModal = ({
   summaryContext,
   chosenOption,
 }) => {
-  const { toggleEditSummaryModal, optionsToChose } = summaryContext;
+  const { toggleEditSummaryModal, optionsToChose, isSummaryModalOpened } = summaryContext;
   const { optionSalary, optionPayment } = optionsToChose;
   return (
     <Formik
@@ -111,6 +111,7 @@ const EditSalaryModal = ({
                 units={`${currency}/h`}
                 val={value}
                 error={errors[chosenOption] ? true : false}
+                modalOpened={isSummaryModalOpened}
               />
             )}
             {chosenOption === optionPayment && (
@@ -121,6 +122,7 @@ const EditSalaryModal = ({
                 units={currency}
                 val={value}
                 error={errors[chosenOption] ? true : false}
+                modalOpened={isSummaryModalOpened}
               />
             )}
             <StyledModalErrorWrapper>

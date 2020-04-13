@@ -131,7 +131,7 @@ const EditExpensesModal = ({
   percentage,
   currency,
   modalInfo: { type, id, action },
-  expensesModalContext: { toggleExpensesModal },
+  expensesModalContext: { toggleExpensesModal, isExpensesModalOpened },
   selectedMonthId,
   expenseType,
   calculateTransactions,
@@ -174,7 +174,8 @@ const EditExpensesModal = ({
         if (values.name === '' && (action === 'add' || action === 'addFixed')) {
           errors.name = 'Opis nie może być pusty';
         }
-        if (action === 'payTheCard' && values.real > -predicted) {
+
+        if (action === 'payTheCard' && values.real > -predicted + real) {
           errors.real = 'Spłata przewyższa wartość debetu ';
         }
 
@@ -223,7 +224,12 @@ const EditExpensesModal = ({
             )}
 
             {(action === 'add' || action === 'addFixed') && (
-              <ModalInput label="Opis:" type="text" name="name" />
+              <ModalInput
+                label="Opis:"
+                type="text"
+                name="name"
+                modalOpened={isExpensesModalOpened}
+              />
             )}
             {(action === 'add' || action === 'addFixed') && (
               <StyledRowWrapper>
@@ -259,6 +265,7 @@ const EditExpensesModal = ({
                     placeholder="Rzeczywista"
                     className={changeClass(errors, values, 'real')}
                     disabled={values.correct ? true : false}
+                    autoFocus={isExpensesModalOpened}
                   />
                   <ExpensesSign>/</ExpensesSign>
                   <StyledInput
@@ -277,8 +284,10 @@ const EditExpensesModal = ({
                 <StyledInput
                   type={'number'}
                   name="real"
-                  placeholder={'Spłata'}
+                  placeholder={real === predicted ? -real : `Spłata: ${-(predicted - real)}`}
                   className={errors.real ? 'error fireFoxNumber' : 'fireFoxNumber'}
+                  autoFocus={isExpensesModalOpened}
+                  disabled={real === predicted}
                 />
                 <ExpensesSign>/</ExpensesSign>
                 <StyledInput
