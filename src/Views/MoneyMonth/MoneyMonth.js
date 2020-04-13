@@ -70,6 +70,8 @@ const MoneyMonth = ({
     toggleExpensesModal,
     toggleDeleteFixedTransactionsModal,
     toggleDebitModal,
+    isDebitModalOpened,
+    isExpensesModalOpened,
   };
 
   const autoSave = (isSaved, auth, callback) => {

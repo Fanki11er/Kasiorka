@@ -73,7 +73,7 @@ const StyledRowWrapper = styled.div`
 const EditDebitModal = ({
   currency,
   modalInfo,
-  expensesModalContext: { toggleDebitModal },
+  expensesModalContext: { toggleDebitModal, isDebitModalOpened },
   selectedMonthId,
   setNewDebitSettings,
 }) => {
@@ -120,6 +120,7 @@ const EditDebitModal = ({
                 units={currency}
                 val={amount}
                 error={errors.selectedValue ? true : false}
+                modalOpened={isDebitModalOpened}
               />
             )}
             {property === 'interestRate' && (
@@ -130,6 +131,7 @@ const EditDebitModal = ({
                 val={amount}
                 units={'%'}
                 error={errors.selectedValue ? true : false}
+                modalOpened={isDebitModalOpened}
               />
             )}
             <StyledModalErrorWrapper>

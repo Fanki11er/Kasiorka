@@ -1,6 +1,7 @@
 export const routes = {
   login: '/',
-  hours: '/hours',
+  hours: '/user/hours',
   register: '/reg',
   user: '/user',
+  money: '/user/money',
 };

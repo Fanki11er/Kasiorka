@@ -54,7 +54,7 @@ const StyledUnits = styled.div`
   user-select: none;
 `;
 
-const ModalInput = ({ label, type, name, units, val, custom, length, error }) => {
+const ModalInput = ({ label, type, name, units, val, custom, length, error, modalOpened }) => {
   return (
     <FormLabel custom={custom}>
       {label}
@@ -65,7 +65,7 @@ const ModalInput = ({ label, type, name, units, val, custom, length, error }) =>
           placeholder={val}
           maxLength={type === 'text' && length ? length : null}
           className={error ? 'error fireFoxNumber' : 'fireFoxNumber'}
-          autoFocus={true}
+          autoFocus={modalOpened ? true : false}
         />
       ) : null}
 
@@ -83,6 +83,12 @@ ModalInput.propTypes = {
   custom: PropTypes.bool,
   length: PropTypes.number,
   error: PropTypes.bool,
+  modalOpened: PropTypes.bool,
+};
+
+ModalInput.defaultProps = {
+  label: '----',
+  modalOpened: false,
 };
 
 export default ModalInput;

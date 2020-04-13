@@ -118,6 +118,7 @@ class HoursMonth extends Component {
 
     const summaryContext = {
       toggleEditSummaryModal,
+      isSummaryModalOpened,
       monthId,
       optionsToChose,
     };
