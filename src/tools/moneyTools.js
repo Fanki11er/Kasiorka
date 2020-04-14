@@ -1,3 +1,6 @@
+import { addCardSettings } from './updatingTools';
+
+export const moneyVersion = 0.7;
 class Expense {
   constructor({ name, predicted, real = 0, action = '-', signature = 'standard', id = false }) {
     this.name = name;
@@ -67,6 +70,13 @@ class Account {
   addSection(name, classType, path) {
     this[path] = new classType(name, [this.type, path]);
     this.sections.push(path);
+  }
+}
+
+class MainAccount extends Account {
+  constructor(title, type, sections) {
+    super(title, type, sections);
+    this.debit = 1900;
   }
 }
 
@@ -158,7 +168,7 @@ class MoneyMonth {
   constructor(id) {
     this.id = id;
     this.accountsList = [];
-    this.createAccount(Account, 'Konto główne', 'mainAccount', mainAccountSections);
+    this.createAccount(MainAccount, 'Konto główne', 'mainAccount', mainAccountSections);
     this.createAccount(Wallet, 'Portfel', 'wallet', walletSections);
     this.createAccount(DebitCard, 'Karta debetowa', 'debitCard', debitCardSections);
     this.createAccount(Wallet, 'Konto oszczędnościowe', 'savingAccount', savingAccountSections);
@@ -230,17 +240,29 @@ class Money {
   }
 }
 
+const fixNumber = (number, position) => {
+  if (typeof number !== 'number') {
+    const newNumber = Number(number);
+    return Number(newNumber.toFixed(position));
+  } else return Number(number.toFixed(position));
+};
+
 const countPercentage = (predicted = 0, real) =>
   predicted !== 0 ? parseInt((real / predicted) * 100) : real;
 
 const editTransaction = (transaction, { real, predicted, action }) => {
-  transaction.real = action === '-' ? transaction.real - real : transaction.real + real;
-  transaction.predicted =
-    action === '-' ? transaction.predicted - predicted : transaction.transaction + predicted;
+  transaction.real = fixNumber(
+    action === '-' ? transaction.real - real : transaction.real + real,
+    2,
+  );
+  transaction.predicted = fixNumber(
+    action === '-' ? transaction.predicted - predicted : transaction.transaction + predicted,
+    2,
+  );
   transaction.percentage = countPercentage(transaction.predicted, transaction.real);
   return {
-    real: transaction.real,
-    predicted: transaction.predicted,
+    real: fixNumber(transaction.real, 2),
+    predicted: fixNumber(transaction.predicted, 2),
   };
 };
 
@@ -254,7 +276,6 @@ const addTransaction = (section, data) => {
   section['transactions']
     ? section['transactions'].unshift(expense)
     : (section['transactions'] = new Array(expense));
-  //return expense.expenseId;
 };
 
 const addFixedTransaction = (months, path, data) => {
@@ -370,13 +391,6 @@ const getIncome = (money, accountType) => {
   return incomesTable;
 };
 
-const fixNumber = (number, position) => {
-  if (typeof number !== 'number') {
-    const newNumber = Number(number);
-    return Number(newNumber.toFixed(position));
-  } else return Number(number.toFixed(position));
-};
-
 const ActualizeMonthsTotal = (months, payments, type, prevYearData) => {
   const { prevMoney } = prevYearData;
   let monthTotal;
@@ -473,7 +487,6 @@ const checkType = (type, hours, money, prevYearData, months, reCalc = false) => 
     case 'debitCard': {
       const income = getIncome(money, type[0]);
 
-      //ActualizeMonthsTotal(months, income, type[0], prevYearData);
       reCalc && calculateComputed(months, 0, ['debitCard', 'fixedExpenses']);
 
       actualizePredictedDebit(prevYearData, months, 0);
@@ -716,12 +729,15 @@ const changeDebitSettings = (newMoney, data) => {
   }
 };
 
+export const moneyUpdatesArray = [addCardSettings];
+
 export {
   Expense,
   FixedExpenses,
   Money,
   editTransaction,
   Account,
+  MainAccount,
   sumSection,
   sumSections,
   actualizeComputedDataSums,

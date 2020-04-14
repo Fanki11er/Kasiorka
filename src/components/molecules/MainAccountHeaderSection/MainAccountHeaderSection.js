@@ -1,19 +1,29 @@
 import React from 'react';
 import AccountHeader from '../../atoms/AccountHeader/AccountHeader';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import MoneyRow from '../../atoms/MoneyRow/MoneyRow';
 import AccountStyledSection from '../../atoms/AccountStyledSection/AccountStyledSection';
 import AccountStatus from '../../atoms/AccountStatus/AccountStatus';
 import AccountStats from '../AccountStats/AccountStats';
-import { createStats, calculateExpensesPercent } from '../../../tools/moneyTools';
+import DebitCardInfo from '../DebitCardInfo/DebitCardInfo';
+import {
+  createStats,
+  calculateExpensesPercent,
+  createExtendedComputedStatus,
+} from '../../../tools/moneyTools';
 
+const StyledMargin = styled.div`
+  margin: 5px 0;
+`;
 const MainAccountHeaderSection = ({
   accountLabel,
   payment,
   currency,
   computedStatus,
   selectedMonth,
+  debit,
 }) => {
   const showPayment = ({ paymentReceived, expectedPayout }) => {
     if (!paymentReceived && !expectedPayout) return { payment: 0, received: false };
@@ -26,12 +36,21 @@ const MainAccountHeaderSection = ({
   const actualPayment = showPayment(payment);
   const stats = createStats(selectedMonth, actualPayment, 'mainAccount');
   const expensesPercents = calculateExpensesPercent(stats);
+  const debitStatus = createExtendedComputedStatus(computedStatus, { debit });
 
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} />
       <MoneyRow label={'Wypłata'} content={actualPayment} units={currency} />
+      <StyledMargin />
+      <DebitCardInfo
+        amount={debit}
+        label={'Debet:'}
+        units={currency}
+        settings={['mainAccount', 'debit']}
+      />
       <AccountStatus units={currency} status={computedStatus} />
+      {debit > 0 && <AccountStatus units={currency} status={debitStatus} label={'Z debetem'} />}
       <AccountStats label={'Wydatki / Przychody'} expensesPercents={expensesPercents} />
     </AccountStyledSection>
   );
@@ -52,6 +71,7 @@ const mapStateToProps = (
     currency: hoursSettings.currency,
     computedStatus: months[selectedMonthId].computedData[path[0]],
     selectedMonth: months[selectedMonthId],
+    debit: months[selectedMonthId].mainAccount.cardSettings.debit || 0,
   };
 };
 
@@ -61,11 +81,13 @@ MainAccountHeaderSection.propTypes = {
   currency: PropTypes.string,
   computedStatus: PropTypes.object,
   payment: PropTypes.object,
+  debit: PropTypes.number,
 };
 
 MainAccountHeaderSection.defaultProps = {
   accountLabel: 'Konto główne',
   selectedMonthId: 0,
+  debit: 0,
 };
 
 export default connect(mapStateToProps)(MainAccountHeaderSection);
