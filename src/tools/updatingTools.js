@@ -1,6 +1,5 @@
 export const addCardSettings = (data) => {
-  console.log('UPD_FUNC');
-  console.log(data.moneyVersion);
+  //Add new property to money
   if (data.moneyVersion < 0.5 || data.moneyVersion === undefined) {
     console.log('IF');
     const { months } = data;

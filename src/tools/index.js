@@ -1,4 +1,7 @@
-export const appVersion = 0.6;
+import { deleteAppVersionProperty } from './updatingTools';
+
+export const appVersion = 0.7;
+export const userVersion = 0.2;
 
 class SingleMonth {
   constructor(id, name) {
@@ -35,10 +38,10 @@ class SingleYear {
 }
 
 class User {
-  constructor(name, yearsList, appVersion = 0) {
+  constructor(name, yearsList, userVersion = 0) {
     this.name = name;
     this.yearsList = yearsList;
-    this.appVersion = appVersion;
+    this.userVersion = userVersion;
     this.hoursSettings = {
       currency: 'zł',
       salaryValue: 0,
@@ -204,9 +207,12 @@ const checkForUpdates = (data, version, module, updatesTable) => {
         update(data);
       });
     data[property] = version;
+    console.log(data);
     return data;
   } else return data;
 };
+
+export const settingsUpdatesArray = [];
 
 //Reducer---------------------------------------------------------
 //Actions---------------------------------------------------------
