@@ -240,17 +240,29 @@ class Money {
   }
 }
 
+const fixNumber = (number, position) => {
+  if (typeof number !== 'number') {
+    const newNumber = Number(number);
+    return Number(newNumber.toFixed(position));
+  } else return Number(number.toFixed(position));
+};
+
 const countPercentage = (predicted = 0, real) =>
   predicted !== 0 ? parseInt((real / predicted) * 100) : real;
 
 const editTransaction = (transaction, { real, predicted, action }) => {
-  transaction.real = action === '-' ? transaction.real - real : transaction.real + real;
-  transaction.predicted =
-    action === '-' ? transaction.predicted - predicted : transaction.transaction + predicted;
+  transaction.real = fixNumber(
+    action === '-' ? transaction.real - real : transaction.real + real,
+    2,
+  );
+  transaction.predicted = fixNumber(
+    action === '-' ? transaction.predicted - predicted : transaction.transaction + predicted,
+    2,
+  );
   transaction.percentage = countPercentage(transaction.predicted, transaction.real);
   return {
-    real: transaction.real,
-    predicted: transaction.predicted,
+    real: fixNumber(transaction.real, 2),
+    predicted: fixNumber(transaction.predicted, 2),
   };
 };
 
@@ -377,13 +389,6 @@ const getIncome = (money, accountType) => {
     incomesTable.push(-choseValue(charge.accountReal, charge.accountPredicted));
   });
   return incomesTable;
-};
-
-const fixNumber = (number, position) => {
-  if (typeof number !== 'number') {
-    const newNumber = Number(number);
-    return Number(newNumber.toFixed(position));
-  } else return Number(number.toFixed(position));
 };
 
 const ActualizeMonthsTotal = (months, payments, type, prevYearData) => {
