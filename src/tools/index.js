@@ -199,11 +199,11 @@ const checkForUpdates = (data, version, module, updatesTable) => {
   property = `${module}${property}`;
   if (data[property] === undefined) data[property] = 0;
   if (data[property] < version) {
-    data[property] = version;
     updatesTable &&
       updatesTable.forEach((update) => {
         update(data);
       });
+    data[property] = version;
     return data;
   } else return data;
 };
