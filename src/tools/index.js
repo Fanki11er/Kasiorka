@@ -210,6 +210,7 @@ const checkForUpdates = (data, version, module, updatesTable) => {
     console.log(data);
     return data;
   } else return data;
+  //!!Change to object!!
 };
 
 export const settingsUpdatesArray = [];

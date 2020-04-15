@@ -8,6 +8,7 @@ import CheckBoxInput from '../../atoms/CheckBoxInput/CheckBoxInput';
 import FormButton from '../../atoms/FormButton/FormButton';
 import withMenuContext from '../../../hoc/withMenuContext';
 import { updateUserSettings as updateUserSettingsAction } from '../../../actions/dataBaseActions';
+import { validateHoursInModal } from '../../../tools/hoursTools';
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -57,11 +58,14 @@ const EditSettingsModal = ({
   salaryValue,
   dayWorkHours,
   freeDayHours,
+  saturdayWorkHours,
   workSaturdays,
   workSundays,
   workHolidays,
   menuContext,
   updateUserSettings,
+  sundayWorkHours,
+  holidayWorkHours,
 }) => {
   return (
     <Formik
@@ -70,13 +74,16 @@ const EditSettingsModal = ({
         salary: salaryValue,
         dayWorkHours,
         freeDayHours,
+        saturdayWorkHours,
         workSaturdays,
         workSundays,
         workHolidays,
+        sundayWorkHours,
+        holidayWorkHours,
       }}
       validate={(values) => {
         const errors = {};
-        if (values.currency === '' || values.currency.match(/[-0-9]/)) {
+        if (values.currency === '' || values.currency.match(/[0-9-+]/)) {
           errors.currency = true;
           errors.error = true;
         }
@@ -89,24 +96,12 @@ const EditSettingsModal = ({
           errors.salary = true;
           errors.error = true;
         }
-        if (
-          !/^[+]?[0-9]*$/.test(values.dayWorkHours) ||
-          values.dayWorkHours === '' ||
-          values.dayWorkHours > 24 ||
-          values.dayWorkHours === 'e'
-        ) {
-          errors.dayWorkHours = true;
-          errors.error = true;
-        }
-        if (
-          !/^[+]?[0-9]*$/.test(values.freeDayHours) ||
-          values.freeDayHours === '' ||
-          values.freeDayHours > 24 ||
-          values.freeDayHours === 'e'
-        ) {
-          errors.freeDayHours = true;
-          errors.error = true;
-        }
+        validateHoursInModal(values, 'dayWorkHours', errors);
+        validateHoursInModal(values, 'freeDayHours', errors);
+        validateHoursInModal(values, 'saturdayWorkHours', errors);
+        validateHoursInModal(values, 'sundayWorkHours', errors);
+        validateHoursInModal(values, 'holidayWorkHours', errors);
+
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
@@ -119,13 +114,16 @@ const EditSettingsModal = ({
           workSaturdays: values.workSaturdays,
           workSundays: values.workSundays,
           workHolidays: values.workHolidays,
+          saturdayWorkHours: values.workSaturdays ? values.saturdayWorkHours : 0,
+          sundayWorkHours: values.workSundays ? values.sundayWorkHours : 0,
+          holidayWorkHours: values.workHolidays ? values.holidayWorkHours : 0,
         };
         updateUserSettings(newSettings);
         toggleSettingsModal();
         setSubmitting(false);
       }}
     >
-      {({ isSubmitting, handleSubmit, errors }) => (
+      {({ isSubmitting, handleSubmit, errors, values }) => (
         <StyledWrapper>
           <StyledForm noValidate onSubmit={handleSubmit} autoComplete="off">
             <ModalInput
@@ -174,22 +172,53 @@ const EditSettingsModal = ({
               name="workSaturdays"
               type={'checkbox'}
               custom
-              noActive
             />
+            {values.workSaturdays && (
+              <ModalInput
+                type={'number'}
+                name={'saturdayWorkHours'}
+                label={'Godziny w soboty:'}
+                units={'h'}
+                val={saturdayWorkHours}
+                error={errors.saturdayWorkHours ? true : false}
+                custom
+              />
+            )}
             <CheckBoxInput
               label={'Pracujące niedziele:'}
               name="workSundays"
               type={'checkbox'}
               custom
-              noActive
             />
+            {values.workSundays && (
+              <ModalInput
+                type={'number'}
+                name={'sundayWorkHours'}
+                label={'Godziny w niedziele:'}
+                units={'h'}
+                val={sundayWorkHours}
+                error={errors.sundayWorkHours ? true : false}
+                custom
+              />
+            )}
             <CheckBoxInput
               label={'Pracujące święta:'}
               name="workHolidays"
               type={'checkbox'}
               custom
-              noActive
             />
+
+            {values.workHolidays && (
+              <ModalInput
+                type={'number'}
+                name={'holidayWorkHours'}
+                label={'Godziny w święta:'}
+                units={'h'}
+                val={holidayWorkHours}
+                error={errors.holidayWorkHours ? true : false}
+                custom
+              />
+            )}
             <StyledButtonsWrapper>
               <StyledFormButton
                 green="true"
@@ -220,24 +249,38 @@ const EditSettingsModal = ({
 EditSettingsModal.propTypes = {
   currency: PropTypes.string.isRequired,
   salaryValue: PropTypes.number.isRequired,
-  dayWorkHours: PropTypes.number.isRequired,
-  freeDayHours: PropTypes.number.isRequired,
+  dayWorkHours: PropTypes.number,
+  freeDayHours: PropTypes.number,
+  saturdayWorkHours: PropTypes.number,
   workSaturdays: PropTypes.bool.isRequired,
   workSundays: PropTypes.bool.isRequired,
   workHolidays: PropTypes.bool.isRequired,
   menuContext: PropTypes.object.isRequired,
   updateUserSettings: PropTypes.func.isRequired,
+  sundayWorkHours: PropTypes.number,
+  holidayWorkHours: PropTypes.number,
 };
 
-const mapStateToProps = (state) => {
+EditSettingsModal.defaultProps = {
+  saturdayWorkHours: 0,
+  dayWorkHours: 0,
+  freeDayHours: 0,
+  sundayWorkHours: 0,
+  holidayWorkHours: 0,
+};
+
+const mapStateToProps = ({ user: { hoursSettings } }) => {
   return {
-    currency: state.user.hoursSettings.currency,
-    salaryValue: state.user.hoursSettings.salaryValue,
-    dayWorkHours: state.user.hoursSettings.dayWorkHours,
-    freeDayHours: state.user.hoursSettings.freeDayHours,
-    workSaturdays: state.user.hoursSettings.workSaturdays,
-    workSundays: state.user.hoursSettings.workSundays,
-    workHolidays: state.user.hoursSettings.workHolidays,
+    currency: hoursSettings.currency,
+    salaryValue: hoursSettings.salaryValue,
+    dayWorkHours: hoursSettings.dayWorkHours,
+    freeDayHours: hoursSettings.freeDayHours,
+    workSaturdays: hoursSettings.workSaturdays,
+    workSundays: hoursSettings.workSundays,
+    workHolidays: hoursSettings.workHolidays,
+    saturdayWorkHours: hoursSettings.saturdayWorkHours || 0,
+    sundayWorkHours: hoursSettings.sundayWorkHours || 0,
+    holidayWorkHours: hoursSettings.holidayWorkHours || 0,
   };
 };
 
