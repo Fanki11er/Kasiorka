@@ -64,15 +64,6 @@ class ViewMenu extends Component {
       <StyledWrapper>
         <StyledViewItem
           as={NavLink}
-          to="/user/hours"
-          activeclass="active"
-          className={!isMoneySaved && pathname === '/user/money' ? 'noActive' : null}
-          disabled={!isMoneySaved && pathname === '/user/money' ? true : false}
-        >
-          Godziny
-        </StyledViewItem>
-        <StyledViewItem
-          as={NavLink}
           to="/user/money"
           activeclass="active"
           className={
@@ -81,6 +72,15 @@ class ViewMenu extends Component {
           disabled={!isHoursSaved || (!isMoneySaved && pathname === '/user/hours') ? true : false}
         >
           Kasiorka
+        </StyledViewItem>
+        <StyledViewItem
+          as={NavLink}
+          to="/user/hours"
+          activeclass="active"
+          className={!isMoneySaved && pathname === '/user/money' ? 'noActive' : null}
+          disabled={!isMoneySaved && pathname === '/user/money' ? true : false}
+        >
+          Godziny
         </StyledViewItem>
       </StyledWrapper>
     );

@@ -20,6 +20,7 @@ import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/
 import { monthHoursAutoFill as monthHoursAutoFillAction } from '../../actions/hoursActions';
 import { sendMoneyToDataBase as sendMoneyToDataBaseAction } from '../../actions/dataBaseActions';
 import { reCalculateMoney as reCalculateMoneyAction } from '../../actions/moneyActions';
+import { canNotReCalculate as canNotReCalculateAction } from '../../actions/moneyActions';
 import OpenCloseMenuButton from '../../components/atoms/OpenCloseMenuButton/OpenCloseMenuButton';
 
 const StyledWrapper = styled.div`
@@ -67,7 +68,7 @@ class UserPage extends Component {
     window.removeEventListener('beforeunload', this.whenClosing);
   }
 
-  test = () => {
+  testState = () => {
     if (this.state.isLoading !== this.props.isLoading) {
       this.setState({
         isLoading: this.props.isLoading,
@@ -77,7 +78,7 @@ class UserPage extends Component {
 
   componentDidUpdate() {
     this.checkAmountOfFutureYears();
-    this.test();
+    this.testState();
   }
 
   selectMonthOrYear = ({ target }, select) => {
@@ -96,6 +97,7 @@ class UserPage extends Component {
           sendHoursToDataBase,
           sendMoneyToDataBase,
           reCalculateMoney,
+          canNotReCalculate,
           auth: { uid },
           user,
           isSaved,
@@ -117,7 +119,7 @@ class UserPage extends Component {
 
           if (intervalLoop > 30) {
             clearInterval(interval);
-            throw new Error('Nie można przekalkulować');
+            canNotReCalculate();
           }
           intervalLoop++;
         }, 500);
@@ -159,7 +161,7 @@ class UserPage extends Component {
     } = this.props;
     const years = yearsList;
     const year = findNextYear(years);
-    newYear(createNewYear(monthNames, year) /*, new Account()*/);
+    newYear(createNewYear(monthNames, year));
     this.checkAmountOfFutureYears();
   };
 
@@ -266,6 +268,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(monthHoursAutoFillAction(monthId, userHoursSettings)),
     sendMoneyToDataBase: (uid) => dispatch(sendMoneyToDataBaseAction(uid)),
     reCalculateMoney: () => dispatch(reCalculateMoneyAction()),
+    canNotReCalculate: () => dispatch(canNotReCalculateAction()),
   };
 };
 
@@ -291,6 +294,7 @@ UserPage.propTypes = {
   monthHoursAutoFill: PropTypes.func.isRequired,
   moneyIsSaved: PropTypes.bool.isRequired,
   reCalculateMoney: PropTypes.func.isRequired,
+  canNotReCalculate: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

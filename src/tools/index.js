@@ -1,4 +1,5 @@
-export const appVersion = 0.6;
+export const appVersion = 0.8;
+export const userVersion = 0.2;
 
 class SingleMonth {
   constructor(id, name) {
@@ -28,17 +29,18 @@ class SingleDay {
 }
 
 class SingleYear {
-  constructor(yearName) {
+  constructor(yearName, hoursVersion = 0) {
     this.yearName = yearName;
     this.months = [];
+    this.hoursVersion = hoursVersion;
   }
 }
 
 class User {
-  constructor(name, yearsList, appVersion = 0) {
+  constructor(name, yearsList) {
     this.name = name;
     this.yearsList = yearsList;
-    this.appVersion = appVersion;
+    this.userVersion = userVersion;
     this.hoursSettings = {
       currency: 'zł',
       salaryValue: 0,
@@ -204,9 +206,14 @@ const checkForUpdates = (data, version, module, updatesTable) => {
         update(data);
       });
     data[property] = version;
-    return data;
-  } else return data;
+    return {
+      data,
+      updated: true,
+    };
+  } else return { data, updated: false };
 };
+
+export const settingsUpdatesArray = [];
 
 //Reducer---------------------------------------------------------
 //Actions---------------------------------------------------------

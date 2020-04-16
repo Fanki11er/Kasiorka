@@ -1,3 +1,7 @@
+import { addVersioningToHours } from './updatingTools';
+
+export const hoursVersion = 0.3;
+
 const autoFillHoursMonth = (
   month,
   {
@@ -27,4 +31,19 @@ const sumWholeMonthWorkHours = (month) => {
     return total + day.workHours;
   }, 0);
 };
+
+export const validateHoursInModal = (values, property, errors) => {
+  if (values[property] === undefined) errors.error = false;
+  else if (
+    !/^[+]?[0-9]*$/.test(values[property]) ||
+    values[property] === '' ||
+    values[property] > 24 ||
+    values[property] === 'e'
+  ) {
+    errors[property] = true;
+    errors.error = true;
+  }
+};
+
+export const hoursUpdatesArray = [addVersioningToHours];
 export { autoFillHoursMonth, sumWholeMonthWorkHours };

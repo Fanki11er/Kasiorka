@@ -10,6 +10,7 @@ import DebitModal from '../../components/molecules/DebitModal/DebitModal';
 import { getPayments } from '../../tools/moneyTools';
 import { actualizeMoneyWithActualPayments as actualizeMoneyWithActualPaymentsAction } from '../../actions/moneyActions';
 import { sendMoneyToDataBase as sendMoneyToDataBaseAction } from '../../actions/dataBaseActions';
+import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -25,7 +26,9 @@ const MoneyMonth = ({
   prevYearData,
   auth,
   isSaved,
+  hoursIsSaved,
   sendMoneyToDataBase,
+  sendHoursToDataBase,
 }) => {
   const [isExpensesModalOpened, setIsExpensesModalOpened] = useState(false);
   const [isDeleteFixedTransactionModalOpened, setIsFixedTransactionsModalOpened] = useState(false);
@@ -92,6 +95,7 @@ const MoneyMonth = ({
   };
   useEffect(() => {
     autoSave(isSaved, auth, sendMoneyToDataBase);
+    autoSave(hoursIsSaved, auth, sendHoursToDataBase);
   });
 
   return (
@@ -119,6 +123,7 @@ const mapStateToProps = ({ hours, prevYearData, firebase, money }) => {
     prevYearData,
     auth: firebase.auth,
     isSaved: money.isSaved,
+    hoursIsSaved: hours.isSaved,
   };
 };
 
@@ -127,6 +132,7 @@ const mapDispatchToProps = (dispatch) => {
     actualizeMoneyWithActualPayments: (newPayments) =>
       dispatch(actualizeMoneyWithActualPaymentsAction(newPayments)),
     sendMoneyToDataBase: (uid) => dispatch(sendMoneyToDataBaseAction(uid)),
+    sendHoursToDataBase: (uid) => dispatch(sendHoursToDataBaseAction(uid)),
   };
 };
 

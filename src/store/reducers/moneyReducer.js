@@ -13,7 +13,7 @@ const moneyReducer = (state = initialState, action) => {
       return state;
     }
 
-    case 'SAVED_SUCCESS2': {
+    case 'MONEY_SAVED_SUCCESS': {
       return { ...state, isSaved: true };
     }
 
@@ -49,6 +49,13 @@ const moneyReducer = (state = initialState, action) => {
       return {
         ...state,
         isSaved: false,
+      };
+    }
+
+    case 'MONEY_VERSION_UPDATED': {
+      return {
+        ...state,
+        updated: true,
       };
     }
 

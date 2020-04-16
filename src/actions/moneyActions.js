@@ -158,3 +158,9 @@ export const setNewDebitSettings = (data) => {
     dispatch({ type: 'SET_NEW_DEBITS', payload: newMoney });
   };
 };
+
+export const canNotReCalculate = () => {
+  return {
+    type: 'CANT_RECALCULATE',
+  };
+};

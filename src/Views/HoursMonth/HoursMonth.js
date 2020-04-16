@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import SummaryContext from '../../context/SummaryContext';
 import { addDaysToSection, sections } from '../../tools/index';
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
+import { sendMoneyToDataBase as sendMoneyToDataBaseAction } from '../../actions/dataBaseActions';
 import DayOfTheWeek from '../../components/molecules/DayOfWeek/DayOfWeek';
 import Summary from '../../components/molecules/Summary/Summary';
 import EditSummaryOptions from '../../components/organisms/EditSummaryOptions/EditSummaryOptions';
@@ -49,19 +50,22 @@ class HoursMonth extends Component {
   };
 
   componentDidUpdate() {
-    this.autoSave();
-  }
-
-  autoSave() {
     const {
       isSaved,
       auth: { uid },
       sendHoursToDataBase,
+      sendMoneyToDataBase,
+      moneyIsSaved,
     } = this.props;
+    this.autoSave(isSaved, uid, sendHoursToDataBase);
+    this.autoSave(moneyIsSaved, uid, sendMoneyToDataBase);
+  }
+
+  autoSave(isSaved, uid, saveFunc) {
     const { autoSaveInProgress } = this.state;
 
     const check = () => {
-      if (!isSaved) sendHoursToDataBase(uid);
+      if (!isSaved) saveFunc(uid);
       this.setState(({ autoSaveInProgress }) => {
         return {
           autoSaveInProgress: !autoSaveInProgress,
@@ -173,17 +177,19 @@ HoursMonth.propTypes = {
   months: PropTypes.array,
 };
 
-const mapStateToProps = ({ hours, firebase }) => {
+const mapStateToProps = ({ hours, firebase, money }) => {
   return {
     hours,
     auth: firebase.auth,
     isSaved: hours.isSaved,
+    moneyIsSaved: money.isSaved,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     sendHoursToDataBase: (uid) => dispatch(sendHoursToDataBaseAction(uid)),
+    sendMoneyToDataBase: (uid) => dispatch(sendMoneyToDataBaseAction(uid)),
   };
 };
 
