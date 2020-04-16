@@ -7,6 +7,7 @@ const initialState = {
   settingsErr: null,
   settingsFetchErr: null,
   moneyErr: null,
+  calculatingErr: null,
 };
 
 const errorsReducer = (state = initialState, action) => {
@@ -14,19 +15,19 @@ const errorsReducer = (state = initialState, action) => {
     case 'YEAR_NOT_ADDED_TO_LIST': {
       return {
         ...state,
-        listErr: action.payload,
+        listErr: 'Nie udało się dodać nowego roku do listy',
       };
     }
     case 'NEW_YEAR_NOT_ADDED': {
       return {
         ...state,
-        newYearErr: action.payload,
+        newYearErr: 'Nie udało się dodać nowego roku',
       };
     }
     case 'HOURS_NOT_SAVED': {
       return {
         ...state,
-        saveHoursErr: action.payload,
+        saveHoursErr: 'Nie udało się zapisać godzin',
       };
     }
     case 'LOGIN_SUCCESS': {
@@ -81,21 +82,28 @@ const errorsReducer = (state = initialState, action) => {
     case 'HOURS_SETTINGS_NOT_ACTUAL': {
       return {
         ...state,
-        settingsFetchErr: action.err.message,
+        settingsFetchErr: 'Nie udało się pobrać usawień',
       };
     }
 
     case 'HOURS_SETTINGS_NOT_CHANGED': {
       return {
         ...state,
-        settingsErr: action.err.message,
+        settingsErr: 'Nie udało się zaktualizować ustawień',
       };
     }
 
     case 'MONEY_NOT_ADDED': {
       return {
         ...state,
-        moneyErr: action.err.message,
+        moneyErr: 'Nie udało się dodać modułu MONEY',
+      };
+    }
+
+    case 'CANT_RECALCULATE': {
+      return {
+        ...state,
+        calculatingErr: 'Nie można przekalkulować',
       };
     }
 

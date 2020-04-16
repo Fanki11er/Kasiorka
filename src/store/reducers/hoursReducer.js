@@ -30,7 +30,7 @@ const hoursReducer = (state = initialState, action) => {
       return { ...state, isSaved: false };
     }
 
-    case 'SAVED_SUCCESS': {
+    case 'HOURS_SAVED_SUCCESS': {
       return { ...state, isSaved: true };
     }
 
@@ -64,6 +64,12 @@ const hoursReducer = (state = initialState, action) => {
         state.months[monthId].totalHours,
         state.months[monthId].salary,
       );
+      return {
+        ...state,
+        isSaved: false,
+      };
+    }
+    case 'HOURS_VERSION_UPDATED': {
       return {
         ...state,
         isSaved: false,

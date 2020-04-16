@@ -25,7 +25,7 @@ const StyledRegisterForm = styled(StyledForm)`
 `;
 
 const RegisterForm = ({ signUp, auth, signUpErr }) => {
-  if (auth.uid) return <Redirect to="/user/hours" />;
+  if (auth.uid) return <Redirect to="/user/money" />;
 
   return (
     <Formik

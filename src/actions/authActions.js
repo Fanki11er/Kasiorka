@@ -1,15 +1,16 @@
-import { createNewYear, monthNames, User, appVersion } from '../tools/index';
+import { createNewYear, monthNames, User } from '../tools/index';
 import { addHolidaysToYear, constantPolishHolidays } from '../tools/holidayTools';
 import { Money } from '../tools/moneyTools';
+import { hoursVersion } from '../tools/hoursTools';
 
 export const signUp = (newUser) => {
   return (dispatch, getState, { getFirebase, dataBase }) => {
     const firebase = getFirebase();
     const year = new Date().getFullYear();
-    const newYear = createNewYear(monthNames, year);
+    const newYear = createNewYear(monthNames, year, hoursVersion);
     const money = new Money();
     const months = newYear.months;
-    const user = new User(newUser.name, [newYear.yearName], appVersion);
+    const user = new User(newUser.name, [newYear.yearName]);
     addHolidaysToYear(year, months, constantPolishHolidays);
     firebase
       .auth()

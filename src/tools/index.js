@@ -1,6 +1,4 @@
-import { deleteAppVersionProperty } from './updatingTools';
-
-export const appVersion = 0.7;
+export const appVersion = 0.8;
 export const userVersion = 0.2;
 
 class SingleMonth {
@@ -31,14 +29,15 @@ class SingleDay {
 }
 
 class SingleYear {
-  constructor(yearName) {
+  constructor(yearName, hoursVersion = 0) {
     this.yearName = yearName;
     this.months = [];
+    this.hoursVersion = hoursVersion;
   }
 }
 
 class User {
-  constructor(name, yearsList, userVersion = 0) {
+  constructor(name, yearsList) {
     this.name = name;
     this.yearsList = yearsList;
     this.userVersion = userVersion;
@@ -207,10 +206,11 @@ const checkForUpdates = (data, version, module, updatesTable) => {
         update(data);
       });
     data[property] = version;
-    console.log(data);
-    return data;
-  } else return data;
-  //!!Change to object!!
+    return {
+      data,
+      updated: true,
+    };
+  } else return { data, updated: false };
 };
 
 export const settingsUpdatesArray = [];

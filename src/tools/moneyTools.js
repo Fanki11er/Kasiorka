@@ -1,14 +1,14 @@
-import { addCardSettings } from './updatingTools';
+import { addCardSettings, addVersioningToMoney } from './updatingTools';
 
 export const moneyVersion = 0.7;
 class Expense {
-  constructor({ name, predicted, real = 0, action = '-', signature = 'standard', id = false }) {
+  constructor({ name, predicted, real = 0, action = '-', signature = 'standard', id = 0 }) {
     this.name = name;
     this.predicted = action === '-' ? -predicted : predicted;
     this.real = action === '-' ? -real : real;
     this.percentage = Math.abs(this.countPercentage());
     this.action = action;
-    this.expenseId = id ? id : new Date().getTime().toString();
+    this.expenseId = id;
     this.created = new Date().toLocaleDateString();
     this.signature = signature;
   }
@@ -76,7 +76,9 @@ class Account {
 class MainAccount extends Account {
   constructor(title, type, sections) {
     super(title, type, sections);
-    this.debit = 1900;
+    this.cardSettings = {
+      debit: 1900,
+    };
   }
 }
 
@@ -229,6 +231,7 @@ class Money {
   constructor() {
     this.months = this.createMoneyMonths();
     this.isSaved = true;
+    this.moneyVersion = moneyVersion;
   }
 
   createMoneyMonths() {
@@ -268,10 +271,15 @@ const editTransaction = (transaction, { real, predicted, action }) => {
 
 const sumSections = (account, property) => {
   const { sections } = account;
-  return sections.reduce((total, section) => (total += account[section][property]), 0);
+  const summedSections = sections.reduce(
+    (total, section) => (total += account[section][property]),
+    0,
+  );
+  return fixNumber(summedSections, 2);
 };
 
 const addTransaction = (section, data) => {
+  if (!data.id) data.id = new Date().getTime().toString();
   const expense = new Expense(data);
   section['transactions']
     ? section['transactions'].unshift(expense)
@@ -281,9 +289,7 @@ const addTransaction = (section, data) => {
 const addFixedTransaction = (months, path, data) => {
   let section;
   let account;
-  const id = new Date().getTime().toString();
   const { type, selectedMonthId } = path;
-  data.id = id;
 
   for (let i = selectedMonthId; i < 12; i++) {
     section = months[i][type[0]][type[1]];
@@ -297,19 +303,21 @@ const addFixedTransaction = (months, path, data) => {
         actionId: new Date().getTime().toString(),
         data,
         type,
-        id,
+        id: data.id,
       });
     }
   }
 };
 
 const deleteTransaction = (section, id) => {
-  let indexOfExpense;
+  let indexOfExpense = -1;
   section &&
     section.forEach(({ expenseId }, index) => {
-      if (expenseId === id) indexOfExpense = index;
+      if (expenseId === id) {
+        indexOfExpense = index;
+      }
     });
-  section && section.splice(indexOfExpense, 1);
+  if (indexOfExpense >= 0 && section) section.splice(indexOfExpense, 1);
 };
 
 const deleteFixedTransaction = (months, selectedMonthId, type, id) => {
@@ -353,8 +361,8 @@ const sumSection = (section) => {
 
 const actualizeComputedDataSums = (month, account, type) => {
   let { computedData } = month;
-  computedData[type].realSum = sumSections(account, 'realSum');
-  computedData[type].predictedSum = sumSections(account, 'predictedSum');
+  computedData[type].realSum = fixNumber(sumSections(account, 'realSum'), 2);
+  computedData[type].predictedSum = fixNumber(sumSections(account, 'predictedSum'), 2);
 };
 
 const choseValue = (valueReceived, valueExpected) => {
@@ -697,7 +705,7 @@ const actualizeFixedTransactions = (prevYearData, money) => {
     });
 
     deletes.forEach((transaction) => {
-      let { type, actionId, id } = transaction;
+      let { type, actionId, id, data } = transaction;
       path = { type, selectedMonthId: 0 };
       deleteFixedTransaction(months, 0, type, id);
       updateDoneList(months, path, actionId);
@@ -729,7 +737,7 @@ const changeDebitSettings = (newMoney, data) => {
   }
 };
 
-export const moneyUpdatesArray = [addCardSettings];
+export const moneyUpdatesArray = [addVersioningToMoney, addCardSettings];
 
 export {
   Expense,

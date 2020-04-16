@@ -1,3 +1,7 @@
+import { addVersioningToHours } from './updatingTools';
+
+export const hoursVersion = 0.3;
+
 const autoFillHoursMonth = (
   month,
   {
@@ -40,4 +44,6 @@ export const validateHoursInModal = (values, property, errors) => {
     errors.error = true;
   }
 };
+
+export const hoursUpdatesArray = [addVersioningToHours];
 export { autoFillHoursMonth, sumWholeMonthWorkHours };

@@ -1,6 +1,7 @@
 import { newYearsListItem, checkForUpdates } from '../tools/index';
 import { addHolidaysToYear, constantPolishHolidays } from '../tools/holidayTools';
 import { Money, moneyVersion, moneyUpdatesArray } from '../tools/moneyTools';
+import { hoursUpdatesArray, hoursVersion } from '../tools/hoursTools';
 
 export const takeDataFromDataBase = (uid, year) => {
   return (dispatch, getState, { dataBase, endPoints }) => {
@@ -12,7 +13,9 @@ export const takeDataFromDataBase = (uid, year) => {
           context: state,
         })
         .then((data) => {
-          dispatch({ type: 'TAKE_HOURS_FROM_DATABASE', payload: data }); // Hours reducer
+          const dataObj = checkForUpdates(data, hoursVersion, 'hours', hoursUpdatesArray);
+          dispatch({ type: 'TAKE_HOURS_FROM_DATABASE', payload: dataObj.data }); // Hours reducer
+          if (dataObj.updated) dispatch({ type: 'HOURS_VERSION_UPDATED' });
         }),
 
       dataBase
@@ -28,9 +31,9 @@ export const takeDataFromDataBase = (uid, year) => {
           context: state,
         })
         .then((data) => {
-          const checkedData = checkForUpdates(data, moneyVersion, 'money', moneyUpdatesArray);
-
-          dispatch({ type: 'TAKE_MONEY_FROM_DATABASE', payload: checkedData }); //Money Reducer
+          const dataObj = checkForUpdates(data, moneyVersion, 'money', moneyUpdatesArray);
+          dispatch({ type: 'TAKE_MONEY_FROM_DATABASE', payload: dataObj.data }); //Money Reducer
+          if (dataObj.updated) dispatch({ type: 'MONEY_VERSION_UPDATED' });
         }),
 
       dataBase
@@ -69,7 +72,7 @@ export const sendHoursToDataBase = (uid) => {
         data: state.hours,
       })
       .then(() => {
-        dispatch({ type: 'SAVED_SUCCESS' }); // Hours reducer
+        dispatch({ type: 'HOURS_SAVED_SUCCESS' }); // Hours reducer
       })
       .catch((err) => {
         dispatch({ type: 'HOURS_NOT_SAVED', payload: err }); // Errors Reducer
@@ -86,7 +89,7 @@ export const sendMoneyToDataBase = (uid) => {
         data: state.money,
       })
       .then(() => {
-        dispatch({ type: 'SAVED_SUCCESS2' }); // Money reducer
+        dispatch({ type: 'MONEY_SAVED_SUCCESS' }); // Money reducer
       })
       .catch((err) => {
         dispatch({ type: 'MONEY_NOT_SAVED', payload: err }); // Errors Reducer
@@ -94,7 +97,7 @@ export const sendMoneyToDataBase = (uid) => {
   };
 };
 
-export const addNewYear = (year /*, money*/) => {
+export const addNewYear = (year) => {
   return (dispatch, getState, { dataBase, endPoints }) => {
     const state = getState();
     const money = new Money();
