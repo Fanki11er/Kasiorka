@@ -255,6 +255,7 @@ const EditExpensesModal = ({
                     name="correct"
                     type={'checkbox'}
                     hidden={real !== predicted ? false : true}
+                    title={'Wyrównuje do wrtości z pola "Rzeczywista"'}
                   />
                 )}
                 <ExpensesWrapper className={values.correct ? 'hidden' : null}>

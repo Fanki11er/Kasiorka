@@ -11,6 +11,7 @@ const StyledMainSection = styled.section`
   flex-direction: column;
   align-content: space-around;
 `;
+const addButtonTitle = 'Dodaj nową transakcję';
 
 const TransactionsSection = ({
   accountLabel,
@@ -28,8 +29,9 @@ const TransactionsSection = ({
         onClick={() => toggleExpensesModal(null, type, 'add')}
         className={isClosed ? 'noActive' : null}
         disabled={isClosed ? true : false}
+        title={addButtonTitle}
       >
-        Add
+        Dodaj
       </AccountButton>
       <StyledMainSection>
         {transactions.length > 0 && renderExpenses(transactions, currency, type)}

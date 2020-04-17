@@ -16,6 +16,8 @@ import {
 } from '../../../tools/moneyTools';
 import { closePeriod as closePeriodAction } from '../../../actions/moneyActions';
 
+const closePeriodButtonTitle = 'Zamyka okres rozliczeniowy na karcie debetowej';
+
 const DebitCardHeaderSection = ({
   accountLabel,
   cardSettings: { debit, interestRate },
@@ -54,12 +56,13 @@ const DebitCardHeaderSection = ({
       />
       <AccountStatus units={currency} status={extendedComputedStatus} label={'Środki'} />
       <DebitCardInfo amount={interest} label={'Odsetki:'} units={currency} editable={false} />
-      <AccountStats label={'Wydatki / Środki'} expensesPercents={expensesPercents} />
+      <AccountStats label={'Wydatki / Środki'} expensesPercents={expensesPercents} stats={stats} />
       <ClosePeriodButton
         green="true"
         onClick={() => closePeriod(selectedMonthId, path)}
         className={isPeriodClosed || !isPrevPeriodClosed ? 'noActive' : null}
         disabled={isPeriodClosed || !isPrevPeriodClosed ? true : false}
+        title={closePeriodButtonTitle}
       >
         Zakończ okres
       </ClosePeriodButton>

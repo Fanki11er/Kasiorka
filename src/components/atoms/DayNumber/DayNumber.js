@@ -12,6 +12,7 @@ const DayNumber = styled.div`
   color: ${({ theme }) => theme.primaryFont};
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
+  user-select: none;
   &:hover {
     cursor: default;
   }

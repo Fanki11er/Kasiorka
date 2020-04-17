@@ -51,7 +51,11 @@ const MainAccountHeaderSection = ({
       />
       <AccountStatus units={currency} status={computedStatus} />
       {debit > 0 && <AccountStatus units={currency} status={debitStatus} label={'Z debetem'} />}
-      <AccountStats label={'Wydatki / Przychody'} expensesPercents={expensesPercents} />
+      <AccountStats
+        label={'Wydatki / Przychody'}
+        expensesPercents={expensesPercents}
+        stats={stats}
+      />
     </AccountStyledSection>
   );
 };

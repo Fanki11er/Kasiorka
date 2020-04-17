@@ -11,6 +11,7 @@ const NumberOfHours = styled.div`
   background-color: ${({ theme }) => theme.hoursColour};
   color: ${({ theme }) => theme.primaryFont};
   margin: 0 2px;
+  user-select: none;
   &:hover {
     cursor: default;
   }

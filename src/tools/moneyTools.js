@@ -712,7 +712,7 @@ const actualizeFixedTransactions = (prevYearData, money) => {
     });
 
     deletes.forEach((transaction) => {
-      let { type, actionId, id, data } = transaction;
+      let { type, actionId, id } = transaction;
       path = { type, selectedMonthId: 0 };
       deleteFixedTransaction(months, 0, type, id);
       updateDoneList(months, path, actionId);

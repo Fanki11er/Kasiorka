@@ -69,7 +69,6 @@ class MonthMenu extends Component {
             <MenuItem className="noActive">Brak</MenuItem>
           </StyledListItem>
         )}
-        ;
       </StyledList>
     );
   }

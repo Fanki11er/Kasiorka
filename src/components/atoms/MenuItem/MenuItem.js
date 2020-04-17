@@ -15,6 +15,7 @@ const MenuItem = styled.button`
   background-color: ${({ theme, clicked, id }) =>
     clicked === id && clicked !== undefined ? theme.menuBlue : 'transparent'};
   text-decoration: none;
+  user-select: none;
 
   ${({ year }) =>
     year &&

@@ -36,7 +36,9 @@ const StyledMenuItem = styled(MenuItem)`
 const StyledIcon = styled(Settings)`
   width: 25%;
 `;
-
+const addYearTitle = 'Dodaje kolejny rok';
+const autoFillTitle = 'Uzupełnia ( nadpisuje ) miesiąc według zapisanych ustawień';
+const optionsTitle = 'Ustawienia autouzupełniania';
 class ExtendedMenu extends Component {
   render() {
     const {
@@ -49,15 +51,21 @@ class ExtendedMenu extends Component {
     const { pathname } = selectedPage;
     return (
       <StyledWrapper>
-        <StyledMenuItem className={limitOfYears ? 'noActive' : null} onClick={addNewYear}>
+        <StyledMenuItem
+          className={limitOfYears ? 'noActive' : null}
+          onClick={addNewYear}
+          title={addYearTitle}
+        >
           Dodaj nowy rok
         </StyledMenuItem>
 
         {pathname === '/user/hours' && (
-          <StyledMenuItem onClick={autoFilHoursMonth}>Auto uzupełnianie</StyledMenuItem>
+          <StyledMenuItem onClick={autoFilHoursMonth} title={autoFillTitle}>
+            Auto uzupełnianie
+          </StyledMenuItem>
         )}
         {pathname === '/user/hours' && (
-          <StyledMenuItem title={'Ustawienia'} onClick={toggleSettingsModal}>
+          <StyledMenuItem title={optionsTitle} onClick={toggleSettingsModal}>
             <StyledIcon />
           </StyledMenuItem>
         )}
