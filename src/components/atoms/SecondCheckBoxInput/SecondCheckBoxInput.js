@@ -7,7 +7,9 @@ import CheckBox from '../../atoms/CheckBox/CheckBox';
 const StyledFormLabel = styled(FormLabel)`
   border: none;
   justify-content: flex-start;
+  align-self: flex-start;
   opacity: 1;
+  margin-left: 20px;
 
   &.hidden {
     opacity: 0;

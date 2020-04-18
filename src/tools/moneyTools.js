@@ -732,7 +732,7 @@ const checkIsPrevPeriodClosed = (prevMoney, selectedMonthId, months) => {
 
 const correctionFunction = (real, predicted) => {
   let difference = real - predicted;
-  return difference;
+  return fixNumber(difference, 2);
 };
 
 const changeDebitSettings = (newMoney, data) => {
