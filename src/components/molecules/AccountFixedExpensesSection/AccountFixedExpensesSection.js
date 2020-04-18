@@ -96,13 +96,3 @@ AccountFixedExpensesSection.defaultProps = {
 };
 
 export default connect(mapStateToProps)(AccountFixedExpensesSection);
-
-/*
-
-  
-
-  type,
-  
-  path,
-
-*/

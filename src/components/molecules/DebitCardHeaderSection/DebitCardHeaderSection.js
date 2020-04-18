@@ -15,6 +15,7 @@ import {
   checkIsPrevPeriodClosed,
 } from '../../../tools/moneyTools';
 import { closePeriod as closePeriodAction } from '../../../actions/moneyActions';
+import { debitCardErrOccurred as debitCardErrOccurredAction } from '../../../actions/moneyActions';
 
 const closePeriodButtonTitle = 'Zamyka okres rozliczeniowy na karcie debetowej';
 
@@ -31,10 +32,12 @@ const DebitCardHeaderSection = ({
   path,
   closePeriod,
   isPrevPeriodClosed,
+  debitCardErrOccurred,
 }) => {
   const stats = createStats(selectedMonth, { payment: debit }, 'debitCard');
   const expensesPercents = calculateExpensesPercent(stats);
   const extendedComputedStatus = createExtendedComputedStatus(computedStatus, cardSettings);
+  checkStatus(extendedComputedStatus, debit, debitCardErrOccurred);
   const interest = choseInterest(isPeriodClosed, interests);
 
   return (
@@ -89,6 +92,7 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch) => {
   return {
     closePeriod: (selectedMonthId, path) => dispatch(closePeriodAction(selectedMonthId, path)),
+    debitCardErrOccurred: () => dispatch(debitCardErrOccurredAction()),
   };
 };
 
@@ -102,6 +106,7 @@ DebitCardHeaderSection.propTypes = {
   isPeriodClosed: PropTypes.bool,
   closePeriod: PropTypes.func,
   isPrevPeriodClosed: PropTypes.bool,
+  debitCardErrOccurred: PropTypes.func,
 };
 
 DebitCardHeaderSection.defaultProps = {
@@ -120,3 +125,8 @@ DebitCardHeaderSection.defaultProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DebitCardHeaderSection);
+
+const checkStatus = (status, debit, callbackAction) => {
+  const { monthTotal, monthTotalPredicted } = status;
+  if (monthTotal > debit || monthTotalPredicted > debit) callbackAction();
+};

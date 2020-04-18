@@ -316,7 +316,7 @@ const addFixedTransaction = (months, path, data) => {
   }
 };
 
-const deleteTransaction = (section, id) => {
+export const deleteTransaction = (section, id) => {
   let indexOfExpense = -1;
   section &&
     section.forEach(({ expenseId }, index) => {
@@ -732,7 +732,7 @@ const checkIsPrevPeriodClosed = (prevMoney, selectedMonthId, months) => {
 
 const correctionFunction = (real, predicted) => {
   let difference = real - predicted;
-  return difference;
+  return fixNumber(difference, 2);
 };
 
 const changeDebitSettings = (newMoney, data) => {

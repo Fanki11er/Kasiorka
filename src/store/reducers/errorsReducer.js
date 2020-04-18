@@ -8,6 +8,7 @@ const initialState = {
   settingsFetchErr: null,
   moneyErr: null,
   calculatingErr: null,
+  debitCardErr: null,
 };
 
 const errorsReducer = (state = initialState, action) => {
@@ -105,6 +106,15 @@ const errorsReducer = (state = initialState, action) => {
         ...state,
         calculatingErr: 'Nie można przekalkulować',
       };
+    }
+    case 'TOO_BIG_AMOUNT_OF_DEBIT_ON_CARD': {
+      if (state.debitCardErr === null)
+        return {
+          ...state,
+          debitCardErr:
+            'Kwota na karcie przewyższa wartość debetu, wykonaj transakcję korygującą na karcie debetowej i/lub na koncie głównym',
+        };
+      return state;
     }
 
     default: {

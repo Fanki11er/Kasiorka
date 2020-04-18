@@ -152,6 +152,7 @@ const EditExpensesModal = ({
         predicted: '',
         name: 'Zakupy',
         correct: false,
+        payAll: false,
       }}
       validate={(values) => {
         const errors = {};
@@ -189,7 +190,9 @@ const EditExpensesModal = ({
         if (values.correct) {
           values.predicted = -correctionFunction(real, predicted);
           values.real = 0;
-          console.log(values.real, values.predicted);
+        }
+        if (values.payAll) {
+          values.real = correctionFunction(real, predicted);
         }
         const data = {
           real: fixNumber(values.real, 2),
@@ -252,6 +255,7 @@ const EditExpensesModal = ({
                 {action !== 'addFixed' && action !== 'add' && (
                   <SecondCheckBoxInput
                     label={'Zrób autokorektę:'}
+                    custom={true}
                     name="correct"
                     type={'checkbox'}
                     hidden={real !== predicted ? false : true}
@@ -281,24 +285,36 @@ const EditExpensesModal = ({
             )}
 
             {action === 'payTheCard' && (
-              <ExpensesWrapper>
-                <StyledInput
-                  type={'number'}
-                  name="real"
-                  placeholder={real === predicted ? -real : `Spłata: ${-(predicted - real)}`}
-                  className={errors.real ? 'error fireFoxNumber' : 'fireFoxNumber'}
-                  autoFocus={isExpensesModalOpened}
-                  disabled={real === predicted}
+              <>
+                <ExpensesWrapper>
+                  <StyledInput
+                    type={'number'}
+                    name="real"
+                    placeholder={
+                      real === predicted ? -real : `Spłata: ${fixNumber(-(predicted - real), 2)}`
+                    }
+                    className={errors.real ? 'error fireFoxNumber' : 'fireFoxNumber'}
+                    autoFocus={isExpensesModalOpened}
+                    disabled={real === predicted || values.payAll === true}
+                  />
+                  <ExpensesSign>/</ExpensesSign>
+                  <StyledInput
+                    type={'text'}
+                    name="predicted"
+                    placeholder={-predicted}
+                    className={errors.predicted ? 'error noActive' : 'noActive'}
+                    disabled={true}
+                  />
+                </ExpensesWrapper>
+                <SecondCheckBoxInput
+                  label={'Spłać pełną kwotę:'}
+                  custom={true}
+                  name="payAll"
+                  type={'checkbox'}
+                  hidden={real !== predicted ? false : true}
+                  title={'Spłaca aktualną kwotę debetu'}
                 />
-                <ExpensesSign>/</ExpensesSign>
-                <StyledInput
-                  type={'text'}
-                  name="predicted"
-                  placeholder={-predicted}
-                  className={errors.predicted ? 'error noActive' : 'noActive'}
-                  disabled={true}
-                />
-              </ExpensesWrapper>
+              </>
             )}
             <ModalErrorWrapper>
               {errors.name && <ModalError name="name" component="div" />}
@@ -311,6 +327,7 @@ const EditExpensesModal = ({
                 type="submit"
                 disabled={
                   !values.correct &&
+                  !values.payAll &&
                   (isSubmitting ||
                     errors.real ||
                     values.real === '' ||
@@ -320,6 +337,7 @@ const EditExpensesModal = ({
                 }
                 className={
                   !values.correct &&
+                  !values.payAll &&
                   (errors.real ||
                   values.real === '' ||
                   errors.predicted ||
