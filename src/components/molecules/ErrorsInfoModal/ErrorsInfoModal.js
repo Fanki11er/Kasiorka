@@ -22,8 +22,8 @@ const StyledModalWrapper = styled.div`
 
 const StyledErrorIcon = styled(ErrorCircle)`
   color: ${({ theme }) => theme.hover};
-  width: 30px;
-  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
 `;
 
 const StyledErrorRow = styled.div`

@@ -75,6 +75,7 @@ const Account = ({
         renderExpenses={renderExpenses}
         toggleExpensesModal={toggleExpensesModal}
         selectedMonthId={selectedMonthId}
+        toggleDeleteTransactionsModal={toggleDeleteFixedTransactionsModal}
         path={[accountName, 'transactions']}
       />
     </StyledAccount>

@@ -316,7 +316,7 @@ const addFixedTransaction = (months, path, data) => {
   }
 };
 
-const deleteTransaction = (section, id) => {
+export const deleteTransaction = (section, id) => {
   let indexOfExpense = -1;
   section &&
     section.forEach(({ expenseId }, index) => {

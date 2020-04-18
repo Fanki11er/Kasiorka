@@ -5,6 +5,7 @@ import {
   addTransaction,
   editTransaction,
   addFixedTransaction,
+  deleteTransaction,
   deleteFixedTransaction,
   chargeAccount,
   getIncome,
@@ -106,8 +107,13 @@ export const deleteFixedTransactions = (id, modalInfo) => {
     const { money, hours, prevYearData } = getState();
     const newMoney = Object.assign({}, money);
     const { selectedMonthId, path: type } = modalInfo;
+
     const months = newMoney.months;
-    deleteFixedTransaction(months, selectedMonthId, type, id);
+    if (type[1] === 'fixedExpenses') deleteFixedTransaction(months, selectedMonthId, type, id);
+    if (type[1] === 'transactions') {
+      const section = months[selectedMonthId][type[0]][type[1]].transactions;
+      deleteTransaction(section, id);
+    }
 
     calculateComputed(months, selectedMonthId, type);
     if (type[0] === 'debitCard') {
@@ -162,5 +168,11 @@ export const setNewDebitSettings = (data) => {
 export const canNotReCalculate = () => {
   return {
     type: 'CANT_RECALCULATE',
+  };
+};
+
+export const debitCardErrOccurred = () => {
+  return {
+    type: 'TOO_BIG_AMOUNT_OF_DEBIT_ON_CARD',
   };
 };
