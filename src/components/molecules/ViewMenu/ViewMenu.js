@@ -51,6 +51,9 @@ const StyledViewItem = styled(MenuItem)`
   }
 `;
 
+const hoursTitle = 'Godziny pracy i wyliczanie przewidywanej wypłaty';
+const moneyTitle = 'Śledzenie obecnych oraz przewidywanie przyszłych wydatków';
+
 class ViewMenu extends Component {
   render() {
     const {
@@ -70,6 +73,7 @@ class ViewMenu extends Component {
             !isHoursSaved || (!isMoneySaved && pathname === '/user/hours') ? 'noActive' : null
           }
           disabled={!isHoursSaved || (!isMoneySaved && pathname === '/user/hours') ? true : false}
+          title={moneyTitle}
         >
           Kasiorka
         </StyledViewItem>
@@ -79,6 +83,7 @@ class ViewMenu extends Component {
           activeclass="active"
           className={!isMoneySaved && pathname === '/user/money' ? 'noActive' : null}
           disabled={!isMoneySaved && pathname === '/user/money' ? true : false}
+          title={hoursTitle}
         >
           Godziny
         </StyledViewItem>

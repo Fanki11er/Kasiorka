@@ -60,6 +60,11 @@ const StyledPercentage = styled.div`
   }
 `;
 
+const editButtonTitle = 'Edytuj transakcję';
+const savingButtonTitle = 'Przekaż na konto oszczędnościowe';
+const walletButtonTitle = 'Przekaż do portfela';
+const debitButtonTitle = 'Spłać kartę debetową';
+
 const ExpenseRow = ({
   text,
   percentage,
@@ -77,17 +82,29 @@ const ExpenseRow = ({
       <EndWrapper>
         {percentage !== undefined && <StyledPercentage>{percentage}%</StyledPercentage>}
         {signature === 'standard' && (
-          <StyledPencilIcon onClick={() => toggleExpensesModal(id, type, edit)} />
+          <StyledPencilIcon
+            onClick={() => toggleExpensesModal(id, type, edit)}
+            title={editButtonTitle}
+          />
         )}
         {signature === 'wallet' && (
-          <WalletIcon onClick={() => toggleExpensesModal(id, type, chargeWalletAccount)} />
+          <WalletIcon
+            onClick={() => toggleExpensesModal(id, type, chargeWalletAccount)}
+            title={walletButtonTitle}
+          />
         )}
         {signature === 'debit' && (
-          <CardIcon onClick={() => toggleExpensesModal(id, type, payTheCard)} />
+          <CardIcon
+            onClick={() => toggleExpensesModal(id, type, payTheCard)}
+            title={debitButtonTitle}
+          />
         )}
 
         {signature === 'saving' && (
-          <PiggyIcon onClick={() => toggleExpensesModal(id, type, chargeSavingAccount)} />
+          <PiggyIcon
+            onClick={() => toggleExpensesModal(id, type, chargeSavingAccount)}
+            title={savingButtonTitle}
+          />
         )}
       </EndWrapper>
     </StyledWrapper>

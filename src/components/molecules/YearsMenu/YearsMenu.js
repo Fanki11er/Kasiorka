@@ -69,7 +69,6 @@ class YearsMenu extends Component {
             </MenuItem>
           </StyledListItem>
         )}
-        ;
       </StyledList>
     );
   }

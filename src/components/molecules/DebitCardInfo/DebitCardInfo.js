@@ -57,6 +57,23 @@ const StyledLabel = styled.div`
   }
 `;
 
+const debitTitle = 'Ustaw wartość debetu';
+const interestRateTitle = 'Ustaw wartość oprocentowania';
+
+const selectTitle = (settings) => {
+  switch (settings[1]) {
+    case 'debit': {
+      return debitTitle;
+    }
+    case 'interestRate': {
+      return interestRateTitle;
+    }
+    default: {
+      return null;
+    }
+  }
+};
+
 const DebitCardInfo = ({
   amount,
   label,
@@ -72,7 +89,12 @@ const DebitCardInfo = ({
         {amount} {units}
       </StyledAmount>
       <EndWrapper>
-        {editable && <StyledPencilIcon onClick={() => toggleDebitModal(settings, amount)} />}
+        {editable && (
+          <StyledPencilIcon
+            onClick={() => toggleDebitModal(settings, amount)}
+            title={selectTitle(settings)}
+          />
+        )}
       </EndWrapper>
     </StyledWrapper>
   );
@@ -91,6 +113,7 @@ DebitCardInfo.defaultProps = {
   label: '----',
   units: '--',
   editable: true,
+  settings: [null, null],
 };
 
 export default withExpensesModal(DebitCardInfo);

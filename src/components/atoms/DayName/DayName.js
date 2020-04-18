@@ -12,6 +12,7 @@ const DayName = styled.div`
   border: 1px solid ${({ theme }) => theme.primary};
   background-color: ${({ theme }) => theme.dayNameColour};
   color: ${({ theme }) => theme.primaryFont};
+  user-select: none;
 
   ${({ isSaturday }) =>
     isSaturday &&

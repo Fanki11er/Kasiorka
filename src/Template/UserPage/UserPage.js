@@ -12,6 +12,7 @@ import Navigation from '../../components/organisms/Navigation/Navigation';
 import Footer from '../../components/atoms/Footer/Footer';
 import StateIsLoaded from '../../components/atoms/StateIsLoaded/StateIsLoaded';
 import EditSettings from '../../components/organisms/EditSettings/EditSettings';
+import ErrorsInfoModal from '../../components/molecules/ErrorsInfoModal/ErrorsInfoModal';
 import { createNewYear, monthNames, findNextYear } from '../../tools/index';
 import { routes } from '../../Router/routes';
 import { addNewYear as addNewYearAction } from '../../actions/dataBaseActions';
@@ -53,6 +54,7 @@ class UserPage extends Component {
     limitOfYears: false,
     isMenuOpened: false,
     isLoading: null,
+    errorsOccurred: false,
   };
 
   componentDidMount() {
@@ -62,10 +64,19 @@ class UserPage extends Component {
       takeDataFromDataBase,
     } = this.props;
     takeDataFromDataBase(uid, selectedYear);
+
     window.addEventListener('beforeunload', this.whenClosing);
   }
+
   componentWillUnmount() {
     window.removeEventListener('beforeunload', this.whenClosing);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { errors } = this.props;
+    this.checkAmountOfFutureYears();
+    this.testState();
+    this.showErrors(prevProps, errors);
   }
 
   testState = () => {
@@ -76,10 +87,15 @@ class UserPage extends Component {
     }
   };
 
-  componentDidUpdate() {
-    this.checkAmountOfFutureYears();
-    this.testState();
-  }
+  showErrors = (prevProps, errorsList) => {
+    if (prevProps.errors !== errorsList) {
+      this.setState({ errorsOccurred: true });
+    }
+  };
+
+  closeErrorsModal = () => {
+    this.setState({ errorsOccurred: false });
+  };
 
   selectMonthOrYear = ({ target }, select) => {
     switch (select) {
@@ -207,6 +223,7 @@ class UserPage extends Component {
       isSettingsModalOpened,
       limitOfYears,
       isMenuOpened,
+      errorsOccurred,
     } = this.state;
 
     const menuContext = {
@@ -231,6 +248,7 @@ class UserPage extends Component {
 
     const {
       auth: { uid },
+      errors,
     } = this.props;
     if (!uid) return <Redirect to={login} />;
     if (pathname === user) return <Redirect to={money} />;
@@ -251,6 +269,11 @@ class UserPage extends Component {
               {pathname === hours && <HoursMonth />}
               {pathname === money && <MoneyMonth />}
             </ViewsContext.Provider>
+            <ErrorsInfoModal
+              errors={errors}
+              errorsOccurred={errorsOccurred}
+              closeModal={this.closeErrorsModal}
+            />
             <Footer />
           </StyledWrapper>
         </>
@@ -272,7 +295,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const mapStateToProps = ({ hours, firebase, user, money, prevYearData }) => {
+const mapStateToProps = ({ hours, firebase, user, money, prevYearData, errors }) => {
   return {
     months: hours.months,
     auth: firebase.auth,
@@ -280,8 +303,8 @@ const mapStateToProps = ({ hours, firebase, user, money, prevYearData }) => {
     isSaved: hours.isSaved,
     userHoursSettings: user.hoursSettings,
     moneyIsSaved: money.isSaved,
-    prevYearData: prevYearData.prevMoney.testReady,
     isLoading: money.isLoading,
+    errors: errors,
   };
 };
 
@@ -295,6 +318,8 @@ UserPage.propTypes = {
   moneyIsSaved: PropTypes.bool.isRequired,
   reCalculateMoney: PropTypes.func.isRequired,
   canNotReCalculate: PropTypes.func.isRequired,
+  errors: PropTypes.object,
+  isLoading: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

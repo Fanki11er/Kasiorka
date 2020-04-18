@@ -12,25 +12,46 @@ const StyledMainSection = styled.section`
   align-content: space-around;
 `;
 
+const StyledFlex = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+const addButtonTitle = 'Dodaj nową transakcję';
+const deleteButtonTitle = 'Usuń transakcję';
+
 const TransactionsSection = ({
   accountLabel,
   transactions,
   currency,
   type,
+  path,
   toggleExpensesModal,
+  toggleDeleteTransactionsModal,
+  selectedMonthId,
   renderExpenses,
   isClosed,
 }) => {
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} forSection={true} />
-      <AccountButton
-        onClick={() => toggleExpensesModal(null, type, 'add')}
-        className={isClosed ? 'noActive' : null}
-        disabled={isClosed ? true : false}
-      >
-        Add
-      </AccountButton>
+      <StyledFlex>
+        <AccountButton
+          onClick={() => toggleExpensesModal(null, type, 'add')}
+          className={isClosed ? 'noActive' : null}
+          disabled={isClosed ? true : false}
+          title={addButtonTitle}
+        >
+          Dodaj
+        </AccountButton>
+        <AccountButton
+          onClick={() => toggleDeleteTransactionsModal(selectedMonthId, path)}
+          className={isClosed || !transactions.length ? 'noActive' : null}
+          disabled={isClosed || !transactions.length ? true : false}
+          title={deleteButtonTitle}
+        >
+          Usuń
+        </AccountButton>
+      </StyledFlex>
       <StyledMainSection>
         {transactions.length > 0 && renderExpenses(transactions, currency, type)}
       </StyledMainSection>

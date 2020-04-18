@@ -1,4 +1,11 @@
-import { addCardSettings, addVersioningToMoney } from './updatingTools';
+//? For updates-----------------------------------------------------------------
+
+//import { addCardSettings, addVersioningToMoney } from './updatingTools';
+export const moneyUpdatesArray = [
+  /*addVersioningToMoney, addCardSettings*/
+];
+
+//? For updates ---------------------------------------------------------------
 
 export const moneyVersion = 0.7;
 class Expense {
@@ -77,7 +84,7 @@ class MainAccount extends Account {
   constructor(title, type, sections) {
     super(title, type, sections);
     this.cardSettings = {
-      debit: 1900,
+      debit: 0,
     };
   }
 }
@@ -309,7 +316,7 @@ const addFixedTransaction = (months, path, data) => {
   }
 };
 
-const deleteTransaction = (section, id) => {
+export const deleteTransaction = (section, id) => {
   let indexOfExpense = -1;
   section &&
     section.forEach(({ expenseId }, index) => {
@@ -705,7 +712,7 @@ const actualizeFixedTransactions = (prevYearData, money) => {
     });
 
     deletes.forEach((transaction) => {
-      let { type, actionId, id, data } = transaction;
+      let { type, actionId, id } = transaction;
       path = { type, selectedMonthId: 0 };
       deleteFixedTransaction(months, 0, type, id);
       updateDoneList(months, path, actionId);
@@ -725,7 +732,7 @@ const checkIsPrevPeriodClosed = (prevMoney, selectedMonthId, months) => {
 
 const correctionFunction = (real, predicted) => {
   let difference = real - predicted;
-  return difference;
+  return fixNumber(difference, 2);
 };
 
 const changeDebitSettings = (newMoney, data) => {
@@ -736,8 +743,6 @@ const changeDebitSettings = (newMoney, data) => {
     selectedAccount.cardSettings[property] = newValue;
   }
 };
-
-export const moneyUpdatesArray = [addVersioningToMoney, addCardSettings];
 
 export {
   Expense,

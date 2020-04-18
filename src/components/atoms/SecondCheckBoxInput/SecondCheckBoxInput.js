@@ -7,7 +7,9 @@ import CheckBox from '../../atoms/CheckBox/CheckBox';
 const StyledFormLabel = styled(FormLabel)`
   border: none;
   justify-content: flex-start;
+  align-self: flex-start;
   opacity: 1;
+  margin-left: 20px;
 
   &.hidden {
     opacity: 0;
@@ -25,11 +27,16 @@ const StyledCheckBox = styled(CheckBox)`
   }
 `;
 
-const SecondCheckBoxInput = ({ label, name, custom, type, noActive, hidden }) => {
+const SecondCheckBoxInput = ({ label, name, custom, type, noActive, hidden, title }) => {
   return (
     <StyledFormLabel custom={custom} className={hidden ? 'hidden' : null}>
       {label}
-      <StyledCheckBox type={type} name={name} className={noActive ? 'noActive' : null} />
+      <StyledCheckBox
+        type={type}
+        name={name}
+        className={noActive ? 'noActive' : null}
+        title={title}
+      />
     </StyledFormLabel>
   );
 };
@@ -40,6 +47,7 @@ SecondCheckBoxInput.propTypes = {
   custom: PropTypes.bool,
   type: PropTypes.string.isRequired,
   noActive: PropTypes.bool,
+  title: PropTypes.string,
 };
 
 SecondCheckBoxInput.defaultProps = {
@@ -47,6 +55,7 @@ SecondCheckBoxInput.defaultProps = {
   name: '----',
   custom: false,
   noActive: false,
+  title: '',
 };
 
 export default SecondCheckBoxInput;

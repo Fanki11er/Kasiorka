@@ -50,7 +50,10 @@ const UserMenu = ({
   };
   return (
     <StyledWrapper>
-      <IsSavedInfo isSaved={{ isSaved, moneyIsSaved }} title={isSaved ? 'Saved' : 'Not saved'} />
+      <IsSavedInfo
+        isSaved={{ isSaved, moneyIsSaved }}
+        title={isSaved ? 'Zapisane' : 'Nie zapisane'}
+      />
 
       <UserName>{userName}</UserName>
       <StyledLogOut

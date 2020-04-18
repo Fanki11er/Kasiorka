@@ -63,12 +63,13 @@ const StyledProgress = styled.div`
   }
 `;
 
-const AccountStats = ({ label, expensesPercents }) => {
+const AccountStats = ({ label, expensesPercents, stats }) => {
+  const { incomes, expenses } = stats;
   return (
     <StyledWrapper>
       <StyledLabel>{label}</StyledLabel>
       <StyledStatsWrapper>
-        <StyledProgress expensesPercents={expensesPercents} />
+        <StyledProgress expensesPercents={expensesPercents} title={`${-expenses} / ${incomes}`} />
       </StyledStatsWrapper>
     </StyledWrapper>
   );
@@ -77,11 +78,19 @@ const AccountStats = ({ label, expensesPercents }) => {
 AccountStats.propTypes = {
   label: PropTypes.string,
   expensesPercents: PropTypes.number,
+  stats: PropTypes.shape({
+    incomes: PropTypes.number,
+    expenses: PropTypes.number,
+  }),
 };
 
 AccountStats.defaultProps = {
   label: '----',
   expensesPercents: 0,
+  stats: {
+    incomes: 0,
+    expenses: 0,
+  },
 };
 
 export default AccountStats;

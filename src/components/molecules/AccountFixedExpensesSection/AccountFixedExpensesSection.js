@@ -17,6 +17,9 @@ const StyledFlex = styled.div`
   justify-content: center;
 `;
 
+const addFixedTransactionButtonTitle = 'Dodaj nową cykliczną transakcję';
+const deleteFixedTransactionButtonTitle = 'Usuń wybrane cykliczne transakcje';
+
 const AccountFixedExpensesSection = ({
   accountLabel,
   transactions,
@@ -41,15 +44,17 @@ const AccountFixedExpensesSection = ({
             onClick={() => toggleExpensesModal(null, type, 'addFixed')}
             className={isClosed ? 'noActive' : null}
             disabled={isClosed ? true : false}
+            title={addFixedTransactionButtonTitle}
           >
-            Add
+            Dodaj
           </AccountButton>
           <AccountButton
             onClick={() => toggleDeleteFixedTransactionsModal(selectedMonthId, path)}
             className={isClosed || !transactions.length ? 'noActive' : null}
             disabled={isClosed || !transactions.length ? true : false}
+            title={deleteFixedTransactionButtonTitle}
           >
-            Delete
+            Usuń
           </AccountButton>
         </StyledFlex>
       </StyledMainSection>
@@ -91,13 +96,3 @@ AccountFixedExpensesSection.defaultProps = {
 };
 
 export default connect(mapStateToProps)(AccountFixedExpensesSection);
-
-/*
-
-  
-
-  type,
-  
-  path,
-
-*/
