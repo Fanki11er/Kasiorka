@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Settings } from 'styled-icons/feather';
-import { Database2 } from 'styled-icons/remix-fill/';
-import { Check } from 'styled-icons/fa-solid/';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
+import DataBaseIcon from '../../atoms/DataBaseIcon/DataBaseIcon';
+import CheckIcon from '../../atoms/CheckIcon/CheckIcon';
 import PropTypes from 'prop-types';
+
 const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,19 +40,6 @@ const StyledSettingsIcon = styled(Settings)`
   width: 25%;
 `;
 
-const StyledSaveIcon = styled(Database2)`
-  width: 25%;
-`;
-
-const StyledCHeckIcon = styled(Check)`
-  width: 25%;
-  margin-left: 5px;
-
-  &.noActualData {
-    color: gray;
-    opacity: 0.5;
-  }
-`;
 const addYearTitle = 'Dodaje kolejny rok';
 const autoFillTitle = 'Uzupełnia ( nadpisuje ) miesiąc według zapisanych ustawień';
 const optionsTitle = 'Ustawienia autouzupełniania';
@@ -73,8 +61,8 @@ class ExtendedMenu extends Component {
     return (
       <StyledWrapper>
         <StyledMenuItem title={savingTitle} onClick={forceDataSave}>
-          <StyledSaveIcon />
-          <StyledCHeckIcon className={!isHoursSaved || !isMoneySaved ? 'noActualData' : null} />
+          <DataBaseIcon />
+          <CheckIcon className={!isHoursSaved || !isMoneySaved ? 'notActiveIcon' : null} />
         </StyledMenuItem>
 
         <StyledMenuItem
