@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import { Settings } from 'styled-icons/feather';
+import { Database2 } from 'styled-icons/remix-fill/';
+import { Check } from 'styled-icons/fa-solid/';
 import MenuItem from '../../atoms/MenuItem/MenuItem';
 import PropTypes from 'prop-types';
-
 const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,12 +35,28 @@ const StyledMenuItem = styled(MenuItem)`
   }
 `;
 
-const StyledIcon = styled(Settings)`
+const StyledSettingsIcon = styled(Settings)`
   width: 25%;
+`;
+
+const StyledSaveIcon = styled(Database2)`
+  width: 25%;
+`;
+
+const StyledCHeckIcon = styled(Check)`
+  width: 25%;
+  margin-left: 5px;
+
+  &.noActualData {
+    color: gray;
+    opacity: 0.5;
+  }
 `;
 const addYearTitle = 'Dodaje kolejny rok';
 const autoFillTitle = 'Uzupełnia ( nadpisuje ) miesiąc według zapisanych ustawień';
 const optionsTitle = 'Ustawienia autouzupełniania';
+const savingTitle =
+  'Zapisz (Dane zapisują się automatycznie, w razie potrzeby można zapisać je za pomocą tego przycisku)';
 class ExtendedMenu extends Component {
   render() {
     const {
@@ -47,10 +65,18 @@ class ExtendedMenu extends Component {
       autoFilHoursMonth,
       limitOfYears,
       selectedPage,
+      forceDataSave,
+      isMoneySaved,
+      isHoursSaved,
     } = this.props;
     const { pathname } = selectedPage;
     return (
       <StyledWrapper>
+        <StyledMenuItem title={savingTitle} onClick={forceDataSave}>
+          <StyledSaveIcon />
+          <StyledCHeckIcon className={!isHoursSaved || !isMoneySaved ? 'noActualData' : null} />
+        </StyledMenuItem>
+
         <StyledMenuItem
           className={limitOfYears ? 'noActive' : null}
           onClick={addNewYear}
@@ -66,18 +92,27 @@ class ExtendedMenu extends Component {
         )}
         {pathname === '/user/hours' && (
           <StyledMenuItem title={optionsTitle} onClick={toggleSettingsModal}>
-            <StyledIcon />
+            <StyledSettingsIcon />
           </StyledMenuItem>
         )}
       </StyledWrapper>
     );
   }
 }
+
+const mapStateToProps = ({ money, hours }) => {
+  return {
+    isMoneySaved: money.isSaved,
+    isHoursSaved: hours.isSaved,
+  };
+};
 ExtendedMenu.propTypes = {
   addNewYear: PropTypes.func.isRequired,
   toggleSettingsModal: PropTypes.func.isRequired,
   autoFilHoursMonth: PropTypes.func.isRequired,
   limitOfYears: PropTypes.bool.isRequired,
   selectedPage: PropTypes.object.isRequired,
+  isHoursSaved: PropTypes.bool,
+  isMoneySaved: PropTypes.bool,
 };
-export default ExtendedMenu;
+export default connect(mapStateToProps)(ExtendedMenu);

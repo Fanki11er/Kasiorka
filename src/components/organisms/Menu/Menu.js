@@ -63,6 +63,7 @@ const Menu = ({
     selectedMonthId,
     selectedPage,
     toggleMenu,
+    forceDataSave,
   },
 }) => (
   <StyledWrapper isMenuOpened={isMenuOpened}>
@@ -76,6 +77,7 @@ const Menu = ({
           autoFilHoursMonth={autoFilHoursMonth}
           limitOfYears={limitOfYears}
           selectedPage={selectedPage}
+          forceDataSave={forceDataSave}
         />
       </StyledFlexWrapper>
       <MonthMenu

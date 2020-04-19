@@ -216,6 +216,16 @@ class UserPage extends Component {
     });
   };
 
+  forceDataSave = () => {
+    const {
+      auth: { uid },
+      sendHoursToDataBase,
+      sendMoneyToDataBase,
+    } = this.props;
+    sendHoursToDataBase(uid);
+    sendMoneyToDataBase(uid);
+  };
+
   render() {
     const {
       selectedMonthId,
@@ -237,6 +247,7 @@ class UserPage extends Component {
       isMenuOpened,
       selectedPage: this.props.location,
       toggleMenu: this.toggleMenu,
+      forceDataSave: this.forceDataSave,
     };
 
     const viewsContext = {
@@ -295,7 +306,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const mapStateToProps = ({ hours, firebase, user, money, prevYearData, errors }) => {
+const mapStateToProps = ({ hours, firebase, user, money, errors }) => {
   return {
     months: hours.months,
     auth: firebase.auth,
