@@ -255,13 +255,13 @@ class UserPage extends Component {
     };
 
     const { pathname } = this.props.location;
-    const { hours, money, login, user } = routes;
+    const { hours, money, user, main } = routes;
 
     const {
       auth: { uid },
       errors,
     } = this.props;
-    if (!uid) return <Redirect to={login} />;
+    if (!uid) return <Redirect to={main} />;
     if (pathname === user) return <Redirect to={money} />;
     if (pathname !== user && pathname !== money && pathname !== hours)
       return <Redirect to={money} />;

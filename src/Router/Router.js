@@ -14,9 +14,10 @@ import AuthIsLoaded from '../components/atoms/AuthIsLoaded/AuthIsLoaded';
 import UserPage from '../Template/UserPage/UserPage';
 import LoginView from '../Views/LoginView/LoginView';
 import RegisterView from '../Views/RegisterView/RegisterView';
+import MainPageView from '../Views/MainPageView/MainPageView';
 
 function Router() {
-  const { login, user, register } = routes;
+  const { login, user, register, main } = routes;
   return (
     <Provider store={store}>
       <ReactReduxFirebaseProvider
@@ -30,7 +31,8 @@ function Router() {
           <ThemeProvider theme={theme}>
             <AuthIsLoaded>
               <Switch>
-                <Route exact path={login} component={LoginView} />
+                <Route exact path={main} component={MainPageView} />
+                <Route path={login} component={LoginView} />
                 <Route path={user} component={UserPage} />
                 <Route path={register} component={RegisterView} />
                 <Route path={'*'} component={LoginView} />

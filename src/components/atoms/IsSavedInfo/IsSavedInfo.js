@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import DataBaseIcon from '../../atoms/DataBaseIcon/DataBaseIcon';
 import CheckIcon from '../../atoms/CheckIcon/CheckIcon';
-import PropTypes, { bool } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -45,8 +45,14 @@ const IsSavedInfo = ({ isAllSaved }) => {
   const { isSaved, moneyIsSaved } = isAllSaved;
   return (
     <StyledWrapper>
-      <StyledCheckIcon className={isSaved && moneyIsSaved ? null : 'notActiveIcon'} />
-      <StyledDataBaseIcon className={!isSaved || !moneyIsSaved ? 'working' : 'notActiveIcon'} />
+      <StyledCheckIcon
+        className={isSaved && moneyIsSaved ? null : 'notActiveIcon'}
+        title={'Stan zapisany'}
+      />
+      <StyledDataBaseIcon
+        className={!isSaved || !moneyIsSaved ? 'working' : 'notActiveIcon'}
+        title={'Trwa zapis'}
+      />
     </StyledWrapper>
   );
 };

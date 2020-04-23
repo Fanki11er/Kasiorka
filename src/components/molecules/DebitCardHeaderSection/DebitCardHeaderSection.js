@@ -67,7 +67,7 @@ const DebitCardHeaderSection = ({
         disabled={isPeriodClosed || !isPrevPeriodClosed ? true : false}
         title={closePeriodButtonTitle}
       >
-        Zakończ okres
+        {showText(isPeriodClosed, isPrevPeriodClosed)}
       </ClosePeriodButton>
     </AccountStyledSection>
   );
@@ -129,4 +129,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(DebitCardHeaderSecti
 const checkStatus = (status, debit, callbackAction) => {
   const { monthTotal, monthTotalPredicted } = status;
   if (monthTotal > debit || monthTotalPredicted > debit) callbackAction();
+};
+
+const showText = (isPeriodClosed, isPrevPeriodClosed) => {
+  if (!isPrevPeriodClosed) return 'Zamknij poprzednie okresy';
+  if (isPeriodClosed) return 'Okres zamknięty';
+  return 'Zamknij okres';
 };
