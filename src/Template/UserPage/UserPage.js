@@ -216,6 +216,16 @@ class UserPage extends Component {
     });
   };
 
+  forceDataSave = () => {
+    const {
+      auth: { uid },
+      sendHoursToDataBase,
+      sendMoneyToDataBase,
+    } = this.props;
+    sendHoursToDataBase(uid);
+    sendMoneyToDataBase(uid);
+  };
+
   render() {
     const {
       selectedMonthId,
@@ -237,6 +247,7 @@ class UserPage extends Component {
       isMenuOpened,
       selectedPage: this.props.location,
       toggleMenu: this.toggleMenu,
+      forceDataSave: this.forceDataSave,
     };
 
     const viewsContext = {
@@ -244,13 +255,13 @@ class UserPage extends Component {
     };
 
     const { pathname } = this.props.location;
-    const { hours, money, login, user } = routes;
+    const { hours, money, user, main } = routes;
 
     const {
       auth: { uid },
       errors,
     } = this.props;
-    if (!uid) return <Redirect to={login} />;
+    if (!uid) return <Redirect to={main} />;
     if (pathname === user) return <Redirect to={money} />;
     if (pathname !== user && pathname !== money && pathname !== hours)
       return <Redirect to={money} />;
@@ -295,7 +306,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const mapStateToProps = ({ hours, firebase, user, money, prevYearData, errors }) => {
+const mapStateToProps = ({ hours, firebase, user, money, errors }) => {
   return {
     months: hours.months,
     auth: firebase.auth,

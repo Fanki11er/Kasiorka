@@ -6,9 +6,8 @@ import hoursReducer from './hoursReducer';
 import errorsReducer from './errorsReducer';
 import moneyReducer from './moneyReducer';
 import prevYearReducer from './prevYearReducer';
-import testReducer from './testReducer';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   auth: authReducer,
   firebase: firebaseReducer,
   user: userReducer,
@@ -16,7 +15,13 @@ const rootReducer = combineReducers({
   errors: errorsReducer,
   money: moneyReducer,
   prevYearData: prevYearReducer,
-  tests: testReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT SUCCESS') {
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 
 export default rootReducer;

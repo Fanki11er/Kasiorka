@@ -9,6 +9,9 @@ const initialState = {
   moneyErr: null,
   calculatingErr: null,
   debitCardErr: null,
+  hoursErr: null,
+  prevAmountsErr: null,
+  prevPaymentsErr: null,
 };
 
 const errorsReducer = (state = initialState, action) => {
@@ -115,6 +118,33 @@ const errorsReducer = (state = initialState, action) => {
             'Kwota na karcie przewyższa wartość debetu, wykonaj transakcję korygującą na karcie debetowej i/lub na koncie głównym',
         };
       return state;
+    }
+    case 'HOURS_NOT_TOOK': {
+      return {
+        ...state,
+        hoursErr: 'Nie udało się pobrać modułu "Godziny"',
+      };
+    }
+
+    case 'MONEY_NOT_TOOK': {
+      return {
+        ...state,
+        moneyErr: 'Nie udało się pobrać modułu "Kasiorka"',
+      };
+    }
+
+    case 'PREVIOUS_PAYMENTS_NOT_TOOK': {
+      return {
+        ...state,
+        prevPaymentsErr: 'Nie udało się pobrać poprzednich wypłat',
+      };
+    }
+
+    case 'PREVIOUS_AMOUNTS_NOT_TOOK': {
+      return {
+        ...state,
+        prevAmountsErr: 'Nie udało się pobrać poprzednich wartości',
+      };
     }
 
     default: {

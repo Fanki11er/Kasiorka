@@ -77,7 +77,7 @@ const StyledSync = styled.img`
   }
   @keyframes rotation {
     to {
-      transform: rotate(1080deg);
+      transform: rotate(-1080deg);
     }
   }
 `;

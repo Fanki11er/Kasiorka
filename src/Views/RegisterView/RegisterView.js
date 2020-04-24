@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import RegisterForm from '../../components/molecules/RegisterForm/RegisterForm';
 import TitleHeader from '../../components/atoms/TitleHeader/TitleHeader';
 import Footer from '../../components/atoms/Footer/Footer';
+import BackButton from '../../components/atoms/BackButton/BackButton';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -40,6 +41,7 @@ const StyledTitleWrapper = styled.div`
 
 const RegisterView = () => (
   <StyledWrapper>
+    <BackButton />
     <StyledTitleWrapper>
       <TitleHeader small />
     </StyledTitleWrapper>

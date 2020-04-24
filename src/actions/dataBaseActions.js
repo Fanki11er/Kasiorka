@@ -16,6 +16,9 @@ export const takeDataFromDataBase = (uid, year) => {
           const dataObj = checkForUpdates(data, hoursVersion, 'hours', hoursUpdatesArray);
           dispatch({ type: 'TAKE_HOURS_FROM_DATABASE', payload: dataObj.data }); // Hours reducer
           if (dataObj.updated) dispatch({ type: 'HOURS_VERSION_UPDATED' });
+        })
+        .catch((err) => {
+          dispatch({ type: 'HOURS_NOT_TOOK' });
         }),
 
       dataBase
@@ -34,6 +37,9 @@ export const takeDataFromDataBase = (uid, year) => {
           const dataObj = checkForUpdates(data, moneyVersion, 'money', moneyUpdatesArray);
           dispatch({ type: 'TAKE_MONEY_FROM_DATABASE', payload: dataObj.data }); //Money Reducer
           if (dataObj.updated) dispatch({ type: 'MONEY_VERSION_UPDATED' });
+        })
+        .catch((err) => {
+          dispatch({ type: 'MONEY_NOT_TOOK' });
         }),
 
       dataBase
@@ -44,7 +50,7 @@ export const takeDataFromDataBase = (uid, year) => {
           dispatch({ type: 'GET_PREVIOUS_PAYMENTS', payload: data }); // prev reducer
         })
         .catch((err) => {
-          console.log(err.message);
+          dispatch({ type: 'PREVIOUS_PAYMENTS_NOT_TOOK' });
         }),
 
       dataBase
@@ -55,7 +61,7 @@ export const takeDataFromDataBase = (uid, year) => {
           dispatch({ type: 'GET_PREVIOUS_AMOUNTS', payload: data }); // prev reducer
         })
         .catch((err) => {
-          console.log(err.message);
+          dispatch({ type: 'PREVIOUS_AMOUNTS_NOT_TOOK' });
         }),
     ]).then(() => {
       dispatch({ type: 'DATA_DOWNLOADED' }); // money reducer
