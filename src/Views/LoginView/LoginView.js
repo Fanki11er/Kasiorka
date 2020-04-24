@@ -4,7 +4,10 @@ import LoginImage from '../../components/atoms/LoginImage/LoginImage';
 import TitleHeader from '../../components/atoms/TitleHeader/TitleHeader';
 import LoginForm from '../../components/molecules/LoginForm/LoginForm';
 import Footer from '../../components/atoms/Footer/Footer';
+import BackButton from '../../components/atoms/BackButton/BackButton';
+
 const StyledWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -26,6 +29,7 @@ class LoginView extends Component {
   render() {
     return (
       <StyledWrapper>
+        <BackButton />
         <TitleHeader />
         <StyledFlexWrapper>
           <LoginImage></LoginImage>

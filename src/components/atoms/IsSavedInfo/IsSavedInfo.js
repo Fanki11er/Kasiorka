@@ -1,22 +1,66 @@
+import React from 'react';
 import styled from 'styled-components';
+import DataBaseIcon from '../../atoms/DataBaseIcon/DataBaseIcon';
+import CheckIcon from '../../atoms/CheckIcon/CheckIcon';
 import PropTypes from 'prop-types';
 
-const IsSavedInfo = styled.div`
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background-color: ${({ theme, isSaved: { isSaved, moneyIsSaved } }) =>
-    !isSaved || !moneyIsSaved ? theme.sundayRed : theme.green};
+const StyledWrapper = styled.div`
+  display: flex;
+  height: 40px;
+  color: ${({ theme }) => theme.green};
   align-self: center;
-  margin: 10px;
-  transition: background-color 0.5s;
-  @media screen and (max-width: 1920px) {
-    width: 12px;
-    height: 12px;
+  align-items: center;
+  margin: 0 5px;
+`;
+
+const StyledCheckIcon = styled(CheckIcon)`
+  width: initial;
+  height: 50%;
+  margin-right: 3px;
+`;
+
+const StyledDataBaseIcon = styled(DataBaseIcon)`
+  width: initial;
+  height: 50%;
+  transition: color 1s;
+
+  &.working {
+    opacity: 1;
+    color: ${({ theme }) => theme.hover};
+    animation-name: working;
+    animation-duration: 2s;
+    animation-delay: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+
+    @keyframes working {
+      to {
+        color: ${({ theme }) => theme.green};
+      }
+    }
   }
 `;
 
+const IsSavedInfo = ({ isAllSaved }) => {
+  const { isSaved, moneyIsSaved } = isAllSaved;
+  return (
+    <StyledWrapper>
+      <StyledCheckIcon
+        className={isSaved && moneyIsSaved ? null : 'notActiveIcon'}
+        title={'Stan zapisany'}
+      />
+      <StyledDataBaseIcon
+        className={!isSaved || !moneyIsSaved ? 'working' : 'notActiveIcon'}
+        title={'Trwa zapis'}
+      />
+    </StyledWrapper>
+  );
+};
+
 IsSavedInfo.propTypes = {
-  isSaved: PropTypes.object,
+  isAllSaved: PropTypes.shape({
+    isSaved: PropTypes.bool,
+    moneyIsSaved: PropTypes.bool,
+  }),
 };
 export default IsSavedInfo;

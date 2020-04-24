@@ -76,7 +76,7 @@ const RegisterForm = ({ signUp, auth, signUpErr }) => {
           <FormButton type="submit" green="true" disabled={isSubmitting}>
             Zarejestruj
           </FormButton>
-          <FormButton as={Link} to="/">
+          <FormButton as={Link} to="/log">
             Logowanie
           </FormButton>
           <RegistrationImage />

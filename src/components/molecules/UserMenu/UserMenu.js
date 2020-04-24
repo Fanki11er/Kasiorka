@@ -7,6 +7,7 @@ import UserName from '../../atoms/UserName/UserName';
 import IsSavedInfo from '../../atoms/IsSavedInfo/IsSavedInfo';
 import { signOut as signOutAction } from '../../../actions/authActions';
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../../actions/dataBaseActions';
+import { sendMoneyToDataBase as sendMoneyToDataBaseAction } from '../../../actions/dataBaseActions';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -43,26 +44,19 @@ const UserMenu = ({
   moneyIsSaved,
   auth: { uid },
   sendHoursToDataBase,
+  sendMoneyToDataBase,
 }) => {
   const logOut = () => {
     sendHoursToDataBase(uid);
+    sendMoneyToDataBase(uid);
     setTimeout(signOut, 500);
   };
   return (
     <StyledWrapper>
-      <IsSavedInfo
-        isSaved={{ isSaved, moneyIsSaved }}
-        title={isSaved ? 'Zapisane' : 'Nie zapisane'}
-      />
+      <IsSavedInfo isAllSaved={{ isSaved, moneyIsSaved }} />
 
       <UserName>{userName}</UserName>
-      <StyledLogOut
-        onClick={logOut}
-        className={!isSaved || !moneyIsSaved ? 'noActive' : null}
-        disabled={!isSaved || !moneyIsSaved ? true : false}
-      >
-        Wyloguj
-      </StyledLogOut>
+      <StyledLogOut onClick={logOut}>Wyloguj</StyledLogOut>
     </StyledWrapper>
   );
 };
@@ -93,6 +87,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     signOut: () => dispatch(signOutAction()),
     sendHoursToDataBase: (uid) => dispatch(sendHoursToDataBaseAction(uid)),
+    sendMoneyToDataBase: (uid) => dispatch(sendMoneyToDataBaseAction(uid)),
   };
 };
 
