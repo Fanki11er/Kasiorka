@@ -8,6 +8,7 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
 import firebaseConfig from '../firebase/firebaseConfig';
 import { rrfConfig } from '../firebase/firebaseConfig';
+import { CookiesProvider } from 'react-cookie';
 import store from '../store/index';
 import GlobalStyle from '../themes/GlobalStyle';
 import AuthIsLoaded from '../components/atoms/AuthIsLoaded/AuthIsLoaded';
@@ -30,13 +31,15 @@ function Router() {
           <GlobalStyle />
           <ThemeProvider theme={theme}>
             <AuthIsLoaded>
-              <Switch>
-                <Route exact path={main} component={MainPageView} />
-                <Route path={login} component={LoginView} />
-                <Route path={user} component={UserPage} />
-                <Route path={register} component={RegisterView} />
-                <Route path={'*'} component={LoginView} />
-              </Switch>
+              <CookiesProvider>
+                <Switch>
+                  <Route exact path={main} component={MainPageView} />
+                  <Route path={login} component={LoginView} />
+                  <Route path={user} component={UserPage} />
+                  <Route path={register} component={RegisterView} />
+                  <Route path={'*'} component={LoginView} />
+                </Switch>
+              </CookiesProvider>
             </AuthIsLoaded>
           </ThemeProvider>
         </BrowserRouter>

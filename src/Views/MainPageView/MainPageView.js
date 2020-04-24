@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useCookies } from 'react-cookie';
 import TopNavigation from '../../components/molecules/TopNavigation/TopNavigation';
 import MainPageHeader from '../../components/molecules/MainPageHeader/MainPageHeader';
 import MainPageInfoSection from '../../components/organisms/MainPageInfoSection/MainPageInfoSection';
 import MainPageAccountsSection from '../../components/organisms/MainPageAccountsSection/MainPageAccountsSection';
 import DevicesSection from '../../components/organisms/DevicesSection/DevicesSection';
 import MainPageBottomSection from '../../components/organisms/MainPageBottomSection/MainPageBottomSection';
+import CookieInfoModal from '../../components/molecules/CookieInfoModal/CookieInfoModal';
 import Footer from '../../components/atoms/Footer/Footer';
 import Images from '../../themes/Images';
 const StyledWrapper = styled.div`
@@ -59,6 +61,14 @@ const tilesArr = [
 ];
 
 const MainPageView = () => {
+  const [cookies, setCookie] = useCookies(['infoSaw']);
+  const [cookiesInfoRed, setCookiesIfoRed] = useState(cookies.infoSaw);
+
+  const hideCookieInfo = () => {
+    setCookie('infoSaw', true);
+    setCookiesIfoRed(true);
+  };
+
   return (
     <StyledWrapper>
       <TopNavigation />
@@ -83,6 +93,7 @@ const MainPageView = () => {
       <DevicesSection />
       <MainPageBottomSection />
       <Footer />
+      {!cookiesInfoRed && <CookieInfoModal hideInfo={hideCookieInfo} />}
     </StyledWrapper>
   );
 };
