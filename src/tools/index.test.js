@@ -45,12 +45,13 @@ test('Create Single Day', () => {
   });
 });
 
-test('Create Single Year', () => {
+/*test('Create Single Year', () => {
   expect(new SingleYear(2019)).toEqual({
     yearName: 2019,
     months: [],
   });
 });
+*/
 
 test('Check month length is correct', () => {
   expect(getMonthLength(2019, 2)).toBe(28);

@@ -65,7 +65,7 @@ const MainPageView = () => {
   const [cookiesInfoRed, setCookiesIfoRed] = useState(cookies.infoSaw);
 
   const hideCookieInfo = () => {
-    setCookie('infoSaw', true);
+    setCookie('infoSaw', true, { maxAge: 5184000 });
     setCookiesIfoRed(true);
   };
 
