@@ -13,6 +13,7 @@ import Footer from '../../components/atoms/Footer/Footer';
 import StateIsLoaded from '../../components/atoms/StateIsLoaded/StateIsLoaded';
 import EditSettings from '../../components/organisms/EditSettings/EditSettings';
 import ErrorsInfoModal from '../../components/molecules/ErrorsInfoModal/ErrorsInfoModal';
+import { initGA, eventGa, pageView } from '../../tools/reactGaSetup';
 import { createNewYear, monthNames, findNextYear } from '../../tools/index';
 import { routes } from '../../Router/routes';
 import { addNewYear as addNewYearAction } from '../../actions/dataBaseActions';
@@ -64,6 +65,8 @@ class UserPage extends Component {
       takeDataFromDataBase,
     } = this.props;
     takeDataFromDataBase(uid, selectedYear);
+    initGA();
+    pageView();
 
     window.addEventListener('beforeunload', this.whenClosing);
   }
@@ -90,6 +93,11 @@ class UserPage extends Component {
   showErrors = (prevProps, errorsList) => {
     if (prevProps.errors !== errorsList) {
       this.setState({ errorsOccurred: true });
+      Object.entries(errorsList).forEach(([key, value]) => {
+        if (value && key !== 'authErr') {
+          eventGa('Errors', key.toString(), value.toString());
+        }
+      });
     }
   };
 
@@ -179,6 +187,7 @@ class UserPage extends Component {
     const year = findNextYear(years);
     newYear(createNewYear(monthNames, year));
     this.checkAmountOfFutureYears();
+    eventGa('General', 'Add new year', 'Add new year');
   };
 
   whenClosing = (event) => {
@@ -205,6 +214,7 @@ class UserPage extends Component {
   autoFilHoursMonth = () => {
     const { selectedMonthId } = this.state;
     const { monthHoursAutoFill, userHoursSettings } = this.props;
+    eventGa('General', 'Auto fill hours', 'Auto fill hours');
     monthHoursAutoFill(selectedMonthId, userHoursSettings);
   };
 

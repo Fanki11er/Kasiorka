@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { initGA, eventGa } from '../../../tools/reactGaSetup';
 import PropTypes from 'prop-types';
 import AccountStyledSection from '../../atoms/AccountStyledSection/AccountStyledSection';
 import AccountHeader from '../../atoms/AccountHeader/AccountHeader';
@@ -31,12 +32,16 @@ const TransactionsSection = ({
   renderExpenses,
   isClosed,
 }) => {
+  useEffect(() => initGA(), []);
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} forSection={true} />
       <StyledFlex>
         <AccountButton
-          onClick={() => toggleExpensesModal(null, type, 'add')}
+          onClick={() => {
+            toggleExpensesModal(null, type, 'add');
+            eventGa('Transactions', type.toString(), 'Add');
+          }}
           className={isClosed ? 'noActive' : null}
           disabled={isClosed ? true : false}
           title={addButtonTitle}
@@ -44,7 +49,10 @@ const TransactionsSection = ({
           Dodaj
         </AccountButton>
         <AccountButton
-          onClick={() => toggleDeleteTransactionsModal(selectedMonthId, path)}
+          onClick={() => {
+            toggleDeleteTransactionsModal(selectedMonthId, path);
+            eventGa('Transactions', type.toString(), 'Delete');
+          }}
           className={isClosed || !transactions.length ? 'noActive' : null}
           disabled={isClosed || !transactions.length ? true : false}
           title={deleteButtonTitle}

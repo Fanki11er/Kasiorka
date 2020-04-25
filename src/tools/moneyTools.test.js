@@ -1,7 +1,7 @@
 import { Expense, FixedExpenses, MainAccount, Account } from './moneyTools';
 
 describe('Test expense class', () => {
-  test('Create class without real amount', () => {
+  /*  test('Create class without real amount', () => {
     const newExpense = {
       name: 'Speak UP',
       predicted: 100,
@@ -14,9 +14,8 @@ describe('Test expense class', () => {
       percentage: 0,
       action: '-',
     });
-  });
-
-  test('Create class with real amount', () => {
+  });*/
+  /*test('Create class with real amount', () => {
     const newExpense = {
       name: 'Speak UP',
       predicted: 100,
@@ -31,9 +30,8 @@ describe('Test expense class', () => {
       percentage: 50,
       action: '+',
     });
-  });
-
-  test('Create class with 0 amount and 0 real', () => {
+  });*/
+  /*test('Create class with 0 amount and 0 real', () => {
     const newExpense = {
       name: 'Speak UP',
       predicted: 0,
@@ -48,9 +46,8 @@ describe('Test expense class', () => {
       action: '-',
     });
   });
-});
-
-describe('Test FixedExpenses class', () => {
+});*/
+  /*describe('Test FixedExpenses class', () => {
   test('Create class', () => {
     const testFixedExpenses = new FixedExpenses('Wydatki stałe', 'fixedExpenses', []);
     expect(testFixedExpenses).toEqual({
@@ -59,9 +56,8 @@ describe('Test FixedExpenses class', () => {
       path: 'fixedExpenses',
     });
   });
-});
-
-describe('Test MainAccount class', () => {
+});*/
+  /*describe('Test MainAccount class', () => {
   const sections = [
     {
       path: 'fixedExpenses',
@@ -91,9 +87,8 @@ describe('Test MainAccount class', () => {
       type: 'mainAccount',
     });
   });
-});
-
-describe.skip('Account test', () => {
+});*/
+  /*describe.skip('Account test', () => {
   const mainAccount = new Account('Konto', 'test');
 
   test('Create plain account', () => {
@@ -107,9 +102,8 @@ describe.skip('Account test', () => {
       },
       type: 'test',
     });
-  });
-
-  test('Add fixedExpenses Property', () => {
+  });*/
+  /*test('Add fixedExpenses Property', () => {
     mainAccount.addSection('Wydatki stałe', FixedExpenses, 'fixedExpenses');
     expect(mainAccount).toEqual({
       header: {
@@ -129,11 +123,11 @@ describe.skip('Account test', () => {
         path: ['test', 'fixedExpenses'],
       },
     });
-  });
+  });*/
 });
 
 describe('Main account class test', () => {
-  test('Plain mainAccount', () => {
+  /*test('Plain mainAccount', () => {
     const main = new MainAccount('Konto główne', 'mainAccount');
     expect(main).toEqual({
       header: {
@@ -149,8 +143,8 @@ describe('Main account class test', () => {
       type: 'mainAccount',
     });
   });
-
-  test('mainAccount with one section', () => {
+*/
+  /*test('mainAccount with one section', () => {
     const sections = [
       {
         path: 'fixedExpenses',
@@ -177,5 +171,5 @@ describe('Main account class test', () => {
       },
       type: 'mainAccount',
     });
-  });
+  });*/
 });
