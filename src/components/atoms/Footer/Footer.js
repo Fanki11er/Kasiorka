@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { initGA, eventGa } from '../../../tools/reactGaSetup';
 import { LinkedinBox } from 'styled-icons/remix-fill/';
 import { Github } from 'styled-icons/boxicons-logos/';
 import { appVersion } from '../../../tools/index';
@@ -89,12 +90,22 @@ const StyledLink = styled.a`
 `;
 
 const Footer = () => {
+  useEffect(() => initGA(), []);
+
   return (
     <StyledWrapper>
-      <StyledLink href="https://www.linkedin.com/feed/" target="_blank">
+      <StyledLink
+        href="https://www.linkedin.com/feed/"
+        target="_blank"
+        onClick={() => eventGa('Link', 'LinkedIn', 'Go to')}
+      >
         <StyledLinkedInIcon />
       </StyledLink>
-      <StyledLink href="https://github.com/Fanki11er" target="_blank">
+      <StyledLink
+        href="https://github.com/Fanki11er"
+        target="_blank"
+        onClick={() => eventGa('Link', 'GitHub', 'Go to')}
+      >
         <StyledGitHubIcon />
       </StyledLink>
       <StyledAuthorWrapper>
