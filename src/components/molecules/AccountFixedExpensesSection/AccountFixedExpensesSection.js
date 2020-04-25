@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { initGA, eventGa } from '../../../tools/reactGaSetup';
 import PropTypes from 'prop-types';
 import AccountStyledSection from '../../atoms/AccountStyledSection/AccountStyledSection';
 import AccountHeader from '../../atoms/AccountHeader/AccountHeader';
@@ -32,6 +33,7 @@ const AccountFixedExpensesSection = ({
   path,
   isClosed,
 }) => {
+  useEffect(() => initGA(), []);
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} forSection={true} />
@@ -41,7 +43,10 @@ const AccountFixedExpensesSection = ({
           renderExpenses(transactions, currency, type)}
         <StyledFlex>
           <AccountButton
-            onClick={() => toggleExpensesModal(null, type, 'addFixed')}
+            onClick={() => {
+              toggleExpensesModal(null, type, 'addFixed');
+              eventGa('Transactions', type.toString(), 'AddFixed');
+            }}
             className={isClosed ? 'noActive' : null}
             disabled={isClosed ? true : false}
             title={addFixedTransactionButtonTitle}
@@ -49,7 +54,10 @@ const AccountFixedExpensesSection = ({
             Dodaj
           </AccountButton>
           <AccountButton
-            onClick={() => toggleDeleteFixedTransactionsModal(selectedMonthId, path)}
+            onClick={() => {
+              toggleDeleteFixedTransactionsModal(selectedMonthId, path);
+              eventGa('Transactions', path.toString(), 'DeleteFixed');
+            }}
             className={isClosed || !transactions.length ? 'noActive' : null}
             disabled={isClosed || !transactions.length ? true : false}
             title={deleteFixedTransactionButtonTitle}
