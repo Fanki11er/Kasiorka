@@ -8,7 +8,7 @@ export const moneyUpdatesArray = [
 //? For updates ---------------------------------------------------------------
 
 export const moneyVersion = 0.7;
-class Expense {
+export class Expense {
   constructor({ name, predicted, real = 0, action = '-', signature = 'standard', id = 0 }) {
     this.name = name;
     this.predicted = action === '-' ? -predicted : predicted;
@@ -26,7 +26,7 @@ class Expense {
 
 class DebitExpense extends Expense {}
 
-class FixedExpenses {
+export class FixedExpenses {
   constructor(name, path) {
     this.name = name;
     this.transactions = [];
@@ -36,7 +36,7 @@ class FixedExpenses {
   }
 }
 
-class Transactions {
+export class Transactions {
   constructor(name, path) {
     this.transactions = [];
     this.path = path;
@@ -46,7 +46,7 @@ class Transactions {
   }
 }
 
-class OtherAccounts extends Transactions {
+export class OtherAccounts extends Transactions {
   constructor(name, path) {
     super(name, path);
     this.transactions = [
@@ -61,7 +61,7 @@ class OtherAccounts extends Transactions {
   }
 }
 
-class Account {
+export class Account {
   constructor(title, type, sections = []) {
     this.title = title;
     this.sections = [];
@@ -80,7 +80,7 @@ class Account {
   }
 }
 
-class MainAccount extends Account {
+export class MainAccount extends Account {
   constructor(title, type, sections) {
     super(title, type, sections);
     this.cardSettings = {
@@ -89,7 +89,7 @@ class MainAccount extends Account {
   }
 }
 
-class Wallet extends Account {
+export class Wallet extends Account {
   constructor(title, type, sections) {
     super(title, type, sections);
     this.reCharge = {
@@ -99,7 +99,7 @@ class Wallet extends Account {
   }
 }
 
-class DebitCard extends Wallet {
+export class DebitCard extends Wallet {
   constructor(title, type, sections) {
     super(title, type, sections);
     this.interests = {
@@ -745,12 +745,8 @@ const changeDebitSettings = (newMoney, data) => {
 };
 
 export {
-  Expense,
-  FixedExpenses,
   Money,
   editTransaction,
-  Account,
-  MainAccount,
   sumSection,
   sumSections,
   actualizeComputedDataSums,
