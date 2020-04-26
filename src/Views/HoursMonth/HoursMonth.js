@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { initGA, pageView } from '../../tools/reactGaSetup';
 import SummaryContext from '../../context/SummaryContext';
 import { addDaysToSection, sections } from '../../tools/index';
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
@@ -48,6 +49,11 @@ class HoursMonth extends Component {
     autoSaveInProgress: false,
     timeout: null,
   };
+
+  componentDidMount() {
+    initGA();
+    pageView();
+  }
 
   componentDidUpdate() {
     const {
