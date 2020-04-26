@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useCookies } from 'react-cookie';
+import { initGA, pageView } from '../../tools/reactGaSetup';
 import TopNavigation from '../../components/molecules/TopNavigation/TopNavigation';
 import MainPageHeader from '../../components/molecules/MainPageHeader/MainPageHeader';
 import MainPageInfoSection from '../../components/organisms/MainPageInfoSection/MainPageInfoSection';
@@ -63,6 +64,10 @@ const tilesArr = [
 const MainPageView = () => {
   const [cookies, setCookie] = useCookies(['infoSaw']);
   const [cookiesInfoRed, setCookiesIfoRed] = useState(cookies.infoSaw);
+  useEffect(() => {
+    initGA();
+    pageView();
+  }, []);
 
   const hideCookieInfo = () => {
     setCookie('infoSaw', true, { maxAge: 5184000 });

@@ -1,7 +1,7 @@
 import ReactGA from 'react-ga';
 
-//const testTrackingId = 'UA-155052927-3';
-const TrackingId = 'UA-155052927-2';
+//const TrackingId = 'UA-155052927-3'; //! For tests
+const TrackingId = 'UA-155052927-2'; //! Real
 
 export const initGA = () => {
   ReactGA.initialize(TrackingId);

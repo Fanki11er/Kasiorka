@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { initGA, pageView } from '../../tools/reactGaSetup';
 import RegisterForm from '../../components/molecules/RegisterForm/RegisterForm';
 import TitleHeader from '../../components/atoms/TitleHeader/TitleHeader';
 import Footer from '../../components/atoms/Footer/Footer';
@@ -39,15 +40,21 @@ const StyledTitleWrapper = styled.div`
   }
 `;
 
-const RegisterView = () => (
-  <StyledWrapper>
-    <BackButton />
-    <StyledTitleWrapper>
-      <TitleHeader small />
-    </StyledTitleWrapper>
-    <RegisterForm />
-    <Footer />
-  </StyledWrapper>
-);
+const RegisterView = () => {
+  useEffect(() => {
+    initGA();
+    pageView();
+  }, []);
+  return (
+    <StyledWrapper>
+      <BackButton />
+      <StyledTitleWrapper>
+        <TitleHeader small />
+      </StyledTitleWrapper>
+      <RegisterForm />
+      <Footer />
+    </StyledWrapper>
+  );
+};
 
 export default RegisterView;

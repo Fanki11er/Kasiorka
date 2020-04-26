@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { initGA, pageView } from '../../tools/reactGaSetup';
 import LoginImage from '../../components/atoms/LoginImage/LoginImage';
 import TitleHeader from '../../components/atoms/TitleHeader/TitleHeader';
 import LoginForm from '../../components/molecules/LoginForm/LoginForm';
@@ -25,19 +26,21 @@ const StyledFlexWrapper = styled.div`
   }
 `;
 
-class LoginView extends Component {
-  render() {
-    return (
-      <StyledWrapper>
-        <BackButton />
-        <TitleHeader />
-        <StyledFlexWrapper>
-          <LoginImage></LoginImage>
-          <LoginForm />
-        </StyledFlexWrapper>
-        <Footer />
-      </StyledWrapper>
-    );
-  }
-}
+const LoginView = () => {
+  useEffect(() => {
+    initGA();
+    pageView();
+  }, []);
+  return (
+    <StyledWrapper>
+      <BackButton />
+      <TitleHeader />
+      <StyledFlexWrapper>
+        <LoginImage></LoginImage>
+        <LoginForm />
+      </StyledFlexWrapper>
+      <Footer />
+    </StyledWrapper>
+  );
+};
 export default LoginView;
