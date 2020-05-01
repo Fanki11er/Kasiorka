@@ -1,8 +1,14 @@
-[logo]: https://github.com/Fanki11er/Kasiorka/raw/master/public/Logo.PNG 'Logo'
+![Logo](https://github.com/Fanki11er/Kasiorka/raw/master/public/Logo.PNG 'Logo')
+<br/>
 
-_Application for supervising home budget, tracking expenses and predicting budgets shape in the future._
+### This application is for supervising home budget, tracking expenses and predicting budgets shape in the future.
 
-[logo]: https://github.com/Fanki11er/Kasiorka/raw/master/public/MainPicture.PNG 'Application example screen'
+<br/>
+<br/>
+
+![Preview](https://github.com/Fanki11er/Kasiorka/raw/master/public/MainPicture.PNG 'Application example screen')
+
+</br>
 
 ## Motivation
 
@@ -13,9 +19,9 @@ I chose an app for supervising finance because I was tired of doing it in excel 
 
 [**https://kdz-kasiorka.firebaseapp.com**](https://kdz-kasiorka.firebaseapp.com/).
 
-_You can register your own account or you can log in as demo user:_
-_email:_ demoUser@demo.pl
-_password:_ demoUser
+_You can register your own account or you can log in as demo user:_ </br>
+**email:** demoUser@demo.pl
+**password:** demoUser
 
 ## Used technologies
 
