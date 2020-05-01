@@ -8,6 +8,7 @@ import AccountStyledSection from '../../atoms/AccountStyledSection/AccountStyled
 import AccountStatus from '../../atoms/AccountStatus/AccountStatus';
 import AccountStats from '../AccountStats/AccountStats';
 import DebitCardInfo from '../DebitCardInfo/DebitCardInfo';
+import MainAccountIcon from '../../atoms/MainAccountIcon/MainAccountIcon';
 import {
   createStats,
   calculateExpensesPercent,
@@ -16,6 +17,19 @@ import {
 
 const StyledMargin = styled.div`
   margin: 5px 0;
+`;
+
+const StyledHeaderWithIcon = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledIcon = styled(MainAccountIcon)`
+  margin: 0 10px 0 0;
+  user-select: none;
+  pointer-events: none;
 `;
 const MainAccountHeaderSection = ({
   accountLabel,
@@ -40,7 +54,10 @@ const MainAccountHeaderSection = ({
 
   return (
     <AccountStyledSection>
-      <AccountHeader label={accountLabel} />
+      <StyledHeaderWithIcon>
+        <StyledIcon />
+        <AccountHeader label={accountLabel} />
+      </StyledHeaderWithIcon>
       <MoneyRow label={'Wypłata'} content={actualPayment} units={currency} />
       <StyledMargin />
       <DebitCardInfo
@@ -55,6 +72,7 @@ const MainAccountHeaderSection = ({
         label={'Wydatki / Przychody'}
         expensesPercents={expensesPercents}
         stats={stats}
+        units={currency}
       />
     </AccountStyledSection>
   );

@@ -97,14 +97,14 @@ const Footer = () => {
       <StyledLink
         href="https://www.linkedin.com/feed/"
         target="_blank"
-        onClick={() => eventGa('Link', 'LinkedIn', 'Go to')}
+        onClick={() => eventGa('Link', 'Go to', 'LinkedIn')}
       >
         <StyledLinkedInIcon />
       </StyledLink>
       <StyledLink
         href="https://github.com/Fanki11er"
         target="_blank"
-        onClick={() => eventGa('Link', 'GitHub', 'Go to')}
+        onClick={() => eventGa('Link', 'Go to', 'GitHub')}
       >
         <StyledGitHubIcon />
       </StyledLink>
