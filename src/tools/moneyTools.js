@@ -113,7 +113,7 @@ export class DebitCard extends Wallet {
     };
   }
 }
-const mainAccountSections = [
+export const mainAccountSections = [
   {
     path: 'fixedExpenses',
     classType: FixedExpenses,
@@ -131,7 +131,7 @@ const mainAccountSections = [
   },
 ];
 
-const walletSections = [
+export const walletSections = [
   {
     path: 'fixedExpenses',
     classType: FixedExpenses,
@@ -144,7 +144,7 @@ const walletSections = [
   },
 ];
 
-const debitCardSections = [
+export const debitCardSections = [
   {
     path: 'fixedExpenses',
     classType: FixedExpenses,
@@ -157,7 +157,7 @@ const debitCardSections = [
   },
 ];
 
-const savingAccountSections = [
+export const savingAccountSections = [
   {
     path: 'transactions',
     classType: Transactions,
@@ -165,7 +165,7 @@ const savingAccountSections = [
   },
 ];
 
-const accountActions = {
+export const accountActions = {
   edit: 'edit',
   add: 'add',
   addFixed: 'addFixed',
@@ -173,7 +173,7 @@ const accountActions = {
   payTheCard: 'payTheCard',
   chargeSavingAccount: 'chargeSavingAccount',
 };
-class MoneyMonth {
+export class MoneyMonth {
   constructor(id) {
     this.id = id;
     this.accountsList = [];
@@ -234,7 +234,7 @@ class LastDataObject extends RegularDataObject {
   }
 }
 
-class Money {
+export class Money {
   constructor() {
     this.months = this.createMoneyMonths();
     this.isSaved = true;
@@ -250,23 +250,24 @@ class Money {
   }
 }
 
-const fixNumber = (number, position) => {
-  if (typeof number !== 'number') {
+export const fixNumber = (number, position) => {
+  if (isNaN(number)) return 0;
+  else if (typeof number !== 'number') {
     const newNumber = Number(number);
     return Number(newNumber.toFixed(position));
   } else return Number(number.toFixed(position));
 };
 
-const countPercentage = (predicted = 0, real) =>
+export const countPercentage = (predicted, real) =>
   predicted !== 0 ? parseInt((real / predicted) * 100) : real;
 
-const editTransaction = (transaction, { real, predicted, action }) => {
+export const editTransaction = (transaction, { real, predicted, action }) => {
   transaction.real = fixNumber(
     action === '-' ? transaction.real - real : transaction.real + real,
     2,
   );
   transaction.predicted = fixNumber(
-    action === '-' ? transaction.predicted - predicted : transaction.transaction + predicted,
+    action === '-' ? transaction.predicted - predicted : transaction.predicted + predicted,
     2,
   );
   transaction.percentage = countPercentage(transaction.predicted, transaction.real);
@@ -276,7 +277,7 @@ const editTransaction = (transaction, { real, predicted, action }) => {
   };
 };
 
-const sumSections = (account, property) => {
+export const sumSections = (account, property) => {
   const { sections } = account;
   const summedSections = sections.reduce(
     (total, section) => (total += account[section][property]),
@@ -285,7 +286,7 @@ const sumSections = (account, property) => {
   return fixNumber(summedSections, 2);
 };
 
-const addTransaction = (section, data) => {
+export const addTransaction = (section, data) => {
   if (!data.id) data.id = new Date().getTime().toString();
   const expense = new Expense(data);
   section['transactions']
@@ -293,7 +294,7 @@ const addTransaction = (section, data) => {
     : (section['transactions'] = new Array(expense));
 };
 
-const addFixedTransaction = (months, path, data) => {
+export const addFixedTransaction = (months, path, data) => {
   let section;
   let account;
   const { type, selectedMonthId } = path;
@@ -327,7 +328,7 @@ export const deleteTransaction = (section, id) => {
   if (indexOfExpense >= 0 && section) section.splice(indexOfExpense, 1);
 };
 
-const deleteFixedTransaction = (months, selectedMonthId, type, id) => {
+export const deleteFixedTransaction = (months, selectedMonthId, type, id) => {
   let section;
   let account;
   for (let i = selectedMonthId; i < 12; i++) {
@@ -346,7 +347,7 @@ const deleteFixedTransaction = (months, selectedMonthId, type, id) => {
     }
   }
 };
-const sumSection = (section) => {
+export const sumSection = (section) => {
   const { transactions } = section;
 
   section.realSum =
@@ -747,19 +748,12 @@ const changeDebitSettings = (newMoney, data) => {
 };
 
 export {
-  Money,
-  editTransaction,
-  sumSection,
-  sumSections,
   actualizeComputedDataSums,
   getPayments,
   ActualizeMonthsTotal,
-  addTransaction,
   comparePayments,
   createStats,
   calculateExpensesPercent,
-  addFixedTransaction,
-  deleteFixedTransaction,
   chargeAccount,
   getIncome,
   calculateComputed,
@@ -769,10 +763,8 @@ export {
   choseInterest,
   createInterestData,
   makeCorrect,
-  fixNumber,
   actualizeFixedTransactions,
   checkIsPrevPeriodClosed,
   correctionFunction,
   changeDebitSettings,
-  accountActions,
 };

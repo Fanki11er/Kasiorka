@@ -16,10 +16,11 @@ const StyledWrapper = styled.div`
 
 const StyledLabel = styled.div`
   font-size: ${({ theme }) => theme.fontSize.verySmall};
-  color: ${({ theme }) => theme.menuBlue};
+  color: ${({ theme, green }) => (green ? theme.green : theme.menuBlue)};
   min-width: 45%;
   user-select: none;
   text-align: center;
+  margin: 5px 0;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
@@ -51,7 +52,7 @@ const StyledProgress = styled.div`
       width: 0%;
     }
     to {
-      width: 99%;
+      width: 100%;
     }
   }
   &:after {
@@ -99,8 +100,9 @@ const AccountStats = ({ label, expensesPercents, stats, units }) => {
   const { incomes, expenses } = stats;
   return (
     <StyledWrapper>
+      <StyledLabel>{'Statystyki:'}</StyledLabel>
       <StyledStatus>
-        <StyledLabel>{label}</StyledLabel>
+        <StyledLabel green={true}>{label}</StyledLabel>
         <StyledFlexWrapper>
           <Info minus={expenses < 0 ? true : false}>{`${expenses} ${units}`}</Info>
           <ExpenseSign>/</ExpenseSign>
