@@ -469,7 +469,7 @@ const createStats = (month, { payment }, accountName) => {
         account[section].transactions.length &&
         account[section].transactions.reduce((total, { action, real }) => {
           action === '-' && (total += real);
-          return total;
+          return fixNumber(total, 2);
         }, 0)) ||
       0;
     stats.incomes +=
@@ -477,7 +477,7 @@ const createStats = (month, { payment }, accountName) => {
         account[section].transactions.length &&
         account[section].transactions.reduce((total, { action, real }) => {
           action === '+' && (total += real);
-          return total;
+          return fixNumber(total, 2);
         }, 0)) ||
       0;
   });
