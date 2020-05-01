@@ -32,8 +32,9 @@ const AccountFixedExpensesSection = ({
   selectedMonthId,
   path,
   isClosed,
+  uid,
 }) => {
-  useEffect(() => initGA(), []);
+  useEffect(() => initGA(uid), [uid]);
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} forSection={true} />
@@ -45,7 +46,7 @@ const AccountFixedExpensesSection = ({
           <AccountButton
             onClick={() => {
               toggleExpensesModal(null, type, 'addFixed');
-              eventGa('Transactions', type.toString(), 'AddFixed');
+              eventGa('Transactions', 'AddFixed', type.toString());
             }}
             className={isClosed ? 'noActive' : null}
             disabled={isClosed ? true : false}
@@ -56,7 +57,7 @@ const AccountFixedExpensesSection = ({
           <AccountButton
             onClick={() => {
               toggleDeleteFixedTransactionsModal(selectedMonthId, path);
-              eventGa('Transactions', path.toString(), 'DeleteFixed');
+              eventGa('Transactions', 'DeleteFixed', path.toString());
             }}
             className={isClosed || !transactions.length ? 'noActive' : null}
             disabled={isClosed || !transactions.length ? true : false}
@@ -71,10 +72,11 @@ const AccountFixedExpensesSection = ({
 };
 
 const mapStateToProps = (
-  { money: { months }, user: { hoursSettings } },
+  { money: { months }, user: { hoursSettings }, firebase: { auth } },
   { selectedMonthId, path },
 ) => {
   return {
+    uid: auth.uid,
     accountLabel: months[selectedMonthId][path[0]][path[1]].name,
     transactions: months[selectedMonthId][path[0]][path[1]].transactions,
     currency: hoursSettings.currency,
@@ -95,6 +97,7 @@ AccountFixedExpensesSection.propTypes = {
   renderExpenses: PropTypes.func.isRequired,
   path: PropTypes.array,
   type: PropTypes.array,
+  uid: PropTypes.string,
 };
 
 AccountFixedExpensesSection.defaultProps = {

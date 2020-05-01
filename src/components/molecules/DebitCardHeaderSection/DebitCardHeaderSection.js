@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import AccountHeader from '../../atoms/AccountHeader/AccountHeader';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,6 +8,7 @@ import AccountStatus from '../../atoms/AccountStatus/AccountStatus';
 import AccountStats from '../AccountStats/AccountStats';
 import DebitCardInfo from '../DebitCardInfo/DebitCardInfo';
 import ClosePeriodButton from '../../atoms/ClosePeriodButton/ClosePeriodButton';
+import CardIcon from '../../atoms/CardIcon/CardIcon';
 import {
   createStats,
   calculateExpensesPercent,
@@ -16,6 +18,19 @@ import {
 } from '../../../tools/moneyTools';
 import { closePeriod as closePeriodAction } from '../../../actions/moneyActions';
 import { debitCardErrOccurred as debitCardErrOccurredAction } from '../../../actions/moneyActions';
+
+const StyledHeaderWithIcon = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledIcon = styled(CardIcon)`
+  margin: 0 10px 0 0;
+  user-select: none;
+  pointer-events: none;
+`;
 
 const closePeriodButtonTitle = 'Zamyka okres rozliczeniowy na karcie debetowej';
 
@@ -42,7 +57,10 @@ const DebitCardHeaderSection = ({
 
   return (
     <AccountStyledSection>
-      <AccountHeader label={accountLabel} />
+      <StyledHeaderWithIcon>
+        <StyledIcon />
+        <AccountHeader label={accountLabel} />
+      </StyledHeaderWithIcon>
       <DebitCardInfo
         amount={debit}
         label={'Debet:'}
@@ -59,7 +77,12 @@ const DebitCardHeaderSection = ({
       />
       <AccountStatus units={currency} status={extendedComputedStatus} label={'Środki'} />
       <DebitCardInfo amount={interest} label={'Odsetki:'} units={currency} editable={false} />
-      <AccountStats label={'Wydatki / Środki'} expensesPercents={expensesPercents} stats={stats} />
+      <AccountStats
+        label={'Wydatki / Środki'}
+        expensesPercents={expensesPercents}
+        stats={stats}
+        units={currency}
+      />
       <ClosePeriodButton
         green="true"
         onClick={() => closePeriod(selectedMonthId, path)}

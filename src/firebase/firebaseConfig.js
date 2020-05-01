@@ -18,7 +18,7 @@ var firebaseConfig = {
   measurementId: 'G-SC8CBENHXX',
 };
 
-// Tests config
+//? Tests config
 /*var firebaseConfig = {
   apiKey: 'AIzaSyBaxRNGRtjo1QxemrtnBm3RaWxfEIdkasw',
   authDomain: 'kdz-kasiorka-tests.firebaseapp.com',
@@ -29,7 +29,8 @@ var firebaseConfig = {
   appId: '1:702909063651:web:ad791a9ffc7b32a23d00d6',
   measurementId: 'G-3XGN40L7JZ',
 };*/
-// Initialize Firebase
+
+//? Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 firebase.analytics();
