@@ -11,7 +11,7 @@ const StyledWrapper = styled.div`
   padding: 0 15px;
   justify-content: space-between;
   align-items: center;
-  margin-top: 5px;
+  margin-top: 10px;
 `;
 
 const StyledLabel = styled.div`
@@ -19,6 +19,7 @@ const StyledLabel = styled.div`
   color: ${({ theme }) => theme.menuBlue};
   min-width: 45%;
   user-select: none;
+  text-align: center;
 
   @media screen and (max-width: 1920px) {
     font-size: ${({ theme }) => theme.fontSizeMedium.medium};
@@ -26,13 +27,13 @@ const StyledLabel = styled.div`
 `;
 
 const StyledStatsWrapper = styled.div`
-  min-width: 50%;
+  min-width: 60%;
   height: 23px;
   background-color: red;
   border: 1px solid ${({ theme }) => theme.menuBlue};
   border-radius: 5px;
   background-color: transparent;
-  align-self: flex-end;
+  align-self: center;
   margin: 5px 20px 0;
 `;
 
@@ -71,6 +72,7 @@ const StyledProgress = styled.div`
 const StyledStatus = styled.div`
   width: 100%;
   display: flex;
+  flex-flow: wrap row;
   align-items: center;
   min-width: 60%;
   flex-grow: 1;
@@ -85,15 +87,25 @@ const Info = styled(StyledInfo)`
   }
 `;
 
+const StyledFlexWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  min-width: 60%;
+  flex-grow: 1;
+  justify-content: center;
+`;
+
 const AccountStats = ({ label, expensesPercents, stats, units }) => {
   const { incomes, expenses } = stats;
   return (
     <StyledWrapper>
       <StyledStatus>
         <StyledLabel>{label}</StyledLabel>
-        <Info minus={expenses < 0 ? true : false}>{`${expenses} ${units}`}</Info>
-        <ExpenseSign>/</ExpenseSign>
-        <Info>{`${incomes} ${units}`}</Info>
+        <StyledFlexWrapper>
+          <Info minus={expenses < 0 ? true : false}>{`${expenses} ${units}`}</Info>
+          <ExpenseSign>/</ExpenseSign>
+          <Info>{`${incomes} ${units}`}</Info>
+        </StyledFlexWrapper>
       </StyledStatus>
       <StyledStatsWrapper>
         <StyledProgress expensesPercents={expensesPercents} />

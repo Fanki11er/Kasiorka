@@ -6,7 +6,8 @@ import Rebase from 're-base';
 
 export const rrfConfig = {};
 
-// Real Config
+//? Real Config
+
 var firebaseConfig = {
   apiKey: 'AIzaSyAFqpeBVOLLu3uIx3MEMTf1MGfxtHrVtRI',
   authDomain: 'kdz-kasiorka.firebaseapp.com',
