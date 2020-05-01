@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import StyledInfo from '../../atoms/StyledInfo/StyledInfo';
+import ExpenseSign from '../../atoms/ExpensesSign/ExpensesSign';
 import PropTypes from 'prop-types';
 
 const StyledWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 0 15px;
   justify-content: space-between;
@@ -23,12 +26,14 @@ const StyledLabel = styled.div`
 `;
 
 const StyledStatsWrapper = styled.div`
-  min-width: 45%;
-  height: 20px;
+  min-width: 50%;
+  height: 23px;
   background-color: red;
   border: 1px solid ${({ theme }) => theme.menuBlue};
   border-radius: 5px;
   background-color: transparent;
+  align-self: flex-end;
+  margin: 5px 20px 0;
 `;
 
 const StyledProgress = styled.div`
@@ -45,14 +50,14 @@ const StyledProgress = styled.div`
       width: 0%;
     }
     to {
-      width: 100%;
+      width: 99%;
     }
   }
   &:after {
     position: absolute;
     content: '';
     background-color: ${({ expensesPercents, theme }) =>
-      expensesPercents > 70 ? theme.sundayRed : theme.hover};
+      expensesPercents > 70 || expensesPercents < 0 ? theme.sundayRed : theme.hover};
     height: 100%;
     left: 0;
     top: 0;
@@ -63,13 +68,35 @@ const StyledProgress = styled.div`
   }
 `;
 
-const AccountStats = ({ label, expensesPercents, stats }) => {
+const StyledStatus = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  min-width: 60%;
+  flex-grow: 1;
+  justify-content: center;
+`;
+
+const Info = styled(StyledInfo)`
+  font-size: ${({ theme }) => theme.fontSize.verySmall};
+  color: ${({ theme, minus }) => (minus ? theme.sundayRed : theme.green)};
+  @media screen and (max-width: 1920px) {
+    font-size: ${({ theme }) => theme.fontSizeMedium.medium};
+  }
+`;
+
+const AccountStats = ({ label, expensesPercents, stats, units }) => {
   const { incomes, expenses } = stats;
   return (
     <StyledWrapper>
-      <StyledLabel>{label}</StyledLabel>
+      <StyledStatus>
+        <StyledLabel>{label}</StyledLabel>
+        <Info minus={expenses < 0 ? true : false}>{`${expenses} ${units}`}</Info>
+        <ExpenseSign>/</ExpenseSign>
+        <Info>{`${incomes} ${units}`}</Info>
+      </StyledStatus>
       <StyledStatsWrapper>
-        <StyledProgress expensesPercents={expensesPercents} title={`${-expenses} / ${incomes}`} />
+        <StyledProgress expensesPercents={expensesPercents} />
       </StyledStatsWrapper>
     </StyledWrapper>
   );
@@ -78,6 +105,7 @@ const AccountStats = ({ label, expensesPercents, stats }) => {
 AccountStats.propTypes = {
   label: PropTypes.string,
   expensesPercents: PropTypes.number,
+  units: PropTypes.string,
   stats: PropTypes.shape({
     incomes: PropTypes.number,
     expenses: PropTypes.number,
@@ -86,6 +114,7 @@ AccountStats.propTypes = {
 
 AccountStats.defaultProps = {
   label: '----',
+  units: 'zł',
   expensesPercents: 0,
   stats: {
     incomes: 0,

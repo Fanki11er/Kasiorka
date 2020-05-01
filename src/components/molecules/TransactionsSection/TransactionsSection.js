@@ -31,8 +31,9 @@ const TransactionsSection = ({
   selectedMonthId,
   renderExpenses,
   isClosed,
+  uid,
 }) => {
-  useEffect(() => initGA(), []);
+  useEffect(() => initGA(uid), [uid]);
   return (
     <AccountStyledSection>
       <AccountHeader label={accountLabel} forSection={true} />
@@ -40,7 +41,7 @@ const TransactionsSection = ({
         <AccountButton
           onClick={() => {
             toggleExpensesModal(null, type, 'add');
-            eventGa('Transactions', type.toString(), 'Add');
+            eventGa('Transactions', 'Add', type.toString());
           }}
           className={isClosed ? 'noActive' : null}
           disabled={isClosed ? true : false}
@@ -51,7 +52,7 @@ const TransactionsSection = ({
         <AccountButton
           onClick={() => {
             toggleDeleteTransactionsModal(selectedMonthId, path);
-            eventGa('Transactions', type.toString(), 'Delete');
+            eventGa('Transactions', 'Delete', type.toString());
           }}
           className={isClosed || !transactions.length ? 'noActive' : null}
           disabled={isClosed || !transactions.length ? true : false}
@@ -68,10 +69,11 @@ const TransactionsSection = ({
 };
 
 const mapStateToProps = (
-  { money: { months }, user: { hoursSettings } },
+  { money: { months }, user: { hoursSettings }, firebase: { auth } },
   { selectedMonthId, path },
 ) => {
   return {
+    uid: auth.uid,
     accountLabel: months[selectedMonthId][path[0]][path[1]].name,
     transactions: months[selectedMonthId][path[0]][path[1]].transactions,
     currency: hoursSettings.currency,
@@ -91,6 +93,7 @@ TransactionsSection.propTypes = {
   toggleExpensesModal: PropTypes.func,
   renderExpenses: PropTypes.func,
   isClosed: PropTypes.bool,
+  uid: PropTypes.string,
 };
 
 TransactionsSection.defaultProps = {

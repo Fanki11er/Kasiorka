@@ -486,6 +486,8 @@ const createStats = (month, { payment }, accountName) => {
 
 const calculateExpensesPercent = (stats) => {
   let { incomes, expenses } = stats;
+  if (expenses === 0) return 0;
+  if (expenses < 0 && incomes === 0) return 100;
 
   return fixNumber(Math.abs(expenses / incomes) * 100, 2);
 };

@@ -65,7 +65,7 @@ class UserPage extends Component {
       takeDataFromDataBase,
     } = this.props;
     takeDataFromDataBase(uid, selectedYear);
-    initGA();
+    initGA(uid);
     pageView();
 
     window.addEventListener('beforeunload', this.whenClosing);
