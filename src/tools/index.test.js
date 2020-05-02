@@ -1,7 +1,6 @@
 import {
   SingleMonth,
   SingleDay,
-  SingleYear,
   getMonthLength,
   createObj,
   getDayName,
@@ -16,6 +15,8 @@ import {
   newYearsListItem,
   updateSalaryValue,
   updatePaymentValue,
+  expectedPayout,
+  checkForUpdates,
 } from './index';
 
 test('Create Single Month', () => {
@@ -44,14 +45,6 @@ test('Create Single Day', () => {
     isHoliday: false,
   });
 });
-
-/*test('Create Single Year', () => {
-  expect(new SingleYear(2019)).toEqual({
-    yearName: 2019,
-    months: [],
-  });
-});
-*/
 
 test('Check month length is correct', () => {
   expect(getMonthLength(2019, 2)).toBe(28);
@@ -226,5 +219,34 @@ test('Update payment value', () => {
         },
       },
     ],
+  });
+});
+
+describe('expectedPayout', () => {
+  const month = {
+    payments: {
+      expectedPayout: 0,
+    },
+  };
+  const totalHours = 180;
+  const salary = 16.64;
+  test('is count correctly', () => {
+    expectedPayout(month, totalHours, salary);
+    expect(month.payments.expectedPayout).toBeCloseTo(2995.2);
+  });
+});
+
+describe('checkForUpdates', () => {
+  const data = {
+    testProp1Version: 1.5,
+  };
+
+  test('Create new version if there is no version property', () => {
+    checkForUpdates(data, 2.2, 'testProp2', []);
+    expect(data.testProp2Version).toBe(2.2);
+  });
+  test('Update existing property', () => {
+    checkForUpdates(data, 2.2, 'testProp1', []);
+    expect(data.testProp1Version).toBe(2.2);
   });
 });

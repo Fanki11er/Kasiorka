@@ -8,7 +8,7 @@ export const rrfConfig = {};
 
 //? Real Config
 
-var firebaseConfig = {
+/*var firebaseConfig = {
   apiKey: 'AIzaSyAFqpeBVOLLu3uIx3MEMTf1MGfxtHrVtRI',
   authDomain: 'kdz-kasiorka.firebaseapp.com',
   databaseURL: 'https://kdz-kasiorka.firebaseio.com',
@@ -17,10 +17,10 @@ var firebaseConfig = {
   messagingSenderId: '387062103498',
   appId: '1:387062103498:web:c551b41e08978b212ae333',
   measurementId: 'G-SC8CBENHXX',
-};
+};*/
 
 //? Tests config
-/*var firebaseConfig = {
+var firebaseConfig = {
   apiKey: 'AIzaSyBaxRNGRtjo1QxemrtnBm3RaWxfEIdkasw',
   authDomain: 'kdz-kasiorka-tests.firebaseapp.com',
   databaseURL: 'https://kdz-kasiorka-tests.firebaseio.com',
@@ -29,7 +29,7 @@ var firebaseConfig = {
   messagingSenderId: '702909063651',
   appId: '1:702909063651:web:ad791a9ffc7b32a23d00d6',
   measurementId: 'G-3XGN40L7JZ',
-};*/
+};
 
 //? Initialize Firebase
 firebase.initializeApp(firebaseConfig);
