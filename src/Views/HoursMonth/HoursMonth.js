@@ -132,7 +132,7 @@ class HoursMonth extends Component {
       monthId,
       optionsToChose,
     };
-
+    //!!!!!!!!!!! Cut wrapper to new file
     return (
       <StyledView>
         <StyledWrapper>

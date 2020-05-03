@@ -146,7 +146,7 @@ export const findNextYear = (years) => {
   return newYear;
 };
 
-//Month------------------------------------------------------
+export const copyObj = (object) => Object.assign({}, object);
 
 export const addDaysToSection = (month, rangeStart, rangeEnd) => {
   const daysArr = [];
@@ -158,42 +158,6 @@ export const addDaysToSection = (month, rangeStart, rangeEnd) => {
       return null;
     });
   return daysArr;
-};
-//Month-----------------------------------------------------------
-//
-//Reducer---------------------------------------------------------
-export const replaceWorkHoursValue = (prevValue, dayId, indexToChange, newValue) => {
-  const index = indexToChange(prevValue, dayId);
-  return (prevValue[index].workHours = newValue);
-};
-
-export const updateTotalHours = (monthToUpdate, actionPerformed) => {
-  let value = monthToUpdate.totalHours;
-  if (actionPerformed === '+') {
-    value++;
-    monthToUpdate.totalHours = value;
-    return monthToUpdate;
-  }
-  if (actionPerformed === '-') {
-    value--;
-    monthToUpdate.totalHours = value;
-    return monthToUpdate;
-  }
-  if (!actionPerformed) return monthToUpdate;
-};
-
-export const findIndexToChange = (startValue, dayId) => {
-  const foundIndex = startValue.indexOf(startValue.find((day) => day.dayId === dayId));
-  return foundIndex;
-};
-
-export const updateSalaryValue = (month, newSalaryValue) => (month.salary = newSalaryValue);
-
-export const updatePaymentValue = (month, newPaymentValue) =>
-  (month.payments.paymentReceived = newPaymentValue);
-
-export const expectedPayout = (month, totalHours, salary) => {
-  month.payments.expectedPayout = parseFloat((totalHours * salary).toFixed(2));
 };
 
 export const checkForUpdates = (data, version, module, updatesTable) => {
@@ -215,33 +179,7 @@ export const checkForUpdates = (data, version, module, updatesTable) => {
 
 export const settingsUpdatesArray = [];
 
-//Reducer---------------------------------------------------------
-//Actions---------------------------------------------------------
 export const newYearsListItem = (yearsList, yearToAdd) => {
   const key = Object.keys(yearsList).length;
   return { [key]: yearToAdd };
 };
-
-//Actions---------------------------------------------------------
-
-/*export { createNewYear, findNextYear, addDaysToSection, sections };
-export {
-  replaceWorkHoursValue,
-  findIndexToChange,
-  updateTotalHours,
-  updateSalaryValue,
-  updatePaymentValue,
-  expectedPayout,
-}; //Reducer
-export { newYearsListItem, checkForUpdates }; //Actions
-export {
-  SingleMonth,
-  SingleDay,
-  SingleYear,
-  getMonthLength,
-  createObj,
-  getDayName,
-  dayNames,
-  monthNames,
-  User,
-}; //For tests*/
