@@ -10,8 +10,8 @@ const StyledWrapper = styled.div`
 
 const ArrowsButton = ({ increaseWorkHours, decreaseWorkHours }) => (
   <StyledWrapper>
-    <UpDownButton upButton onClick={increaseWorkHours} />
-    <UpDownButton downButton onClick={decreaseWorkHours} />
+    <UpDownButton data-testid={'up-button'} upButton onClick={increaseWorkHours} />
+    <UpDownButton data-testid={'down-button'} downButton onClick={decreaseWorkHours} />
   </StyledWrapper>
 );
 

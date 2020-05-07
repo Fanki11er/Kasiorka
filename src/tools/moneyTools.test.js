@@ -397,3 +397,134 @@ test('It sums sections correctly', () => {
   expect(sumSections(account, 'realSum')).toBe(-201.98);
   expect(sumSections(account, 'predictedSum')).toBe(-201.98);
 });
+
+test('Chose correct value', () => {
+  const { choseValue } = tools;
+  expect(choseValue(0, 0)).toBe(0);
+  expect(choseValue(5, 0)).toBe(5);
+  expect(choseValue(0, 10)).toBe(10);
+});
+
+describe('Check if function crates payments table', () => {
+  const { getPayments } = tools;
+  const hours = {
+    months: [],
+  };
+  for (let i = 0; i < 4; i++) {
+    hours.months.push({
+      payments: {
+        paymentReceived: 150,
+        expectedPayout: 100,
+      },
+    });
+  }
+  const prevYearData = {
+    prevPayments: {
+      paymentReceived: 250,
+      expectedPayout: 200,
+    },
+  };
+  test('For 5 months', () => {
+    const paymentsTable = getPayments(hours, prevYearData);
+    expect(paymentsTable.length).toBe(5);
+    expect(paymentsTable[0]).toBe(250);
+    expect(paymentsTable[1]).toBe(150);
+  });
+});
+
+test('Recharge Account', () => {
+  const { chargeAccount } = tools;
+  const computed = { real: 100, predicted: 120 };
+  const month = {
+    mainAccount: {
+      reCharge: {
+        accountReal: 0,
+        accountPredicted: 0,
+      },
+    },
+  };
+  chargeAccount(computed, month, 'mainAccount');
+  expect(month.mainAccount.reCharge.accountReal).toBe(100);
+  expect(month.mainAccount.reCharge.accountPredicted).toBe(120);
+});
+
+describe('getIncome', () => {
+  const { getIncome } = tools;
+  const money = {
+    months: [
+      {
+        mainAccount: {
+          reCharge: {
+            accountReal: 100,
+            accountPredicted: 90,
+          },
+        },
+      },
+      {
+        mainAccount: {
+          reCharge: {
+            accountReal: 0,
+            accountPredicted: 90,
+          },
+        },
+      },
+    ],
+  };
+
+  test('make correct incomes table', () => {
+    const incomesTable = getIncome(money, 'mainAccount');
+    expect(incomesTable[0]).toBe(-100);
+    expect(incomesTable[1]).toBe(-90);
+  });
+});
+
+describe('Actualize months total', () => {
+  const { ActualizeMonthsTotal } = tools;
+  const emptyPrevYearData = {
+    prevMoney: {},
+  };
+
+  const prevYearData = {
+    prevMoney: {
+      mainAccount: {
+        monthTotal: 100.99,
+        monthTotalPredicted: 88.97,
+      },
+    },
+  };
+  const payments = [100, 100];
+
+  const months = [
+    {
+      computedData: {
+        mainAccount: {
+          monthTotal: 0,
+          monthTotalPredicted: 0,
+          realSum: 10.99,
+          predictedSum: 5,
+        },
+      },
+    },
+    {
+      computedData: {
+        mainAccount: {
+          monthTotal: 0,
+          monthTotalPredicted: 0,
+          realSum: 15,
+          predictedSum: 18.77,
+        },
+      },
+    },
+  ];
+  test('actualizing correctly month without prevMoney', () => {
+    ActualizeMonthsTotal(months, payments, 'mainAccount', emptyPrevYearData);
+    expect(months[0].computedData.mainAccount.monthTotal).toBe(110.99);
+    expect(months[0].computedData.mainAccount.monthTotalPredicted).toBe(105);
+  });
+
+  test('actualizing correctly month with prevMoney', () => {
+    ActualizeMonthsTotal(months, payments, 'mainAccount', prevYearData);
+    expect(months[1].computedData.mainAccount.monthTotal).toBe(326.98);
+    expect(months[1].computedData.mainAccount.monthTotalPredicted).toBe(312.74);
+  });
+});

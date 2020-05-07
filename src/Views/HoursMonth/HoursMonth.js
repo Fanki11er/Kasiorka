@@ -5,30 +5,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { initGA, pageView } from '../../tools/reactGaSetup';
 import SummaryContext from '../../context/SummaryContext';
-import { addDaysToSection, sections } from '../../tools/index';
+import HoursSection from '../../components/molecules/HoursSection/HoursSection';
 import { sendHoursToDataBase as sendHoursToDataBaseAction } from '../../actions/dataBaseActions';
 import { sendMoneyToDataBase as sendMoneyToDataBaseAction } from '../../actions/dataBaseActions';
-import DayOfTheWeek from '../../components/molecules/DayOfWeek/DayOfWeek';
 import Summary from '../../components/molecules/Summary/Summary';
 import EditSummaryOptions from '../../components/organisms/EditSummaryOptions/EditSummaryOptions';
 import withViewsContext from '../../hoc/withViewsContext';
-
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-flow: wrap row;
-  margin: 0 0 20px 0;
-  width: 100%;
-  justify-content: space-around;
-`;
-
-const StyledSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 25px 20px;
-  @media screen and (max-width: 1920px) {
-    margin: 20px 15px;
-  }
-`;
 
 const StyledView = styled.div`
   display: flex;
@@ -41,7 +23,6 @@ const StyledView = styled.div`
     width: 95%;
   }
 `;
-
 class HoursMonth extends Component {
   state = {
     isSummaryModalOpened: false,
@@ -132,40 +113,10 @@ class HoursMonth extends Component {
       monthId,
       optionsToChose,
     };
-
     return (
       <StyledView>
-        <StyledWrapper>
-          {months &&
-            months.length > 0 &&
-            sections.map(({ rangeStart, rangeEnd }) => (
-              <StyledSection key={rangeStart}>
-                {addDaysToSection(months[monthId].days, rangeStart, rangeEnd).map(
-                  ({
-                    dayId,
-                    nameOfDay,
-                    workHours,
-                    isSaturday,
-                    isSunday,
-                    isHoliday,
-                    holidayDesc,
-                  }) => (
-                    <DayOfTheWeek
-                      dayId={dayId}
-                      nameOfDay={nameOfDay}
-                      workHours={workHours}
-                      isSaturday={isSaturday}
-                      isSunday={isSunday}
-                      isHoliday={isHoliday}
-                      holidayDesc={holidayDesc}
-                      key={dayId}
-                      monthId={monthId}
-                    ></DayOfTheWeek>
-                  ),
-                )}
-              </StyledSection>
-            ))}
-        </StyledWrapper>
+        <HoursSection months={months} monthId={monthId} />
+
         <SummaryContext.Provider value={summaryContext}>
           <Summary monthId={monthId} />
           <EditSummaryOptions

@@ -31,7 +31,7 @@ class DayOfTheWeek extends Component {
     const decrease = '-';
 
     return (
-      <StyledWrapper>
+      <StyledWrapper data-testid={'QWA'}>
         <DayNumber>{dayId}</DayNumber>
 
         <DayName
@@ -42,10 +42,10 @@ class DayOfTheWeek extends Component {
         >
           {nameOfDay}
         </DayName>
-        <NumberOfHours>{workHours}</NumberOfHours>
+        <NumberOfHours data-testid={'work-hours-test'}>{workHours}</NumberOfHours>
         <ArrowsButton
-          increaseWorkHours={() => updateHours(monthId, dayId, workHours, increase)}
-          decreaseWorkHours={() => updateHours(monthId, dayId, workHours, decrease)}
+          increaseWorkHours={() => workHours < 24 && updateHours(monthId, dayId, increase)}
+          decreaseWorkHours={() => workHours > 0 && updateHours(monthId, dayId, decrease)}
         ></ArrowsButton>
       </StyledWrapper>
     );
@@ -53,8 +53,7 @@ class DayOfTheWeek extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  updateHours: (monthId, dayId, workHours, action) =>
-    dispatch(updateHoursAction(monthId, dayId, workHours, action)),
+  updateHours: (monthId, dayId, action) => dispatch(updateHoursAction(monthId, dayId, action)),
 });
 
 DayOfTheWeek.propTypes = {
