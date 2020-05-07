@@ -1,7 +1,7 @@
-export const appVersion = (1.03).toFixed(2);
+export const appVersion = (1.04).toFixed(2);
 export const userVersion = 0.2;
 
-class SingleMonth {
+export class SingleMonth {
   constructor(id, name) {
     this.id = id + 1;
     this.name = name;
@@ -16,7 +16,7 @@ class SingleMonth {
   }
 }
 
-class SingleDay {
+export class SingleDay {
   constructor(dayId, nameOfDay, workHours, isSaturday, isSunday) {
     this.dayId = dayId;
     this.nameOfDay = nameOfDay;
@@ -28,7 +28,7 @@ class SingleDay {
   }
 }
 
-class SingleYear {
+export class SingleYear {
   constructor(yearName, hoursVersion = 0) {
     this.yearName = yearName;
     this.months = [];
@@ -36,7 +36,7 @@ class SingleYear {
   }
 }
 
-class User {
+export class User {
   constructor(name, yearsList) {
     this.name = name;
     this.yearsList = yearsList;
@@ -57,7 +57,7 @@ class User {
   }
 }
 
-const monthNames = [
+export const monthNames = [
   'Styczeń',
   'Luty',
   'Marzec',
@@ -71,22 +71,22 @@ const monthNames = [
   'Listopad',
   'Grudzień',
 ];
-const dayNames = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'];
+export const dayNames = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So'];
 
-const sections = [
+export const sections = [
   { rangeStart: 1, rangeEnd: 8 },
   { rangeStart: 9, rangeEnd: 16 },
   { rangeStart: 17, rangeEnd: 24 },
   { rangeStart: 25, rangeEnd: 32 },
 ];
 
-const getMonthLength = (selectedYear, selectedMonth) => {
+export const getMonthLength = (selectedYear, selectedMonth) => {
   const date = new Date(selectedYear, selectedMonth, 0);
   const lengthOfMonth = date.getDate();
   return lengthOfMonth;
 };
 
-const createObj = (dayName, isSaturday, isSunday) => {
+export const createObj = (dayName, isSaturday, isSunday) => {
   const settings = {
     dayName,
     isSaturday,
@@ -95,7 +95,7 @@ const createObj = (dayName, isSaturday, isSunday) => {
   return settings;
 };
 
-const getDayName = (selectedYear, selectedMonth, selectedDay, dayNames) => {
+export const getDayName = (selectedYear, selectedMonth, selectedDay, dayNames) => {
   const dayInWeek = new Date(selectedYear, selectedMonth, selectedDay).getDay();
 
   switch (dayInWeek) {
@@ -118,7 +118,7 @@ const getDayName = (selectedYear, selectedMonth, selectedDay, dayNames) => {
   }
 };
 
-const createNewYear = (monthNames, selectedYear) => {
+export const createNewYear = (monthNames, selectedYear) => {
   const year = new SingleYear(selectedYear);
   const defaultWorkHours = 0;
   monthNames.forEach((name, index) => {
@@ -138,7 +138,7 @@ const createNewYear = (monthNames, selectedYear) => {
   return year;
 };
 
-const findNextYear = (years) => {
+export const findNextYear = (years) => {
   let newYear;
   const lastYear = years.length - 1;
   if (years.length === 0) newYear = new Date().getFullYear();
@@ -146,9 +146,9 @@ const findNextYear = (years) => {
   return newYear;
 };
 
-//Month------------------------------------------------------
+export const copyObj = (object) => Object.assign({}, object);
 
-const addDaysToSection = (month, rangeStart, rangeEnd) => {
+export const addDaysToSection = (month, rangeStart, rangeEnd) => {
   const daysArr = [];
   month &&
     month.map((day) => {
@@ -159,44 +159,8 @@ const addDaysToSection = (month, rangeStart, rangeEnd) => {
     });
   return daysArr;
 };
-//Month-----------------------------------------------------------
-//
-//Reducer---------------------------------------------------------
-const replaceWorkHoursValue = (prevValue, dayId, indexToChange, newValue) => {
-  const index = indexToChange(prevValue, dayId);
-  return (prevValue[index].workHours = newValue);
-};
 
-const updateTotalHours = (monthToUpdate, actionPerformed) => {
-  let value = monthToUpdate.totalHours;
-  if (actionPerformed === '+') {
-    value++;
-    monthToUpdate.totalHours = value;
-    return monthToUpdate;
-  }
-  if (actionPerformed === '-') {
-    value--;
-    monthToUpdate.totalHours = value;
-    return monthToUpdate;
-  }
-  if (!actionPerformed) return monthToUpdate;
-};
-
-const findIndexToChange = (startValue, dayId) => {
-  const foundIndex = startValue.indexOf(startValue.find((day) => day.dayId === dayId));
-  return foundIndex;
-};
-
-const updateSalaryValue = (month, newSalaryValue) => (month.salary = newSalaryValue);
-
-const updatePaymentValue = (month, newPaymentValue) =>
-  (month.payments.paymentReceived = newPaymentValue);
-
-const expectedPayout = (month, totalHours, salary) => {
-  month.payments.expectedPayout = parseFloat((totalHours * salary).toFixed(2));
-};
-
-const checkForUpdates = (data, version, module, updatesTable) => {
+export const checkForUpdates = (data, version, module, updatesTable) => {
   let property = 'Version';
   property = `${module}${property}`;
   if (data[property] === undefined) data[property] = 0;
@@ -215,33 +179,7 @@ const checkForUpdates = (data, version, module, updatesTable) => {
 
 export const settingsUpdatesArray = [];
 
-//Reducer---------------------------------------------------------
-//Actions---------------------------------------------------------
-const newYearsListItem = (yearsList, yearToAdd) => {
+export const newYearsListItem = (yearsList, yearToAdd) => {
   const key = Object.keys(yearsList).length;
   return { [key]: yearToAdd };
 };
-
-//Actions---------------------------------------------------------
-
-export { createNewYear, findNextYear, addDaysToSection, sections };
-export {
-  replaceWorkHoursValue,
-  findIndexToChange,
-  updateTotalHours,
-  updateSalaryValue,
-  updatePaymentValue,
-  expectedPayout,
-}; //Reducer
-export { newYearsListItem, checkForUpdates }; //Actions
-export {
-  SingleMonth,
-  SingleDay,
-  SingleYear,
-  getMonthLength,
-  createObj,
-  getDayName,
-  dayNames,
-  monthNames,
-  User,
-}; //For tests

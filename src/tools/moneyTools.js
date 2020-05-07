@@ -367,19 +367,19 @@ export const sumSection = (section) => {
     0;
 };
 
-const actualizeComputedDataSums = (month, account, type) => {
+export const actualizeComputedDataSums = (month, account, type) => {
   let { computedData } = month;
   computedData[type].realSum = fixNumber(sumSections(account, 'realSum'), 2);
   computedData[type].predictedSum = fixNumber(sumSections(account, 'predictedSum'), 2);
 };
 
-const choseValue = (valueReceived, valueExpected) => {
+export const choseValue = (valueReceived, valueExpected) => {
   if (!valueExpected && !valueReceived) return 0;
 
   return Math.abs(valueReceived) > 0 ? valueReceived : valueExpected;
 };
 
-const getPayments = (hours, prevYearData) => {
+export const getPayments = (hours, prevYearData) => {
   const months = hours.months;
   const { prevPayments } = prevYearData;
   const paymentsTable = [];
@@ -390,14 +390,14 @@ const getPayments = (hours, prevYearData) => {
   return paymentsTable;
 };
 
-const chargeAccount = (computed, month, account) => {
+export const chargeAccount = (computed, month, account) => {
   const reCharge = month[account].reCharge;
   const { real, predicted } = computed;
   reCharge.accountReal = real;
   reCharge.accountPredicted = predicted;
 };
 
-const getIncome = (money, accountType) => {
+export const getIncome = (money, accountType) => {
   const months = money.months;
   const incomesTable = [];
   months.forEach((month) => {
@@ -407,7 +407,7 @@ const getIncome = (money, accountType) => {
   return incomesTable;
 };
 
-const ActualizeMonthsTotal = (months, payments, type, prevYearData) => {
+export const ActualizeMonthsTotal = (months, payments, type, prevYearData) => {
   const { prevMoney } = prevYearData;
   let monthTotal;
   let monthTotalPredicted;
@@ -460,12 +460,10 @@ const comparePayments = (hours, prevYearData, money, action) => {
 const createStats = (month, { payment }, accountName) => {
   const sections = month[accountName].sections;
   const account = month[accountName];
-  const stats = {
-    incomes: payment,
-    expenses: 0,
-  };
+  let incomes = payment;
+  let expenses = 0;
   sections.forEach((section) => {
-    stats.expenses +=
+    expenses +=
       (account[section].transactions &&
         account[section].transactions.length &&
         account[section].transactions.reduce((total, { action, real }) => {
@@ -473,7 +471,7 @@ const createStats = (month, { payment }, accountName) => {
           return fixNumber(total, 2);
         }, 0)) ||
       0;
-    stats.incomes +=
+    incomes +=
       (account[section].transactions &&
         account[section].transactions.length &&
         account[section].transactions.reduce((total, { action, real }) => {
@@ -482,7 +480,11 @@ const createStats = (month, { payment }, accountName) => {
         }, 0)) ||
       0;
   });
-  return stats;
+
+  return {
+    incomes: fixNumber(incomes, 2),
+    expenses: fixNumber(expenses, 2),
+  };
 };
 
 const calculateExpensesPercent = (stats) => {
@@ -748,14 +750,9 @@ const changeDebitSettings = (newMoney, data) => {
 };
 
 export {
-  actualizeComputedDataSums,
-  getPayments,
-  ActualizeMonthsTotal,
   comparePayments,
   createStats,
   calculateExpensesPercent,
-  chargeAccount,
-  getIncome,
   calculateComputed,
   checkType,
   createExtendedComputedStatus,
