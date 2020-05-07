@@ -1,4 +1,4 @@
-export const appVersion = (1.03).toFixed(2);
+export const appVersion = (1.04).toFixed(2);
 export const userVersion = 0.2;
 
 export class SingleMonth {

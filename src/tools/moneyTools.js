@@ -460,12 +460,10 @@ const comparePayments = (hours, prevYearData, money, action) => {
 const createStats = (month, { payment }, accountName) => {
   const sections = month[accountName].sections;
   const account = month[accountName];
-  const stats = {
-    incomes: payment,
-    expenses: 0,
-  };
+  let incomes = payment;
+  let expenses = 0;
   sections.forEach((section) => {
-    stats.expenses +=
+    expenses +=
       (account[section].transactions &&
         account[section].transactions.length &&
         account[section].transactions.reduce((total, { action, real }) => {
@@ -473,7 +471,7 @@ const createStats = (month, { payment }, accountName) => {
           return fixNumber(total, 2);
         }, 0)) ||
       0;
-    stats.incomes +=
+    incomes +=
       (account[section].transactions &&
         account[section].transactions.length &&
         account[section].transactions.reduce((total, { action, real }) => {
@@ -482,7 +480,11 @@ const createStats = (month, { payment }, accountName) => {
         }, 0)) ||
       0;
   });
-  return stats;
+
+  return {
+    incomes: fixNumber(incomes, 2),
+    expenses: fixNumber(expenses, 2),
+  };
 };
 
 const calculateExpensesPercent = (stats) => {

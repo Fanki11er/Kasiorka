@@ -31,7 +31,7 @@ class DayOfTheWeek extends Component {
     const decrease = '-';
 
     return (
-      <StyledWrapper>
+      <StyledWrapper data-testid={'QWA'}>
         <DayNumber>{dayId}</DayNumber>
 
         <DayName
@@ -42,7 +42,7 @@ class DayOfTheWeek extends Component {
         >
           {nameOfDay}
         </DayName>
-        <NumberOfHours>{workHours}</NumberOfHours>
+        <NumberOfHours data-testid={'work-hours-test'}>{workHours}</NumberOfHours>
         <ArrowsButton
           increaseWorkHours={() => workHours < 24 && updateHours(monthId, dayId, increase)}
           decreaseWorkHours={() => workHours > 0 && updateHours(monthId, dayId, decrease)}

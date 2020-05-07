@@ -15,4 +15,12 @@ const store = createStore(
   ),
 );
 
+export const testStore = (initialState) => {
+  const createStoreWithMiddleware = compose(
+    reduxFirestore(firebase),
+    applyMiddleware(thunk.withExtraArgument({ getFirebase, dataBase, endPoints })),
+  )(createStore);
+  return createStoreWithMiddleware(rootReducer, initialState);
+};
+
 export default store;
